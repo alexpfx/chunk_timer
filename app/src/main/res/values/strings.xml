@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Chunck Pomodoro Time</string>
+    <string name="button_label_sizes_pp">PP</string>
+    <string name="button_label_sizes_p">P</string>
+    <string name="button_label_sizes_m">M</string>
+    <string name="button_label_sizes_g">G</string>
+    <string name="button_label_sizes_gg">GG</string>
+    <string name="button_label_cancel">Cancelar</string>
+    <string name="button_label_start">Iniciar</string>
+    <string name="init_timer_time">00:00:00</string>
+
+</resources>

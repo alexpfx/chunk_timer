@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="dev.alessi.chunk.pomodoro.timer.android.MainActivity">
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSizePP"
+        style="?attr/borderlessButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+
+        android:layout_marginTop="16dp"
+        android:checkable="true"
+        android:onClick="changeSize"
+        android:text="@string/button_label_sizes_pp"
+        app:iconPadding="2dp"
+        app:layout_constraintEnd_toStartOf="@+id/btnSizeP"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSizeP"
+        style="?attr/borderlessButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:checkable="true"
+        android:onClick="changeSize"
+        android:text="@string/button_label_sizes_p"
+        app:iconPadding="2dp"
+        app:layout_constraintEnd_toStartOf="@+id/btnSizeM"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnSizePP"
+        app:layout_constraintTop_toTopOf="@+id/btnSizePP" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSizeM"
+        style="?attr/borderlessButtonStyle"
+
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:checkable="true"
+        android:onClick="changeSize"
+        android:text="@string/button_label_sizes_m"
+        app:iconPadding="2dp"
+        app:layout_constraintEnd_toStartOf="@+id/btnSizeG"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnSizeP"
+        app:layout_constraintTop_toTopOf="@+id/btnSizeP" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSizeG"
+        style="?attr/borderlessButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:checkable="true"
+
+        android:onClick="changeSize"
+        android:text="@string/button_label_sizes_g"
+        app:iconPadding="2dp"
+        app:layout_constraintEnd_toStartOf="@+id/btnSizeGG"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnSizeM"
+        app:layout_constraintTop_toTopOf="@+id/btnSizeM" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSizeGG"
+        style="?attr/borderlessButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:checkable="true"
+        android:onClick="changeSize"
+        android:text="@string/button_label_sizes_gg"
+        app:iconPadding="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnSizeG"
+        app:layout_constraintTop_toTopOf="@+id/btnSizeG" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:max="100"
+        android:progress="45"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSizePP" />
+
+    <TextView
+        android:id="@+id/txtTimerDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/init_timer_time"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        app:layout_constraintBottom_toTopOf="@+id/btnTimerAction"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar"
+        tools:text="00:35:45" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnTimerAction"
+        style="?attr/materialButtonStyle"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="16dp"
+        android:onClick="onToggleActionClick"
+        android:text="@string/button_label_start"
+        app:iconPadding="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+

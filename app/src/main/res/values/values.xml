@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="min_pp">0</integer>
+    <integer name="min_p">1</integer>
+    <integer name="min_m">2</integer>
+    <integer name="min_g">3</integer>
+    <integer name="min_gg">4</integer>
+</resources>
+
+
+
+
+
+
