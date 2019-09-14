@@ -4,11 +4,11 @@ import android.os.CountDownTimer
 
 class PomodoroTimer(
     totalTimeInMinutes: Long,
-    tickTime: Long,
+    tickTimeInSeconds: Long,
     private val onTickCallback: (secondsToFinish: Long) -> Unit,
     val onFinishCallback: () -> Unit
 ) :
-    CountDownTimer((totalTimeInMinutes * 60 * 1000L), tickTime) {
+    CountDownTimer((totalTimeInMinutes * 60 * 1000L), tickTimeInSeconds * 1000) {
 
 
     override fun onFinish() {

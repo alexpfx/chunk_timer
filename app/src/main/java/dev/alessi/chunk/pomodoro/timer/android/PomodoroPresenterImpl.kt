@@ -1,7 +1,7 @@
 package dev.alessi.chunk.pomodoro.timer.android
 
-class PomodoroPresenterImpl(val view: PomodoroView) :
-    PomodoroPresenter {
+class PomodoroPresenterImpl(val view: PomodoroView) : PomodoroPresenter {
+
     private val timeMap: Map<Int, Long> =
         mapOf(0 to 18L, 1 to 24L, 2 to 36L, 3 to 48L, 4 to 60L)
     private var minutes: Long = 0L
@@ -15,7 +15,7 @@ class PomodoroPresenterImpl(val view: PomodoroView) :
         )
 
 
-    var timerState: TimerState =
+    private var timerState: TimerState =
         TimerState.ready
 
     private fun onFinish() {
@@ -48,7 +48,7 @@ class PomodoroPresenterImpl(val view: PomodoroView) :
         timer.cancel()
         timer = PomodoroTimer(
             this.minutes,
-            1000,
+            1,
             ::onTicket,
             ::onFinish
         )
@@ -57,10 +57,9 @@ class PomodoroPresenterImpl(val view: PomodoroView) :
         view.showSetupChanged(tag)
         view.showTimerCanceled()
 
-
     }
 
-    private fun changeState(newStatus: TimerState){
+    private fun changeState(newStatus: TimerState) {
         this.timerState = newStatus
         view.showStateChanged(newStatus)
     }
@@ -75,7 +74,6 @@ class PomodoroPresenterImpl(val view: PomodoroView) :
             cancel()
             view.showTimerCanceled()
         }
-
 
     }
 }

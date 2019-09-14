@@ -2,8 +2,6 @@ package dev.alessi.chunk.pomodoro.timer.android
 
 interface PomodoroPresenter {
 
-
-
     /**
      * Configura o CountDownTimer de acordo com o size.
      *
@@ -15,9 +13,5 @@ interface PomodoroPresenter {
      * Altera o status atual do timer.
      */
     fun toggleStatus()
-
-
-
-
 
 }

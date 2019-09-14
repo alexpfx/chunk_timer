@@ -9,11 +9,8 @@ import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), PomodoroView {
-
-
     private lateinit var sizeButtons: List<MaterialButton>
     private lateinit var presenter: PomodoroPresenter
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +25,6 @@ class MainActivity : AppCompatActivity(), PomodoroView {
     fun onToggleActionClick(view: View) {
         presenter.toggleStatus()
     }
-
 
     private fun viewInit() {
         this.sizeButtons = listOf(
@@ -51,7 +47,6 @@ class MainActivity : AppCompatActivity(), PomodoroView {
             }
         }
     }
-
 
     override fun showTick(timeToFinish: Long) {
         val formatedTime = DateUtils.formatElapsedTime(timeToFinish)
@@ -79,7 +74,6 @@ class MainActivity : AppCompatActivity(), PomodoroView {
         uncheckAll()
         checkThis(tag)
     }
-
 
     fun changeSize(view: View) {
         presenter.setup(view.tag as Int)
@@ -121,7 +115,6 @@ class MainActivity : AppCompatActivity(), PomodoroView {
         return this.sizeButtons.first {
             it.tag == id
         }
-
 
     }
 
