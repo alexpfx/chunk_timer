@@ -23,7 +23,7 @@ class PomodoroPresenterImpl(val view: PomodoroView) : PomodoroPresenter {
     }
 
     private fun onTicket(secondsToFinish: Long) {
-        view.showTick(secondsToFinish)
+        view.showTick(timer.totalTimeInMinutes * 60, secondsToFinish)
     }
 
 

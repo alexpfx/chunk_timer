@@ -9,12 +9,12 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSizePP"
-        style="?attr/borderlessButtonStyle"
+
+        style="@style/TimerSelectSizeButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-
         android:layout_marginTop="16dp"
         android:checkable="true"
         android:onClick="changeSize"
@@ -27,9 +27,11 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSizeP"
-        style="?attr/borderlessButtonStyle"
+        style="@style/TimerSelectSizeButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/select_size_button_margin_start"
+        android:layout_marginLeft="@dimen/select_size_button_margin_start"
         android:checkable="true"
         android:onClick="changeSize"
         android:text="@string/button_label_sizes_p"
@@ -41,11 +43,13 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSizeM"
-        style="?attr/borderlessButtonStyle"
+        style="@style/TimerSelectSizeButton"
 
 
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/select_size_button_margin_start"
+        android:layout_marginLeft="@dimen/select_size_button_margin_start"
         android:checkable="true"
         android:onClick="changeSize"
         android:text="@string/button_label_sizes_m"
@@ -57,11 +61,12 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSizeG"
-        style="?attr/borderlessButtonStyle"
+        style="@style/TimerSelectSizeButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/select_size_button_margin_start"
+        android:layout_marginLeft="@dimen/select_size_button_margin_start"
         android:checkable="true"
-
         android:onClick="changeSize"
         android:text="@string/button_label_sizes_g"
         app:iconPadding="2dp"
@@ -72,9 +77,11 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSizeGG"
-        style="?attr/borderlessButtonStyle"
+        style="@style/TimerSelectSizeButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/select_size_button_margin_start"
+        android:layout_marginLeft="@dimen/select_size_button_margin_start"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:checkable="true"
@@ -97,6 +104,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:max="100"
+
         android:progress="45"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -108,6 +116,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/init_timer_time"
+        android:textStyle="bold"
         android:textAppearance="@style/TextAppearance.AppCompat.Display3"
         app:layout_constraintBottom_toTopOf="@+id/btnTimerAction"
         app:layout_constraintEnd_toEndOf="parent"
@@ -118,12 +127,16 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnTimerAction"
-        style="?attr/materialButtonStyle"
+        style="@style/TimerActionButton"
         android:layout_width="200dp"
         android:layout_height="60dp"
         android:layout_marginBottom="16dp"
         android:onClick="onToggleActionClick"
         android:text="@string/button_label_start"
+
+        app:icon="@drawable/ic_play_arrow_black_24dp"
+
+
         app:iconPadding="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

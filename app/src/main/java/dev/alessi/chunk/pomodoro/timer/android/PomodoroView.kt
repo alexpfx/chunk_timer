@@ -2,7 +2,7 @@ package dev.alessi.chunk.pomodoro.timer.android
 
 interface PomodoroView {
 
-    fun showTick(timeToFinish: Long)
+    fun showTick(totalTimeInSeconds: Long, secondsToFinish: Long)
 
     fun showTimerSetted(seconds: Long)
 

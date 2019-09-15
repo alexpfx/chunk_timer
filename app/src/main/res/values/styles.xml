@@ -7,10 +7,25 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="backgroundTint">@color/colorAccent</item>
-
-
     </style>
 
+
+    <style name="TimerSelectSizeButton" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="shapeAppearance">@style/TimerButtonShapeAppearance</item>
+    </style>
+
+    <style name="TimerActionButton" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="shapeAppearance">@style/TimerButtonShapeAppearance</item>
+        <item name="strokeColor">@color/colorPrimary</item>
+        <item name="iconSize">28dp</item>
+    </style>
+    <style name="TimerButtonShapeAppearance">
+        <item name="cornerFamilyTopLeft">rounded</item>
+        <item name="cornerFamilyBottomLeft">rounded</item>
+        <item name="cornerFamilyTopRight">rounded</item>
+        <item name="cornerFamilyBottomRight">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
 
 
 </resources>

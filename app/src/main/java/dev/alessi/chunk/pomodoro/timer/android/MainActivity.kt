@@ -9,16 +9,21 @@ import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), PomodoroView {
+
     private lateinit var sizeButtons: List<MaterialButton>
     private lateinit var presenter: PomodoroPresenter
+    private lateinit var sfxManager: SoundEffectManager
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        viewInit()
+        sfxManager = SoundEffectManager(this)
 
+        viewInit()
         presenter = PomodoroPresenterImpl(this)
         presenter.setup(2)
+
 
     }
 
@@ -48,26 +53,41 @@ class MainActivity : AppCompatActivity(), PomodoroView {
         }
     }
 
-    override fun showTick(timeToFinish: Long) {
-        val formatedTime = DateUtils.formatElapsedTime(timeToFinish)
+
+    override fun showTick(totalTimeInSeconds: Long, secondsToFinish: Long) {
+        val formatedTime = DateUtils.formatElapsedTime(secondsToFinish)
         txtTimerDisplay.text = formatedTime
+        sfxManager.playTick()
+        val percFinish = secondsToFinish * 100 / totalTimeInSeconds
+        progress(percFinish.toInt())
+
     }
 
     override fun showTimerSetted(seconds: Long) {
         val formatedTime = DateUtils.formatElapsedTime(seconds)
         txtTimerDisplay.text = formatedTime
+        progress(100)
+    }
+
+    fun progress(value: Int) {
+        progressBar.progress = value
     }
 
     override fun showTimerCanceled() {
         btnTimerAction.setText(R.string.button_label_start)
+
     }
 
     override fun showTimerFinished() {
         btnTimerAction.setText(R.string.button_label_start)
+
+        sfxManager.playFinish()
+
     }
 
     override fun showTimerStarted() {
         btnTimerAction.setText(R.string.button_label_cancel)
+        sfxManager.playStart()
     }
 
     override fun showSetupChanged(tag: Int) {
@@ -82,8 +102,11 @@ class MainActivity : AppCompatActivity(), PomodoroView {
     override fun showStateChanged(newState: TimerState) {
         print(newState)
         if (newState == TimerState.ready) {
+            btnTimerAction.setIconResource(R.drawable.ic_play_arrow_black_24dp)
             enableAll()
+
         } else {
+            btnTimerAction.setIconResource(R.drawable.ic_stop_black_24dp)
             disableAll()
         }
     }
