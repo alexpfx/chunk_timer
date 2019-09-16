@@ -96,12 +96,13 @@ class MainActivity : AppCompatActivity(), PomodoroView {
     }
 
     fun changeSize(view: View) {
+
         presenter.setup(view.tag as Int)
     }
 
-    override fun showStateChanged(newState: TimerState) {
-        print(newState)
-        if (newState == TimerState.ready) {
+    override fun showStateChanged(newStatus: TimerStatus) {
+        print(newStatus)
+        if (newStatus == TimerStatus.ready) {
             btnTimerAction.setIconResource(R.drawable.ic_play_arrow_black_24dp)
             enableAll()
 

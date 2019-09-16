@@ -1,22 +1,29 @@
 package dev.alessi.chunk.pomodoro.timer.android
 
+import android.app.job.JobScheduler
+
 class PomodoroPresenterImpl(val view: PomodoroView) : PomodoroPresenter {
+
 
     private val timeMap: Map<Int, Long> =
         mapOf(0 to 18L, 1 to 24L, 2 to 36L, 3 to 48L, 4 to 60L)
     private var minutes: Long = 0L
     private var lastSize = 2
-    private var timer: PomodoroTimer =
-        PomodoroTimer(
+    private var timer: ChunkCoutDownTimer =
+        ChunkCoutDownTimer(
             getMinutes(lastSize),
             1,
             ::onTicket,
             ::onFinish
         )
+    private var timerStatus: TimerStatus =
+        TimerStatus.ready
+
+    override fun putToSleep() {
+        val s: JobScheduler
 
 
-    private var timerState: TimerState =
-        TimerState.ready
+    }
 
     private fun onFinish() {
         view.showTimerFinished()
@@ -25,7 +32,6 @@ class PomodoroPresenterImpl(val view: PomodoroView) : PomodoroPresenter {
     private fun onTicket(secondsToFinish: Long) {
         view.showTick(timer.totalTimeInMinutes * 60, secondsToFinish)
     }
-
 
     private fun start() {
         timer.start()
@@ -46,31 +52,31 @@ class PomodoroPresenterImpl(val view: PomodoroView) : PomodoroPresenter {
         minutes = getMinutes(tag)
         lastSize = tag
         timer.cancel()
-        timer = PomodoroTimer(
+        timer = ChunkCoutDownTimer(
             this.minutes,
             1,
             ::onTicket,
             ::onFinish
         )
-        timerState = TimerState.ready
+        timerStatus = TimerStatus.ready
         view.showTimerSetted(minutes * 60L)
         view.showSetupChanged(tag)
         view.showTimerCanceled()
 
     }
 
-    private fun changeState(newStatus: TimerState) {
-        this.timerState = newStatus
+    private fun changeState(newStatus: TimerStatus) {
+        this.timerStatus = newStatus
         view.showStateChanged(newStatus)
     }
 
     override fun toggleStatus() {
-        if (timerState == TimerState.ready) {
-            changeState(TimerState.running)
+        if (timerStatus == TimerStatus.ready) {
+            changeState(TimerStatus.running)
             start()
             view.showTimerStarted()
         } else {
-            changeState(TimerState.ready)
+            changeState(TimerStatus.ready)
             cancel()
             view.showTimerCanceled()
         }

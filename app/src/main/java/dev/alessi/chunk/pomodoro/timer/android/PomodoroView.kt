@@ -14,7 +14,7 @@ interface PomodoroView {
 
     fun showTimerStarted()
 
-    fun showStateChanged(newState: TimerState)
+    fun showStateChanged(newStatus: TimerStatus)
 
 
 }
