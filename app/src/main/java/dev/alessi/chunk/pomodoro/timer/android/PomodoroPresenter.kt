@@ -15,7 +15,6 @@ interface PomodoroPresenter {
     fun toggleStatus()
 
 
-    fun putToSleep()
 
 
 }

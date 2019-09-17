@@ -2,17 +2,51 @@ package dev.alessi.chunk.pomodoro.timer.android
 
 import android.os.Bundle
 import android.text.format.DateUtils
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
-
 import kotlinx.android.synthetic.main.activity_main.*
 
+
+fun Any.debug(message: String) {
+    Log.d(this.javaClass.simpleName, message)
+}
+
+//
 class MainActivity : AppCompatActivity(), PomodoroView {
+
 
     private lateinit var sizeButtons: List<MaterialButton>
     private lateinit var presenter: PomodoroPresenter
     private lateinit var sfxManager: SoundEffectManager
+
+
+    override fun onPause() {
+        debug("on pause")
+        super.onPause()
+    }
+
+    override fun onStop() {
+        debug("on stop")
+        super.onStop()
+    }
+
+    override fun onResume(){
+        debug("on resume")
+        super.onResume()
+    }
+
+    override fun onStart() {
+        debug("on start")
+        super.onStart()
+    }
+
+    override fun onDestroy() {
+        debug("on destroy")
+
+        super.onDestroy()
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,6 +57,8 @@ class MainActivity : AppCompatActivity(), PomodoroView {
         viewInit()
         presenter = PomodoroPresenterImpl(this)
         presenter.setup(2)
+
+        debug("on create")
 
 
     }
@@ -73,22 +109,11 @@ class MainActivity : AppCompatActivity(), PomodoroView {
         progressBar.progress = value
     }
 
-    override fun showTimerCanceled() {
-        btnTimerAction.setText(R.string.button_label_start)
-
-    }
 
     override fun showTimerFinished() {
-        btnTimerAction.setText(R.string.button_label_start)
-
         sfxManager.playFinish()
-
     }
 
-    override fun showTimerStarted() {
-        btnTimerAction.setText(R.string.button_label_cancel)
-        sfxManager.playStart()
-    }
 
     override fun showSetupChanged(tag: Int) {
         uncheckAll()
@@ -96,21 +121,23 @@ class MainActivity : AppCompatActivity(), PomodoroView {
     }
 
     fun changeSize(view: View) {
-
         presenter.setup(view.tag as Int)
     }
 
-    override fun showStateChanged(newStatus: TimerStatus) {
-        print(newStatus)
-        if (newStatus == TimerStatus.ready) {
-            btnTimerAction.setIconResource(R.drawable.ic_play_arrow_black_24dp)
-            enableAll()
+    override fun showStatusReady() {
+        enableAll()
+        btnTimerAction.setIconResource(R.drawable.ic_play_arrow_black_24dp)
+        btnTimerAction.setText(R.string.button_label_start)
 
-        } else {
-            btnTimerAction.setIconResource(R.drawable.ic_stop_black_24dp)
-            disableAll()
-        }
     }
+
+    override fun showStatusRunning() {
+        disableAll()
+        btnTimerAction.setIconResource(R.drawable.ic_stop_black_24dp)
+        btnTimerAction.setText(R.string.button_label_cancel)
+        sfxManager.playStart()
+    }
+
 
     private fun disableAll() {
         sizeButtons.forEach {

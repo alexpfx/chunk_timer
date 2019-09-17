@@ -8,13 +8,7 @@ interface PomodoroView {
 
     fun showSetupChanged(tag: Int)
 
-    fun showTimerCanceled()
-
     fun showTimerFinished()
-
-    fun showTimerStarted()
-
-    fun showStateChanged(newStatus: TimerStatus)
-
-
+    fun showStatusRunning()
+    fun showStatusReady()
 }
