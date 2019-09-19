@@ -15,6 +15,10 @@ interface PomodoroPresenter {
     fun toggleStatus()
 
 
+    fun onStop()
+
+    fun onStart(remainingTime: Long)
+
 
 
 }

@@ -7,17 +7,31 @@
     tools:context="dev.alessi.chunk.pomodoro.timer.android.MainActivity">
 
 
+    <TextView
+        android:id="@+id/txtTimerDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/init_timer_time"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btnTimerAction"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar"
+        tools:text="00:35:45" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSizePP"
 
         style="@style/TimerSelectSizeButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/select_size_button_height"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:checkable="true"
+        android:minHeight="@dimen/select_size_button_height"
         android:onClick="changeSize"
         android:text="@string/button_label_sizes_pp"
         app:iconPadding="2dp"
@@ -31,10 +45,10 @@
         style="@style/TimerSelectSizeButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/select_size_button_height"
         android:layout_marginStart="@dimen/select_size_button_margin_start"
         android:layout_marginLeft="@dimen/select_size_button_margin_start"
         android:checkable="true"
+        android:minHeight="@dimen/select_size_button_height"
         android:onClick="changeSize"
         android:text="@string/button_label_sizes_p"
         app:iconPadding="2dp"
@@ -50,10 +64,10 @@
 
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/select_size_button_height"
         android:layout_marginStart="@dimen/select_size_button_margin_start"
         android:layout_marginLeft="@dimen/select_size_button_margin_start"
         android:checkable="true"
+        android:minHeight="@dimen/select_size_button_height"
         android:onClick="changeSize"
         android:text="@string/button_label_sizes_m"
         app:iconPadding="2dp"
@@ -67,10 +81,10 @@
         style="@style/TimerSelectSizeButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/select_size_button_height"
         android:layout_marginStart="@dimen/select_size_button_margin_start"
         android:layout_marginLeft="@dimen/select_size_button_margin_start"
         android:checkable="true"
+        android:minHeight="@dimen/select_size_button_height"
         android:onClick="changeSize"
         android:text="@string/button_label_sizes_g"
         app:iconPadding="2dp"
@@ -84,12 +98,12 @@
         style="@style/TimerSelectSizeButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/select_size_button_height"
         android:layout_marginStart="@dimen/select_size_button_margin_start"
         android:layout_marginLeft="@dimen/select_size_button_margin_start"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:checkable="true"
+        android:minHeight="@dimen/select_size_button_height"
         android:onClick="changeSize"
         android:text="@string/button_label_sizes_gg"
         app:iconPadding="2dp"
@@ -116,19 +130,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnSizePP" />
 
-    <TextView
-        android:id="@+id/txtTimerDisplay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/init_timer_time"
-        android:textStyle="bold"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
-        app:layout_constraintBottom_toTopOf="@+id/btnTimerAction"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar"
-        tools:text="00:35:45" />
-
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnTimerAction"
@@ -145,6 +146,27 @@
         app:iconPadding="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chip2"
+        style="@style/Widget.MaterialComponents.Chip.Action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:digits="true"
+        tools:text="45%"
+        android:textAlignment="center"
+        app:chipBackgroundColor="#fff"
+        android:textColor="@color/colorPrimary"
+        app:chipStrokeColor="@color/colorPrimary"
+        app:chipStrokeWidth="1dp"
+        app:elevation="0dp"
+        android:textStyle="bold"
+        app:chipCornerRadius="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnTimerAction"
+        app:layout_constraintCircle="@+id/txtTimerDisplay"
+        app:layout_constraintCircleAngle="300"
+        app:layout_constraintCircleRadius="75dp"
         app:layout_constraintStart_toStartOf="parent" />
 
 

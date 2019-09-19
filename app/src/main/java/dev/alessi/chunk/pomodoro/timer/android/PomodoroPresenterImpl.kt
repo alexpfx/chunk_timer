@@ -4,17 +4,15 @@ import timeMap
 import java.util.concurrent.TimeUnit
 
 class PomodoroPresenterImpl(val view: PomodoroView) : PomodoroPresenter {
+
     private var lastSize = 2
     private lateinit var timerHandler: TimerState
+
 
     override fun setup(size: Int) {
         lastSize = size
         val totalTimeMillis = fromMinutes(getMinutes(size))
-        timerHandler = TimerState(
-            totalTimeMillis,
-            { view.showTick(toSeconds(totalTimeMillis), toSeconds(it)) },
-            ::onFinish
-        )
+        timerHandler = createTimeState(totalTimeMillis)
         timerHandler.setup(totalTimeMillis)
 
         view.showTimerSetted(toSeconds(totalTimeMillis))
@@ -22,6 +20,32 @@ class PomodoroPresenterImpl(val view: PomodoroView) : PomodoroPresenter {
         view.showStatusReady()
     }
 
+    private fun createTimeState(totalTimeMillis: Long): TimerState {
+        return TimerState(
+            totalTimeMillis,
+            { view.showTick(toSeconds(totalTimeMillis), toSeconds(it)) },
+            ::onFinish
+        )
+    }
+
+    override fun onStop() {
+        if (timerHandler.isRunning()) {
+            val remainingTime = timerHandler.stop()
+            view.persistTimer(remainingTime)
+        }
+    }
+
+
+    override fun onStart(remainingTime: Long) {
+        if (remainingTime > 0) {
+            val totalTimeMillis = fromMinutes(getMinutes(lastSize))
+            timerHandler = createTimeState(remainingTime)
+            timerHandler.setup(totalTimeMillis)
+            timerHandler.start()
+        }
+
+        view.restoreTimer()
+    }
 
     private fun onFinish() {
         view.showTimerFinished()
@@ -41,7 +65,6 @@ class PomodoroPresenterImpl(val view: PomodoroView) : PomodoroPresenter {
 
 
     }
-
 
     private fun getMinutes(size: Int): Long {
         return timeMap[size] ?: error("Never could be null $size")

@@ -8,9 +8,9 @@ class SoundEffectManager(val context: Context) {
     private val startAudio: MediaPlayer = MediaPlayer.create(context, R.raw.start)
     private val tickAudio: MediaPlayer = MediaPlayer.create(context, R.raw.tick)
 
-    private var finishEnabled = true
+    private var finishEnabled = false
     private var tickEnabled = false
-    private var startEnabled = true
+    private var startEnabled = false
 
     fun playFinish() {
         if (finishEnabled) finishAudio.start()
