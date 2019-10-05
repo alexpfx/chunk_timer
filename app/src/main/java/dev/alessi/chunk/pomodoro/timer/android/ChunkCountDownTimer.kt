@@ -16,7 +16,7 @@ class ChunkCountDownTimer(
 
     override fun onTick(millisToFinish: Long) {
 
-        debug("tick")
+
         this.onTickCallback(millisToFinish)
     }
 

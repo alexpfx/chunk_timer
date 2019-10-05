@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BadgedButton">
+        <attr name="buttonLabel" format="string" />
+        <attr name="badgeText" format="string"/>
+        <attr name="isChecked" format="boolean"/>
+    </declare-styleable>
+
+
+</resources>

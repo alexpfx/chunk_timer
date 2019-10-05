@@ -9,4 +9,21 @@
     <string name="button_label_start">Iniciar</string>
     <string name="init_timer_time">00:00:00</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_timer_size_preference">Timer Sizes</string>
+    <string name="title_chunk_full_time">Tempo de um chunk inteiro</string>
+    <string name="summary_chunk_full_time">Tempo do maior chunk</string>
+    <string name="title_chunk_other_time_sizes">Tempo dos outros chunks</string>
+
+    <string name="category_title_time_settings">Time Settings</string>
+    <string name="settings">Preferências</string>
+    <string name="pref_title_intermediary_sizes">Tamanhos intermediários</string>
+    <string name="tag_size_index_4">4</string>
+    <string name="tag_size_index_3">3</string>
+    <string name="tag_size_index_2">2</string>
+    <string name="tag_size_index_1">1</string>
+    <string name="tag_size_index_0">0</string>
+
+
 </resources>

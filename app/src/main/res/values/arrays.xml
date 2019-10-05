@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_chunk_default_sizes_labels">
+        <item>G</item>
+        <item>M</item>
+        <item>P</item>
+        <item>PP</item>
+    </string-array>
+
+    <string-array name="pref_chunk_default_sizes_values">
+        <item>48</item>
+        <item>36</item>
+        <item>24</item>
+        <item>18</item>
+    </string-array>
+
+</resources>

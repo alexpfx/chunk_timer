@@ -33,12 +33,12 @@ data class TimerState(
 
     private fun tick(remainingTime: Long) {
         this.remainingTime = remainingTime
-        debug("tick");
+
         onTick(remainingTime)
     }
 
     fun start() {
-        debug("start $timer")
+
         timer?.start()
         status = TimerStatus.running
     }
