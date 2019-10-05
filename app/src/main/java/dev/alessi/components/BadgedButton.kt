@@ -20,6 +20,14 @@ class BadgedButton(context: Context?, attrs: AttributeSet?) : ConstraintLayout(c
         }
 
 
+    override fun setEnabled(enabled: Boolean) {
+        button.isEnabled = enabled
+    }
+
+    override fun isEnabled(): Boolean {
+        return button.isEnabled
+    }
+
     override fun setOnClickListener(onClickListener: OnClickListener?) {
         button.setOnClickListener(onClickListener)
     }
@@ -57,10 +65,7 @@ class BadgedButton(context: Context?, attrs: AttributeSet?) : ConstraintLayout(c
         txtBadge.text = badgeText
         button.text = buttonLabel
 
-
         button.isChecked = isChecked
-
-
     }
 
 

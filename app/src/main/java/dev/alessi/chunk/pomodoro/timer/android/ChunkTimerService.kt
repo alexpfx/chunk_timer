@@ -7,27 +7,30 @@ import android.os.IBinder
 class ChunkTimerService : Service() {
 
     companion object {
-        const val EXTRA_ACTION_START = 0
-        const val EXTRA_ACTION_STOP = 1
-        const val EXTRA_ACTION_SETUP = 2
+        const val STATE_RUNNING = 0
+        const val STATE_READY = 1
+
+
         const val EXTRA_TOTAL_TIME = "EXTRA_TOTAL_TIME"
         const val EXTRA_ACTION = "EXTRA_ACTION"
         const val EXTRA_TIME_LEFT = "EXTRA_TIME_LEFT"
         const val EXTRA_TIME_CURRENT_STATE = "EXTRA_TIME_CURRENT_STATE"
 
-        val TICK_BROADCAST = ChunkTimerService::class.java.`package`.toString()+"TICK_MESSAGE"
+
+
+
+        val TICK_BROADCAST = ChunkTimerService::class.java.`package`.toString() + "TICK_MESSAGE"
 
     }
 
     private var mTotalTime: Long = 0
-    lateinit var mChunckTimer: ChunkCountDownTimer
+    private lateinit var mChunckTimer: ChunkCountDownTimer
     private var mTimeLeft: Long = 0
 
-    var mCurrentState = EXTRA_ACTION_STOP
+    private var mCurrentState = STATE_READY
 
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        mCurrentState = intent.getIntExtra(EXTRA_ACTION, EXTRA_ACTION_SETUP)
         mTotalTime = intent.getLongExtra(EXTRA_TOTAL_TIME, 24L)
 
         startTimer()
@@ -35,12 +38,24 @@ class ChunkTimerService : Service() {
         return super.onStartCommand(intent, flags, startId)
     }
 
+
     private fun onTick(timeLeft: Long) {
         this.mTimeLeft = timeLeft
         broadcastTick()
+    }
+
+    private fun stopTimer(){
+        mChunckTimer.cancel()
+        mCurrentState = STATE_READY
 
 
+    }
 
+
+    override fun onDestroy() {
+        stopTimer()
+        stopSelf()
+        super.onDestroy()
     }
 
     private fun broadcastTick() {
@@ -51,11 +66,18 @@ class ChunkTimerService : Service() {
         sendBroadcast(intent)
     }
 
+
+
     private fun onFinish() {
+        mCurrentState = STATE_READY
+
 
     }
 
+
     private fun startTimer() {
+        mCurrentState = STATE_RUNNING
+
         mChunckTimer = ChunkCountDownTimer(
             totalInMillis = (mTotalTime),
             ticketTimeMillis = 1000,
