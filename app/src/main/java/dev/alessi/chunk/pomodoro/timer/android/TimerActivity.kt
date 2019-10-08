@@ -1,6 +1,5 @@
 package dev.alessi.chunk.pomodoro.timer.android
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -13,7 +12,6 @@ import androidx.navigation.findNavController
 
 class TimerActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener {
-
 
 
     override fun onDestinationChanged(

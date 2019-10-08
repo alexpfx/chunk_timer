@@ -1,11 +1,9 @@
 package dev.alessi.chunk.pomodoro.timer.android
 
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.os.Bundle
+import android.os.IBinder
 import android.text.format.DateUtils
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,6 +12,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
+import dev.alessi.TimerControl
 import dev.alessi.components.BadgedButton
 import kotlinx.android.synthetic.main.fragment_timer.*
 
@@ -21,6 +20,13 @@ import kotlinx.android.synthetic.main.fragment_timer.*
  * A simple [Fragment] subclass.
  */
 class TimerFragment : Fragment(), TimerView {
+    override fun showBreakTimerStarted() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun showBreakTimerCanceled() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     val mTimerView: TimerView = this
     private lateinit var sizes: Map<Int, Int>
@@ -28,6 +34,27 @@ class TimerFragment : Fragment(), TimerView {
     var mTotalTime: Long = 0
     var mTimeLeft: Long = 0
     private lateinit var sizeBtns: List<BadgedButton>
+    private lateinit var mTimerControl: TimerControl
+    private var mBound = false
+
+    private val mConnection = object : ServiceConnection {
+        override fun onServiceDisconnected(name: ComponentName?) {
+
+            mBound = false
+
+        }
+
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            val binder = service as ChunkTimerService.LocalBinder
+
+            mTimerControl = binder.getService()
+            mBound = true
+
+        }
+
+
+    }
+
 
 
     override fun onCreateView(
@@ -51,21 +78,35 @@ class TimerFragment : Fragment(), TimerView {
             it.setOnClickListener(::onSizeSetupBtnClick)
         }
 
+        startService()
+
         super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Log.d(this.tag, "onAttach")
+
         (context as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
-        activity?.registerReceiver(mTickReceiver, IntentFilter(ChunkTimerService.TICK_BROADCAST))
 
     }
 
-    override fun onDetach() {
+
+    override fun onResume() {
+        activity?.registerReceiver(mTickReceiver, IntentFilter(ChunkTimerService.TICK_BROADCAST))
+
+        Intent(
+            context,
+            ChunkTimerService::class.java
+        ).also { intent -> activity?.bindService(intent, mConnection, 0) }
+
+        super.onResume()
+    }
+
+    override fun onPause() {
         Log.d(this.tag, "onDetach")
         activity?.unregisterReceiver(mTickReceiver)
-        super.onDetach()
+        activity?.unbindService(mConnection)
+        super.onPause()
     }
 
 
@@ -111,18 +152,22 @@ class TimerFragment : Fragment(), TimerView {
     }
 
     private fun onStartTimerClick(view: View) {
-        startTimer()
-        mTimerView.showTimerStarted()
+        execute { mTimerControl.startTimer() }
+
+//        startService()
+//        mTimerView.showTimerStarted()
 
     }
 
-    private fun startTimer() {
+    private fun startService() {
         mTimerIntent = Intent(this.context, ChunkTimerService::class.java)
-        mTimerIntent.putExtra(ChunkTimerService.EXTRA_ACTION, ChunkTimerService.STATE_RUNNING)
+        mTimerIntent.putExtra(
+            ChunkTimerService.EXTRA_ACTION,
+            ChunkTimerService.STATE_RUNNING_POMODORO
+        )
         mTimerIntent.putExtra(ChunkTimerService.EXTRA_TOTAL_TIME, mTotalTime)
 
         activity?.startService(mTimerIntent)
-        updateTimerValue()
 
     }
 
@@ -182,5 +227,10 @@ class TimerFragment : Fragment(), TimerView {
         progressBar.progress = percFinish.toInt()
     }
 
+    fun execute(command : () -> Unit){
+        if (mBound){
+            command()
+        }
+    }
 
 }
