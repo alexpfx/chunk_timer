@@ -14,4 +14,12 @@
         <item>18</item>
     </string-array>
 
+    <string-array name="timer_sounds">
+        <item>Sem Som</item>
+        <item>sound01</item>
+        <item>sound02</item>
+        <item>sound03</item>
+        <item>sound04</item>
+    </string-array>
+
 </resources>

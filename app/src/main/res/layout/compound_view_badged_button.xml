@@ -2,34 +2,39 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
 
     <TextView
         android:id="@+id/txtBadge"
+        style="@style/TextAppearance.AppCompat.Caption"
         android:layout_width="wrap_content"
+
         android:layout_height="wrap_content"
-        android:background="@drawable/drawable_round_corner_textview"
+        android:layout_marginTop="2dp"
         android:gravity="center"
-        android:padding="4dp"
         android:text="8"
-        app:layout_constraintCircle="@id/btn"
-        app:layout_constraintCircleAngle="45"
-        app:layout_constraintCircleRadius="20dp"
-        app:layout_constraintStart_toStartOf="@+id/btn"
-        app:layout_constraintTop_toTopOf="@+id/btn" />
+
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@+id/btnSizePP"
+        app:layout_constraintStart_toStartOf="@+id/btnSizePP"
+        app:layout_constraintTop_toBottomOf="@+id/btnSizePP" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn"
+        android:id="@+id/btnSizePP"
         style="@style/TimerSelectSizeButton"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:checkable="true"
-        android:minHeight="@dimen/select_size_button_height"
-        android:text="@string/button_label_sizes_pp"
-        app:iconPadding="2dp"
+        android:background="@color/white"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:tag="@string/tag_size_index_0"
+
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+
+    </com.google.android.material.button.MaterialButton>
 
 
 </merge>

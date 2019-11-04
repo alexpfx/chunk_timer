@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputSizeP"
+            style="@style/TextInputLayoutPreferences"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginEnd="4dp"
+
+
+            android:layout_marginRight="4dp"
+            android:hint="@string/button_label_sizes_p"
+            app:layout_constraintBottom_toBottomOf="@+id/inputSizePP"
+            app:layout_constraintEnd_toStartOf="@+id/inputSizeM"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/inputSizePP">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtSizeP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="3"
+                android:selectAllOnFocus="true"
+
+                android:textSize="12sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputSizeG"
+            style="@style/TextInputLayoutPreferences"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginEnd="4dp"
+
+
+            android:layout_marginRight="4dp"
+            android:hint="@string/button_label_sizes_g"
+            app:layout_constraintBottom_toBottomOf="@+id/inputSizeM"
+            app:layout_constraintEnd_toStartOf="@+id/inputSizeGG"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/inputSizeM">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtSizeG"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="3"
+                android:selectAllOnFocus="true"
+
+                android:textSize="12sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputSizePP"
+            style="@style/TextInputLayoutPreferences"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+
+            android:layout_marginStart="16dp"
+
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginBottom="16dp"
+            android:hint="@string/button_label_sizes_pp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/inputSizeP"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnRestoreDefaults">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtSizePP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="3"
+                android:selectAllOnFocus="true"
+
+                android:textSize="12sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputSizeGG"
+            style="@style/TextInputLayoutPreferences"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="@string/button_label_sizes_gg"
+            app:layout_constraintBottom_toBottomOf="@+id/inputSizeG"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/inputSizeG">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtSizeGG"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="3"
+                android:selectAllOnFocus="true"
+                android:textSize="12sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputSizeM"
+            style="@style/TextInputLayoutPreferences"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginEnd="4dp"
+
+
+            android:layout_marginRight="4dp"
+            android:hint="@string/button_label_sizes_m"
+            app:layout_constraintBottom_toBottomOf="@+id/inputSizeP"
+            app:layout_constraintEnd_toStartOf="@+id/inputSizeG"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/inputSizeP">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtSizeM"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="3"
+                android:selectAllOnFocus="true"
+
+                android:textSize="12sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnRestoreDefaults"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:text="@string/dialog_button_label_restore_defaults"
+            android:textSize="12sp"
+
+            app:iconSize="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

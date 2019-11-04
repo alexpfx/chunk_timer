@@ -1,0 +1,3 @@
+24: Setar tempo do intervalo ao clicar no botão.
+
+

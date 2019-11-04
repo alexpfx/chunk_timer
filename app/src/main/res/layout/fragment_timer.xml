@@ -1,184 +1,485 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TimerActivity">
+    android:fillViewport="true"
 
 
-    <TextView
-        android:id="@+id/txtTimerDisplay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    >
 
-        android:text="@string/init_timer_time"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
-        android:textColor="@color/colorPrimary"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/btnStartTimer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar"
-        tools:text="00:35:45" />
-
-
-    <dev.alessi.components.BadgedButton
-        android:id="@+id/frBtnSizePP"
-        android:layout_width="0dp"
-        app:badgeText="0"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="@dimen/select_size_button_margin_start"
-        android:layout_marginRight="2dp"
-        android:minHeight="@dimen/select_size_button_height"
-        android:tag="@string/tag_size_index_0"
-        app:buttonLabel="@string/button_label_sizes_pp"
-        app:layout_constraintEnd_toStartOf="@+id/frBtnSizeP"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-
-        />
-
-
-    <dev.alessi.components.BadgedButton
-        android:id="@+id/frBtnSizeP"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/select_size_button_margin_start"
-        android:layout_marginRight="2dp"
-
-        android:tag="@string/tag_size_index_1"
-        app:buttonLabel="@string/button_label_sizes_p"
-        app:layout_constraintEnd_toStartOf="@+id/frBtnSizeM"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/frBtnSizePP"
-        app:layout_constraintTop_toTopOf="@+id/frBtnSizePP"
-
-        />
-
-
-    <dev.alessi.components.BadgedButton
-        android:id="@+id/frBtnSizeM"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/select_size_button_margin_start"
-        android:layout_marginRight="2dp"
-        android:tag="@string/tag_size_index_2"
-        app:buttonLabel="@string/button_label_sizes_m"
-        app:layout_constraintEnd_toStartOf="@+id/frBtnSizeG"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/frBtnSizeP"
-        app:layout_constraintTop_toTopOf="@+id/frBtnSizeP">
-
-
-    </dev.alessi.components.BadgedButton>
-
-    <dev.alessi.components.BadgedButton
-        android:id="@+id/frBtnSizeG"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="2dp"
-        android:layout_marginRight="2dp"
-        android:tag="@string/tag_size_index_3"
-        app:buttonLabel="@string/button_label_sizes_g"
-        app:layout_constraintEnd_toStartOf="@+id/frBtnSizeGG"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/frBtnSizeM"
-        app:layout_constraintTop_toTopOf="@+id/frBtnSizeM" />
-
-
-    <dev.alessi.components.BadgedButton
-        android:id="@+id/frBtnSizeGG"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:tag="@string/tag_size_index_4"
-        app:buttonLabel="@string/button_label_sizes_gg"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/frBtnSizeG"
-        app:layout_constraintTop_toTopOf="@+id/frBtnSizeG" />
-
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleHorizontal"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutFragmentMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:max="100"
-
-        android:progress="45"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frBtnSizePP" />
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        tools:context=".ui.TimerActivity">
 
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnStartTimer"
-        style="@style/TimerActionButton"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/button_label_start"
-        app:icon="@drawable/ic_play_arrow_black_24dp"
-        app:iconPadding="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
+            android:id="@+id/frBtnSizePP"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="32dp"
+
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
+            android:tag="@string/tag_size_index_0"
+            app:badgeText="18 min"
+            app:buttonIcon="@drawable/ic_pizza_2slices_48dp"
+            app:layout_constraintEnd_toStartOf="@+id/frBtnSizeP"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnCancelTimer"
-        style="@style/TimerActionButton"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="16dp"
+        </dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton>
 
-        android:text="@string/button_label_cancel"
-        android:visibility="invisible"
+        <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
+            android:id="@+id/frBtnSizeP"
 
-        app:icon="@drawable/ic_play_arrow_black_24dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
 
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
+            android:tag="@string/tag_size_index_1"
+            app:buttonIcon="@drawable/ic_pizza_3slices_48dp"
+            app:layout_constraintBottom_toBottomOf="@+id/frBtnSizePP"
+            app:layout_constraintEnd_toStartOf="@+id/frBtnSizeM"
 
-        app:iconPadding="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/frBtnSizePP"
+            app:layout_constraintTop_toTopOf="@+id/frBtnSizePP">
 
-
-    <com.google.android.material.chip.Chip
-        android:id="@+id/chip2"
-        style="@style/Widget.MaterialComponents.Chip.Action"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:digits="true"
-        android:textAlignment="center"
-        android:textColor="@color/colorPrimary"
-        android:textStyle="bold"
-        app:chipBackgroundColor="#fff"
-        app:chipCornerRadius="12dp"
-        app:chipStrokeColor="@color/colorPrimary"
-        app:chipStrokeWidth="1dp"
-        app:elevation="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnStartTimer"
-        app:layout_constraintCircle="@+id/txtTimerDisplay"
-        app:layout_constraintCircleAngle="300"
-        app:layout_constraintCircleRadius="75dp"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="45%" />
+        </dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
+            android:id="@+id/frBtnSizeM"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
+            android:tag="@string/tag_size_index_2"
+            app:buttonIcon="@drawable/ic_pizza_4slices_48dp"
+            app:layout_constraintEnd_toStartOf="@+id/frBtnSizeG"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/frBtnSizeP"
+            app:layout_constraintTop_toTopOf="@+id/frBtnSizeP">
 
 
+        </dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton>
+
+        <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
+            android:id="@+id/frBtnSizeG"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
+            android:tag="@string/tag_size_index_3"
+            app:buttonIcon="@drawable/ic_pizza_5slices_48dp"
+            app:layout_constraintEnd_toStartOf="@+id/frBtnSizeGG"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/frBtnSizeM"
+            app:layout_constraintTop_toTopOf="@+id/frBtnSizeM" />
+
+
+        <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
+            android:id="@+id/frBtnSizeGG"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:tag="@string/tag_size_index_4"
+            app:buttonIcon="@drawable/ic_pizza_full_48dp"
+            app:iconSize="@dimen/select_size_icon_size"
+            app:iconTint="@android:color/transparent"
+            app:iconTintMode="add"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/frBtnSizeG"
+            app:layout_constraintTop_toTopOf="@+id/frBtnSizeG" />
+        <!--<dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
+            android:id="@+id/frBtnSizePP"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="@dimen/select_size_button_margin_start"
+            android:layout_marginRight="2dp"
+            android:minHeight="@dimen/select_size_button_height"
+            android:tag="@string/tag_size_index_0"
+            app:badgeText="0"
+            app:buttonLabel="@string/button_label_sizes_pp"
+            app:layout_constraintEnd_toStartOf="@+id/frBtnSizeP"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            />-->
+
+        <!--
+
+                <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
+                    android:id="@+id/frBtnSizeP"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/select_size_button_margin_start"
+                    android:layout_marginRight="2dp"
+
+                    android:tag="@string/tag_size_index_1"
+                    app:buttonLabel="@string/button_label_sizes_p"
+                    app:layout_constraintEnd_toStartOf="@+id/frBtnSizeM"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/frBtnSizePP"
+                    app:layout_constraintTop_toTopOf="@+id/frBtnSizePP"
+
+                    >
+
+                </dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton>
+
+
+                <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
+                    android:id="@+id/frBtnSizeM"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/select_size_button_margin_start"
+                    android:layout_marginRight="2dp"
+                    android:tag="@string/tag_size_index_2"
+                    app:buttonLabel="@string/button_label_sizes_m"
+                    app:layout_constraintEnd_toStartOf="@+id/frBtnSizeG"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/frBtnSizeP"
+                    app:layout_constraintTop_toTopOf="@+id/frBtnSizeP">
+
+
+                </dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton>
+
+                <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
+                    android:id="@+id/frBtnSizeG"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginRight="2dp"
+                    android:tag="@string/tag_size_index_3"
+                    app:buttonLabel="@string/button_label_sizes_g"
+                    app:layout_constraintEnd_toStartOf="@+id/frBtnSizeGG"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/frBtnSizeM"
+                    app:layout_constraintTop_toTopOf="@+id/frBtnSizeM" />
+
+
+                <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
+                    android:id="@+id/frBtnSizeGG"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:tag="@string/tag_size_index_4"
+                    app:buttonLabel="@string/button_label_sizes_gg"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/frBtnSizeG"
+                    app:layout_constraintTop_toTopOf="@+id/frBtnSizeG" />
+
+        -->
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:max="100"
+
+            android:progress="45"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/frBtnSizePP" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnStartTimer"
+            style="@style/TimerActionButton"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="32dp"
+            android:text="@string/button_label_start"
+            app:icon="@drawable/ic_timer_black_24dp"
+            app:iconPadding="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCancelTimer"
+            style="@style/TimerActionButton"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="32dp"
+
+            android:text="@string/button_label_cancel"
+            android:visibility="invisible"
+
+            app:icon="@drawable/ic_cancel_black_24dp"
+
+
+            app:iconPadding="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <FrameLayout
+            android:id="@+id/frTxtPercent"
+            style="@style/FrameLayoutBrackground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@+id/frTxtMainTimer"
+            app:layout_constraintTop_toBottomOf="@+id/frTxtMainTimer">
+
+            <TextView
+                android:id="@+id/txtPercent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                tools:text="100 %" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/frTxtMainTimer"
+            style="@style/FrameLayoutBrackground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+
+            android:layout_marginBottom="32dp"
+
+            app:layout_constraintBottom_toTopOf="@+id/btnStartBreak"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/frm"
+            tools:text="00:00:00">
+
+            <TextView
+                android:id="@+id/txtMainTimer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:text="00:00"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display3" />
+
+        </FrameLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnStartBreak"
+            style="@style/TimerBreakButton"
+            android:layout_width="160dp"
+            android:layout_height="48dp"
+            android:text="@string/button_label_start_break"
+            app:icon="@drawable/ic_local_cafe_black_24dp"
+            app:iconPadding="2dp"
+            app:layout_constraintBottom_toTopOf="@+id/btnStartTimer"
+            app:layout_constraintEnd_toEndOf="@+id/btnStartTimer"
+            app:layout_constraintStart_toStartOf="@+id/btnStartTimer" />
+
+
+        <LinearLayout
+            android:id="@+id/layoutTimerSettings"
+            style="@style/FrameLayoutBrackground"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+
+            app:layout_constraintEnd_toEndOf="@+id/frm"
+            app:layout_constraintStart_toStartOf="@+id/frm"
+            app:layout_constraintTop_toBottomOf="@+id/progressBar">
+
+            <ImageButton
+                android:id="@+id/btnIconSetTaskTimes"
+                style="@style/Widget.AppCompat.ImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="8dp"
+                android:tint="@color/text_color_primary"
+                app:srcCompat="@drawable/ic_timer_black_24dp" />
+
+            <TextView
+                android:id="@+id/txtTimerDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="@string/init_timer_time"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+
+                android:textColor="@color/text_color_primary"
+                tools:text="00:35:45" />
+
+            <Space
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/btnIconSetBreak"
+                style="@style/Widget.AppCompat.ImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="8dp"
+                android:tint="@color/text_color_primary"
+                app:srcCompat="@drawable/ic_local_cafe_black_24dp" />
+
+            <TextView
+                android:id="@+id/txtBreakTimeDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+
+                android:text="@string/init_timer_time"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/text_color_primary"
+
+                tools:text="10:00" />
+
+
+        </LinearLayout>
+
+
+        <ImageButton
+            android:id="@+id/btnLoadTask"
+            style="@style/Widget.AppCompat.ImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+
+
+            android:padding="8dp"
+            android:tint="@color/text_color_primary"
+            app:layout_constraintBottom_toBottomOf="@+id/frm"
+            app:layout_constraintStart_toEndOf="@+id/frm"
+            app:layout_constraintTop_toTopOf="@+id/frm"
+            app:srcCompat="@drawable/ic_assignment_return_black_24dp" />
+
+
+        <!--<ImageButton
+            android:id="@+id/btnExitApp"
+            style="@style/Widget.AppCompat.ImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp"
+            app:srcCompat="@drawable/ic_exit_to_app_black_24dp"
+            android:tint="@color/text_color_primary"
+            app:layout_constraintBottom_toBottomOf="@+id/btnStartTimer"
+            app:layout_constraintEnd_toEndOf="parent" />-->
+
+        <ImageButton
+            android:id="@+id/btnLoadSettings"
+            style="@style/Widget.AppCompat.ImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+
+
+            android:padding="8dp"
+            android:tint="@color/text_color_primary"
+            app:layout_constraintBottom_toBottomOf="@+id/layoutTimerSettings"
+            app:layout_constraintEnd_toEndOf="@+id/btnLoadTask"
+            app:layout_constraintStart_toStartOf="@+id/btnLoadTask"
+            app:layout_constraintTop_toTopOf="@+id/layoutTimerSettings"
+            app:srcCompat="@drawable/ic_settings_black_24dp" />
+
+        <FrameLayout
+            android:id="@+id/frm"
+            style="@style/FrameLayoutBrackground"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:focusable="true"
+
+            android:focusableInTouchMode="true"
+
+
+            android:foregroundGravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutTimerSettings">
+
+            <EditText
+                android:id="@+id/edtTask"
+                style="@style/Widget.AppCompat.EditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:gravity="center"
+                android:hint="@string/label_task"
+                android:lines="3"
+                android:maxWidth="200dp"
+                android:maxHeight="100dp"
+                android:minWidth="180dp"
+                android:minHeight="64dp"
+                android:selectAllOnFocus="true"
+
+                android:textColor="@color/text_color_primary"
+
+                android:visibility="visible" />
+
+            <!--<TextView
+                android:id="@+id/txtTaskLabel"
+                android:visibility="visible"
+                style="@style/TextViewTask"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="teste"
+                android:textColor="@color/text_color_primary" />-->
+
+        </FrameLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>
