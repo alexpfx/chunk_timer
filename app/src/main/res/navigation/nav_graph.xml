@@ -28,7 +28,10 @@
         android:name="dev.alessi.chunk.pomodoro.timer.android.ui.dialog.TimerFinishDialogFragment"
         android:label="TimerFinishDialogFragment" />
     <fragment
+
         android:id="@+id/settingsFragment"
         android:name="dev.alessi.chunk.pomodoro.timer.android.settings.SettingsFragment"
-        android:label="SettingsFragment" />
+        android:label="SettingsFragment"
+
+        />
 </navigation>

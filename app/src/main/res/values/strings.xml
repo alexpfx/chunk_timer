@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Chunk Pomodoro Time</string>
+    <string name="app_name">Pizza Slice Timer</string>
     <string name="button_label_sizes_pp">PP</string>
     <string name="button_label_sizes_p">P</string>
     <string name="button_label_sizes_m">M</string>
@@ -29,8 +29,11 @@
     <string name="tag_size_index_2">2</string>
     <string name="tag_size_index_1">1</string>
     <string name="tag_size_index_0">0</string>
+    <string name="tag_ringing_timer">0</string>
+    <string name="tag_ringing_breaktime">1</string>
+    <string name="tag_ringing_tick">2</string>
     <string name="label_task_time">Tarefa</string>
-    <string name="label_break_time">Intervalo</string>
+    <string name="label_breaktime">Intervalo</string>
     <string name="label_task">Tarefa: </string>
 
     <string name="message_exit_app">Tem certeza que deseja sair do App?</string>
@@ -74,6 +77,13 @@
         <item quantity="one">%d minuto</item>
         <item quantity="other">%d minutos</item>
     </plurals>
+    
+    <string name="label_ringing">Toques</string>
+    <string name="label_ringing_timer">Timer</string>
+    <string name="label_ringing_breaktime">Intervalo</string>
+    <string name="label_ringing_tick">Tick</string>
+
 
 
 </resources>
+

@@ -1,6 +1,7 @@
 package dev.alessi.chunk.pomodoro.timer.android.ui
 
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -11,8 +12,10 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.platform.ChunkTimerService
+import dev.alessi.chunk.pomodoro.timer.android.platform.SoundEffectManager
 import dev.alessi.chunk.pomodoro.timer.android.util.Command
 import dev.alessi.chunk.pomodoro.timer.android.util.IntentBuilder
+import kotlinx.android.synthetic.main.toolbar.*
 
 class TimerActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener, ChunkTimerServiceControl {
@@ -26,9 +29,22 @@ class TimerActivity : AppCompatActivity(),
         supportActionBar?.setDisplayHomeAsUpEnabled(controller.currentDestination?.id != controller.graph.startDestination)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        super.onCreate(savedInstanceState, persistentState)
+
+
+    }
+
+    override fun onDestroy() {
+
+
+        super.onDestroy()
+    }
+
     override fun onResume() {
         if (intent?.hasExtra(ChunkTimerService.extra_param_a_timer_was_finish) == true) {
             getNavController().navigate(R.id.timerFinishDialogFragment, intent.extras)
+            intent?.removeExtra(ChunkTimerService.extra_param_a_timer_was_finish)
         }
 
         super.onResume()
@@ -50,6 +66,7 @@ class TimerActivity : AppCompatActivity(),
         setContentView(R.layout.activity_timer)
 
         window.setBackgroundDrawableResource(R.drawable.pizza_background)
+        setSupportActionBar(toolbar)
 
     }
 

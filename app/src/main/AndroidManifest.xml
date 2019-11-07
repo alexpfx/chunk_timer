@@ -11,25 +11,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="dev.alessi.chunk.pomodoro.timer.android.util.PocActivity"></activity>
 
-        <service
-            android:name="dev.alessi.chunk.pomodoro.timer.android.util.PocService"
-            android:enabled="true"
-            android:exported="false" />
+
         <service
             android:name=".platform.ChunkTimerService"
             android:exported="false" />
 
-        <receiver
-            android:name=".TimeUpAlarmReceiver"
-            android:enabled="true"
-            android:exported="false" />
+
 
         <activity android:name="dev.alessi.chunk.pomodoro.timer.android.ui.TimerActivity"
             android:screenOrientation="portrait"
+
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
+
             >
 
             <intent-filter>

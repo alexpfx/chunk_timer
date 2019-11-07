@@ -9,6 +9,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import dev.alessi.chunk.pomodoro.timer.android.App
+import dev.alessi.chunk.pomodoro.timer.android.settings.SettingsFragment
 import dev.alessi.chunk.pomodoro.timer.android.ui.TimerActivity
 import dev.alessi.chunk.pomodoro.timer.android.ui.TimerFragment
 import dev.alessi.chunk.pomodoro.timer.android.util.*
@@ -26,6 +27,9 @@ class ChunkTimerService : Service() {
     private lateinit var mNotificationManagerCompat: NotificationManagerCompat
     private var mTaskname: String? = null
     private var mSizeIndex: Int? = null
+
+
+
 
 
     @Target(
@@ -57,8 +61,15 @@ class ChunkTimerService : Service() {
 
     }
 
+    override fun onCreate() {
+
+        super.onCreate()
+    }
+
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+
+
         processIntent(intent)
 
         mNotificationManagerCompat = NotificationManagerCompat.from(this)
@@ -72,8 +83,12 @@ class ChunkTimerService : Service() {
             mServiceStarted = true
         }
 
+
+
         return START_NOT_STICKY
     }
+
+
 
     private fun processIntent(intent: Intent) {
 
@@ -220,11 +235,16 @@ class ChunkTimerService : Service() {
 
         sendBroadcast(intent)
 
+
+
     }
 
 
     override fun onDestroy() {
         stopSelf()
+
+
+
 
         super.onDestroy()
     }
@@ -271,8 +291,11 @@ class ChunkTimerService : Service() {
                 startActivity(dialogIntent)
 
 
+
+
             }
             TimerState.status_running_break -> {
+
                 mNotificationManagerCompat.notifyBreakFinish(
                     applicationContext
                 )
@@ -288,6 +311,7 @@ class ChunkTimerService : Service() {
                 dialogIntent.putExtras(args)
                 dialogIntent.putExtra(extra_param_a_timer_was_finish, true)
                 startActivity(dialogIntent)
+
 
             }
         }

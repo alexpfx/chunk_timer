@@ -6,9 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
+import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.platform.ChunkTimerService
+import dev.alessi.chunk.pomodoro.timer.android.platform.SoundEffectManager
+import dev.alessi.chunk.pomodoro.timer.android.settings.SettingsFragment
 
 class TimerFinishDialogFragment : DialogFragment() {
 
@@ -16,17 +19,39 @@ class TimerFinishDialogFragment : DialogFragment() {
     var txtSize: TextView? = null
     var txtTask: TextView? = null
 
+
+    private var mTimerRingIndex = -1
+    private var mBreaktimeRingIndex = -1
+    private lateinit var sfm: SoundEffectManager
+
+    private fun loadSoundEffectPrefs() {
+        val pm = PreferenceManager.getDefaultSharedPreferences(this.activity!!)
+        mBreaktimeRingIndex = pm.getInt(SettingsFragment.pref_ring_breaktime, -1)
+        mTimerRingIndex = pm.getInt(SettingsFragment.pref_ring_timer, -1)
+
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sfm = SoundEffectManager(this.activity!!)
+    }
+
+    override fun onDestroy() {
+        sfm.dispose()
+        super.onDestroy()
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         isCancelable = false
 
         val dialog = activity?.let {
             val builder = MaterialAlertDialogBuilder(it)
 
-
             @ChunkTimerService.TimerState val type =
                 arguments?.getInt(ChunkTimerService.extra_param_status)
 
 
+            loadSoundEffectPrefs()
 
 
             if (ChunkTimerService.TimerState.status_running_break == type) {
@@ -37,6 +62,7 @@ class TimerFinishDialogFragment : DialogFragment() {
                 extractViews(inflatedView)
 
                 fillBreak(builder, arguments!!)
+                sfm.play(mBreaktimeRingIndex)
 
             } else {
                 val inflatedView = LayoutInflater.from(context).inflate(
@@ -50,6 +76,7 @@ class TimerFinishDialogFragment : DialogFragment() {
                 extractViews(inflatedView)
 
                 fillTimerFinishBuilder(builder, arguments!!)
+                sfm.play(mTimerRingIndex)
             }
 
 

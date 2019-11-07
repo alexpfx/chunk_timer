@@ -6,11 +6,10 @@ import androidx.lifecycle.ViewModel
 class SharedViewModel : ViewModel() {
 
     val breaktime = MutableLiveData<Int>()
-
     val sizeIndex = MutableLiveData<Int>()
     val sizes = MutableLiveData<List<Int>>()
-
     val taskname = MutableLiveData<String>()
+
 
 
     fun setBreaktime(breaktimeMinutes: Int) {
@@ -32,5 +31,8 @@ class SharedViewModel : ViewModel() {
     }
 
 
+    override fun onCleared() {
+        super.onCleared()
+    }
 
 }

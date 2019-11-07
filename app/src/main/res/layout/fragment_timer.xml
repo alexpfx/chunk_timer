@@ -199,19 +199,17 @@
 
         -->
 
-        <ProgressBar
-            android:id="@+id/progressBar"
+        <View
+            android:id="@+id/separator_view"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="1dp"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            android:max="100"
 
-            android:progress="45"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -252,25 +250,6 @@
 
 
         <FrameLayout
-            android:id="@+id/frTxtPercent"
-            style="@style/FrameLayoutBrackground"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="@+id/frTxtMainTimer"
-            app:layout_constraintTop_toBottomOf="@+id/frTxtMainTimer">
-
-            <TextView
-                android:id="@+id/txtPercent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                tools:text="100 %" />
-
-        </FrameLayout>
-
-        <FrameLayout
             android:id="@+id/frTxtMainTimer"
             style="@style/FrameLayoutBrackground"
             android:layout_width="wrap_content"
@@ -286,6 +265,8 @@
             tools:text="00:00:00">
 
             <TextView
+                android:gravity="center"
+                android:textStyle="bold"
                 android:id="@+id/txtMainTimer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -319,7 +300,7 @@
 
             app:layout_constraintEnd_toEndOf="@+id/frm"
             app:layout_constraintStart_toStartOf="@+id/frm"
-            app:layout_constraintTop_toBottomOf="@+id/progressBar">
+            app:layout_constraintTop_toBottomOf="@+id/separator_view">
 
             <ImageButton
                 android:id="@+id/btnIconSetTaskTimes"
@@ -408,7 +389,7 @@
             app:layout_constraintEnd_toEndOf="parent" />-->
 
         <ImageButton
-            android:id="@+id/btnLoadSettings"
+            android:id="@+id/btnOpenSettings"
             style="@style/Widget.AppCompat.ImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -445,6 +426,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layoutTimerSettings">
 
+            <TextView
+
+                android:id="@+id/txtTask"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:visibility="invisible" />
+
             <EditText
                 android:id="@+id/edtTask"
                 style="@style/Widget.AppCompat.EditText"
@@ -477,6 +467,7 @@
                 android:textColor="@color/text_color_primary" />-->
 
         </FrameLayout>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

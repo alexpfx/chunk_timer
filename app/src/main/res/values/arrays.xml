@@ -16,10 +16,24 @@
 
     <string-array name="timer_sounds">
         <item>Sem Som</item>
-        <item>sound01</item>
-        <item>sound02</item>
-        <item>sound03</item>
-        <item>sound04</item>
+        <item>audio01</item>
+        <item>audio02</item>
+        <item>audio03</item>
+        <item>audio04</item>
+        <item>audio05</item>
+        <item>audio06</item>
     </string-array>
+
+    <string-array name="breaktime_sounds">
+        <item>Sem Som</item>
+        <item>audio01</item>
+        <item>audio02</item>
+        <item>audio03</item>
+        <item>audio04</item>
+        <item>audio05</item>
+        <item>audio06</item>
+    </string-array>
+
+
 
 </resources>

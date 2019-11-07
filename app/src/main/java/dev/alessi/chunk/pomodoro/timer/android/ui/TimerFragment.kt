@@ -22,7 +22,6 @@ import com.google.gson.Gson
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
 import dev.alessi.chunk.pomodoro.timer.android.platform.ChunkTimerService
-import dev.alessi.chunk.pomodoro.timer.android.platform.SoundEffectManager
 import dev.alessi.chunk.pomodoro.timer.android.ui.dialog.TimerSettingsDialogFragment
 import dev.alessi.chunk.pomodoro.timer.android.util.Command
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_START_BREAK
@@ -37,7 +36,6 @@ import kotlinx.android.synthetic.main.fragment_timer.*
 
 class TimerFragment : Fragment() {
 
-    private lateinit var mediaPlayer: SoundEffectManager
 
     private var TAG = TimerFragment::class.java.name
     private lateinit var sizeBtns: List<BadgedButton>
@@ -62,18 +60,10 @@ class TimerFragment : Fragment() {
     }
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onStart() {
+        super.onStart()
 
 
-        mediaPlayer =
-            SoundEffectManager(context = this.context!!)
-
-        mSharedViewModel = activity?.run {
-            ViewModelProviders.of(this)[SharedViewModel::class.java]
-        } ?: throw IllegalStateException("Invalid activity")
-
-        loadPreferences()
 
 
         mSharedViewModel.breaktime.observe(this, Observer {
@@ -98,7 +88,35 @@ class TimerFragment : Fragment() {
         })
         mSharedViewModel.taskname.observe(this, Observer {
             mTask = it
+
         })
+
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+
+
+        mSharedViewModel.breaktime.removeObservers(this)
+
+        mSharedViewModel.sizeIndex.removeObservers(this)
+
+        mSharedViewModel.sizes.removeObservers(this)
+
+        mSharedViewModel.taskname.removeObservers(this)
+
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        mSharedViewModel = activity?.run {
+            ViewModelProviders.of(this)[SharedViewModel::class.java]
+        } ?: throw IllegalStateException("Invalid activity")
+
+        loadPreferences()
 
 
     }
@@ -115,7 +133,9 @@ class TimerFragment : Fragment() {
 
     }
 
+
     private fun loadPreferences() {
+
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.context)
         val sizesStr = sharedPreferences.getString(KEY_SIZE_JSON_ARRAY, DEFAULT_JSON_SIZES)
         val sizesArray = mGson.fromJson(sizesStr, Array<Int>::class.java)
@@ -132,7 +152,7 @@ class TimerFragment : Fragment() {
 
     override fun onDestroy() {
 
-        mediaPlayer.dispose()
+
         super.onDestroy()
 
     }
@@ -176,8 +196,8 @@ class TimerFragment : Fragment() {
 
         val xstr = "%.1f".format(percFinish)
 
-        txtPercent.text = "$xstr %"
-        progressBar.progress = percFinish.toInt()
+//        txtPercent.text = "$xstr %"
+//        separator_view.progress = percFinish.toInt()
 
     }
 
@@ -202,7 +222,7 @@ class TimerFragment : Fragment() {
         btnIconSetBreak.setOnClickListener(::openBreaktimeSettingsDialog)
         btnIconSetTaskTimes.setOnClickListener(::openTimerSettingsDialog)
         btnLoadTask.setOnClickListener(::openLoadTaskScreen)
-        btnLoadSettings.setOnClickListener (::openSettingsScreen)
+        btnOpenSettings.setOnClickListener(::openSettingsScreen)
 
 
         sizeBtns =
@@ -270,6 +290,8 @@ class TimerFragment : Fragment() {
         btnCancelTimer.visibility = View.VISIBLE
         btnCancelTimer.text = getText(R.string.button_label_cancel)
 
+
+        txtTask.text = mTask
         disableViews()
 
     }
@@ -277,6 +299,8 @@ class TimerFragment : Fragment() {
     fun showBreakTimerStarted() {
         btnCancelTimer.visibility = View.VISIBLE
         btnCancelTimer.text = getText(R.string.button_label_cancel_break)
+
+        txtTask.text = getString(R.string.label_breaktime)
 
         disableViews()
     }
@@ -307,8 +331,11 @@ class TimerFragment : Fragment() {
         btnStartBreak.visibility = View.VISIBLE
         forAllSizeButtons { b -> b.isEnabled = true }
         layoutTimerSettings.visibility = View.VISIBLE
-        edtTask.isEnabled = true
+        edtTask.visibility = View.VISIBLE
+        txtTask.visibility = View.INVISIBLE
         btnLoadTask.visibility = View.VISIBLE
+        btnOpenSettings.visibility = View.VISIBLE
+//        lbl_task.visibility = View.INVISIBLE
     }
 
 
@@ -317,8 +344,11 @@ class TimerFragment : Fragment() {
         btnStartBreak.visibility = View.INVISIBLE
         forAllSizeButtons { b -> b.isEnabled = false }
         layoutTimerSettings.visibility = View.GONE
-        edtTask.isEnabled = false
+        edtTask.visibility = View.INVISIBLE
+        txtTask.visibility = View.VISIBLE
         btnLoadTask.visibility = View.INVISIBLE
+        btnOpenSettings.visibility = View.INVISIBLE
+//        lbl_task.visibility = View.VISIBLE
     }
 
 
@@ -383,7 +413,7 @@ class TimerFragment : Fragment() {
         debug("silent: $silent")
 
         if (!silent) {
-            mediaPlayer.playTick()
+//            sfm.playTick()
         }
 
         updateTimer(timeLeft, totalTime)
@@ -396,9 +426,6 @@ class TimerFragment : Fragment() {
 
     private fun openSettingsScreen(view: View) {
         findNavController().navigate(R.id.settingsFragment)
-
-
-
     }
 
     private fun openLoadTaskScreen(view: View) {
@@ -412,7 +439,6 @@ class TimerFragment : Fragment() {
         )
 
     }
-
 
 
     private fun actionStartBreaktime(view: View) {
