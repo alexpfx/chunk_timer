@@ -87,10 +87,9 @@ class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        activity?.setTitle(R.string.settings)
+
         createSpinners()
-
-
-
         super.onViewCreated(view, savedInstanceState)
     }
 

@@ -30,7 +30,6 @@ import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_STO
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_TICK
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_UPDATE_STATE
 import dev.alessi.chunk.pomodoro.timer.android.util.IntentBuilder
-import dev.alessi.chunk.pomodoro.timer.android.util.debug
 import kotlinx.android.synthetic.main.fragment_timer.*
 
 
@@ -63,16 +62,12 @@ class TimerFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-
-
-
         mSharedViewModel.breaktime.observe(this, Observer {
             mBreaktime = it
             updateBreaktime()
             storePreferences()
 
         })
-
 
         mSharedViewModel.sizeIndex.observe(this, Observer {
             mSelectedIndex = it
@@ -97,8 +92,6 @@ class TimerFragment : Fragment() {
     override fun onStop() {
         super.onStop()
 
-
-
         mSharedViewModel.breaktime.removeObservers(this)
 
         mSharedViewModel.sizeIndex.removeObservers(this)
@@ -117,7 +110,6 @@ class TimerFragment : Fragment() {
         } ?: throw IllegalStateException("Invalid activity")
 
         loadPreferences()
-
 
     }
 
@@ -147,13 +139,6 @@ class TimerFragment : Fragment() {
 
         val lastBreaktime = sharedPreferences.getInt(KEY_LAST_BREAKTIME, 10)
         mSharedViewModel.setBreaktime(lastBreaktime)
-
-    }
-
-    override fun onDestroy() {
-
-
-        super.onDestroy()
 
     }
 
@@ -223,7 +208,6 @@ class TimerFragment : Fragment() {
         btnIconSetTaskTimes.setOnClickListener(::openTimerSettingsDialog)
         btnLoadTask.setOnClickListener(::openLoadTaskScreen)
         btnOpenSettings.setOnClickListener(::openSettingsScreen)
-
 
         sizeBtns =
             listOf<BadgedButton>(frBtnSizePP, frBtnSizeP, frBtnSizeM, frBtnSizeG, frBtnSizeGG)
@@ -325,7 +309,6 @@ class TimerFragment : Fragment() {
 
     }
 
-
     private fun enableViews() {
         btnStartTimer.visibility = View.VISIBLE
         btnStartBreak.visibility = View.VISIBLE
@@ -335,7 +318,6 @@ class TimerFragment : Fragment() {
         txtTask.visibility = View.INVISIBLE
         btnLoadTask.visibility = View.VISIBLE
         btnOpenSettings.visibility = View.VISIBLE
-//        lbl_task.visibility = View.INVISIBLE
     }
 
 
@@ -348,7 +330,6 @@ class TimerFragment : Fragment() {
         txtTask.visibility = View.VISIBLE
         btnLoadTask.visibility = View.INVISIBLE
         btnOpenSettings.visibility = View.INVISIBLE
-//        lbl_task.visibility = View.VISIBLE
     }
 
 
@@ -377,7 +358,7 @@ class TimerFragment : Fragment() {
     private fun updateState(intent: Intent) {
         val timeLeft = intent.getLongExtra(ChunkTimerService.extra_param_current_time, 0)
         val totalTime = intent.getLongExtra(ChunkTimerService.extra_param_total_time_millis, 25)
-        val silent = intent.getBooleanExtra(ChunkTimerService.extra_param_no_sound_on_tick, false)
+
         val status = intent.getIntExtra(ChunkTimerService.extra_param_status, 0)
 
         mTimerRunning = status != ChunkTimerService.TimerState.status_ready
@@ -388,12 +369,9 @@ class TimerFragment : Fragment() {
 
         when (status) {
             ChunkTimerService.TimerState.status_ready -> {
-
-
             }
             ChunkTimerService.TimerState.status_running_timer -> {
                 showTimerStarted()
-
             }
             ChunkTimerService.TimerState.status_running_break -> {
                 showBreakTimerStarted()
@@ -401,20 +379,11 @@ class TimerFragment : Fragment() {
 
         }
 
-
     }
 
     fun showTick(intent: Intent) {
-
         val timeLeft = intent.getLongExtra(ChunkTimerService.extra_param_current_time, 0)
         val totalTime = intent.getLongExtra(ChunkTimerService.extra_param_total_time_millis, 25)
-        val silent = intent.getBooleanExtra(ChunkTimerService.extra_param_no_sound_on_tick, false)
-
-        debug("silent: $silent")
-
-        if (!silent) {
-//            sfm.playTick()
-        }
 
         updateTimer(timeLeft, totalTime)
     }
@@ -429,7 +398,7 @@ class TimerFragment : Fragment() {
     }
 
     private fun openLoadTaskScreen(view: View) {
-
+        findNavController().navigate(R.id.taskFragment)
     }
 
     private fun openTimerSettingsDialog(view: View) {
@@ -460,13 +429,11 @@ class TimerFragment : Fragment() {
 
     }
 
-
     private fun actionCancelTimer(view: View) {
         mTimerRunning = false
         mServiceController?.doStopService()
 
     }
-
 
     private fun forAllSizeButtons(action: (Int, BadgedButton) -> Unit) {
         sizeBtns.forEachIndexed(action)
