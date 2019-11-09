@@ -2,6 +2,7 @@ package dev.alessi.chunk.pomodoro.timer.android.ui
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import dev.alessi.chunk.pomodoro.timer.android.database.Task
 
 class SharedViewModel : ViewModel() {
 
@@ -9,6 +10,7 @@ class SharedViewModel : ViewModel() {
     val sizeIndex = MutableLiveData<Int>()
     val sizes = MutableLiveData<List<Int>>()
     val taskname = MutableLiveData<String>()
+    val task = MutableLiveData<Task>()
 
 
 
@@ -30,6 +32,10 @@ class SharedViewModel : ViewModel() {
         this.taskname.value = task
     }
 
+
+    fun setTask(task: Task){
+        this.task.value = task
+    }
 
     override fun onCleared() {
         super.onCleared()

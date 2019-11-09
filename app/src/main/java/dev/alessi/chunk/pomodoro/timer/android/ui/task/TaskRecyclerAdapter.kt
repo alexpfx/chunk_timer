@@ -8,9 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 
-class TaskRecyclerAdapter(val items: List<Task>): RecyclerView.Adapter<TaskViewHolder>() {
-
-
+class TaskRecyclerAdapter(val items: MutableList<Task>): RecyclerView.Adapter<TaskViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_task, parent, false)
@@ -28,6 +26,12 @@ class TaskRecyclerAdapter(val items: List<Task>): RecyclerView.Adapter<TaskViewH
         holder.txtTaskTotalTime.text = "25"
 
 
+    }
+
+    fun updateItems(tasks: List<Task>){
+        this.items.clear()
+        items.addAll(tasks)
+        notifyDataSetChanged()
     }
 }
 

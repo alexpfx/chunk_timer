@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    style="@style/CardView.Light"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/CardView.Light"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="1dp"
-    >
+    app:cardElevation="1dp"
+
+    android:layout_margin="1dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="96dp"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,48 +20,66 @@
 
         >
 
-        <TextView
-            android:id="@+id/txtTaskDesc"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:layout_constraintBottom_toTopOf="@+id/txtTaskStats"
-            app:layout_constraintEnd_toStartOf="@+id/txtTaskTotalTime"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Implementar testes unitários" />
-
-        <TextView
-            android:id="@+id/txtTaskStats"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="8dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/txtTaskDesc"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintEnd_toStartOf="@+id/frameLayout"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtTaskDesc"
-            tools:text="2 G, 4 M, 2 PP " />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/txtTaskTotalTime"
-            android:layout_width="48dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:gravity="center"
-            android:text="TextView"
+            <TextView
+
+                android:id="@+id/txtTaskDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+
+                tools:text="Implementar testes unitários" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+
+                android:background="@drawable/drawable_divider_horizontal" />
+
+            <TextView
+
+                android:id="@+id/txtTaskStats"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+
+                tools:text="2 G, 4 M, 2 PP " />
+
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/frameLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:padding="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="4:36 H" />
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <TextView
+                android:id="@+id/txtTaskTotalTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                tools:text="4:36 H" />
+
+        </FrameLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

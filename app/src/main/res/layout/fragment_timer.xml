@@ -432,6 +432,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:maxWidth="200dp"
+                android:maxHeight="100dp"
+                android:minWidth="180dp"
+                android:minHeight="64dp"
+
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:visibility="invisible" />
 

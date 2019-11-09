@@ -20,8 +20,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.google.gson.Gson
 import dev.alessi.chunk.pomodoro.timer.android.R
+import dev.alessi.chunk.pomodoro.timer.android.RepositoryProvider
 import dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
+import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.platform.ChunkTimerService
+import dev.alessi.chunk.pomodoro.timer.android.repository.TaskRepository
 import dev.alessi.chunk.pomodoro.timer.android.ui.dialog.TimerSettingsDialogFragment
 import dev.alessi.chunk.pomodoro.timer.android.util.Command
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_START_BREAK
@@ -31,6 +34,10 @@ import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_TIC
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_UPDATE_STATE
 import dev.alessi.chunk.pomodoro.timer.android.util.IntentBuilder
 import kotlinx.android.synthetic.main.fragment_timer.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class TimerFragment : Fragment() {
@@ -45,9 +52,11 @@ class TimerFragment : Fragment() {
 
     private var mSizes: List<Int> = listOf(12, 24, 36, 48, 60)
     private var mGson: Gson = Gson()
-    private var mTask = ""
+    private var mTask: Task = Task(description = "")
     private var mBreaktime = 0
     private var mServiceController: ChunkTimerServiceControl? = null
+    private lateinit var mTaskRepository: TaskRepository
+    private val scope = CoroutineScope(Dispatchers.Main)
 
 
     companion object {
@@ -81,9 +90,10 @@ class TimerFragment : Fragment() {
             resetTimer()
             storePreferences()
         })
-        mSharedViewModel.taskname.observe(this, Observer {
-            mTask = it
 
+
+        mSharedViewModel.task.observe(this, Observer {
+            mTask = it
         })
 
 
@@ -99,6 +109,8 @@ class TimerFragment : Fragment() {
         mSharedViewModel.sizes.removeObservers(this)
 
         mSharedViewModel.taskname.removeObservers(this)
+
+        mSharedViewModel.task.removeObservers(this)
 
     }
 
@@ -201,7 +213,11 @@ class TimerFragment : Fragment() {
         btnStartBreak.setOnClickListener(::actionStartBreaktime)
 
         edtTask.addTextChangedListener {
-            mTask = it.toString()
+            if (it.toString().trim() == mTask.description.trim()) {
+                return@addTextChangedListener
+            }
+
+            mTask = Task(description = it.toString())
         }
 
         btnIconSetBreak.setOnClickListener(::openBreaktimeSettingsDialog)
@@ -223,6 +239,7 @@ class TimerFragment : Fragment() {
         super.onAttach(context)
 
         mServiceController = context as ChunkTimerServiceControl
+        mTaskRepository = (activity?.applicationContext as RepositoryProvider).getTaskRepository()
 
         (context as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
@@ -275,7 +292,7 @@ class TimerFragment : Fragment() {
         btnCancelTimer.text = getText(R.string.button_label_cancel)
 
 
-        txtTask.text = mTask
+        txtTask.text = mTask.description
         disableViews()
 
     }
@@ -414,7 +431,7 @@ class TimerFragment : Fragment() {
         mTimerRunning = true
         mServiceController?.doStartService(
             mBreaktime * 60 * 1000.toLong(),
-            mSelectedIndex, mTask, Command.ACTION_START_BREAK
+            mSelectedIndex, mTask.description, Command.ACTION_START_BREAK
         )
     }
 
@@ -424,9 +441,30 @@ class TimerFragment : Fragment() {
 
         mServiceController?.doStartService(
             timeMinutes * 60 * 1000.toLong(),
-            mSelectedIndex, mTask, Command.ACTION_START_TIMER
+            mSelectedIndex, mTask.description, Command.ACTION_START_TIMER
         )
 
+        if (mTask.description.isNotEmpty()) {
+            if (mTask.uid == null) {
+                storeTask()
+            }
+
+
+        }
+
+
+    }
+
+    private fun storeTask() {
+        scope.launch {
+            mTask =
+                withContext(Dispatchers.IO) {
+                    if (mTask.uid == null)
+                        mTaskRepository.storeTask(mTask)
+                    else
+                        mTaskRepository.updateTask(mTask)
+                }
+        }
     }
 
     private fun actionCancelTimer(view: View) {
