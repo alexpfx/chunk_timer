@@ -104,11 +104,12 @@ class TimerActivity : AppCompatActivity(),
     override fun doStartService(
         totalTimeMillis: Long,
         index: Int,
-        task: String, @Command command: Int
+        task: Int, @Command command: Int
     ) {
         val bundle = Bundle()
         bundle.putLong(ChunkTimerService.extra_param_total_time_millis, totalTimeMillis)
-        bundle.putString(ChunkTimerService.extra_param_taskname, task)
+//        bundle.putString(ChunkTimerService.extra_param_taskname, task)
+        bundle.putInt(ChunkTimerService.extra_param_task_id, task)
         bundle.putInt(ChunkTimerService.extra_param_sizeIndex, index)
 
         val intent =

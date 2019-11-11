@@ -20,6 +20,9 @@
     <string name="summary_chunk_full_time">Tempo do maior chunk</string>
     <string name="title_chunk_other_time_sizes">Tempo dos outros chunks</string>
     <string name="title_break_time">Tempo de Intervalo</string>
+    <string name="title_new_task">Nova Tarefa</string>
+    <string name="title_edit_task">Editar Tarefa</string>
+    <string name="title_select_task">Selecionar Tarefa</string>
 
     <string name="category_title_time_settings">Time Settings</string>
     <string name="settings">Preferências</string>
@@ -35,6 +38,7 @@
     <string name="label_task_time">Tarefa</string>
     <string name="label_breaktime">Intervalo</string>
     <string name="label_task">Tarefa: </string>
+    <string name="message_hint_choose_task">&lt; Adicionar tarefa &gt;</string>
 
     <string name="message_exit_app">Tem certeza que deseja sair do App?</string>
 
@@ -51,6 +55,7 @@
     <string name="message_content_timer_break_finish">Hora de voltar ao trabalho!</string>
 
     <string name="message_error_input_break_time_empty">Informe o número de minutos</string>
+    <string name="message_error_input_taskname_empty">Informe o nome da task</string>
     <string name="message_error_input_break_time_minutes_less_equal_zero">Número de minutos não pode ser menor ou igual a 0</string>
     <string name="message_error_time_empty">Informe o número de minutos</string>
 
@@ -65,6 +70,7 @@
     <string name="dialog_message_sizes">Escolha o tempo em minutos para cada timer</string>
     <string name="dialog_button_label_restore_defaults">Restaurar padrão</string>
     <string name="dialog_textfield_hint_interval_time">Tempo de Intervalo</string>
+    <string name="dialog_textfield_hint_task_name">Nome da Tarefa</string>
     <string name="label_today">Hoje</string>
 
     <string name="label_time_timer">Tempo do timer:</string>

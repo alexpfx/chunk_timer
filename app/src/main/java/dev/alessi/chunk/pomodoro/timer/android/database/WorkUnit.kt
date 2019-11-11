@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 import java.util.*
 
 @Entity(
+    tableName = "timeSlice",
     foreignKeys = [ForeignKey(
         entity = Task::class,
         parentColumns = arrayOf("uid"),
@@ -13,11 +14,10 @@ import java.util.*
     )]
 )
 data class WorkUnit(
-    @PrimaryKey
-    val uid: Int,
+    @PrimaryKey(autoGenerate = true)
+    val uid: Int? = null,
     val finishDate: Date,
     val size: Int,
     val timeMinutes: Int,
     val taskId: Int
-
 )

@@ -11,7 +11,7 @@ interface TaskDao {
     @Update
     suspend fun update(task: Task)
 
-    @Query("select * from task")
+    @Query("select * from task order by dateCreated desc")
     suspend fun loadAll(): Array<Task>
 
     @Query("select * from task where uid = :id")

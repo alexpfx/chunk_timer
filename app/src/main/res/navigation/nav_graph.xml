@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_timerFragment_to_taskFragment"
             app:destination="@id/taskFragment" />
+        <action
+            android:id="@+id/action_timerFragment_to_addTaskDialog"
+            app:destination="@id/addTaskDialog" />
     </fragment>
 
     <dialog
@@ -43,4 +46,8 @@
         android:name="dev.alessi.chunk.pomodoro.timer.android.ui.task.TaskFragment"
         android:label="fragment_task"
         tools:layout="@layout/fragment_task" />
+    <dialog
+        android:id="@+id/addTaskDialog"
+        android:name="dev.alessi.chunk.pomodoro.timer.android.ui.dialog.AddEditTaskDialog"
+        android:label="AddTaskDialog" />
 </navigation>

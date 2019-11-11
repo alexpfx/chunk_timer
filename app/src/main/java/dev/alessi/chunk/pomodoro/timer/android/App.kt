@@ -30,7 +30,8 @@ class App : Application(), RepositoryProvider {
     override fun onCreate() {
         super.onCreate()
 
-        val db = Room.databaseBuilder(this, AppDatabase::class.java, "appdatabase").build()
+        val db = Room.databaseBuilder(this, AppDatabase::class.java, "appdatabase")
+            .fallbackToDestructiveMigration().build()
 
         mTaskRepository = TaskRepositoryImpl(db.taskDao(), db.workUnitDao())
 

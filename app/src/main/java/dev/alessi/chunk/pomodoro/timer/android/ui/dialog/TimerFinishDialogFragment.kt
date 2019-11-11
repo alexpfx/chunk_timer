@@ -1,6 +1,7 @@
 package dev.alessi.chunk.pomodoro.timer.android.ui.dialog
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,20 +10,35 @@ import androidx.fragment.app.DialogFragment
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.alessi.chunk.pomodoro.timer.android.R
+import dev.alessi.chunk.pomodoro.timer.android.RepositoryProvider
+import dev.alessi.chunk.pomodoro.timer.android.database.Task
+import dev.alessi.chunk.pomodoro.timer.android.database.WorkUnit
 import dev.alessi.chunk.pomodoro.timer.android.platform.ChunkTimerService
 import dev.alessi.chunk.pomodoro.timer.android.platform.SoundEffectManager
+import dev.alessi.chunk.pomodoro.timer.android.repository.TaskRepository
 import dev.alessi.chunk.pomodoro.timer.android.settings.SettingsFragment
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.*
 
 class TimerFinishDialogFragment : DialogFragment() {
 
     var txtTimer: TextView? = null
     var txtSize: TextView? = null
     var txtTask: TextView? = null
+    private val scope = CoroutineScope(Dispatchers.Main)
+    var mTask: Task? = null
+    var mSize: Int = 0
+    var mTotalTime : Int = -1
+
 
 
     private var mTimerRingIndex = -1
     private var mBreaktimeRingIndex = -1
     private lateinit var sfm: SoundEffectManager
+    lateinit var mTaskRepository: TaskRepository
 
     private fun loadSoundEffectPrefs() {
         val pm = PreferenceManager.getDefaultSharedPreferences(this.activity!!)
@@ -31,9 +47,15 @@ class TimerFinishDialogFragment : DialogFragment() {
 
     }
 
+    override fun onAttach(context: Context) {
+        mTaskRepository = (activity?.applicationContext as RepositoryProvider).getTaskRepository()
+        super.onAttach(context)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sfm = SoundEffectManager(this.activity!!)
+
     }
 
     override fun onDestroy() {
@@ -101,6 +123,9 @@ class TimerFinishDialogFragment : DialogFragment() {
         txtTask = view?.findViewById(R.id.txtTask)
     }
 
+
+
+
     private fun fillTimerFinishBuilder(
         builder: MaterialAlertDialogBuilder,
         arg: Bundle
@@ -108,21 +133,36 @@ class TimerFinishDialogFragment : DialogFragment() {
         builder.setTitle(R.string.message_title_timer_finish)
         builder.setMessage(R.string.message_content_timer_finish)
 
-        val size = arg.getInt(ChunkTimerService.extra_param_sizeIndex, -1)
-        val taskName = arg.getString(ChunkTimerService.extra_param_taskname)
+        mSize = arg.getInt(ChunkTimerService.extra_param_sizeIndex, -1)
+        val taskId = arg.getInt(ChunkTimerService.extra_param_task_id, -1)
+        mTotalTime =
+            (arg.getLong(ChunkTimerService.extra_param_total_time_millis) / 60 / 1000).toInt()
 
+        loadTaskAndUpdateUi(taskId)
 
-        val totalTimeMinutes =
-            arg.getLong(ChunkTimerService.extra_param_total_time_millis) / 60 / 1000
+    }
 
+    private fun loadTaskAndUpdateUi(taskId: Int) {
+        if (taskId != -1){
+            scope.launch {
+                mTask = withContext(Dispatchers.IO){
+                    mTaskRepository.loadTask(taskId)
+                }
+                val wUnit = WorkUnit(finishDate = Date(), size = mSize, taskId = taskId, timeMinutes = mTotalTime)
+
+                updateUi()
+            }
+        }
+    }
+
+    private fun updateUi() {
         txtTimer?.text = context?.resources?.getQuantityString(
             R.plurals.minutes,
-            totalTimeMinutes.toInt(),
-            totalTimeMinutes
+            mTotalTime.toInt(),
+            mTotalTime
         )
-        txtTask?.text = taskName
-        txtSize?.text = size.toString()
-
+        txtTask?.text = mTask?.description?: ""
+        txtSize?.text = mSize.toString()
     }
 
     private fun fillBreak(

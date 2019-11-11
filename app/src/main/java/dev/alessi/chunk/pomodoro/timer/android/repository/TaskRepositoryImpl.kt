@@ -2,9 +2,14 @@ package dev.alessi.chunk.pomodoro.timer.android.repository
 
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.database.TaskDao
+import dev.alessi.chunk.pomodoro.timer.android.database.WorkUnit
 import dev.alessi.chunk.pomodoro.timer.android.database.WorkUnitDao
 
 class TaskRepositoryImpl (private val taskDao: TaskDao, val workUnitDao: WorkUnitDao) : TaskRepository {
+    override suspend fun loadAllFromTask(taskId: Int): Array<WorkUnit> {
+        return workUnitDao.loadAllFromTask(taskId)
+    }
+
     override suspend fun updateTask(task: Task) : Task {
         taskDao.update(task)
 
@@ -18,13 +23,13 @@ class TaskRepositoryImpl (private val taskDao: TaskDao, val workUnitDao: WorkUni
     override suspend fun storeTask(task: Task): Task {
         val id = taskDao.insert(task)
 
-        return Task(uid = id.toInt(), description = task.description)
+        return Task(uid = id.toInt(), description = task.description, dateCreated = task.dateCreated)
 
     }
 
-    override suspend fun loadTask(taskId: Int) {
+    override suspend fun loadTask(taskId: Int): Task {
 
-        taskDao.load(taskId)
+        return taskDao.load(taskId)
 
 
     }

@@ -48,6 +48,8 @@ class TimerFragment : Fragment() {
 
     private var mTimerRunning = false
     private lateinit var mSharedViewModel: SharedViewModel
+    private lateinit var mTaskSharedViewModel: TaskSharedViewModel
+
     private var mSelectedIndex = 2
 
     private var mSizes: List<Int> = listOf(12, 24, 36, 48, 60)
@@ -67,53 +69,6 @@ class TimerFragment : Fragment() {
         const val KEY_LAST_BREAKTIME = "KEY_LAST_BREAKTIME"
     }
 
-
-    override fun onStart() {
-        super.onStart()
-
-        mSharedViewModel.breaktime.observe(this, Observer {
-            mBreaktime = it
-            updateBreaktime()
-            storePreferences()
-
-        })
-
-        mSharedViewModel.sizeIndex.observe(this, Observer {
-            mSelectedIndex = it
-            resetTimer()
-            storePreferences()
-        })
-
-        mSharedViewModel.sizes.observe(this, Observer {
-            mSizes = it
-            updateSizeButtons()
-            resetTimer()
-            storePreferences()
-        })
-
-
-        mSharedViewModel.task.observe(this, Observer {
-            mTask = it
-        })
-
-
-    }
-
-    override fun onStop() {
-        super.onStop()
-
-        mSharedViewModel.breaktime.removeObservers(this)
-
-        mSharedViewModel.sizeIndex.removeObservers(this)
-
-        mSharedViewModel.sizes.removeObservers(this)
-
-        mSharedViewModel.taskname.removeObservers(this)
-
-        mSharedViewModel.task.removeObservers(this)
-
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -121,7 +76,55 @@ class TimerFragment : Fragment() {
             ViewModelProviders.of(this)[SharedViewModel::class.java]
         } ?: throw IllegalStateException("Invalid activity")
 
+        mTaskSharedViewModel = activity?.run {
+            ViewModelProviders.of(this)[TaskSharedViewModel::class.java]
+        } ?: throw IllegalStateException("Invalid activity")
+
+
         loadPreferences()
+
+    }
+
+
+    override fun onStop() {
+        mTaskSharedViewModel.getTask().removeObservers(viewLifecycleOwner)
+        mSharedViewModel.breaktime.removeObservers(viewLifecycleOwner)
+        mSharedViewModel.sizeIndex.removeObservers(viewLifecycleOwner)
+        mSharedViewModel.sizes.removeObservers(viewLifecycleOwner)
+
+        super.onStop()
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        mTaskSharedViewModel.getTask().observe(viewLifecycleOwner, Observer {
+            mTask = it
+
+            updateTask()
+
+        })
+
+        mSharedViewModel.breaktime.observe(viewLifecycleOwner, Observer {
+            mBreaktime = it
+            updateBreaktime()
+            storePreferences()
+
+        })
+
+        mSharedViewModel.sizeIndex.observe(viewLifecycleOwner, Observer {
+            mSelectedIndex = it
+            resetTimer()
+            storePreferences()
+        })
+
+        mSharedViewModel.sizes.observe(viewLifecycleOwner, Observer {
+            mSizes = it
+            updateSizeButtons()
+            resetTimer()
+            storePreferences()
+        })
+
 
     }
 
@@ -185,6 +188,10 @@ class TimerFragment : Fragment() {
 
     }
 
+    private fun updateTask() {
+        txtTask.text = mTask.description
+    }
+
     private fun updateTimer(timeLeft: Long, totalTime: Long) {
         val formatedTime = DateUtils.formatElapsedTime(timeLeft / 1000)
         txtMainTimer.text = formatedTime
@@ -212,17 +219,18 @@ class TimerFragment : Fragment() {
         btnCancelTimer.setOnClickListener(::actionCancelTimer)
         btnStartBreak.setOnClickListener(::actionStartBreaktime)
 
-        edtTask.addTextChangedListener {
-            if (it.toString().trim() == mTask.description.trim()) {
-                return@addTextChangedListener
-            }
-
-            mTask = Task(description = it.toString())
-        }
+//        edtTask.addTextChangedListener {
+//            if (it.toString().trim() == mTask.description.trim()) {
+//                return@addTextChangedListener
+//            }
+//
+//            mTask = Task(description = it.toString())
+//        }
 
         btnIconSetBreak.setOnClickListener(::openBreaktimeSettingsDialog)
         btnIconSetTaskTimes.setOnClickListener(::openTimerSettingsDialog)
-        btnLoadTask.setOnClickListener(::openLoadTaskScreen)
+//        btnLoadTask.setOnClickListener(::openLoadTaskScreen)
+        txtTask.setOnClickListener(::openLoadTaskScreen)
         btnOpenSettings.setOnClickListener(::openSettingsScreen)
 
         sizeBtns =
@@ -257,7 +265,9 @@ class TimerFragment : Fragment() {
             IntentFilter(ChunkTimerService.message_broadcast_message)
         )
 
-        mServiceController?.requestStateUpdate()
+        if (mTimerRunning) {
+            mServiceController?.requestStateUpdate()
+        }
 
         super.onResume()
     }
@@ -331,9 +341,9 @@ class TimerFragment : Fragment() {
         btnStartBreak.visibility = View.VISIBLE
         forAllSizeButtons { b -> b.isEnabled = true }
         layoutTimerSettings.visibility = View.VISIBLE
-        edtTask.visibility = View.VISIBLE
-        txtTask.visibility = View.INVISIBLE
-        btnLoadTask.visibility = View.VISIBLE
+//        edtTask.visibility = View.VISIBLE
+//        txtTask.visibility = View.INVISIBLE
+//        btnLoadTask.visibility = View.VISIBLE
         btnOpenSettings.visibility = View.VISIBLE
     }
 
@@ -343,9 +353,9 @@ class TimerFragment : Fragment() {
         btnStartBreak.visibility = View.INVISIBLE
         forAllSizeButtons { b -> b.isEnabled = false }
         layoutTimerSettings.visibility = View.GONE
-        edtTask.visibility = View.INVISIBLE
-        txtTask.visibility = View.VISIBLE
-        btnLoadTask.visibility = View.INVISIBLE
+//        edtTask.visibility = View.INVISIBLE
+//        txtTask.visibility = View.VISIBLE
+//        btnLoadTask.visibility = View.INVISIBLE
         btnOpenSettings.visibility = View.INVISIBLE
     }
 
@@ -431,7 +441,7 @@ class TimerFragment : Fragment() {
         mTimerRunning = true
         mServiceController?.doStartService(
             mBreaktime * 60 * 1000.toLong(),
-            mSelectedIndex, mTask.description, Command.ACTION_START_BREAK
+            mSelectedIndex, -1, Command.ACTION_START_BREAK
         )
     }
 
@@ -441,30 +451,10 @@ class TimerFragment : Fragment() {
 
         mServiceController?.doStartService(
             timeMinutes * 60 * 1000.toLong(),
-            mSelectedIndex, mTask.description, Command.ACTION_START_TIMER
+            mSelectedIndex, mTask.uid ?: -1, Command.ACTION_START_TIMER
         )
 
-        if (mTask.description.isNotEmpty()) {
-            if (mTask.uid == null) {
-                storeTask()
-            }
 
-
-        }
-
-
-    }
-
-    private fun storeTask() {
-        scope.launch {
-            mTask =
-                withContext(Dispatchers.IO) {
-                    if (mTask.uid == null)
-                        mTaskRepository.storeTask(mTask)
-                    else
-                        mTaskRepository.updateTask(mTask)
-                }
-        }
     }
 
     private fun actionCancelTimer(view: View) {

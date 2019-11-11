@@ -9,7 +9,6 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import dev.alessi.chunk.pomodoro.timer.android.App
-import dev.alessi.chunk.pomodoro.timer.android.settings.SettingsFragment
 import dev.alessi.chunk.pomodoro.timer.android.ui.TimerActivity
 import dev.alessi.chunk.pomodoro.timer.android.ui.TimerFragment
 import dev.alessi.chunk.pomodoro.timer.android.util.*
@@ -25,10 +24,10 @@ class ChunkTimerService : Service() {
     private var mTotalTime: Long = 0
     private lateinit var mChunckTimer: ChunkCountDownTimer
     private lateinit var mNotificationManagerCompat: NotificationManagerCompat
-    private var mTaskname: String? = null
+    private var mTaskId: Int? = null
+
+//    private var mTaskname: String? = null
     private var mSizeIndex: Int? = null
-
-
 
 
 
@@ -55,6 +54,7 @@ class ChunkTimerService : Service() {
         const val extra_param_a_timer_was_finish = "extra_param_a_timer_was_finish"
         const val extra_param_sizeIndex = "extra_param_sizeIndex"
         const val extra_param_taskname = "extra_param_taskname"
+        const val extra_param_task_id = "extra_param_task_id"
 
         val message_broadcast_message =
             ChunkTimerService::class.java.`package`.toString() + "BROADCAST_MESSAGE"
@@ -68,8 +68,6 @@ class ChunkTimerService : Service() {
 
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-
-
         processIntent(intent)
 
         mNotificationManagerCompat = NotificationManagerCompat.from(this)
@@ -143,7 +141,9 @@ class ChunkTimerService : Service() {
         }
 
         mTotalTime = intent.getLongExtra(extra_param_total_time_millis, 24 * 60 * 1000)
-        mTaskname = intent.getStringExtra(extra_param_taskname)
+//        mTaskname = intent.getStringExtra(extra_param_taskname)
+        mTaskId = intent.getIntExtra(extra_param_task_id, -1)
+
         mSizeIndex = intent.getIntExtra(extra_param_sizeIndex, -1)
 
         mChunckTimer = createTimer(mTotalTime).also { it.start() }
@@ -283,14 +283,12 @@ class ChunkTimerService : Service() {
                 args.putInt(extra_param_status, oldState)
 
                 dialogIntent.putExtra(extra_param_total_time_millis, mTotalTime)
-                dialogIntent.putExtra(extra_param_taskname, mTaskname)
+                dialogIntent.putExtra(extra_param_task_id, mTaskId)
                 dialogIntent.putExtra(extra_param_sizeIndex, mSizeIndex)
 
                 dialogIntent.putExtra(extra_param_a_timer_was_finish, true)
                 dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(dialogIntent)
-
-
 
 
             }
@@ -303,7 +301,6 @@ class ChunkTimerService : Service() {
                 val args = Bundle()
                 args.putLong(extra_param_total_time_millis, mTotalTime)
                 args.putInt(extra_param_status, oldState)
-
 
                 val dialogIntent = Intent(this, TimerActivity::class.java)
 

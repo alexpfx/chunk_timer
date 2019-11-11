@@ -9,9 +9,8 @@ class SharedViewModel : ViewModel() {
     val breaktime = MutableLiveData<Int>()
     val sizeIndex = MutableLiveData<Int>()
     val sizes = MutableLiveData<List<Int>>()
-    val taskname = MutableLiveData<String>()
-    val task = MutableLiveData<Task>()
 
+    val task = MutableLiveData<Task>()
 
 
     fun setBreaktime(breaktimeMinutes: Int) {
@@ -28,9 +27,6 @@ class SharedViewModel : ViewModel() {
         this.sizes.value = sizes
     }
 
-    fun setTaskname (task: String){
-        this.taskname.value = task
-    }
 
 
     fun setTask(task: Task){

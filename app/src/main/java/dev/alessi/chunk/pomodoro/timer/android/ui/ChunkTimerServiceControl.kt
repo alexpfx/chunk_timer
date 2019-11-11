@@ -3,7 +3,7 @@ package dev.alessi.chunk.pomodoro.timer.android.ui
 import dev.alessi.chunk.pomodoro.timer.android.util.Command
 
 
-interface ChunkTimerServiceControl{
+interface ChunkTimerServiceControl {
 
     fun doStopService()
 
@@ -12,8 +12,11 @@ interface ChunkTimerServiceControl{
     fun doStartService(
         totalTimeMillis: Long,
         index: Int,
-        task: String, @Command command: Int
+        taskId: Int,
+        @Command command: Int
     )
+
+
 }
 
 
