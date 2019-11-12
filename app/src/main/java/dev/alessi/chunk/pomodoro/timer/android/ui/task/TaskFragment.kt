@@ -16,6 +16,7 @@ import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.RepositoryProvider
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.repository.TaskRepository
+import dev.alessi.chunk.pomodoro.timer.android.ui.MainViewModel
 import dev.alessi.chunk.pomodoro.timer.android.ui.TaskSharedViewModel
 import kotlinx.android.synthetic.main.fragment_task.*
 import kotlinx.coroutines.CoroutineScope
@@ -35,6 +36,7 @@ class TaskFragment : Fragment() {
     private val scope = CoroutineScope(Dispatchers.Main)
 
     private lateinit var mSharedViewModel: TaskSharedViewModel
+    private lateinit var mainViewModel: MainViewModel
 
     companion object{
         const val extra_param_task_id = "extra_param_task_id"
@@ -54,6 +56,12 @@ class TaskFragment : Fragment() {
         } ?: throw IllegalStateException("Invalid activity")
 
         activity?.setTitle(R.string.title_select_task)
+
+        activity?.run {
+            mainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        } ?: throw Throwable("invalid activity")
+
+        mainViewModel.updateTitle(getString(R.string.title_select_task))
 
     }
 

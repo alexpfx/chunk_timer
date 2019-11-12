@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.preference.PreferenceManager
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.platform.SoundEffectManager
+import dev.alessi.chunk.pomodoro.timer.android.ui.MainViewModel
 import dev.alessi.chunk.pomodoro.timer.android.ui.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_settings.*
 
@@ -31,10 +32,22 @@ class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private var mTimerRingIndex = -1
     private var mBreaktimeRingIndex = -1
+    private lateinit var mainViewModel: MainViewModel
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
 
 
+    }
+
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        activity?.run {
+            mainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        } ?: throw Throwable("invalid activity")
+
+        mainViewModel.updateTitle(getString(R.string.settings))
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -87,7 +100,7 @@ class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        activity?.setTitle(R.string.settings)
+
 
         createSpinners()
         super.onViewCreated(view, savedInstanceState)

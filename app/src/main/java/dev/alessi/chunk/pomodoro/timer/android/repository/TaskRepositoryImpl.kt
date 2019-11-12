@@ -27,6 +27,10 @@ class TaskRepositoryImpl (private val taskDao: TaskDao, val workUnitDao: WorkUni
 
     }
 
+    override suspend fun storeWorkUnit(workUnit: WorkUnit){
+        val id = workUnitDao.insertWorkUnit(workUnit)
+    }
+
     override suspend fun loadTask(taskId: Int): Task {
 
         return taskDao.load(taskId)

@@ -17,7 +17,7 @@ data class WorkUnit(
     @PrimaryKey(autoGenerate = true)
     val uid: Int? = null,
     val finishDate: Date,
-    val size: Int,
+    @SizeIndex val size: Int,
     val timeMinutes: Int,
     val taskId: Int
 )

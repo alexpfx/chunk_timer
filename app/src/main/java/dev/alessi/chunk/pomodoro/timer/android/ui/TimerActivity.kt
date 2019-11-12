@@ -1,18 +1,18 @@
 package dev.alessi.chunk.pomodoro.timer.android.ui
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.platform.ChunkTimerService
-import dev.alessi.chunk.pomodoro.timer.android.platform.SoundEffectManager
 import dev.alessi.chunk.pomodoro.timer.android.util.Command
 import dev.alessi.chunk.pomodoro.timer.android.util.IntentBuilder
 import kotlinx.android.synthetic.main.toolbar.*
@@ -20,6 +20,8 @@ import kotlinx.android.synthetic.main.toolbar.*
 class TimerActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener, ChunkTimerServiceControl {
 
+
+    lateinit var viewModel: MainViewModel
 
     override fun onDestinationChanged(
         controller: NavController,
@@ -29,11 +31,6 @@ class TimerActivity : AppCompatActivity(),
         supportActionBar?.setDisplayHomeAsUpEnabled(controller.currentDestination?.id != controller.graph.startDestination)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
-
-
-    }
 
     override fun onDestroy() {
 
@@ -67,6 +64,13 @@ class TimerActivity : AppCompatActivity(),
 
         window.setBackgroundDrawableResource(R.drawable.pizza_background)
         setSupportActionBar(toolbar)
+
+
+        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+
+        viewModel.title.observe(this, Observer {
+            supportActionBar?.title = it
+        })
 
     }
 

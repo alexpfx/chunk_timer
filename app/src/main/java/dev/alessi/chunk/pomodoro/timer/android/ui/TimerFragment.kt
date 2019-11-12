@@ -49,6 +49,7 @@ class TimerFragment : Fragment() {
     private var mTimerRunning = false
     private lateinit var mSharedViewModel: SharedViewModel
     private lateinit var mTaskSharedViewModel: TaskSharedViewModel
+    private lateinit var mainViewModel: MainViewModel
 
     private var mSelectedIndex = 2
 
@@ -69,8 +70,8 @@ class TimerFragment : Fragment() {
         const val KEY_LAST_BREAKTIME = "KEY_LAST_BREAKTIME"
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 
         mSharedViewModel = activity?.run {
             ViewModelProviders.of(this)[SharedViewModel::class.java]
@@ -80,8 +81,19 @@ class TimerFragment : Fragment() {
             ViewModelProviders.of(this)[TaskSharedViewModel::class.java]
         } ?: throw IllegalStateException("Invalid activity")
 
+        activity?.run {
+            mainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        } ?: throw Throwable("invalid activity")
 
         loadPreferences()
+
+        mainViewModel.updateTitle(getString(R.string.app_name))
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+
 
     }
 
@@ -218,6 +230,7 @@ class TimerFragment : Fragment() {
         btnStartTimer.setOnClickListener(::actionStartTimer)
         btnCancelTimer.setOnClickListener(::actionCancelTimer)
         btnStartBreak.setOnClickListener(::actionStartBreaktime)
+
 
 //        edtTask.addTextChangedListener {
 //            if (it.toString().trim() == mTask.description.trim()) {

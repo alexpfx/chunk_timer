@@ -11,4 +11,5 @@ interface TaskRepository {
     suspend fun loadAllFromTask(taskId: Int): Array<WorkUnit>
     suspend fun updateTask(task: Task): Task
 
+    suspend fun storeWorkUnit(workUnit: WorkUnit)
 }

@@ -146,9 +146,12 @@ class TimerFinishDialogFragment : DialogFragment() {
         if (taskId != -1){
             scope.launch {
                 mTask = withContext(Dispatchers.IO){
-                    mTaskRepository.loadTask(taskId)
+                    val task = mTaskRepository.loadTask(taskId)
+                    val wUnit = WorkUnit(finishDate = Date(), size = mSize, taskId = taskId, timeMinutes = mTotalTime)
+                    mTaskRepository.storeWorkUnit(wUnit)
+
+                    task
                 }
-                val wUnit = WorkUnit(finishDate = Date(), size = mSize, taskId = taskId, timeMinutes = mTotalTime)
 
                 updateUi()
             }
