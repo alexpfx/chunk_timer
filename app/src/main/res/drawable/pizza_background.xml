@@ -7,9 +7,9 @@
     </item>
     <item>
         <bitmap
-            android:src="@drawable/g12"
+            android:src="@drawable/pizza_bkg"
             android:alpha="0.1"
-            android:gravity="fill" />
+            android:gravity="center" />
 
     </item>
 
