@@ -41,7 +41,7 @@ class TimerFragment : Fragment() {
 
 
     private var TAG = TimerFragment::class.java.name
-    private lateinit var sizeBtns: List<BadgedButton>
+    /*private lateinit var sizeBtns: List<BadgedButton>*/
 
 
     private var mTimerRunning = false
@@ -58,7 +58,6 @@ class TimerFragment : Fragment() {
     private var mBreaktime = 0
     private var mServiceController: ChunkTimerServiceControl? = null
     private lateinit var mTaskRepository: TaskRepository
-    private val scope = CoroutineScope(Dispatchers.Main)
 
 
     companion object {
@@ -72,10 +71,6 @@ class TimerFragment : Fragment() {
     }
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-
-        super.onCreate(savedInstanceState)
-    }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -234,26 +229,17 @@ class TimerFragment : Fragment() {
         btnClearTask.setOnClickListener(::actionClearTask)
 
 
-//        edtTask.addTextChangedListener {
-//            if (it.toString().trim() == mTask.description.trim()) {
-//                return@addTextChangedListener
-//            }
-//
-//            mTask = Task(description = it.toString())
-//        }
-
         btnIconSetBreak.setOnClickListener(::openBreaktimeSettingsDialog)
         btnIconSetTaskTimes.setOnClickListener(::openTimerSettingsDialog)
-//        btnLoadTask.setOnClickListener(::openLoadTaskScreen)
         txtTask.setOnClickListener(::openLoadTaskScreen)
         btnOpenSettings.setOnClickListener(::openSettingsScreen)
 
-        sizeBtns =
+        /*sizeBtns =
             listOf<BadgedButton>(frBtnSizePP, frBtnSizeP, frBtnSizeM, frBtnSizeG, frBtnSizeGG)
 
         forAllSizeButtons { _, it ->
             it.setOnClickListener(::onSizeSetupBtnClick)
-        }
+        }*/
 
         super.onViewCreated(view, savedInstanceState)
     }
@@ -355,9 +341,7 @@ class TimerFragment : Fragment() {
         btnStartBreak.visibility = View.VISIBLE
         forAllSizeButtons { b -> b.isEnabled = true }
         layoutTimerSettings.visibility = View.VISIBLE
-//        edtTask.visibility = View.VISIBLE
-//        txtTask.visibility = View.INVISIBLE
-//        btnLoadTask.visibility = View.VISIBLE
+
         btnOpenSettings.visibility = View.VISIBLE
         txtTask.isEnabled = true
         btnClearTask.visibility = View.VISIBLE
@@ -369,9 +353,7 @@ class TimerFragment : Fragment() {
         btnStartBreak.visibility = View.INVISIBLE
         forAllSizeButtons { b -> b.isEnabled = false }
         layoutTimerSettings.visibility = View.GONE
-//        edtTask.visibility = View.INVISIBLE
-//        txtTask.visibility = View.VISIBLE
-//        btnLoadTask.visibility = View.INVISIBLE
+
         btnOpenSettings.visibility = View.INVISIBLE
         txtTask.isEnabled = false
         btnClearTask.visibility = View.INVISIBLE
@@ -485,11 +467,11 @@ class TimerFragment : Fragment() {
     }
 
     private fun forAllSizeButtons(action: (Int, BadgedButton) -> Unit) {
-        sizeBtns.forEachIndexed(action)
+//        sizeBtns.forEachIndexed(action)
     }
 
     private fun forAllSizeButtons(action: (BadgedButton) -> Unit) {
-        sizeBtns.onEach(action)
+//        sizeBtns.onEach(action)
     }
 
 }

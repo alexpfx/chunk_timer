@@ -24,9 +24,9 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSizePP"
         style="@style/TimerSelectSizeButton"
-        android:background="@color/white"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@color/white"
 
         android:tag="@string/tag_size_index_0"
 

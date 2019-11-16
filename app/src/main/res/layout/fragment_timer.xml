@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-
+    android:background="#44eb6464"
 
     >
 
@@ -20,99 +20,6 @@
         tools:context=".ui.TimerActivity">
 
 
-        <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
-            android:id="@+id/frBtnSizePP"
-
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="32dp"
-
-            android:layout_marginEnd="2dp"
-            android:layout_marginRight="2dp"
-            android:tag="@string/tag_size_index_0"
-            app:badgeText="18 min"
-            app:buttonIcon="@drawable/ic_pizza_2slices_48dp"
-            app:layout_constraintEnd_toStartOf="@+id/frBtnSizeP"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-
-        </dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton>
-
-        <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
-            android:id="@+id/frBtnSizeP"
-
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-
-            android:layout_marginEnd="2dp"
-            android:layout_marginRight="2dp"
-            android:tag="@string/tag_size_index_1"
-            app:buttonIcon="@drawable/ic_pizza_3slices_48dp"
-            app:layout_constraintBottom_toBottomOf="@+id/frBtnSizePP"
-            app:layout_constraintEnd_toStartOf="@+id/frBtnSizeM"
-
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/frBtnSizePP"
-            app:layout_constraintTop_toTopOf="@+id/frBtnSizePP">
-
-        </dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton>
-
-
-        <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
-            android:id="@+id/frBtnSizeM"
-
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-
-            android:layout_marginEnd="2dp"
-            android:layout_marginRight="2dp"
-            android:tag="@string/tag_size_index_2"
-            app:buttonIcon="@drawable/ic_pizza_4slices_48dp"
-            app:layout_constraintEnd_toStartOf="@+id/frBtnSizeG"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/frBtnSizeP"
-            app:layout_constraintTop_toTopOf="@+id/frBtnSizeP">
-
-
-        </dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton>
-
-        <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
-            android:id="@+id/frBtnSizeG"
-
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-
-            android:layout_marginEnd="2dp"
-            android:layout_marginRight="2dp"
-            android:tag="@string/tag_size_index_3"
-            app:buttonIcon="@drawable/ic_pizza_5slices_48dp"
-            app:layout_constraintEnd_toStartOf="@+id/frBtnSizeGG"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/frBtnSizeM"
-            app:layout_constraintTop_toTopOf="@+id/frBtnSizeM" />
-
-
-        <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
-            android:id="@+id/frBtnSizeGG"
-
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:tag="@string/tag_size_index_4"
-            app:buttonIcon="@drawable/ic_pizza_full_48dp"
-            app:iconSize="@dimen/select_size_icon_size"
-            app:iconTint="@android:color/transparent"
-            app:iconTintMode="add"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/frBtnSizeG"
-            app:layout_constraintTop_toTopOf="@+id/frBtnSizeG" />
         <!--<dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
             android:id="@+id/frBtnSizePP"
             android:layout_width="0dp"
@@ -206,14 +113,14 @@
             android:layout_height="1dp"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="100dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
 
+            android:layout_marginRight="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/frBtnSizePP" />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <com.google.android.material.button.MaterialButton
@@ -450,6 +357,119 @@
                 android:textColor="@color/text_color_primary" />-->
 
         </FrameLayout>
+
+        <LinearLayout
+            android:background="@color/white"
+
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:orientation="horizontal"
+            android:paddingTop="12dp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            >
+
+            <FrameLayout
+                android:background="#44eb6464"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="2dp">
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="12dp"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/pizza640red" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:background="#445cbdea"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+
+                    android:adjustViewBounds="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="10dp"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/pizza640blue" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:background="#44f6e84c"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:adjustViewBounds="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="8dp"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/pizza640yellow" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="#44b9b9b9"
+
+
+                android:layout_weight="1">
+
+                <ImageButton
+
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="4dp"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/pizza640grey" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="#447bdb6b"
+
+                android:layout_weight="1">
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:adjustViewBounds="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="2dp"
+
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/pizza640green" />
+
+            </FrameLayout>
+
+
+        </LinearLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
