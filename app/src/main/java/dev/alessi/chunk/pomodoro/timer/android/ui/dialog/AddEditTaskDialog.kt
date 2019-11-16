@@ -32,7 +32,7 @@ class AddEditTaskDialog : DialogFragment(), TextWatcher {
     lateinit var mEdtTask: TextInputEditText
     lateinit var mInputTask: TextInputLayout
     lateinit var mPositiveButton: Button
-    var mTask: Task = Task(description = "")
+    var mTask: Task = Task(description = "", uid = null)
     lateinit var mTaskRepository: TaskRepository
     var isEditMode = false
 
@@ -118,7 +118,7 @@ class AddEditTaskDialog : DialogFragment(), TextWatcher {
         scope.launch {
             withContext(Dispatchers.IO) {
                 if (!isEditMode){
-                    mTaskRepository.storeTask(Task(description = mTask.description, dateCreated = Date()))
+                    mTaskRepository.storeTask(Task(uid = null, description = mTask.description, dateCreated = Date()))
                 }else{
                     mTaskRepository.updateTask(mTask)
                 }

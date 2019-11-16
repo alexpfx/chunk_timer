@@ -30,9 +30,8 @@ class TaskRecyclerAdapter(
 
     private fun taskSelect(v: View) {
         onDescriptionClick(v.tag as Task)
-
-
     }
+
 
     override fun getItemCount(): Int {
         return items.size
@@ -41,14 +40,16 @@ class TaskRecyclerAdapter(
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         val item = items[position]
 
-        holder.bind(item)
+        holder.bind(item, item.task.uid != -1)
 
     }
 
     fun updateItems(tasks: List<Task>) {
         this.items.clear()
         for (task in tasks) {
-            this.items.add(TaskSummary(task))
+            if (task.uid != -1 || task.slices.isNotEmpty()){
+                this.items.add(TaskSummary(task))
+            }
         }
 
         notifyDataSetChanged()
@@ -77,12 +78,14 @@ class TaskViewHolder(
         }
     }
 
-    fun bind(taskSummary: TaskSummary) {
+    fun bind(taskSummary: TaskSummary, showSelectButton: Boolean) {
         txtTaskDesc.text = taskSummary.task.description
         txtSizeSummary.text = taskSummary.sizeSummary
         txtTimeSummary.text = taskSummary.timeSummary
         txtTaskDesc.tag = taskSummary.task
         btnSelectTask.tag = taskSummary.task
+        btnSelectTask.visibility = if (showSelectButton) View.VISIBLE else View.INVISIBLE
+
 
     }
 

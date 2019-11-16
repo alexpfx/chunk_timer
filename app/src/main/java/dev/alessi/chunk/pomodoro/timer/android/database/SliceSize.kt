@@ -1,7 +1,5 @@
 package dev.alessi.chunk.pomodoro.timer.android.database
 
-val sizeNames = listOf("PP", "P", "M", "G", "GG")
-
 
 annotation class SizeIndex{
 

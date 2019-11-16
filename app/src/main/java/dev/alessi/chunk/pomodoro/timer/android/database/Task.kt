@@ -4,12 +4,16 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.*
 
-@Entity(ignoredColumns = arrayOf("slices"))
+@Entity(ignoredColumns = ["slices"])
 data class Task(
     @PrimaryKey(autoGenerate = true)
-    var uid: Int? = null,
+    var uid: Int?,
     var description: String = "",
     var dateCreated: Date? = null,
-    var slices: List<WorkUnit>? = listOf()
+    var slices: List<WorkUnit> = listOf()
 
-)
+
+
+){
+    constructor(): this(null, "", null, listOf())
+}

@@ -20,7 +20,7 @@
 
 
             android:layout_marginRight="4dp"
-            android:hint="@string/button_label_sizes_p"
+            android:hint="@string/label_sizes_p"
             app:layout_constraintBottom_toBottomOf="@+id/inputSizePP"
             app:layout_constraintEnd_toStartOf="@+id/inputSizeM"
             app:layout_constraintHorizontal_bias="0.5"
@@ -48,7 +48,7 @@
 
 
             android:layout_marginRight="4dp"
-            android:hint="@string/button_label_sizes_g"
+            android:hint="@string/label_sizes_g"
             app:layout_constraintBottom_toBottomOf="@+id/inputSizeM"
             app:layout_constraintEnd_toStartOf="@+id/inputSizeGG"
             app:layout_constraintHorizontal_bias="0.5"
@@ -81,7 +81,7 @@
             android:layout_marginEnd="4dp"
             android:layout_marginRight="4dp"
             android:layout_marginBottom="16dp"
-            android:hint="@string/button_label_sizes_pp"
+            android:hint="@string/label_sizes_pp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/inputSizeP"
             app:layout_constraintHorizontal_bias="0.5"
@@ -109,7 +109,7 @@
 
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            android:hint="@string/button_label_sizes_gg"
+            android:hint="@string/label_sizes_gg"
             app:layout_constraintBottom_toBottomOf="@+id/inputSizeG"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -136,7 +136,7 @@
 
 
             android:layout_marginRight="4dp"
-            android:hint="@string/button_label_sizes_m"
+            android:hint="@string/label_sizes_m"
             app:layout_constraintBottom_toBottomOf="@+id/inputSizeP"
             app:layout_constraintEnd_toStartOf="@+id/inputSizeG"
             app:layout_constraintHorizontal_bias="0.5"

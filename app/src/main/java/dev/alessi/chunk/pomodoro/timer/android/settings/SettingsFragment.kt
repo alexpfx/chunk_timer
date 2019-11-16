@@ -1,6 +1,7 @@
 package dev.alessi.chunk.pomodoro.timer.android.settings
 
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +20,9 @@ import kotlinx.android.synthetic.main.fragment_settings.*
 /**
  * A simple [Fragment] subclass.
  */
-class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener {
+class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener,
+    SharedPreferences.OnSharedPreferenceChangeListener {
+
 
     lateinit var sfm: SoundEffectManager
 
@@ -33,6 +36,8 @@ class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private var mTimerRingIndex = -1
     private var mBreaktimeRingIndex = -1
     private lateinit var mainViewModel: MainViewModel
+    private var mSound: Int = -1
+    private lateinit var mPreference: SharedPreferences
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
 
@@ -42,20 +47,43 @@ class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        mPreference = PreferenceManager.getDefaultSharedPreferences(this.context)
+
 
         activity?.run {
             mainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         } ?: throw Throwable("invalid activity")
 
         mainViewModel.updateTitle(getString(R.string.settings))
+
     }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        if (key == pref_ring_timer || key == pref_ring_breaktime){
+            val sound = sharedPreferences?.getInt(key, -1)
+            sound?.let { sfm.play(it) }
+        }
+
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mPreference.registerOnSharedPreferenceChangeListener(this)
+
+
+    }
+
+    override fun onStop() {
+        mPreference.unregisterOnSharedPreferenceChangeListener(this)
+        super.onStop()
+    }
+
+
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
-
-        val p = PreferenceManager.getDefaultSharedPreferences(this.context)
-
-        sfm.play(position - 1)
+        mSound = position - 1
 
         var prefKey = "0"
 
@@ -65,9 +93,10 @@ class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
 
 
-        p.edit().putInt(prefKey, position).apply()
-    }
+        mPreference.edit().putInt(prefKey, mSound).apply()
 
+
+    }
 
 
     override fun onCreateView(
@@ -88,10 +117,10 @@ class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private fun loadPreferences() {
         mTimerRingIndex =
-            PreferenceManager.getDefaultSharedPreferences(this.context).getInt(pref_ring_timer, -1)
+            PreferenceManager.getDefaultSharedPreferences(this.context).getInt(pref_ring_timer, -1) + 1
         mBreaktimeRingIndex = PreferenceManager.getDefaultSharedPreferences(this.context).getInt(
             pref_ring_breaktime, -1
-        )
+        ) + 1
     }
 
     override fun onDestroy() {

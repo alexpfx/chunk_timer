@@ -13,6 +13,7 @@ import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.RepositoryProvider
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.database.WorkUnit
+
 import dev.alessi.chunk.pomodoro.timer.android.platform.ChunkTimerService
 import dev.alessi.chunk.pomodoro.timer.android.platform.SoundEffectManager
 import dev.alessi.chunk.pomodoro.timer.android.repository.TaskRepository
@@ -29,10 +30,10 @@ class TimerFinishDialogFragment : DialogFragment() {
     var txtSize: TextView? = null
     var txtTask: TextView? = null
     private val scope = CoroutineScope(Dispatchers.Main)
-    var mTask: Task? = null
-    var mSize: Int = 0
-    var mTotalTime : Int = -1
 
+    var mSize: Int = 0
+    var mTotalTime: Int = -1
+    lateinit var mWorkUnit: WorkUnit
 
 
     private var mTimerRingIndex = -1
@@ -124,8 +125,6 @@ class TimerFinishDialogFragment : DialogFragment() {
     }
 
 
-
-
     private fun fillTimerFinishBuilder(
         builder: MaterialAlertDialogBuilder,
         arg: Bundle
@@ -143,29 +142,36 @@ class TimerFinishDialogFragment : DialogFragment() {
     }
 
     private fun loadTaskAndUpdateUi(taskId: Int) {
-        if (taskId != -1){
-            scope.launch {
-                mTask = withContext(Dispatchers.IO){
-                    val task = mTaskRepository.loadTask(taskId)
-                    val wUnit = WorkUnit(finishDate = Date(), size = mSize, taskId = taskId, timeMinutes = mTotalTime)
-                    mTaskRepository.storeWorkUnit(wUnit)
 
-                    task
-                }
+        scope.launch {
+            mWorkUnit = withContext(Dispatchers.IO) {
+                val wu = WorkUnit(
+                    finishDate = Date(),
+                    sizeId = mSize,
+                    taskId = taskId,
+                    timeMinutes = mTotalTime
+                )
+                val id = mTaskRepository.storeWorkUnit(wu)
+                val newWUnit = mTaskRepository.loadWorkUnit(id)
 
-                updateUi()
+                newWUnit
             }
+
+            updateUi()
         }
+
     }
 
     private fun updateUi() {
+
         txtTimer?.text = context?.resources?.getQuantityString(
             R.plurals.minutes,
-            mTotalTime.toInt(),
-            mTotalTime
+            mWorkUnit.timeMinutes, mWorkUnit.timeMinutes
+
         )
-        txtTask?.text = mTask?.description?: ""
-        txtSize?.text = mSize.toString()
+        txtSize?.text = mWorkUnit.taskSize?.name
+        txtTask?.text = mWorkUnit.task?.description ?: ""
+
     }
 
     private fun fillBreak(

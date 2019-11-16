@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">Pizza Slice Timer</string>
-    <string name="button_label_sizes_pp">PP</string>
-    <string name="button_label_sizes_p">P</string>
-    <string name="button_label_sizes_m">M</string>
-    <string name="button_label_sizes_g">G</string>
-    <string name="button_label_sizes_gg">GG</string>
+    <string name="label_sizes_pp">PP</string>
+    <string name="label_sizes_p">P</string>
+    <string name="label_sizes_m">M</string>
+    <string name="label_sizes_g">G</string>
+    <string name="label_sizes_gg">GG</string>
     <string name="button_label_cancel">Cancelar Tarefa</string>
     <string name="button_label_start">Iniciar Tarefa</string>
     <string name="button_label_sort_and_confirm">Ordenar e Aplicar</string>
@@ -38,7 +38,8 @@
     <string name="label_task_time">Tarefa</string>
     <string name="label_breaktime">Intervalo</string>
     <string name="label_task">Tarefa: </string>
-    <string name="message_hint_choose_task">&lt; Adicionar tarefa &gt;</string>
+    <string name="message_hint_workunit_without_task">(Sem tarefa) </string>
+    <string name="message_hint_choose_task">&lt; Clique para escolher ou adicionar uma tarefa &gt;</string>
 
     <string name="message_exit_app">Tem certeza que deseja sair do App?</string>
 
@@ -89,6 +90,10 @@
     <string name="label_ringing_breaktime">Intervalo</string>
     <string name="label_ringing_tick">Tick</string>
 
+    <string name="label_menu_setup_timer">Configurar Timers</string>
+    <string name="label_menu_setup_breaktime">Configurar Intervalo</string>
+    <string name="label_menu_settings">Preferências</string>
+    <string name="label_menu_about">About</string>
 
 </resources>
 

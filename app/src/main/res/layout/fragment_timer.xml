@@ -265,15 +265,15 @@
             tools:text="00:00:00">
 
             <TextView
-                android:gravity="center"
-                android:textStyle="bold"
                 android:id="@+id/txtMainTimer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:gravity="center"
                 android:text="00:00"
                 android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display3" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+                android:textStyle="bold" />
 
         </FrameLayout>
 
@@ -293,13 +293,13 @@
         <LinearLayout
             android:id="@+id/layoutTimerSettings"
             style="@style/FrameLayoutBrackground"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:gravity="center"
 
-            app:layout_constraintEnd_toEndOf="@+id/frm"
-            app:layout_constraintStart_toStartOf="@+id/frm"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/separator_view">
 
             <ImageButton
@@ -353,6 +353,24 @@
                 tools:text="10:00" />
 
 
+            <ImageButton
+                android:id="@+id/btnOpenSettings"
+                style="@style/Widget.AppCompat.ImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="8dp"
+                android:tint="@color/text_color_primary"
+                app:layout_constraintBottom_toBottomOf="@+id/layoutTimerSettings"
+                app:layout_constraintStart_toEndOf="@+id/layoutTimerSettings"
+                app:layout_constraintTop_toTopOf="@+id/layoutTimerSettings"
+                app:srcCompat="@drawable/ic_settings_black_24dp" />
+
+
         </LinearLayout>
 
 
@@ -370,51 +388,47 @@
             app:layout_constraintBottom_toBottomOf="@+id/btnStartTimer"
             app:layout_constraintEnd_toEndOf="parent" />-->
 
+
         <ImageButton
-            android:id="@+id/btnOpenSettings"
+            android:id="@+id/btnClearTask"
             style="@style/Widget.AppCompat.ImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-
-
-            android:layout_marginLeft="15dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:padding="8dp"
             android:tint="@color/text_color_primary"
-            app:layout_constraintBottom_toBottomOf="@+id/layoutTimerSettings"
-            app:layout_constraintStart_toEndOf="@+id/layoutTimerSettings"
-            app:layout_constraintTop_toTopOf="@+id/layoutTimerSettings"
-            app:srcCompat="@drawable/ic_settings_black_24dp" />
+            app:layout_constraintBottom_toBottomOf="@+id/frm"
+            app:layout_constraintStart_toEndOf="@+id/frm"
+            app:layout_constraintTop_toTopOf="@+id/frm"
+            app:srcCompat="@drawable/ic_clear_24dp" />
 
         <FrameLayout
             android:id="@+id/frm"
             style="@style/FrameLayoutBrackground"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
 
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
 
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
             android:focusable="true"
 
             android:focusableInTouchMode="true"
 
 
             android:foregroundGravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/layoutTimerSettings"
+            app:layout_constraintStart_toStartOf="@+id/layoutTimerSettings"
             app:layout_constraintTop_toBottomOf="@+id/layoutTimerSettings">
+
 
             <TextView
 
-                android:clickable="true"
                 android:id="@+id/txtTask"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:clickable="true"
                 android:gravity="center"
                 android:maxWidth="200dp"
                 android:maxHeight="100dp"
@@ -422,8 +436,7 @@
                 android:minHeight="64dp"
 
                 android:text="@string/message_hint_choose_task"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                 />
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
             <!--<TextView
                 android:id="@+id/txtTaskLabel"
@@ -437,7 +450,6 @@
                 android:textColor="@color/text_color_primary" />-->
 
         </FrameLayout>
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

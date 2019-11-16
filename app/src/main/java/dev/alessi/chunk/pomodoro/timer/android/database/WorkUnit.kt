@@ -1,23 +1,30 @@
 package dev.alessi.chunk.pomodoro.timer.android.database
 
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
+import androidx.room.*
 import java.util.*
 
 @Entity(
-    tableName = "timeSlice",
     foreignKeys = [ForeignKey(
         entity = Task::class,
         parentColumns = arrayOf("uid"),
         childColumns = arrayOf("taskId")
-    )]
+    ), ForeignKey(entity = TaskSize::class, parentColumns = ["id"], childColumns = ["sizeId"])]
 )
 data class WorkUnit(
     @PrimaryKey(autoGenerate = true)
-    val uid: Int? = null,
-    val finishDate: Date,
-    @SizeIndex val size: Int,
-    val timeMinutes: Int,
-    val taskId: Int
-)
+    var uid: Int? = null,
+    var finishDate: Date,
+    var timeMinutes: Int,
+    var taskId: Int,
+    var sizeId: Int,
+    @Ignore
+    var task: Task? = null,
+    @Ignore
+    var taskSize: TaskSize? = null
+
+
+
+
+){
+    constructor(): this(0, Date(), 0,0, 0,null, null)
+}

@@ -106,7 +106,6 @@ class TaskFragment : Fragment() {
 
         fabAddTask.setOnClickListener(::actionOpenAddTaskDialog)
 
-
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -123,9 +122,9 @@ class TaskFragment : Fragment() {
         scope.launch {
             val tasks = withContext(Dispatchers.IO) {
                 val items = mTaskRepository.loadAllTasks()
-                items.forEach {
-                    val wItems = mTaskRepository.loadAllFromTask(it.uid!!)
-                    it.slices = wItems.toList()
+                items.forEach {task ->
+                    val wItems = mTaskRepository.loadAllFromTask(task.uid!!)
+                    task.slices = wItems.toList()
                 }
                 items
             }

@@ -12,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -36,8 +35,6 @@ import dev.alessi.chunk.pomodoro.timer.android.util.IntentBuilder
 import kotlinx.android.synthetic.main.fragment_timer.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class TimerFragment : Fragment() {
@@ -46,6 +43,7 @@ class TimerFragment : Fragment() {
     private var TAG = TimerFragment::class.java.name
     private lateinit var sizeBtns: List<BadgedButton>
 
+
     private var mTimerRunning = false
     private lateinit var mSharedViewModel: SharedViewModel
     private lateinit var mTaskSharedViewModel: TaskSharedViewModel
@@ -53,9 +51,10 @@ class TimerFragment : Fragment() {
 
     private var mSelectedIndex = 2
 
+
     private var mSizes: List<Int> = listOf(12, 24, 36, 48, 60)
     private var mGson: Gson = Gson()
-    private var mTask: Task = Task(description = "")
+    private var mTask: Task = Task(description = "", uid = -1)
     private var mBreaktime = 0
     private var mServiceController: ChunkTimerServiceControl? = null
     private lateinit var mTaskRepository: TaskRepository
@@ -68,10 +67,18 @@ class TimerFragment : Fragment() {
         const val KEY_SIZE_JSON_ARRAY = "KEY_SIZE_JSON_ARRAY"
         const val KEY_LAST_INDEX = "key_last_index"
         const val KEY_LAST_BREAKTIME = "KEY_LAST_BREAKTIME"
+
+
     }
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+
+        super.onCreate(savedInstanceState)
+    }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
 
         mSharedViewModel = activity?.run {
             ViewModelProviders.of(this)[SharedViewModel::class.java]
@@ -89,14 +96,6 @@ class TimerFragment : Fragment() {
 
         mainViewModel.updateTitle(getString(R.string.app_name))
     }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-
-
-    }
-
 
     override fun onStop() {
         mTaskSharedViewModel.getTask().removeObservers(viewLifecycleOwner)
@@ -201,7 +200,9 @@ class TimerFragment : Fragment() {
     }
 
     private fun updateTask() {
-        txtTask.text = mTask.description
+        txtTask.setText(mTask.description)
+
+
     }
 
     private fun updateTimer(timeLeft: Long, totalTime: Long) {
@@ -230,6 +231,7 @@ class TimerFragment : Fragment() {
         btnStartTimer.setOnClickListener(::actionStartTimer)
         btnCancelTimer.setOnClickListener(::actionCancelTimer)
         btnStartBreak.setOnClickListener(::actionStartBreaktime)
+        btnClearTask.setOnClickListener(::actionClearTask)
 
 
 //        edtTask.addTextChangedListener {
@@ -313,9 +315,8 @@ class TimerFragment : Fragment() {
     fun showTimerStarted() {
         btnCancelTimer.visibility = View.VISIBLE
         btnCancelTimer.text = getText(R.string.button_label_cancel)
+        txtTask.setText(mTask.description)
 
-
-        txtTask.text = mTask.description
         disableViews()
 
     }
@@ -324,7 +325,7 @@ class TimerFragment : Fragment() {
         btnCancelTimer.visibility = View.VISIBLE
         btnCancelTimer.text = getText(R.string.button_label_cancel_break)
 
-        txtTask.text = getString(R.string.label_breaktime)
+        txtTask.setText(getString(R.string.label_breaktime))
 
         disableViews()
     }
@@ -358,6 +359,8 @@ class TimerFragment : Fragment() {
 //        txtTask.visibility = View.INVISIBLE
 //        btnLoadTask.visibility = View.VISIBLE
         btnOpenSettings.visibility = View.VISIBLE
+        txtTask.isEnabled = true
+        btnClearTask.visibility = View.VISIBLE
     }
 
 
@@ -370,6 +373,8 @@ class TimerFragment : Fragment() {
 //        txtTask.visibility = View.VISIBLE
 //        btnLoadTask.visibility = View.INVISIBLE
         btnOpenSettings.visibility = View.INVISIBLE
+        txtTask.isEnabled = false
+        btnClearTask.visibility = View.INVISIBLE
     }
 
 
@@ -449,6 +454,9 @@ class TimerFragment : Fragment() {
 
     }
 
+    private fun actionClearTask(view: View){
+        mTaskSharedViewModel.setTask(Task(description = getString(R.string.message_hint_choose_task), uid = -1))
+    }
 
     private fun actionStartBreaktime(view: View) {
         mTimerRunning = true
@@ -464,7 +472,7 @@ class TimerFragment : Fragment() {
 
         mServiceController?.doStartService(
             timeMinutes * 60 * 1000.toLong(),
-            mSelectedIndex, mTask.uid ?: -1, Command.ACTION_START_TIMER
+            mSelectedIndex, mTask.uid!!, ACTION_START_TIMER
         )
 
 

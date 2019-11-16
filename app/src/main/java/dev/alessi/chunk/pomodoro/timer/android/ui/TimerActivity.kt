@@ -92,6 +92,8 @@ class TimerActivity : AppCompatActivity(),
         if (item.itemId == R.id.home) {
             getNavController().popBackStack()
             return true
+        }else if (item.itemId == R.id.about_fragment){
+            getNavController().navigate(R.id.aboutFragment)
         }
 
 
@@ -115,6 +117,7 @@ class TimerActivity : AppCompatActivity(),
 //        bundle.putString(ChunkTimerService.extra_param_taskname, task)
         bundle.putInt(ChunkTimerService.extra_param_task_id, task)
         bundle.putInt(ChunkTimerService.extra_param_sizeIndex, index)
+
 
         val intent =
             IntentBuilder.getIntentForService(
