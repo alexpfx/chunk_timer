@@ -2,6 +2,7 @@
 <resources>
     <color name="colorPrimaryDark">#114b41</color>
     <color name="colorPrimary">#1b7667</color>
+    <color name="colorPrimary44">#441b7667</color>
     <color name="colorPrimaryLight">#fbd5cb</color>
     <color name="colorAccent">#53574f</color>
 
@@ -10,6 +11,12 @@
     <color name="bg_color_light3">#aaf8efec</color>
     <color name="text_color_primary">#aa242522</color>
     <color name="white">#fff</color>
+
+    <color name="color_pizza_pp">#44b9b9b9</color>
+    <color name="color_pizza_p">#44eb6464</color>
+    <color name="color_pizza_m">#44f6e84c</color>
+    <color name="color_pizza_g">#445cbdea</color>
+    <color name="color_pizza_gg">#447bdb6b</color>
 
 
     <!--<color name="colorPrimaryDark">#152256</color>

@@ -5,13 +5,16 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.format.DateUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -20,7 +23,6 @@ import androidx.preference.PreferenceManager
 import com.google.gson.Gson
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.RepositoryProvider
-import dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.platform.ChunkTimerService
 import dev.alessi.chunk.pomodoro.timer.android.repository.TaskRepository
@@ -33,15 +35,13 @@ import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_TIC
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_UPDATE_STATE
 import dev.alessi.chunk.pomodoro.timer.android.util.IntentBuilder
 import kotlinx.android.synthetic.main.fragment_timer.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 
 
 class TimerFragment : Fragment() {
 
 
     private var TAG = TimerFragment::class.java.name
-    /*private lateinit var sizeBtns: List<BadgedButton>*/
+    private lateinit var sizeBtns: List<FrameLayout>
 
 
     private var mTimerRunning = false
@@ -164,9 +164,10 @@ class TimerFragment : Fragment() {
     }
 
     private fun updateSizeButtons() {
+
         forAllSizeButtons { it ->
-            val intTag = (it.tag as String).toInt()
-            it.badgeText = mSizes[intTag].toString()
+            val intTag = (it.getChildAt(0).tag as String).toInt()
+//            it.badgeText = mSizes[intTag].toString()
         }
     }
 
@@ -179,8 +180,8 @@ class TimerFragment : Fragment() {
     private fun resetTimer() {
 
         forAllSizeButtons { it ->
-            val intTag = (it.tag as String).toInt()
-            it.isChecked = (mSelectedIndex == intTag)
+            val intTag = (it.getChildAt(0).tag as String).toInt()
+//            it.isChecked = (mSelectedIndex == intTag)
         }
 
         val timeMinutes = mSizes[mSelectedIndex]
@@ -234,12 +235,12 @@ class TimerFragment : Fragment() {
         txtTask.setOnClickListener(::openLoadTaskScreen)
         btnOpenSettings.setOnClickListener(::openSettingsScreen)
 
-        /*sizeBtns =
-            listOf<BadgedButton>(frBtnSizePP, frBtnSizeP, frBtnSizeM, frBtnSizeG, frBtnSizeGG)
+        sizeBtns =
+            listOf<FrameLayout>(frBtnSizePP, frBtnSizeP, frBtnSizeM, frBtnSizeG, frBtnSizeGG)
 
         forAllSizeButtons { _, it ->
-            it.setOnClickListener(::onSizeSetupBtnClick)
-        }*/
+            it.getChildAt(0).setOnClickListener(::onSizeSetupBtnClick)
+        }
 
         super.onViewCreated(view, savedInstanceState)
     }
@@ -295,6 +296,36 @@ class TimerFragment : Fragment() {
     private fun onSizeSetupBtnClick(view: View) {
         val tag = (view.tag as String).toInt()
         mSharedViewModel.setSizeIndex(tag)
+        updateColor(view)
+    }
+
+    fun createGradientDrawable(colorRes: Int, strokeColorRes: Int): GradientDrawable{
+        val g = GradientDrawable()
+        val context = this.context!!
+        g.setColor(ContextCompat.getColor(context, colorRes))
+        g.cornerRadius = 16.0f
+        g.setStroke(1, ContextCompat.getColor(context, strokeColorRes))
+
+        return g
+    }
+
+    private fun updateColor(view: View) {
+        val background = (view.parent as View).background
+        forAllSizeButtons { frame ->
+            frame.setBackgroundColor(ContextCompat.getColor(context!!, R.color.white))
+        }
+
+        (view.parent as View).background = createGradientDrawable(R.color.colorPrimary44, R.color.colorPrimary)
+
+//        view.setBackgroundColor(ContextCompat.getColor(context!!,R.color.color_pizza_g))
+//        (view.parent as View).setBackgroundColor(ContextCompat.getColor(context!!,R.color.colorPrimary44))
+
+
+//        frTxtMainTimer.background = background
+        /*scrollviewBase.background = background
+        ((scrollviewBase.parent) as View).background = background
+
+        linear_layout_buttons_base.background = background*/
     }
 
 
@@ -466,12 +497,12 @@ class TimerFragment : Fragment() {
 
     }
 
-    private fun forAllSizeButtons(action: (Int, BadgedButton) -> Unit) {
-//        sizeBtns.forEachIndexed(action)
+    private fun forAllSizeButtons(action: (Int, FrameLayout) -> Unit) {
+        sizeBtns.forEachIndexed(action)
     }
 
-    private fun forAllSizeButtons(action: (BadgedButton) -> Unit) {
-//        sizeBtns.onEach(action)
+    private fun forAllSizeButtons(action: (FrameLayout) -> Unit) {
+        sizeBtns.onEach(action)
     }
 
 }

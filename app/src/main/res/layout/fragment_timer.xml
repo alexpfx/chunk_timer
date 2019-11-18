@@ -3,10 +3,12 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
+    android:id="@+id/scrollviewBase"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:fillViewport="true"
-    android:background="#44eb6464"
 
     >
 
@@ -215,6 +217,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
+
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="8dp"
                 android:tint="@color/text_color_primary"
@@ -359,10 +362,10 @@
         </FrameLayout>
 
         <LinearLayout
-            android:background="@color/white"
-
+            android:id="@+id/linear_layout_buttons_base"
             android:layout_width="0dp"
             android:layout_height="100dp"
+            android:background="@color/white"
             android:orientation="horizontal"
             android:paddingTop="12dp"
 
@@ -373,98 +376,146 @@
             >
 
             <FrameLayout
-                android:background="#44eb6464"
+                android:id="@+id/frBtnSizePP"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@color/color_pizza_pp"
+
                 android:padding="2dp">
 
                 <ImageButton
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
                     android:adjustViewBounds="true"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:padding="12dp"
                     android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/pizza640red" />
+                    android:tag="@string/tag_size_index_0"
+                    app:srcCompat="@drawable/pizza640grey" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center"
+                    android:text="broto"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
 
             </FrameLayout>
 
             <FrameLayout
+                android:id="@+id/frBtnSizeP"
                 android:layout_width="0dp"
-                android:background="#445cbdea"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/color_pizza_p">
 
                 <ImageButton
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-
-
+                    android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
+
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:padding="10dp"
                     android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/pizza640blue" />
+                    android:tag="@string/tag_size_index_1"
+                    app:srcCompat="@drawable/pizza640red" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center"
+                    android:text="pequena"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
             </FrameLayout>
 
+
             <FrameLayout
+                android:id="@+id/frBtnSizeM"
                 android:layout_width="0dp"
-                android:background="#44f6e84c"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+
+                android:background="@color/color_pizza_m">
 
                 <ImageButton
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-
+                    android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
+
+
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:padding="8dp"
                     android:scaleType="centerCrop"
+                    android:tag="@string/tag_size_index_2"
                     app:srcCompat="@drawable/pizza640yellow" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center"
+                    android:text="média"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
             </FrameLayout>
 
             <FrameLayout
+                android:id="@+id/frBtnSizeG"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="#44b9b9b9"
-
-
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/color_pizza_g">
 
                 <ImageButton
 
-
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+
+                    android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:padding="4dp"
                     android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/pizza640grey" />
+                    android:tag="@string/tag_size_index_3"
+                    app:srcCompat="@drawable/pizza640blue" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center"
+                    android:text="grande"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
             </FrameLayout>
 
             <FrameLayout
+                android:id="@+id/frBtnSizeGG"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="#447bdb6b"
+                android:layout_weight="1"
 
-                android:layout_weight="1">
+                android:background="@color/color_pizza_gg">
 
                 <ImageButton
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-
+                    android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
+
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:padding="2dp"
-
                     android:scaleType="centerCrop"
+
+                    android:tag="@string/tag_size_index_4"
                     app:srcCompat="@drawable/pizza640green" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center"
+                    android:text="família"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
             </FrameLayout>
 

@@ -9,12 +9,8 @@
         android:color="@color/colorPrimary" />
 
     <solid
-
         android:color="#fff"
-
-
         />
-
 
     <corners
 
