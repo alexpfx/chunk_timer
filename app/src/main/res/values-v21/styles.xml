@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="LinearLayoutSizeBar">
+        <item name="android:elevation">4dp</item>
+
+
+    </style>
 
     <!--<style name="TimerButtonShapeAppearance">
         <item name="cornerFamilyTopLeft">rounded</item>

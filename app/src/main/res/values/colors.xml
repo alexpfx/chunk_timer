@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimaryDark">#114b41</color>
-    <color name="colorPrimary">#1b7667</color>
+    <color name="colorPrimaryDark">#0f161f</color>
+    <color name="colorPrimary">#2d3854</color>
     <color name="colorPrimary44">#441b7667</color>
     <color name="colorPrimaryLight">#fbd5cb</color>
     <color name="colorAccent">#53574f</color>
@@ -9,7 +9,7 @@
     <color name="bg_color_light">#5553574f</color>
     <color name="bg_color_light2">#aafbede9</color>
     <color name="bg_color_light3">#aaf8efec</color>
-    <color name="text_color_primary">#aa242522</color>
+    <color name="text_color_primary">#aa050406</color>
     <color name="white">#fff</color>
 
     <color name="color_pizza_pp">#44b9b9b9</color>

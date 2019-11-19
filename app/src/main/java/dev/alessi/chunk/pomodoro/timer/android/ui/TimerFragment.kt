@@ -165,8 +165,8 @@ class TimerFragment : Fragment() {
 
     private fun updateSizeButtons() {
 
-        forAllSizeButtons { it ->
-            val intTag = (it.getChildAt(0).tag as String).toInt()
+        forAllSizeButtons { it: FrameLayout ->
+            val intTag = (it.tag as String).toInt()
 //            it.badgeText = mSizes[intTag].toString()
         }
     }
@@ -180,7 +180,7 @@ class TimerFragment : Fragment() {
     private fun resetTimer() {
 
         forAllSizeButtons { it ->
-            val intTag = (it.getChildAt(0).tag as String).toInt()
+            val intTag = (it.tag as String).toInt()
 //            it.isChecked = (mSelectedIndex == intTag)
         }
 
