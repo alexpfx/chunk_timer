@@ -330,7 +330,8 @@ class TimerFragment : Fragment() {
     fun showTimerStarted() {
         btnCancelTimer.visibility = View.VISIBLE
         btnCancelTimer.text = getText(R.string.button_label_cancel)
-        txtTask.setText(mTask.description)
+        val txtTaskText = if (mTask.description.isEmpty()) getString(R.string.message_hint_no_task) else mTask.description
+        txtTask.setText(txtTaskText)
 
         disableViews()
 

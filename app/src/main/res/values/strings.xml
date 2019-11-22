@@ -24,6 +24,7 @@
     <string name="title_edit_task">Editar Tarefa</string>
     <string name="title_select_task">Selecionar Tarefa</string>
 
+
     <string name="category_title_time_settings">Time Settings</string>
     <string name="settings">Preferências</string>
     <string name="pref_title_intermediary_sizes">Tamanhos intermediários</string>
@@ -40,6 +41,7 @@
     <string name="label_task">Tarefa: </string>
     <string name="message_hint_workunit_without_task">(Sem tarefa) </string>
     <string name="message_hint_choose_task">&lt; Clique para escolher ou adicionar uma tarefa &gt;</string>
+    <string name="message_hint_no_task">&lt; Sem tarefa &gt;</string>
 
     <string name="message_exit_app">Tem certeza que deseja sair do App?</string>
 
