@@ -23,6 +23,7 @@ import androidx.preference.PreferenceManager
 import com.google.gson.Gson
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.RepositoryProvider
+import dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.platform.ChunkTimerService
 import dev.alessi.chunk.pomodoro.timer.android.repository.TaskRepository
@@ -41,7 +42,7 @@ class TimerFragment : Fragment() {
 
 
     private var TAG = TimerFragment::class.java.name
-    private lateinit var sizeBtns: List<FrameLayout>
+    private lateinit var sizeBtns: List<BadgedButton>
 
 
     private var mTimerRunning = false
@@ -66,8 +67,6 @@ class TimerFragment : Fragment() {
         const val KEY_SIZE_JSON_ARRAY = "KEY_SIZE_JSON_ARRAY"
         const val KEY_LAST_INDEX = "key_last_index"
         const val KEY_LAST_BREAKTIME = "KEY_LAST_BREAKTIME"
-
-
     }
 
 
@@ -165,9 +164,9 @@ class TimerFragment : Fragment() {
 
     private fun updateSizeButtons() {
 
-        forAllSizeButtons { it: FrameLayout ->
+        forAllSizeButtons { it: BadgedButton ->
             val intTag = (it.tag as String).toInt()
-//            it.badgeText = mSizes[intTag].toString()
+            it.text = "${mSizes[intTag]} min"
         }
     }
 
@@ -181,7 +180,7 @@ class TimerFragment : Fragment() {
 
         forAllSizeButtons { it ->
             val intTag = (it.tag as String).toInt()
-//            it.isChecked = (mSelectedIndex == intTag)
+            it.isChecked = (mSelectedIndex == intTag)
         }
 
         val timeMinutes = mSizes[mSelectedIndex]
@@ -196,9 +195,8 @@ class TimerFragment : Fragment() {
     }
 
     private fun updateTask() {
-        txtTask.setText(mTask.description)
 
-
+        txtTask.text = mTask.description
     }
 
     private fun updateTimer(timeLeft: Long, totalTime: Long) {
@@ -211,6 +209,7 @@ class TimerFragment : Fragment() {
 
 //        txtPercent.text = "$xstr %"
 //        separator_view.progress = percFinish.toInt()
+
 
     }
 
@@ -236,10 +235,10 @@ class TimerFragment : Fragment() {
         btnOpenSettings.setOnClickListener(::openSettingsScreen)
 
         sizeBtns =
-            listOf<FrameLayout>(frBtnSizePP, frBtnSizeP, frBtnSizeM, frBtnSizeG, frBtnSizeGG)
+            listOf<BadgedButton>(frBtnSizePP, frBtnSizeP, frBtnSizeM, frBtnSizeG, frBtnSizeGG)
 
         forAllSizeButtons { _, it ->
-            it.getChildAt(0).setOnClickListener(::onSizeSetupBtnClick)
+            it.setOnClickListener(::onSizeSetupBtnClick)
         }
 
         super.onViewCreated(view, savedInstanceState)
@@ -299,7 +298,7 @@ class TimerFragment : Fragment() {
         updateColor(view)
     }
 
-    fun createGradientDrawable(colorRes: Int, strokeColorRes: Int): GradientDrawable{
+    fun createGradientDrawable(colorRes: Int, strokeColorRes: Int): GradientDrawable {
         val g = GradientDrawable()
         val context = this.context!!
         g.setColor(ContextCompat.getColor(context, colorRes))
@@ -310,12 +309,11 @@ class TimerFragment : Fragment() {
     }
 
     private fun updateColor(view: View) {
-        val background = (view.parent as View).background
+
         forAllSizeButtons { frame ->
-            frame.setBackgroundColor(ContextCompat.getColor(context!!, R.color.white))
+            frame.isChecked = (frame.tag as String).toInt() == mSelectedIndex
         }
 
-        (view.parent as View).background = createGradientDrawable(R.color.colorPrimary44, R.color.colorPrimary)
 
 //        view.setBackgroundColor(ContextCompat.getColor(context!!,R.color.color_pizza_g))
 //        (view.parent as View).setBackgroundColor(ContextCompat.getColor(context!!,R.color.colorPrimary44))
@@ -350,8 +348,15 @@ class TimerFragment : Fragment() {
     fun showTimerCanceled(intent: Intent) { //
         btnCancelTimer.visibility = View.INVISIBLE
 
+        if (mTask.description.isEmpty()) {
+            mTaskSharedViewModel.setTask(
+                Task(
+                    description = getString(R.string.message_hint_choose_task),
+                    uid = -1
+                )
+            )
+        }
         enableViews()
-
     }
 
 
@@ -371,11 +376,13 @@ class TimerFragment : Fragment() {
         btnStartTimer.visibility = View.VISIBLE
         btnStartBreak.visibility = View.VISIBLE
         forAllSizeButtons { b -> b.isEnabled = true }
+
         layoutTimerSettings.visibility = View.VISIBLE
 
         btnOpenSettings.visibility = View.VISIBLE
         txtTask.isEnabled = true
         btnClearTask.visibility = View.VISIBLE
+
     }
 
 
@@ -460,6 +467,8 @@ class TimerFragment : Fragment() {
     }
 
     private fun openTimerSettingsDialog(view: View) {
+        findNavController().navigate(R.id.timerSettingsDialogFragment)
+
         TimerSettingsDialogFragment().show(
             activity!!.supportFragmentManager,
             "TimerSettingsDialogFragment"
@@ -467,8 +476,13 @@ class TimerFragment : Fragment() {
 
     }
 
-    private fun actionClearTask(view: View){
-        mTaskSharedViewModel.setTask(Task(description = getString(R.string.message_hint_choose_task), uid = -1))
+    private fun actionClearTask(view: View) {
+        mTaskSharedViewModel.setTask(
+            Task(
+                description = getString(R.string.message_hint_choose_task),
+                uid = -1
+            )
+        )
     }
 
     private fun actionStartBreaktime(view: View) {
@@ -497,11 +511,11 @@ class TimerFragment : Fragment() {
 
     }
 
-    private fun forAllSizeButtons(action: (Int, FrameLayout) -> Unit) {
+    private fun forAllSizeButtons(action: (Int, BadgedButton) -> Unit) {
         sizeBtns.forEachIndexed(action)
     }
 
-    private fun forAllSizeButtons(action: (FrameLayout) -> Unit) {
+    private fun forAllSizeButtons(action: (BadgedButton) -> Unit) {
         sizeBtns.onEach(action)
     }
 

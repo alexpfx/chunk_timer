@@ -3,38 +3,73 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
-    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+    tools:parentTag="android.widget.FrameLayout">
+
+        <View
+            style="@style/ViewIconPizzaBackground"
+            android:background="@drawable/button_circle_bkg" />
+
+        <ImageButton
+            android:id="@+id/btnSizePP"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="top|center"
+            android:adjustViewBounds="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/sliced_1" />
+
+        <View
+            style="@style/ViewIconPizzaBackground"
+            android:background="@drawable/button_circle_bkg_stroke" />
+
+        <TextView
+            style="@style/TextIconPizza"
+            android:id="@+id/txtBadge"
+            android:textStyle="bold"
 
 
-    <TextView
-        android:id="@+id/txtBadge"
-        style="@style/TextAppearance.AppCompat.Caption"
-        android:layout_width="wrap_content"
 
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:gravity="center"
-        android:text="8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
 
-        android:textSize="10sp"
-        app:layout_constraintEnd_toEndOf="@+id/btnSizePP"
-        app:layout_constraintStart_toStartOf="@+id/btnSizePP"
-        app:layout_constraintTop_toBottomOf="@+id/btnSizePP" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnSizePP"
-        style="@style/TimerSelectSizeButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-
-        android:tag="@string/tag_size_index_0"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
 
-    </com.google.android.material.button.MaterialButton>
+
+
+    <!--
+        <TextView
+            android:id="@+id/txtBadge"
+            style="@style/TextAppearance.AppCompat.Caption"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:text="8"
+
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="@+id/btnSizePP"
+            app:layout_constraintStart_toStartOf="@+id/btnSizePP"
+            app:layout_constraintTop_toBottomOf="@+id/btnSizePP" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSizePP"
+            style="@style/TimerSelectSizeButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+
+            android:tag="@string/tag_size_index_0"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+        </com.google.android.material.button.MaterialButton>-->
 
 
 </merge>

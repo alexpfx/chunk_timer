@@ -2,9 +2,13 @@
 <resources>
     <declare-styleable name="BadgedButton">
         <attr name="buttonLabel" format="string" />
-        <attr name="badgeText" format="string"/>
-        <attr name="buttonIcon" format="integer"/>
+        <attr name="labelText" format="string"/>
+        <attr name="imageResource" format="integer"/>
         <attr name="isChecked" format="boolean"/>
+        <attr name="backgroundChecked" format="integer"/>
+        <attr name="backgroundUnchecked" format="integer"/>
+
+
     </declare-styleable>
 
 

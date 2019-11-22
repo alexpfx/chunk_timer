@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_timerFragment_to_aboutFragment"
             app:destination="@id/aboutFragment" />
+        <action
+            android:id="@+id/action_timerFragment_to_timerSettingsDialogFragment"
+            app:destination="@id/timerSettingsDialogFragment" />
     </fragment>
 
     <dialog
@@ -58,4 +61,8 @@
         android:name="dev.alessi.chunk.pomodoro.timer.android.AboutFragment"
         android:label="fragment_about"
         tools:layout="@layout/fragment_about" />
+    <dialog
+        android:id="@+id/timerSettingsDialogFragment"
+        android:name="dev.alessi.chunk.pomodoro.timer.android.ui.dialog.TimerSettingsDialogFragment"
+        android:label="TimerSettingsDialogFragment" />
 </navigation>

@@ -3,78 +3,87 @@ package dev.alessi.chunk.pomodoro.timer.android.components
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.widget.FrameLayout
+import android.widget.ImageButton
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
-import com.google.android.material.button.MaterialButton
+import androidx.core.content.ContextCompat
 import dev.alessi.chunk.pomodoro.timer.android.R
 
-class BadgedButton(context: Context?, attrs: AttributeSet?) : ConstraintLayout(context, attrs) {
+class BadgedButton(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
 
+    private var checked = false
     private var txtBadge: TextView
-    private var button: MaterialButton
-    private var buttonIcon: Int
+    private var button: ImageButton
+    private var checkedResource: Int = R.color.bg_color_light
+    private var uncheckedResource: Int = android.R.color.transparent
 
 
-        get() = buttonIcon
+    override fun setOnClickListener(l: OnClickListener?) {
 
-        set(value) {
-            this.buttonIcon = value
+        button.setOnClickListener {
+            l?.onClick(this)
         }
 
-    var isChecked
-        get() = button.isChecked
-        set(value) {
-            button.isChecked = value
-        }
-
+        super.setOnClickListener(l)
+    }
 
     override fun setEnabled(enabled: Boolean) {
         button.isEnabled = enabled
+        super.setEnabled(enabled)
     }
 
-    override fun isEnabled(): Boolean {
-        return button.isEnabled
+    var isChecked
+        get() = checked
+        set(value) {
+            checked = value
+
+            updateColor()
+
+        }
+
+    private fun updateColor() {
+        if (checked) {
+
+            setBackgroundResource(checkedResource)
+        } else {
+            setBackgroundResource(uncheckedResource)
+        }
     }
 
-    override fun setOnClickListener(onClickListener: OnClickListener?) {
-        button.setOnClickListener(onClickListener)
-    }
 
-
-    override fun setTag(tag: Any?) {
-        button.tag = tag
-    }
-
-
-    override fun getTag(): Any {
-        return button.tag
-    }
-
-    var badgeText
+    var text
         get() = txtBadge.text.toString()
         set(value) {
-            txtBadge.text = "$value m"
+            txtBadge.text = value
         }
 
 
     init {
+
         LayoutInflater.from(context).inflate(R.layout.compound_view_badged_button, this)
         txtBadge = findViewById(R.id.txtBadge)
         button = findViewById(R.id.btnSizePP)
+
         tag = super.getTag()
-        val a = context?.obtainStyledAttributes(attrs, R.styleable.BadgedButton, 0, 0)
+        val a = context.obtainStyledAttributes(attrs, R.styleable.BadgedButton, 0, 0)
 
-        val badgeText = a?.getString(R.styleable.BadgedButton_badgeText)
 
-        val isChecked = a?.getBoolean(R.styleable.BadgedButton_isChecked, false)!!
-        val buttonIcon = a.getResourceId(R.styleable.BadgedButton_buttonIcon, 0)
+        txtBadge.text = a.getString(R.styleable.BadgedButton_labelText)
+
+        checked = a.getBoolean(R.styleable.BadgedButton_isChecked, false)!!
+        val buttonIcon = a.getResourceId(R.styleable.BadgedButton_imageResource, 0)
+
+        checkedResource =
+            a.getResourceId(R.styleable.BadgedButton_backgroundChecked, checkedResource)
+        uncheckedResource =
+            a.getResourceId(R.styleable.BadgedButton_backgroundUnchecked, uncheckedResource)
+
+        isClickable = true
+        isFocusable = true
+        button.setImageResource(buttonIcon)
 
         a.recycle()
 
-        txtBadge.text = badgeText
-        button.setIconResource(buttonIcon)
-
-        button.isChecked = isChecked
     }
 
 

@@ -14,7 +14,6 @@ import androidx.preference.PreferenceManager
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.platform.SoundEffectManager
 import dev.alessi.chunk.pomodoro.timer.android.ui.MainViewModel
-import dev.alessi.chunk.pomodoro.timer.android.ui.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_settings.*
 
 /**

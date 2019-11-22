@@ -11,6 +11,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.platform.ChunkTimerService
 import dev.alessi.chunk.pomodoro.timer.android.util.Command
@@ -31,12 +32,6 @@ class TimerActivity : AppCompatActivity(),
         supportActionBar?.setDisplayHomeAsUpEnabled(controller.currentDestination?.id != controller.graph.startDestination)
     }
 
-
-    override fun onDestroy() {
-
-
-        super.onDestroy()
-    }
 
     override fun onResume() {
         if (intent?.hasExtra(ChunkTimerService.extra_param_a_timer_was_finish) == true) {
@@ -89,13 +84,29 @@ class TimerActivity : AppCompatActivity(),
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.home) {
-            getNavController().popBackStack()
-            return true
-        }else if (item.itemId == R.id.about_fragment){
-            getNavController().navigate(R.id.aboutFragment)
-        }
+        when (item.itemId) {
+            R.id.home -> {
+                getNavController().popBackStack()
+                return true
+            }
+            R.id.item_about_fragment -> {
+                getNavController().navigate(R.id.aboutFragment)
+                return true
+            }
+            R.id.item_settings_fragment -> {
+                getNavController().navigate(R.id.settingsFragment)
+                return true
 
+            }
+            R.id.item_setup_breaktime_dialog -> {
+                getNavController().navigate(R.id.inputBreakTimeDialogFragment)
+                return true
+
+            }
+            R.id.item_setup_timers_dialog -> {
+                getNavController().navigate(R.id.timerSettingsDialogFragment)
+            }
+        }
 
         return super.onOptionsItemSelected(item)
     }
