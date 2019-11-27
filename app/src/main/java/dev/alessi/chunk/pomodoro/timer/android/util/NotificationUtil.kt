@@ -47,6 +47,7 @@ fun NotificationManagerCompat.notifyBreakFinish(context: Context){
     builder.setOngoing(false)
 
 
+
     cancelAll()
 
     notify(App.NOTIFICATION_ID, builder.build())

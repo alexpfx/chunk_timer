@@ -52,13 +52,17 @@ class TimerFragment : Fragment() {
 
     private var mSelectedIndex = 2
 
-
     private var mSizes: List<Int> = listOf(12, 24, 36, 48, 60)
     private var mGson: Gson = Gson()
     private var mTask: Task = Task(description = "", uid = -1)
     private var mBreaktime = 0
     private var mServiceController: ChunkTimerServiceControl? = null
     private lateinit var mTaskRepository: TaskRepository
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        retainInstance = true
+        super.onCreate(savedInstanceState)
+    }
 
 
     companion object {
@@ -129,7 +133,6 @@ class TimerFragment : Fragment() {
             resetTimer()
             storePreferences()
         })
-
 
     }
 
@@ -277,6 +280,9 @@ class TimerFragment : Fragment() {
         outState.putBoolean("isRunning", mTimerRunning)
         super.onSaveInstanceState(outState)
     }
+
+
+
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) {

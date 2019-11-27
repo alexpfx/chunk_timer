@@ -13,9 +13,8 @@ import dev.alessi.chunk.pomodoro.timer.android.database.TaskSize
 import dev.alessi.chunk.pomodoro.timer.android.repository.TaskRepository
 import dev.alessi.chunk.pomodoro.timer.android.repository.TaskRepositoryImpl
 import kotlinx.coroutines.*
-import java.lang.IllegalArgumentException
+
 import java.util.*
-import java.util.concurrent.Executors
 
 
 class App : Application(), RepositoryProvider {
@@ -119,7 +118,7 @@ class App : Application(), RepositoryProvider {
             val channel = NotificationChannel(
                 NOTIFICATION_CHANNEL_ID,
                 "Chunk Service Channel",
-                NotificationManager.IMPORTANCE_LOW
+                NotificationManager.IMPORTANCE_HIGH
             )
             channel.enableVibration(false)
             channel.enableLights(false)

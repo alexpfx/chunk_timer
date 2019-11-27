@@ -389,6 +389,7 @@
 
                 android:id="@+id/frBtnSizePP"
                 android:tag="@string/tag_size_index_0"
+                app:labelText="16"
 
                 app:imageResource="@drawable/sliced_1"
                 style="@style/FrameIconPizzaBackground" />

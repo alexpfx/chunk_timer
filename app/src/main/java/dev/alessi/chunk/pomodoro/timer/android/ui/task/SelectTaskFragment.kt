@@ -1,11 +1,11 @@
 package dev.alessi.chunk.pomodoro.timer.android.ui.task
 
 
+import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -18,7 +18,7 @@ import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.repository.TaskRepository
 import dev.alessi.chunk.pomodoro.timer.android.ui.MainViewModel
 import dev.alessi.chunk.pomodoro.timer.android.ui.TaskSharedViewModel
-import kotlinx.android.synthetic.main.fragment_task.*
+import kotlinx.android.synthetic.main.fragment_select_task.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,9 +27,9 @@ import kotlinx.coroutines.withContext
 /**
  * A simple [Fragment] subclass.
  */
-class TaskFragment : Fragment() {
+class SelectTaskFragment : Fragment() {
 
-    lateinit var mAdapter: TaskRecyclerAdapter
+    lateinit var mAdapter: SelectTaskRecyclerAdapter
 
     lateinit var mTaskRepository: TaskRepository
 
@@ -38,18 +38,10 @@ class TaskFragment : Fragment() {
     private lateinit var mSharedViewModel: TaskSharedViewModel
     private lateinit var mainViewModel: MainViewModel
 
-    companion object{
-        const val extra_param_task_id = "extra_param_task_id"
-    }
-
-
-    override fun onAttach(context: Context) {
-        mTaskRepository = (activity?.applicationContext as RepositoryProvider).getTaskRepository()
-        super.onAttach(context)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        setHasOptionsMenu(true)
 
         mSharedViewModel = activity?.run {
             ViewModelProviders.of(this)[TaskSharedViewModel::class.java]
@@ -66,6 +58,62 @@ class TaskFragment : Fragment() {
     }
 
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.select_task_menu, menu)
+
+        val searchManager = context?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        val searchView = menu.findItem(R.id.action_filter_task).actionView as SearchView
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(activity?.componentName))
+        searchView.maxWidth = Integer.MAX_VALUE
+
+        searchView.setOnClickListener{view -> }
+
+        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                searchView.clearFocus()
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                mAdapter.filter.filter(newText)
+                return false
+            }
+
+        })
+
+
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        when(id){
+            R.id.action_filter_task -> return true
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    companion object{
+        const val extra_param_task_id = "extra_param_task_id"
+
+    }
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_select_task, container, false)
+    }
+
+    override fun onAttach(context: Context) {
+        mTaskRepository = (activity?.applicationContext as RepositoryProvider).getTaskRepository()
+        super.onAttach(context)
+    }
+
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         mSharedViewModel.getTaskname().observe(viewLifecycleOwner, Observer {
             updateItems()
@@ -75,32 +123,27 @@ class TaskFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_task, container, false)
-    }
-
 
     private fun onItemSelect(task: Task){
         mSharedViewModel.setTask(task)
         navigateBack()
     }
 
-    private fun onDescriptionClick(task: Task){
+    /*private fun onDescriptionClick(task: Task){
         val args = Bundle()
         args.putInt(extra_param_task_id, task.uid!!)
 
         findNavController().navigate(R.id.addTaskDialog, args)
-    }
+    }*/
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        mAdapter = TaskRecyclerAdapter(arrayListOf(), ::onItemSelect, ::onDescriptionClick)
-        recycler_view.adapter = mAdapter
-        recycler_view.layoutManager =
-            LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
+        mAdapter = SelectTaskRecyclerAdapter(arrayListOf(), ::onItemSelect, ::onOpenTaskInfoClick)
+        recycler_view_select_task.adapter = mAdapter
+        val layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
+        recycler_view_select_task.layoutManager =
+            layoutManager
+
+//        recycler_view.addItemDecoration(DividerItemDecoration(recycler_view.context, layoutManager.orientation))
 
         updateItems()
 
@@ -109,9 +152,16 @@ class TaskFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
     }
 
+    private fun onOpenTaskInfoClick(task: Task) {
+        val args = Bundle()
+        args.putInt(extra_param_task_id, task.uid!!)
+        findNavController().navigate(R.id.taskStatsFragment)
+    }
+
     private fun navigateBack(){
         findNavController().navigate(R.id.timerFragment)
     }
+
 
     private fun actionOpenAddTaskDialog(view: View) {
         findNavController().navigate(R.id.addTaskDialog)
@@ -129,7 +179,7 @@ class TaskFragment : Fragment() {
                 items
             }
             mAdapter.updateItems(tasks.toList())
-            recycler_view?.scrollToPosition(0)
+            recycler_view_select_task?.scrollToPosition(0)
 
         }
 

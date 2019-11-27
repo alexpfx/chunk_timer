@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    tools:parentTag="android.widget.LinearLayout">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        tools:text="4" />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:padding="2dp">
+
+        <View
+            android:id="@+id/viewStrokeLayer1"
+            style="@style/ViewIconPizzaBackground"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/button_circle_bkg" />
+
+        <ImageButton
+            android:id="@+id/button"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center|start"
+            android:adjustViewBounds="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/sliced_1" />
+
+        <View
+            android:id="@+id/viewStrokeLayer2"
+            style="@style/ViewIconPizzaBackground"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/button_circle_bkg_stroke_1dp" />
+
+
+    </FrameLayout>
+
+
+
+
+
+</merge>

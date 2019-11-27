@@ -6,6 +6,7 @@
     tools:parentTag="android.widget.FrameLayout">
 
         <View
+            android:id="@+id/viewStrokeLayer1"
             style="@style/ViewIconPizzaBackground"
             android:background="@drawable/button_circle_bkg" />
 
@@ -21,6 +22,7 @@
             app:srcCompat="@drawable/sliced_1" />
 
         <View
+            android:id="@+id/viewStrokeLayer2"
             style="@style/ViewIconPizzaBackground"
             android:background="@drawable/button_circle_bkg_stroke" />
 

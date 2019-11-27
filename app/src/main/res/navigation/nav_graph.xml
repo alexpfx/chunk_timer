@@ -30,6 +30,9 @@
         <action
             android:id="@+id/action_timerFragment_to_timerSettingsDialogFragment"
             app:destination="@id/timerSettingsDialogFragment" />
+        <action
+            android:id="@+id/action_timerFragment_to_taskStatsFragment"
+            app:destination="@id/taskStatsFragment" />
     </fragment>
 
     <dialog
@@ -49,9 +52,9 @@
         />
     <fragment
         android:id="@+id/taskFragment"
-        android:name="dev.alessi.chunk.pomodoro.timer.android.ui.task.TaskFragment"
+        android:name="dev.alessi.chunk.pomodoro.timer.android.ui.task.SelectTaskFragment"
         android:label="fragment_task"
-        tools:layout="@layout/fragment_task" />
+        tools:layout="@layout/fragment_select_task" />
     <dialog
         android:id="@+id/addTaskDialog"
         android:name="dev.alessi.chunk.pomodoro.timer.android.ui.dialog.AddEditTaskDialog"
@@ -65,4 +68,9 @@
         android:id="@+id/timerSettingsDialogFragment"
         android:name="dev.alessi.chunk.pomodoro.timer.android.ui.dialog.TimerSettingsDialogFragment"
         android:label="TimerSettingsDialogFragment" />
+    <fragment
+        android:id="@+id/taskStatsFragment"
+        android:name="dev.alessi.chunk.pomodoro.timer.android.ui.task_stats.TaskStatsFragment"
+        android:label="fragment_task_stats"
+        tools:layout="@layout/fragment_task_stats" />
 </navigation>

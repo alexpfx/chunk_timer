@@ -18,7 +18,7 @@ import dev.alessi.chunk.pomodoro.timer.android.RepositoryProvider
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.repository.TaskRepository
 import dev.alessi.chunk.pomodoro.timer.android.ui.TaskSharedViewModel
-import dev.alessi.chunk.pomodoro.timer.android.ui.task.TaskFragment
+import dev.alessi.chunk.pomodoro.timer.android.ui.task.SelectTaskFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -88,7 +88,7 @@ class AddEditTaskDialog : DialogFragment(), TextWatcher {
         if (arguments != null) {
             isEditMode = true
             dialog.setTitle(R.string.title_edit_task)
-            loadTask(arguments!!.getInt(TaskFragment.extra_param_task_id))
+            loadTask(arguments!!.getInt(SelectTaskFragment.extra_param_task_id))
 
         }
 

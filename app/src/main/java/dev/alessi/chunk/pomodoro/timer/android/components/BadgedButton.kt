@@ -2,12 +2,17 @@ package dev.alessi.chunk.pomodoro.timer.android.components
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import dev.alessi.chunk.pomodoro.timer.android.R
+
+
+const val proportion = 0.035
 
 class BadgedButton(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
 
@@ -61,8 +66,12 @@ class BadgedButton(context: Context, attrs: AttributeSet?) : FrameLayout(context
     init {
 
         LayoutInflater.from(context).inflate(R.layout.compound_view_badged_button, this)
+
         txtBadge = findViewById(R.id.txtBadge)
         button = findViewById(R.id.btnSizePP)
+
+        val viewStrokeLayer1 = findViewById<View>(R.id.viewStrokeLayer1)
+        val viewStrokeLayer2 = findViewById<View>(R.id.viewStrokeLayer2)
 
         tag = super.getTag()
         val a = context.obtainStyledAttributes(attrs, R.styleable.BadgedButton, 0, 0)
@@ -72,6 +81,18 @@ class BadgedButton(context: Context, attrs: AttributeSet?) : FrameLayout(context
 
         checked = a.getBoolean(R.styleable.BadgedButton_isChecked, false)!!
         val buttonIcon = a.getResourceId(R.styleable.BadgedButton_imageResource, 0)
+
+        val btnHeight = a.getDimension(R.styleable.BadgedButton_buttonWidth, 56.0f)
+        val btnWidth = a.getDimension(R.styleable.BadgedButton_buttonWidth, 56.0f)
+
+        applyDimensions(button, btnHeight.toDouble(), btnWidth.toDouble())
+
+        val viewStrokeH = btnHeight + (btnHeight * proportion)
+        val viewStrokeW = btnWidth + (btnWidth * proportion)
+
+        applyDimensions(viewStrokeLayer1, viewStrokeH, viewStrokeW)
+        applyDimensions(viewStrokeLayer2, viewStrokeH, viewStrokeW)
+
 
         checkedResource =
             a.getResourceId(R.styleable.BadgedButton_backgroundChecked, checkedResource)
@@ -83,6 +104,25 @@ class BadgedButton(context: Context, attrs: AttributeSet?) : FrameLayout(context
         button.setImageResource(buttonIcon)
 
         a.recycle()
+
+    }
+
+    private fun applyDimensions(view: View, height: Double, width: Double) {
+        val wDip = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            width.toFloat(),
+            context.resources.displayMetrics
+        ).toInt()
+
+
+        val hDip = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            height.toFloat(),
+            context.resources.displayMetrics
+        ).toInt()
+
+        view.layoutParams.height = hDip
+        view.layoutParams.width = wDip
 
     }
 

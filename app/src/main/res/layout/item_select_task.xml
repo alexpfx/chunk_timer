@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    style="@style/CardView.Light"
+    android:layout_margin="1dp"
+    app:elevation="1dp"
+
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="64dp">
+
+        <TextView
+            android:id="@+id/txtTaskDesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintEnd_toStartOf="@+id/btnTaskInfo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Implementar testes unitarios e validar execução de testes funcionais" />
+
+        <TextView
+            android:id="@+id/txtTaskCreatedAt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/txtTaskDesc"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/txtTaskDesc"
+            app:layout_constraintTop_toBottomOf="@+id/view_internal_divider"
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="Criada às 12:25h de 01/06/2019" />
+
+        <ImageButton
+            android:id="@+id/btnTaskInfo"
+            style="@style/Widget.AppCompat.ImageButton"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="16dp"
+            android:tint="@color/text_color_primary"
+            app:layout_constraintBottom_toBottomOf="@+id/txtTaskCreatedAt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/txtTaskDesc"
+            app:srcCompat="@drawable/ic_info_black_24dp" />
+
+        <View
+
+            android:id="@+id/view_internal_divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/drawable_divider_horizontal"
+            app:layout_constraintEnd_toEndOf="@+id/txtTaskCreatedAt"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/txtTaskDesc"
+            app:layout_constraintTop_toBottomOf="@+id/txtTaskDesc" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

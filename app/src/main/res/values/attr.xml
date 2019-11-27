@@ -7,7 +7,12 @@
         <attr name="isChecked" format="boolean"/>
         <attr name="backgroundChecked" format="integer"/>
         <attr name="backgroundUnchecked" format="integer"/>
+        <attr name="buttonWidth" format="dimension"/>
+        <attr name="buttonHeight" format="dimension"/>
+    </declare-styleable>
 
+    <declare-styleable name="ViewStatsSizeItem">
+        <attr name="text" format="string"/>
 
     </declare-styleable>
 

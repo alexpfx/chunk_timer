@@ -96,6 +96,9 @@
     <string name="label_menu_setup_breaktime">Configurar Intervalo</string>
     <string name="label_menu_settings">Preferências</string>
     <string name="label_menu_about">About</string>
+    <string name="label_menu_action_filter">Filter</string>
+    <string name="symbol_equal">=</string>
+
 
 </resources>
 
