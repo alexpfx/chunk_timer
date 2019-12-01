@@ -2,7 +2,6 @@ package dev.alessi.chunk.pomodoro.timer.android.ui.task_stats
 
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.database.SizeIndex
-import dev.alessi.chunk.pomodoro.timer.android.database.TaskSummary
 import dev.alessi.chunk.pomodoro.timer.android.database.WorkUnit
 
 
@@ -16,7 +15,7 @@ data class PeriodSummaryTO(
     companion object {
         const val hours_const_div = 3600
         const val min_const_div = 60
-        const val seconds_const_div = 60
+
 
         fun from(name: Period, slices: List<WorkUnit>): PeriodSummaryTO {
             var minutes = 0
@@ -25,7 +24,8 @@ data class PeriodSummaryTO(
             IntRange(SizeIndex.PP, SizeIndex.GG).forEach { sizeMap[it] = 0 }
 
 
-            for (slice in slices) {
+            val sortedSlices = slices.sortedBy { it.sizeId }
+            for (slice in sortedSlices) {
                 minutes += slice.timeMinutes
                 val x = sizeMap[slice.sizeId]?.plus(1)!!
                 sizeMap[slice.sizeId] = x

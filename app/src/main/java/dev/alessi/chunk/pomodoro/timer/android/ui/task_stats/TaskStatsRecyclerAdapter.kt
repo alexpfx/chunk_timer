@@ -1,7 +1,5 @@
 package dev.alessi.chunk.pomodoro.timer.android.ui.task_stats
 
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +9,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexboxLayout
 import dev.alessi.chunk.pomodoro.timer.android.R
+import dev.alessi.chunk.pomodoro.timer.android.database.SizeIndex
 import dev.alessi.chunk.pomodoro.timer.android.util.RuntimeViewFactory
-import dev.alessi.chunk.pomodoro.timer.android.util.toDip
-
 
 class TaskStatsRecyclerAdapter(private val itemList: List<PeriodSummaryTO>) :
     RecyclerView.Adapter<ViewHolder>() {
@@ -21,17 +18,13 @@ class TaskStatsRecyclerAdapter(private val itemList: List<PeriodSummaryTO>) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.item_task_stats, parent, false)
-
         return ViewHolder(view)
     }
 
-    override fun getItemCount(): Int {
-        return itemList.size
-    }
+    override fun getItemCount() = itemList.size
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) =
         holder.bind(itemList[position])
-    }
 
 }
 
@@ -43,22 +36,17 @@ class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private var txtLabelMessageNotItems = view.findViewById<TextView>(R.id.txtLabelMessageNoItems)
     private var viewDivider = view.findViewById<View>(R.id.view_internal_divider2)
     private var context = itemView.context
+    private var mapDrawables = mutableMapOf<Int, Int>()
+    private var drawables = listOf(
+        R.drawable.sliced_1,
+        R.drawable.sliced_3,
+        R.drawable.sliced_5,
+        R.drawable.sliced_7,
+        R.drawable.sliced_full
+    )
 
-    private val sliceIconSizeWidth = 24.toDip(context)
-    private val sliceIconSizeHeight = sliceIconSizeWidth
-    private val sliceIconColor = ContextCompat.getColor(context, R.color.colorPrimaryDark)
-
-    companion object {
-
-        fun drawableRes(key: Int) = when (key) {
-            0 -> R.drawable.sliced_1
-            1 -> R.drawable.sliced_3
-            2 -> R.drawable.sliced_5
-            3 -> R.drawable.sliced_7
-            4 -> R.drawable.sliced_full
-            else -> R.drawable.sliced_full
-        }
-
+    init {
+        IntRange(SizeIndex.PP, SizeIndex.GG).forEach { mapDrawables[it] = drawables[it] }
     }
 
     fun bind(periodSummaryTO: PeriodSummaryTO) {
@@ -101,9 +89,8 @@ class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     private fun setupAndGetSliceDrawable(key: Int): Drawable {
         val drawable =
-            ContextCompat.getDrawable(context, drawableRes(key))?.constantState?.newDrawable()
+            ContextCompat.getDrawable(context, mapDrawables[key]!!)?.constantState?.newDrawable()
                 ?.mutate()
-
 
         return drawable!!
     }
