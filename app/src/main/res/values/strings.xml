@@ -23,6 +23,7 @@
     <string name="title_new_task">Nova Tarefa</string>
     <string name="title_edit_task">Editar Tarefa</string>
     <string name="title_select_task">Selecionar Tarefa</string>
+    <string name="title_task_stats">Estatísticas de tarefa</string>
 
 
     <string name="category_title_time_settings">Time Settings</string>
@@ -75,6 +76,8 @@
     <string name="dialog_textfield_hint_interval_time">Tempo de Intervalo</string>
     <string name="dialog_textfield_hint_task_name">Nome da Tarefa</string>
     <string name="label_today">Hoje</string>
+    <string name="label_this_week">Esta semana</string>
+    <string name="label_this_month">Este mês</string>
 
     <string name="label_time_timer">Tempo do timer:</string>
     <string name="label_time_break">Tempo do intervalo:</string>
@@ -97,7 +100,13 @@
     <string name="label_menu_settings">Preferências</string>
     <string name="label_menu_about">About</string>
     <string name="label_menu_action_filter">Filter</string>
-    <string name="symbol_equal">=</string>
+    <string name="symbol_equal">= %d</string>
+
+
+    <string name="label_message_noitems">Nenhuma</string>
+
+
+
 
 
 </resources>

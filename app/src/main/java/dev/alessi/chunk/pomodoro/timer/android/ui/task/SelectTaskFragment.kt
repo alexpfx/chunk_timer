@@ -155,7 +155,7 @@ class SelectTaskFragment : Fragment() {
     private fun onOpenTaskInfoClick(task: Task) {
         val args = Bundle()
         args.putInt(extra_param_task_id, task.uid!!)
-        findNavController().navigate(R.id.taskStatsFragment)
+        findNavController().navigate(R.id.taskStatsFragment, args)
     }
 
     private fun navigateBack(){

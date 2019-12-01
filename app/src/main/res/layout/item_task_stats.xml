@@ -12,7 +12,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="100dp">
+        android:minHeight="30dp">
 
         <TextView
             android:id="@+id/txtPeriod"
@@ -31,33 +31,58 @@
             android:id="@+id/view_internal_divider"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/drawable_divider_horizontal"
-            app:layout_constraintEnd_toEndOf="@id/txtPeriod"
-            app:layout_constraintStart_toStartOf="@id/txtPeriod"
-            app:layout_constraintTop_toBottomOf="@id/txtPeriod"
-            tools:layout_editor_absoluteY="48dp" />
-
-        <ScrollView
-            android:id="@+id/scrollSlicesSummary"
-            android:layout_width="0dp"
-            android:layout_height="38dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
+            android:background="@drawable/drawable_divider_horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/txtPeriod"
-            app:layout_constraintTop_toBottomOf="@+id/view_internal_divider">
-
-            <LinearLayout
-                android:id="@+id/layoutSlicesSummary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+            app:layout_constraintStart_toStartOf="@id/txtPeriod"
+            app:layout_constraintTop_toBottomOf="@id/txtPeriod" />
 
 
-            </LinearLayout>
-        </ScrollView>
+        <View
+
+            android:id="@+id/view_internal_divider2"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@drawable/drawable_divider_horizontal"
+            app:layout_constraintEnd_toEndOf="@+id/view_internal_divider"
+            app:layout_constraintStart_toStartOf="@+id/view_internal_divider"
+            app:layout_constraintTop_toBottomOf="@+id/layoutSlicesSummary" />
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/layoutSlicesSummary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:dividerPadding="8dp"
+            android:gravity="start"
+            android:orientation="horizontal"
+            app:alignContent="space_between"
+            app:alignItems="flex_start"
+            app:flexDirection="row"
+            app:flexWrap="wrap"
+            app:justifyContent="flex_start"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_internal_divider" />
+
+
+        <TextView
+            android:id="@+id/txtLabelMessageNoItems"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="@string/label_message_noitems"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_internal_divider" />
 
         <TextView
 
@@ -65,15 +90,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="8dp"
+
             android:gravity="start"
             android:minWidth="56dp"
-            android:padding="8dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/scrollSlicesSummary"
-            app:layout_constraintStart_toStartOf="@+id/scrollSlicesSummary"
-            app:layout_constraintTop_toBottomOf="@+id/scrollSlicesSummary"
+            app:layout_constraintEnd_toEndOf="@+id/layoutSlicesSummary"
+            app:layout_constraintStart_toStartOf="@+id/layoutSlicesSummary"
+            app:layout_constraintTop_toBottomOf="@+id/view_internal_divider2"
             tools:text="24 h 32 m" />
 
 

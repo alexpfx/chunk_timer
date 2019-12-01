@@ -4,9 +4,7 @@
     android:shape="rectangle">
 
 
-
-
-    <solid android:color="#ddf50508"  />
+    <solid android:color="@color/pizza_icon_background_color"  />
     <corners android:radius="128dp"/>
 
 

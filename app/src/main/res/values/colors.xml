@@ -17,6 +17,9 @@
     <color name="color_pizza_m">#44f6e84c</color>
     <color name="color_pizza_g">#445cbdea</color>
     <color name="color_pizza_gg">#447bdb6b</color>
+    <color name="pizza_icon_background_color">#ddff5050</color>
+
+
 
 
     <!--<color name="colorPrimaryDark">#152256</color>

@@ -37,15 +37,15 @@ class TaskSummary(val task: Task) {
         slices?.forEach { workUnit ->
             val x = sizeMap[workUnit.sizeId]?.plus(1)!!
             sizeMap[workUnit.sizeId] = x
-            minutes = minutes.plus(workUnit.timeMinutes)
             nameMap[workUnit.sizeId] = workUnit.taskSize?.name!!
+            minutes = minutes.plus(workUnit.timeMinutes)
         }
 
         mSeconds = minutes * 60
 
         sizeSummary = sizeSummary()
 
-        timeSummary = hoursSummary()
+//        timeSummary = hoursSummary()
 
 
     }
@@ -62,16 +62,16 @@ class TaskSummary(val task: Task) {
     }
 
 
-    private fun hoursSummary(): String {
-        val hours = mSeconds / hours_const_div
-        var s = mSeconds.rem(hours_const_div)
-        val minutes = s / min_const_div
-        s = s.rem(min_const_div)
-        val seconds = s / seconds_const_div
-        return "${hours}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(
-            2,
-            '0'
-        )}s"
-    }
+//    private fun hoursSummary(): String {
+//        val hours = mSeconds / hours_const_div
+//        var s = mSeconds.rem(hours_const_div)
+//        val minutes = s / min_const_div
+//        s = s.rem(min_const_div)
+//        val seconds = s / seconds_const_div
+//        return "${hours}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(
+//            2,
+//            '0'
+//        )}s"
+//    }
 
 }

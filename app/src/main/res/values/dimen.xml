@@ -7,5 +7,13 @@
     <dimen name="select_size_icon_size">32dp</dimen>
     <dimen name="select_size_icon_size_dialog">24dp</dimen>
 
+    <dimen name="stats_size_item">32dp</dimen>
+
+    <dimen name="runtime_textview_slice_summary_icon_size">24dp</dimen>
+    <dimen name="runtime_textview_slice_summary_textview_padding">4dp</dimen>
+    <dimen name="runtime_textview_slice_summary_textview_margin">8dp</dimen>
+
+
+
 
 </resources>
