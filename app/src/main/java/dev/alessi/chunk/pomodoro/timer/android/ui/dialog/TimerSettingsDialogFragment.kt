@@ -15,13 +15,13 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
 import dev.alessi.chunk.pomodoro.timer.android.R
 
-import dev.alessi.chunk.pomodoro.timer.android.ui.SharedViewModel
+import dev.alessi.chunk.pomodoro.timer.android.ui.TimerSharedViewModel
 import dev.alessi.chunk.pomodoro.timer.android.ui.TimerFragment.Companion.DEFAULT_JSON_SIZES
 import dev.alessi.chunk.pomodoro.timer.android.ui.TimerFragment.Companion.KEY_SIZE_JSON_ARRAY
 
 class TimerSettingsDialogFragment : DialogFragment() {
 
-    private lateinit var mSharedModel: SharedViewModel
+    private lateinit var mTimerSharedModel: TimerSharedViewModel
     private lateinit var positiveButton: Button
     private lateinit var edts: Set<TextInputEditText>
     private lateinit var mBtnRestoreDefaults: MaterialButton
@@ -31,8 +31,8 @@ class TimerSettingsDialogFragment : DialogFragment() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        mSharedModel = activity?.run {
-            ViewModelProviders.of(this)[SharedViewModel::class.java]
+        mTimerSharedModel = activity?.run {
+            ViewModelProviders.of(this)[TimerSharedViewModel::class.java]
         } ?: throw IllegalStateException("Invalid activity")
 
 
@@ -175,7 +175,7 @@ class TimerSettingsDialogFragment : DialogFragment() {
 
     private fun saveSizes() {
         val values = extractValues(edts)
-        mSharedModel.setSizes(values.toList())
+        mTimerSharedModel.setSizes(values.toList())
     }
 
 

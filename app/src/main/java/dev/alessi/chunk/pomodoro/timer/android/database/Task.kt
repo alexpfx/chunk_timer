@@ -10,10 +10,14 @@ data class Task(
     var uid: Int?,
     var description: String = "",
     var dateCreated: Date? = null,
-    var slices: List<WorkUnit> = listOf()
-
-
+    var slices: List<WorkUnit> = listOf(),
+    var archived: Int = 0
 
 ){
     constructor(): this(null, "", null, listOf())
+
+
+
 }
+
+

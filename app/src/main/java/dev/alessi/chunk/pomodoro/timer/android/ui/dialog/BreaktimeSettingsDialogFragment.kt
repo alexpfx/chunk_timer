@@ -18,7 +18,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
 import dev.alessi.chunk.pomodoro.timer.android.R
-import dev.alessi.chunk.pomodoro.timer.android.ui.SharedViewModel
+import dev.alessi.chunk.pomodoro.timer.android.ui.TimerSharedViewModel
 import dev.alessi.chunk.pomodoro.timer.android.ui.TimerFragment
 
 class BreaktimeSettingsDialogFragment : DialogFragment(),
@@ -27,14 +27,14 @@ class BreaktimeSettingsDialogFragment : DialogFragment(),
     private lateinit var inputTextMinutes: AppCompatEditText
     private lateinit var inputLayoutTextMinutes: TextInputLayout
     private lateinit var positiveButton: Button
-    private lateinit var mSharedModel: SharedViewModel
+    private lateinit var mTimerSharedModel: TimerSharedViewModel
     private lateinit var mRestoreDefaultButton: MaterialButton
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        mSharedModel = activity?.run {
-            ViewModelProviders.of(this)[SharedViewModel::class.java]
+        mTimerSharedModel = activity?.run {
+            ViewModelProviders.of(this)[TimerSharedViewModel::class.java]
         } ?: throw IllegalStateException("Invalid activity")
 
         super.onCreate(savedInstanceState)
@@ -67,7 +67,7 @@ class BreaktimeSettingsDialogFragment : DialogFragment(),
 
     private fun saveBreakTime() {
         val minutes: Int = inputTextMinutes.text.toString().toInt()
-        mSharedModel.setBreaktime(minutes)
+        mTimerSharedModel.setBreaktime(minutes)
 
     }
 

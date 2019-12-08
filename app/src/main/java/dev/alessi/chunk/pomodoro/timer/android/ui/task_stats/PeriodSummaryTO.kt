@@ -3,14 +3,15 @@ package dev.alessi.chunk.pomodoro.timer.android.ui.task_stats
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.database.SizeIndex
 import dev.alessi.chunk.pomodoro.timer.android.database.WorkUnit
+import java.text.DecimalFormat
 
 
 data class PeriodSummaryTO(
     val period: Period,
     val minutes: Int,
     val sizeMap: MutableMap<Int, Int>
-
 ) {
+
 
     companion object {
         const val hours_const_div = 3600
@@ -36,7 +37,7 @@ data class PeriodSummaryTO(
         }
     }
 
-    fun isEmpty () = minutes == 0
+    fun isEmpty() = minutes == 0
 
     fun toFormatedTime(): String {
         val seconds = minutes * 60
@@ -48,10 +49,18 @@ data class PeriodSummaryTO(
     }
 
 
+    fun toFormatedHours(): String {
+        val seconds = minutes * 60
+        val hours: Double = seconds / hours_const_div.toDouble()
+        return DecimalFormat("#.#").format(hours)
+    }
+
+
     enum class Period(val labelKey: Int) {
         TODAY(R.string.label_today),
         THIS_WEEK(R.string.label_this_week),
-        THIS_MONTH(R.string.label_this_month)
+        THIS_MONTH(R.string.label_this_month),
+        ALL(R.string.label_all)
     }
 
 }

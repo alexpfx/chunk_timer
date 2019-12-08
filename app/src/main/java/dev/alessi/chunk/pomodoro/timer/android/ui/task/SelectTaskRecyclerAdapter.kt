@@ -10,32 +10,69 @@ import android.widget.Filterable
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.Chip
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
+import dev.alessi.chunk.pomodoro.timer.android.ui.task_stats.PeriodSummaryTO
 
 
-class SelectTaskRecyclerAdapter (
-    private val items: MutableList<Task>,
-    val onSelect: (task: Task) -> Unit,
-    val onTaskInfoClick: (task: Task) -> Unit
+class SelectTaskRecyclerAdapter(
+    private var items: List<SelectTaskTO>,
+    val onSelect: (task: SelectTaskTO) -> Unit,
+    val onTaskInfoClick: (taskSummariesTO: SelectTaskTO) -> Unit,
+    val onTaskArchiveClick: (taskId: Task) -> Unit
 ) :
     RecyclerView.Adapter<TaskViewHolder>(), Filterable {
 
-    private var itemsFiltered: MutableList<Task> = items
+
+    private var isFiltering = false
+    private var itemsFiltered: List<SelectTaskTO> = items
+
+    private val taskInfoClick = View.OnClickListener {
+
+        onTaskInfoClick(it.tag as SelectTaskTO)
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.item_select_task, parent, false)
 
-        return TaskViewHolder(view, ::taskSelect, ::taskInfoClick, context = parent.context)
+        return TaskViewHolder(
+            view, taskSelectClick, taskInfoClick, archiveTaskClick, view.context
+        )
     }
 
-    private fun taskSelect(v: View) {
-        onSelect(v.tag as Task)
+
+    private val taskSelectClick = View.OnClickListener {
+        onSelect(it.tag as SelectTaskTO)
     }
 
-    private fun taskInfoClick (v: View){
-        onTaskInfoClick(v.tag as Task)
+
+    private val archiveTaskClick = View.OnClickListener {
+        val taskSummariesTO = (it.tag as SelectTaskTO)
+        onTaskArchiveClick(taskSummariesTO.task)
+        removeItem(taskSummariesTO)
+    }
+
+    private fun remove(list: List<SelectTaskTO>, position: Int){
+        (list as MutableList).removeAt(position)
+    }
+
+    private fun removeItem(taskSummariesTO: SelectTaskTO) {
+        val indexAtItems = items.indexOf(taskSummariesTO)
+        remove(items, indexAtItems)
+
+        if (isFiltering){
+            val indexAtFilterered = itemsFiltered.indexOf(taskSummariesTO)
+            remove (itemsFiltered, indexAtFilterered)
+            notifyItemRemoved(indexAtFilterered)
+            notifyItemRangeChanged(indexAtItems, itemCount)
+        }else{
+            notifyItemRemoved(indexAtItems)
+            notifyItemRangeChanged(indexAtItems, itemCount)
+        }
+
     }
 
 
@@ -47,34 +84,29 @@ class SelectTaskRecyclerAdapter (
         val item = itemsFiltered[position]
 
         holder.bind(item)
-
     }
 
 
-    fun updateItems(tasks: List<Task>) {
-        this.items.clear()
-        for (task in tasks) {
-            if (task.uid != -1) {
-                this.items.add(task)
-            }
-        }
-
-        itemsFiltered = items
-
+    fun setItems(items: List<SelectTaskTO>) {
+        this.items = items
+        this.itemsFiltered = items
         notifyDataSetChanged()
     }
 
-    override fun getFilter(): Filter {
-        return object: Filter(){
-            override fun performFiltering(constraint: CharSequence?): FilterResults {
-                val filteredList: MutableList<Task>
 
-                if (constraint.isNullOrEmpty()){
-                    filteredList = items
-                }else{
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val filteredList: MutableList<SelectTaskTO>
+
+                if (constraint.isNullOrEmpty()) {
+                    filteredList = items as MutableList<SelectTaskTO>
+                    isFiltering = false
+                } else {
                     filteredList = mutableListOf()
+                    isFiltering = true
                     for (item in items) {
-                        if (item.description.toLowerCase().contains(constraint.toString().toLowerCase())){
+                        if (item.task.description.toLowerCase().contains(constraint.toString().toLowerCase())) {
                             filteredList.add(item)
                         }
                     }
@@ -86,7 +118,7 @@ class SelectTaskRecyclerAdapter (
             }
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                itemsFiltered = results?.values as MutableList<Task>
+                itemsFiltered = results?.values as MutableList<SelectTaskTO>
 
                 notifyDataSetChanged()
             }
@@ -98,42 +130,76 @@ class SelectTaskRecyclerAdapter (
 
 class TaskViewHolder(
     val view: View,
-    val onSelect: (v: View) -> Unit,
-    val taskInfoClick: (v: View) -> Unit,
+    selectTaskClick: View.OnClickListener,
+    taskInfoClick: View.OnClickListener,
+    archiveTaskClick: View.OnClickListener,
     val context: Context
 ) :
     RecyclerView.ViewHolder(view) {
     private var txtTaskDesc: TextView = view.findViewById(R.id.txtTaskDesc)
     private var txtTaskCreatedAt: TextView = view.findViewById(R.id.txtTaskCreatedAt)
-    private var btnTaskInfo = view.findViewById<ImageButton>(R.id.btnTaskInfo)
+    private val chipSummary = view.findViewById<Chip>(R.id.chipSummary)
+    private val btnInfo = view.findViewById<ImageButton>(R.id.btnInfo)
+    private val btnArchive = view.findViewById<ImageButton>(R.id.btnArchive)
+
+    private var taskSummaryTO: SelectTaskTO? = null
+
 
     init {
-        view.setOnClickListener {
-            onSelect(it)
+        view.setOnClickListener(selectTaskClick)
+        btnInfo.setOnClickListener(taskInfoClick)
+
+        chipSummary.setOnClickListener {
+            taskSummaryTO?.rotate()
+            setChipSummary(taskSummaryTO?.getPeriod())
+
         }
 
-        btnTaskInfo.setOnClickListener{
-            taskInfoClick(it)
+        btnArchive.setOnClickListener {
+
+            archiveTaskClick.onClick(it)
         }
 
     }
 
-    fun bind(task: Task) {
-        txtTaskDesc.text = task.description
-        btnTaskInfo.tag = task
-        view.tag = task
 
+    fun bind(taskSummaryTO: SelectTaskTO) {
+        this.taskSummaryTO = taskSummaryTO
+
+        txtTaskDesc.text = taskSummaryTO.task.description
+
+        chipSummary.tag = taskSummaryTO
+        btnInfo.tag = taskSummaryTO
+        view.tag = taskSummaryTO
+        btnArchive.tag = taskSummaryTO
+
+        val summary = taskSummaryTO.getPeriod()
+
+        setChipSummary(summary)
+
+
+        val dateTime = taskSummaryTO.task.dateCreated?.time!!
 
         val formatDate = DateUtils.formatDateTime(
-            context,
-            task.dateCreated?.time!!, DateUtils.FORMAT_ABBREV_ALL
+            context, dateTime, DateUtils.FORMAT_SHOW_TIME or DateUtils.FORMAT_SHOW_DATE or
+                    DateUtils.FORMAT_SHOW_YEAR or DateUtils.FORMAT_SHOW_WEEKDAY or DateUtils.FORMAT_ABBREV_ALL
         )
 
-        val formatTime = DateUtils.formatDateTime(context, task.dateCreated?.time!!, DateUtils.FORMAT_SHOW_TIME)
+        txtTaskCreatedAt.text =
+            context.getString(R.string.label_format_created_at, formatDate)
+    }
 
-
-        txtTaskCreatedAt.text = "Criado em: $formatDate às $formatTime"
-
+    private fun setChipSummary(summary: PeriodSummaryTO?) {
+        chipSummary.text =
+            context.getString(
+                R.string.label_format_summary_period_time,
+                context.getString(summary?.period?.labelKey!!),
+                context.resources.getQuantityString(
+                    R.plurals.label_format_hours,
+                    summary.minutes / 60,
+                    summary.toFormatedHours()
+                )
+            )
     }
 
 

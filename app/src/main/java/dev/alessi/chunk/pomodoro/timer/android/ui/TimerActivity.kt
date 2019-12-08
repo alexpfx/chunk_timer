@@ -11,7 +11,6 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.platform.ChunkTimerService
 import dev.alessi.chunk.pomodoro.timer.android.util.Command
@@ -22,7 +21,7 @@ class TimerActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener, ChunkTimerServiceControl {
 
 
-    lateinit var viewModel: MainViewModel
+    lateinit var sharedViewModel: MainSharedViewModel
 
     override fun onDestinationChanged(
         controller: NavController,
@@ -61,9 +60,9 @@ class TimerActivity : AppCompatActivity(),
         setSupportActionBar(toolbar)
 
 
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        sharedViewModel = ViewModelProviders.of(this).get(MainSharedViewModel::class.java)
 
-        viewModel.title.observe(this, Observer {
+        sharedViewModel.title.observe(this, Observer {
             supportActionBar?.title = it
         })
 

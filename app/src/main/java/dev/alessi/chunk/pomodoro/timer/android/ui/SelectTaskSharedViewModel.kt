@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 
-class TaskSharedViewModel: ViewModel() {
+class SelectTaskSharedViewModel: ViewModel() {
 
     private val taskname = MutableLiveData<String>()
 
@@ -12,13 +12,10 @@ class TaskSharedViewModel: ViewModel() {
 
     fun getTaskname() = taskname
 
-    fun setTaskname (task: String){
-        this.taskname.value = task
-    }
 
-    fun getTask() = task
+    fun getTaskObserver() = task
 
-    fun setTask(task: Task){
+    fun selectTask(task: Task){
         this.task.value = task
     }
 

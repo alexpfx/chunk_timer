@@ -145,5 +145,10 @@
 
     </style>
 
+    <style name="RecyclerViews">
+        <item name="android:listDivider">@drawable/drawable_divider_horizontal</item>
+
+    </style>
+
 
 </resources>

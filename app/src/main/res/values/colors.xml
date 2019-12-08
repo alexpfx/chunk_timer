@@ -5,6 +5,7 @@
     <color name="colorPrimary44">#441b7667</color>
     <color name="colorPrimaryLight">#fbd5cb</color>
     <color name="colorAccent">#53574f</color>
+    <color name="color_action_icon">#000000</color>
 
     <color name="bg_color_light">#5553574f</color>
     <color name="bg_color_light2">#aafbede9</color>

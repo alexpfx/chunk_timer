@@ -1,4 +1,4 @@
-package dev.alessi.chunk.pomodoro.timer.android.ui.dialog
+package dev.alessi.chunk.pomodoro.timer.android.task.addedit
 
 import android.app.Dialog
 import android.os.Bundle
@@ -14,40 +14,37 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dev.alessi.chunk.pomodoro.timer.android.R
-import dev.alessi.chunk.pomodoro.timer.android.RepositoryProvider
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
-import dev.alessi.chunk.pomodoro.timer.android.repository.TaskRepository
-import dev.alessi.chunk.pomodoro.timer.android.ui.TaskSharedViewModel
-import dev.alessi.chunk.pomodoro.timer.android.ui.task.SelectTaskFragment
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import dev.alessi.chunk.pomodoro.timer.android.ui.SelectTaskSharedViewModel
 import java.util.*
 
 class AddEditTaskDialog : DialogFragment(), TextWatcher {
 
-    private val scope = CoroutineScope(Dispatchers.Main)
-    lateinit var mSharedViewModel: TaskSharedViewModel
+    lateinit var mSharedViewModelSelect: SelectTaskSharedViewModel
     lateinit var mEdtTask: TextInputEditText
     lateinit var mInputTask: TextInputLayout
     lateinit var mPositiveButton: Button
     var mTask: Task = Task(description = "", uid = null)
-    lateinit var mTaskRepository: TaskRepository
-    var isEditMode = false
+
+
+    lateinit var mAddEditTaskviewModel: AddEditTaskSharedViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        mTaskRepository = activity?.applicationContext.run {
-            (this as RepositoryProvider).getTaskRepository()
-        }
+        mAddEditTaskviewModel = activity?.run{
+            ViewModelProviders.of(this)[AddEditTaskSharedViewModel::class.java]
+        }?: throw IllegalStateException("Invalid activity")
 
-        mSharedViewModel = activity?.run {
-            ViewModelProviders.of(this)[TaskSharedViewModel::class.java]
+
+
+
+
+        mSharedViewModelSelect = activity?.run {
+            ViewModelProviders.of(this)[SelectTaskSharedViewModel::class.java]
         } ?: throw IllegalStateException("Invalid activity")
 
         super.onCreate(savedInstanceState)
     }
-
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
@@ -86,9 +83,9 @@ class AddEditTaskDialog : DialogFragment(), TextWatcher {
 
 
         if (arguments != null) {
-            isEditMode = true
+       /*     isEditMode = true
             dialog.setTitle(R.string.title_edit_task)
-            loadTask(arguments!!.getInt(SelectTaskFragment.extra_param_task_id))
+            loadTask(arguments!!.getInt(SelectTaskFragment.extra_param_task_id))*/
 
         }
 
@@ -97,7 +94,7 @@ class AddEditTaskDialog : DialogFragment(), TextWatcher {
 
 
 
-    private fun loadTask(tid: Int) {
+    /*private fun loadTask(tid: Int) {
         scope.launch {
             mTask = withContext(Dispatchers.IO) {
                 mTaskRepository.loadTask(tid)
@@ -105,7 +102,7 @@ class AddEditTaskDialog : DialogFragment(), TextWatcher {
             updateUi()
         }
 
-    }
+    }*/
 
     private fun updateUi()  {
 
@@ -114,20 +111,7 @@ class AddEditTaskDialog : DialogFragment(), TextWatcher {
 
 
     private fun saveTask() {
-
-        scope.launch {
-            withContext(Dispatchers.IO) {
-                if (!isEditMode){
-                    mTaskRepository.storeTask(Task(uid = null, description = mTask.description, dateCreated = Date()))
-                }else{
-                    mTaskRepository.updateTask(mTask)
-                }
-            }
-            mSharedViewModel.setTaskname(mTask.description)
-
-        }
-
-
+        mAddEditTaskviewModel.saveTask(Task(uid = null, description = mTask.description, dateCreated = Date()))
     }
 
     override fun afterTextChanged(s: Editable?) {

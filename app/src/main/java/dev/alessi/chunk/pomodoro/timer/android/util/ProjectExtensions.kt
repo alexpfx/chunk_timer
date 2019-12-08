@@ -9,6 +9,8 @@ fun Any.debug(message: String) {
     Log.d(this.javaClass.name, message)
 }
 
+fun Number.bool() = this != 0
+
 fun Number.toDip(context: Context): Int {
     return TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP,

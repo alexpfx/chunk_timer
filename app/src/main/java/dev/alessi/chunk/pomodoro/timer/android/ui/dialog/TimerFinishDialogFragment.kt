@@ -11,9 +11,7 @@ import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.RepositoryProvider
-import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.database.WorkUnit
-
 import dev.alessi.chunk.pomodoro.timer.android.platform.ChunkTimerService
 import dev.alessi.chunk.pomodoro.timer.android.platform.SoundEffectManager
 import dev.alessi.chunk.pomodoro.timer.android.repository.TaskRepository

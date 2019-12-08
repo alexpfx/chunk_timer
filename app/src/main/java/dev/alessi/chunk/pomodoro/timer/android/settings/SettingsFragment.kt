@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.preference.PreferenceManager
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.platform.SoundEffectManager
-import dev.alessi.chunk.pomodoro.timer.android.ui.MainViewModel
+import dev.alessi.chunk.pomodoro.timer.android.ui.MainSharedViewModel
 import kotlinx.android.synthetic.main.fragment_settings.*
 
 /**
@@ -34,7 +34,7 @@ class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener,
 
     private var mTimerRingIndex = -1
     private var mBreaktimeRingIndex = -1
-    private lateinit var mainViewModel: MainViewModel
+    private lateinit var mainSharedViewModel: MainSharedViewModel
     private var mSound: Int = -1
     private lateinit var mPreference: SharedPreferences
 
@@ -50,10 +50,10 @@ class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener,
 
 
         activity?.run {
-            mainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+            mainSharedViewModel = ViewModelProviders.of(this).get(MainSharedViewModel::class.java)
         } ?: throw Throwable("invalid activity")
 
-        mainViewModel.updateTitle(getString(R.string.settings))
+        mainSharedViewModel.updateTitle(getString(R.string.settings))
 
     }
 

@@ -22,7 +22,7 @@ class RuntimeViewFactory {
 
 
             val textView = TextView(context)
-            textView.text = context.getString(R.string.symbol_equal, value)
+            textView.text = context.getString(R.string.label_format_symbol_equal, value)
             drawable.setBounds(0, 0, iconSize, iconSize)
 
             drawable.colorFilter = PorterDuffColorFilter(

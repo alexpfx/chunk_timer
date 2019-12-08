@@ -12,7 +12,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -22,11 +21,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.google.gson.Gson
 import dev.alessi.chunk.pomodoro.timer.android.R
-import dev.alessi.chunk.pomodoro.timer.android.RepositoryProvider
 import dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.platform.ChunkTimerService
-import dev.alessi.chunk.pomodoro.timer.android.repository.TaskRepository
 import dev.alessi.chunk.pomodoro.timer.android.ui.dialog.TimerSettingsDialogFragment
 import dev.alessi.chunk.pomodoro.timer.android.util.Command
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_START_BREAK
@@ -46,9 +43,9 @@ class TimerFragment : Fragment() {
 
 
     private var mTimerRunning = false
-    private lateinit var mSharedViewModel: SharedViewModel
-    private lateinit var mTaskSharedViewModel: TaskSharedViewModel
-    private lateinit var mainViewModel: MainViewModel
+    private lateinit var mTimerSharedViewModel: TimerSharedViewModel
+    private lateinit var mSelectTaskSharedViewModel: SelectTaskSharedViewModel
+    private lateinit var mainSharedViewModel: MainSharedViewModel
 
     private var mSelectedIndex = 2
 
@@ -57,7 +54,7 @@ class TimerFragment : Fragment() {
     private var mTask: Task = Task(description = "", uid = -1)
     private var mBreaktime = 0
     private var mServiceController: ChunkTimerServiceControl? = null
-    private lateinit var mTaskRepository: TaskRepository
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         retainInstance = true
@@ -78,28 +75,28 @@ class TimerFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
 
-        mSharedViewModel = activity?.run {
-            ViewModelProviders.of(this)[SharedViewModel::class.java]
+        mTimerSharedViewModel = activity?.run {
+            ViewModelProviders.of(this)[TimerSharedViewModel::class.java]
         } ?: throw IllegalStateException("Invalid activity")
 
-        mTaskSharedViewModel = activity?.run {
-            ViewModelProviders.of(this)[TaskSharedViewModel::class.java]
+        mSelectTaskSharedViewModel = activity?.run {
+            ViewModelProviders.of(this)[SelectTaskSharedViewModel::class.java]
         } ?: throw IllegalStateException("Invalid activity")
 
         activity?.run {
-            mainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+            mainSharedViewModel = ViewModelProviders.of(this).get(MainSharedViewModel::class.java)
         } ?: throw Throwable("invalid activity")
 
         loadPreferences()
 
-        mainViewModel.updateTitle(getString(R.string.app_name))
+        mainSharedViewModel.updateTitle(getString(R.string.app_name))
     }
 
     override fun onStop() {
-        mTaskSharedViewModel.getTask().removeObservers(viewLifecycleOwner)
-        mSharedViewModel.breaktime.removeObservers(viewLifecycleOwner)
-        mSharedViewModel.sizeIndex.removeObservers(viewLifecycleOwner)
-        mSharedViewModel.sizes.removeObservers(viewLifecycleOwner)
+
+        mTimerSharedViewModel.breaktime.removeObservers(viewLifecycleOwner)
+        mTimerSharedViewModel.sizeIndex.removeObservers(viewLifecycleOwner)
+        mTimerSharedViewModel.sizes.removeObservers(viewLifecycleOwner)
 
         super.onStop()
     }
@@ -107,27 +104,27 @@ class TimerFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        mTaskSharedViewModel.getTask().observe(viewLifecycleOwner, Observer {
+        mSelectTaskSharedViewModel.getTaskObserver().observe(viewLifecycleOwner, Observer {
             mTask = it
 
             updateTask()
 
         })
 
-        mSharedViewModel.breaktime.observe(viewLifecycleOwner, Observer {
+        mTimerSharedViewModel.breaktime.observe(viewLifecycleOwner, Observer {
             mBreaktime = it
             updateBreaktime()
             storePreferences()
 
         })
 
-        mSharedViewModel.sizeIndex.observe(viewLifecycleOwner, Observer {
+        mTimerSharedViewModel.sizeIndex.observe(viewLifecycleOwner, Observer {
             mSelectedIndex = it
             resetTimer()
             storePreferences()
         })
 
-        mSharedViewModel.sizes.observe(viewLifecycleOwner, Observer {
+        mTimerSharedViewModel.sizes.observe(viewLifecycleOwner, Observer {
             mSizes = it
             updateSizeButtons()
             resetTimer()
@@ -154,14 +151,14 @@ class TimerFragment : Fragment() {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.context)
         val sizesStr = sharedPreferences.getString(KEY_SIZE_JSON_ARRAY, DEFAULT_JSON_SIZES)
         val sizesArray = mGson.fromJson(sizesStr, Array<Int>::class.java)
-        mSharedViewModel.setSizes(sizesArray.toList())
+        mTimerSharedViewModel.setSizes(sizesArray.toList())
 
         val index = sharedPreferences.getInt(KEY_LAST_INDEX, mSelectedIndex)
-        mSharedViewModel.setSizeIndex(index)
+        mTimerSharedViewModel.setSizeIndex(index)
 
 
         val lastBreaktime = sharedPreferences.getInt(KEY_LAST_BREAKTIME, 10)
-        mSharedViewModel.setBreaktime(lastBreaktime)
+        mTimerSharedViewModel.setBreaktime(lastBreaktime)
 
     }
 
@@ -251,7 +248,7 @@ class TimerFragment : Fragment() {
         super.onAttach(context)
 
         mServiceController = context as ChunkTimerServiceControl
-        mTaskRepository = (activity?.applicationContext as RepositoryProvider).getTaskRepository()
+
 
         (context as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
@@ -282,8 +279,6 @@ class TimerFragment : Fragment() {
     }
 
 
-
-
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) {
             mTimerRunning = savedInstanceState.getBoolean("isRunning")
@@ -300,7 +295,7 @@ class TimerFragment : Fragment() {
 
     private fun onSizeSetupBtnClick(view: View) {
         val tag = (view.tag as String).toInt()
-        mSharedViewModel.setSizeIndex(tag)
+        mTimerSharedViewModel.setSizeIndex(tag)
         updateColor(view)
     }
 
@@ -336,7 +331,8 @@ class TimerFragment : Fragment() {
     fun showTimerStarted() {
         btnCancelTimer.visibility = View.VISIBLE
         btnCancelTimer.text = getText(R.string.button_label_cancel)
-        val txtTaskText = if (mTask.description.isEmpty()) getString(R.string.message_hint_no_task) else mTask.description
+        val txtTaskText =
+            if (mTask.description.isEmpty()) getString(R.string.message_hint_no_task) else mTask.description
         txtTask.setText(txtTaskText)
 
         disableViews()
@@ -356,7 +352,7 @@ class TimerFragment : Fragment() {
         btnCancelTimer.visibility = View.INVISIBLE
 
         if (mTask.description.isEmpty()) {
-            mTaskSharedViewModel.setTask(
+            mSelectTaskSharedViewModel.selectTask(
                 Task(
                     description = getString(R.string.message_hint_choose_task),
                     uid = -1
@@ -415,7 +411,7 @@ class TimerFragment : Fragment() {
                     showTimerCanceled(intent)
 
                     val index = intent.getIntExtra(ChunkTimerService.extra_param_last_index, 2)
-                    mSharedViewModel.setSizeIndex(index)
+                    mTimerSharedViewModel.setSizeIndex(index)
 
                 }
                 ACTION_TICK -> showTick(intent)
@@ -484,7 +480,7 @@ class TimerFragment : Fragment() {
     }
 
     private fun actionClearTask(view: View) {
-        mTaskSharedViewModel.setTask(
+        mSelectTaskSharedViewModel.selectTask(
             Task(
                 description = getString(R.string.message_hint_choose_task),
                 uid = -1
@@ -508,6 +504,7 @@ class TimerFragment : Fragment() {
             timeMinutes * 60 * 1000.toLong(),
             mSelectedIndex, mTask.uid!!, ACTION_START_TIMER
         )
+
 
 
     }

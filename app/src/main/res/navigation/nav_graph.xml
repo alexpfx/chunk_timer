@@ -57,7 +57,7 @@
         tools:layout="@layout/fragment_select_task" />
     <dialog
         android:id="@+id/addTaskDialog"
-        android:name="dev.alessi.chunk.pomodoro.timer.android.ui.dialog.AddEditTaskDialog"
+        android:name="dev.alessi.chunk.pomodoro.timer.android.task.addedit.AddEditTaskDialog"
         android:label="AddTaskDialog" />
     <fragment
         android:id="@+id/aboutFragment"

@@ -1,25 +1,22 @@
 package dev.alessi.chunk.pomodoro.timer.android.ui.task_stats
 
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider.Factory
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.alessi.chunk.pomodoro.timer.android.R
-import dev.alessi.chunk.pomodoro.timer.android.RepositoryProvider
-import dev.alessi.chunk.pomodoro.timer.android.database.SizeIndex
-import dev.alessi.chunk.pomodoro.timer.android.repository.TaskRepository
-import dev.alessi.chunk.pomodoro.timer.android.ui.MainViewModel
+import dev.alessi.chunk.pomodoro.timer.android.database.Task
+import dev.alessi.chunk.pomodoro.timer.android.ui.MainSharedViewModel
 import dev.alessi.chunk.pomodoro.timer.android.ui.task.SelectTaskFragment
+import kotlinx.android.synthetic.main.fragment_select_task.*
 import kotlinx.android.synthetic.main.fragment_task_stats.*
+import kotlinx.android.synthetic.main.layout_content_empty.*
 
 
 /**
@@ -27,19 +24,21 @@ import kotlinx.android.synthetic.main.fragment_task_stats.*
  */
 class TaskStatsFragment : Fragment() {
 
-
     lateinit var mAdapter: TaskStatsRecyclerAdapter
-    lateinit var mTaskRepository: TaskRepository
+
     lateinit var mSummariesViewModel: LoadPeriodSummariesViewModel
-    lateinit var mainViewModel: MainViewModel
+    lateinit var mainSharedViewModel: MainSharedViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         activity?.run {
-            mainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+            mainSharedViewModel = ViewModelProviders.of(this).get(MainSharedViewModel::class.java)
         } ?: throw Throwable("invalid activity")
 
+        mSummariesViewModel =
+            ViewModelProviders.of(this).get(LoadPeriodSummariesViewModel::class.java)
 
-        mainViewModel.updateTitle(getString(R.string.title_task_stats))
+        mainSharedViewModel.updateTitle(getString(R.string.title_task_stats))
 
         super.onCreate(savedInstanceState)
     }
@@ -53,8 +52,30 @@ class TaskStatsFragment : Fragment() {
     }
 
 
+    private fun initViewModelsListeners() {
+        mSummariesViewModel.onPeriodsFromTaskLoadedObserver.observe(viewLifecycleOwner, Observer {
+            setNoContent()
+            if (!it.isAllEmpty()) {
+                mAdapter = TaskStatsRecyclerAdapter(it.periods)
+                recycler_view_task_stats.swapAdapter(mAdapter, true)
+                setHasContent()
+            }
+        })
+
+    }
+
+    private fun setNoContent() {
+        recycler_view_task_stats.visibility = View.INVISIBLE
+        label_content_empty.visibility = View.VISIBLE
+    }
+
+    private fun setHasContent() {
+        recycler_view_task_stats.visibility = View.VISIBLE
+        label_content_empty.visibility = View.INVISIBLE
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initViewModels()
 
         recycler_view_task_stats.layoutManager =
             LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
@@ -63,42 +84,12 @@ class TaskStatsFragment : Fragment() {
 
         if (arguments != null) {
             val taskId = arguments?.getInt(SelectTaskFragment.extra_param_task_id, -1)!!
-            mSummariesViewModel.loadAndSummarize(taskId)
+            mSummariesViewModel.loadAndSummarize(Task(taskId))
         }
 
+        initViewModelsListeners()
+
         super.onViewCreated(view, savedInstanceState)
-    }
-
-    private fun initViewModels() {
-        mSummariesViewModel = activity?.run {
-            ViewModelProviders.of(this, object : Factory {
-                override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                    return LoadPeriodSummariesViewModel(mTaskRepository) as T
-                }
-
-            })[LoadPeriodSummariesViewModel::class.java]
-        } ?: throw Throwable("activity cannot be null")
-
-        mSummariesViewModel.summaries.observe(viewLifecycleOwner, Observer {
-            mAdapter = TaskStatsRecyclerAdapter(it)
-            recycler_view_task_stats.swapAdapter(mAdapter, true)
-        })
-
-    }
-
-    override fun onAttach(context: Context) {
-        mTaskRepository = (activity?.applicationContext as RepositoryProvider).getTaskRepository()
-        super.onAttach(context)
-    }
-
-    private fun createFakeItems(): ArrayList<PeriodSummaryTO> {
-        return arrayListOf(PeriodSummaryTO(PeriodSummaryTO.Period.THIS_WEEK, 15, sizeMap = mutableMapOf(
-            SizeIndex.PP to 0,
-            SizeIndex.P to 0,
-            SizeIndex.M to 0,
-            SizeIndex.G to 0,
-            SizeIndex.GG to 0
-        )))
     }
 
 

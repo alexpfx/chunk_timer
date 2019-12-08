@@ -51,8 +51,8 @@ class TaskRepositoryImpl (private val taskDao: TaskDao, private val workUnitDao:
         return task
     }
 
-    override suspend fun loadAllTasks(): Array<Task> {
-        return taskDao.loadAll()
+    override suspend fun loadAllActive(): Array<Task> {
+        return taskDao.loadAllActive()
     }
 
     override suspend fun storeTask(task: Task): Task {

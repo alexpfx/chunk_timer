@@ -5,9 +5,14 @@
     android:layout_height="match_parent"
     tools:context=".ui.task_stats.TaskStatsFragment">
 
+    <include layout="@layout/layout_content_empty" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_task_stats"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+
+        tools:listitem="@layout/item_task_stats"
+        />
 
 </FrameLayout>
