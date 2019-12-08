@@ -19,7 +19,7 @@ class BadgedButton(context: Context, attrs: AttributeSet?) : FrameLayout(context
     private var checked = false
     private var txtBadge: TextView
     private var button: ImageButton
-    private var checkedResource: Int = R.color.bg_color_light
+    private var checkedResource: Int = R.color.color_action_dividers
     private var uncheckedResource: Int = android.R.color.transparent
 
 
@@ -70,9 +70,6 @@ class BadgedButton(context: Context, attrs: AttributeSet?) : FrameLayout(context
         txtBadge = findViewById(R.id.txtBadge)
         button = findViewById(R.id.btnSizePP)
 
-        val viewStrokeLayer1 = findViewById<View>(R.id.viewStrokeLayer1)
-        val viewStrokeLayer2 = findViewById<View>(R.id.viewStrokeLayer2)
-
         tag = super.getTag()
         val a = context.obtainStyledAttributes(attrs, R.styleable.BadgedButton, 0, 0)
 
@@ -90,8 +87,6 @@ class BadgedButton(context: Context, attrs: AttributeSet?) : FrameLayout(context
         val viewStrokeH = btnHeight + (btnHeight * proportion)
         val viewStrokeW = btnWidth + (btnWidth * proportion)
 
-        applyDimensions(viewStrokeLayer1, viewStrokeH, viewStrokeW)
-        applyDimensions(viewStrokeLayer2, viewStrokeH, viewStrokeW)
 
 
         checkedResource =

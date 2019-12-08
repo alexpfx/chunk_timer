@@ -5,10 +5,7 @@
 
     tools:parentTag="android.widget.FrameLayout">
 
-        <View
-            android:id="@+id/viewStrokeLayer1"
-            style="@style/ViewIconPizzaBackground"
-            android:background="@drawable/button_circle_bkg" />
+
 
         <ImageButton
             android:id="@+id/btnSizePP"
@@ -17,20 +14,18 @@
             android:layout_gravity="top|center"
             android:adjustViewBounds="true"
             android:background="?attr/selectableItemBackgroundBorderless"
-
+            style="@style/Widget.AppCompat.ImageButton"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/sliced_1" />
+            app:srcCompat="@drawable/ic_pie_hole_3slices" />
 
-        <View
-            android:id="@+id/viewStrokeLayer2"
-            style="@style/ViewIconPizzaBackground"
-            android:background="@drawable/button_circle_bkg_stroke" />
 
         <TextView
             style="@style/TextIconPizza"
             android:id="@+id/txtBadge"
             android:textStyle="bold"
 
+
+            tools:text="24"
 
 
             android:layout_width="wrap_content"

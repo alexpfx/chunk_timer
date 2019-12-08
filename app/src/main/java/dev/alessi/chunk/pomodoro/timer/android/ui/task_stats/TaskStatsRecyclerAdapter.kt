@@ -1,7 +1,6 @@
 package dev.alessi.chunk.pomodoro.timer.android.ui.task_stats
 
 import android.graphics.drawable.Drawable
-import android.text.style.ImageSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,6 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexboxLayout
-import com.google.android.material.chip.ChipDrawable
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.database.SizeIndex
 import dev.alessi.chunk.pomodoro.timer.android.util.RuntimeViewFactory
@@ -40,11 +38,11 @@ class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private var context = itemView.context
     private var mapDrawables = mutableMapOf<Int, Int>()
     private var drawables = listOf(
-        R.drawable.sliced_1,
-        R.drawable.sliced_3,
-        R.drawable.sliced_5,
-        R.drawable.sliced_7,
-        R.drawable.sliced_full
+        R.drawable.ic_pie_hole_3slices_20dp,
+        R.drawable.ic_pie_hole_4slices_20dp,
+        R.drawable.ic_pie_hole_6slices_20dp,
+        R.drawable.ic_pie_hole_8slices_20dp,
+        R.drawable.ic_pie_hole_full_20dp
     )
 
     init {

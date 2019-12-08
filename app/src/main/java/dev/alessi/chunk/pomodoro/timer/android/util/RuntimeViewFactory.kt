@@ -14,28 +14,32 @@ import dev.alessi.chunk.pomodoro.timer.android.R
 
 class RuntimeViewFactory {
 
-    companion object{
+    companion object {
 
 
         fun createTextViewSliceSummary(context: Context, value: Int, drawable: Drawable): TextView {
             val iconSize = getDimension(context, R.dimen.runtime_textview_slice_summary_icon_size)
 
-
             val textView = TextView(context)
             textView.text = context.getString(R.string.label_format_symbol_equal, value)
             drawable.setBounds(0, 0, iconSize, iconSize)
 
-            drawable.colorFilter = PorterDuffColorFilter(
-                ContextCompat.getColor(context, R.color.pizza_icon_background_color),
-                PorterDuff.Mode.SRC_IN
-            )
+//            drawable.colorFilter = PorterDuffColorFilter(
+//                ContextCompat.getColor(context, R.color.pizza_icon_background_color),
+//                PorterDuff.Mode.CLEAR
+//            )
 
             textView.setCompoundDrawables(drawable, null, null, null)
 //            textView.compoundDrawablePadding = 8.toDip(context)
-            textView.gravity = Gravity.CENTER
-            textView.background =
-                ContextCompat.getDrawable(context, R.drawable.drawable_task_name_background)
-            textView.setPadding(getDimension(context, R.dimen.runtime_textview_slice_summary_textview_padding))
+            textView.gravity = Gravity.START
+//            textView.background =
+//                ContextCompat.getDrawable(context, R.drawable.drawable_task_name_background)
+            textView.setPadding(
+                getDimension(
+                    context,
+                    R.dimen.runtime_textview_slice_summary_textview_padding
+                )
+            )
 
             val lp = createLayoutParams(context)
 

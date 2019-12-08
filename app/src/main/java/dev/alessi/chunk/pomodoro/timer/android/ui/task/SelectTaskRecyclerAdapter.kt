@@ -1,19 +1,19 @@
 package dev.alessi.chunk.pomodoro.timer.android.ui.task
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
-import android.widget.ImageButton
-import android.widget.TextView
+import android.widget.*
+import androidx.constraintlayout.widget.Group
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.chip.Chip
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.ui.task_stats.PeriodSummaryTO
+import dev.alessi.chunk.pomodoro.timer.android.util.RuntimeViewFactory
 
 
 class SelectTaskRecyclerAdapter(
@@ -55,7 +55,7 @@ class SelectTaskRecyclerAdapter(
         removeItem(taskSummariesTO)
     }
 
-    private fun remove(list: List<SelectTaskTO>, position: Int){
+    private fun remove(list: List<SelectTaskTO>, position: Int) {
         (list as MutableList).removeAt(position)
     }
 
@@ -63,12 +63,12 @@ class SelectTaskRecyclerAdapter(
         val indexAtItems = items.indexOf(taskSummariesTO)
         remove(items, indexAtItems)
 
-        if (isFiltering){
+        if (isFiltering) {
             val indexAtFilterered = itemsFiltered.indexOf(taskSummariesTO)
-            remove (itemsFiltered, indexAtFilterered)
+            remove(itemsFiltered, indexAtFilterered)
             notifyItemRemoved(indexAtFilterered)
             notifyItemRangeChanged(indexAtItems, itemCount)
-        }else{
+        } else {
             notifyItemRemoved(indexAtItems)
             notifyItemRangeChanged(indexAtItems, itemCount)
         }
@@ -137,41 +137,105 @@ class TaskViewHolder(
 ) :
     RecyclerView.ViewHolder(view) {
     private var txtTaskDesc: TextView = view.findViewById(R.id.txtTaskDesc)
-    private var txtTaskCreatedAt: TextView = view.findViewById(R.id.txtTaskCreatedAt)
-    private val chipSummary = view.findViewById<Chip>(R.id.chipSummary)
+    private var txtTaskCreatedAt: TextView = view.findViewById(R.id.txtCreatedAt)
+    //    private val chipSummary = view.findViewById<Chip>(R.id.chipSummary)
     private val btnInfo = view.findViewById<ImageButton>(R.id.btnInfo)
     private val btnArchive = view.findViewById<ImageButton>(R.id.btnArchive)
+    private val txtButtonExpand = view.findViewById<TextView>(R.id.txtButtonExpand)
+    private val groupPanel = view.findViewById<Group>(R.id.group_panel)
+    private val drawableExpand =
+        ContextCompat.getDrawable(context, R.drawable.ic_expand_more_black_24dp)
+    private val drawableCollapse =
+        ContextCompat.getDrawable(context, R.drawable.ic_expand_less_black_24dp)
 
     private var taskSummaryTO: SelectTaskTO? = null
 
+    private var expanded = false
+
+    private val linearLayoutEstimative = view.findViewById<LinearLayout>(R.id.linearLayoutEstimative)
+
 
     init {
-        view.setOnClickListener(selectTaskClick)
+//        view.setOnClickListener(selectTaskClick)
+
+        txtTaskDesc.setOnClickListener(selectTaskClick)
         btnInfo.setOnClickListener(taskInfoClick)
 
+/*
         chipSummary.setOnClickListener {
             taskSummaryTO?.rotate()
             setChipSummary(taskSummaryTO?.getPeriod())
 
         }
+*/
 
         btnArchive.setOnClickListener {
 
             archiveTaskClick.onClick(it)
         }
 
+        txtButtonExpand.setOnClickListener {
+            expanded = !expanded
+
+            updatePanel()
+        }
+
+
     }
 
+    private fun updatePanel() {
+        changeTxtButtonExpandCollapseStatus(expanded)
+
+    }
+
+    private fun changeTxtButtonExpandCollapseStatus(visible: Boolean) {
+        val drawable = if (visible) drawableCollapse else drawableExpand
+        val visibility = if (visible) View.VISIBLE else View.GONE
+
+        txtButtonExpand.setCompoundDrawablesWithIntrinsicBounds(
+            null,
+            null,
+            drawable,
+            null
+        )
+
+        groupPanel.visibility = visibility
+
+    }
+
+
+    fun addChild(value: Int, drawableRes: Int) {
+
+        linearLayoutEstimative.addView(
+            RuntimeViewFactory.createTextViewSliceSummary(
+                context,
+                value,
+                ContextCompat.getDrawable(context, drawableRes)!!
+            ), LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+        )
+
+    }
 
     fun bind(taskSummaryTO: SelectTaskTO) {
         this.taskSummaryTO = taskSummaryTO
 
         txtTaskDesc.text = taskSummaryTO.task.description
 
-        chipSummary.tag = taskSummaryTO
+//        chipSummary.tag = taskSummaryTO
         btnInfo.tag = taskSummaryTO
-        view.tag = taskSummaryTO
+        txtTaskDesc.tag = taskSummaryTO
         btnArchive.tag = taskSummaryTO
+
+
+        addChild(15, R.drawable.ic_pie_hole_3slices_20dp)
+        addChild(15, R.drawable.ic_pie_hole_4slices_20dp)
+        addChild(15, R.drawable.ic_pie_hole_6slices_20dp)
+        addChild(15, R.drawable.ic_pie_hole_8slices_20dp)
+        addChild(15, R.drawable.ic_pie_hole_full_20dp)
+
 
         val summary = taskSummaryTO.getPeriod()
 
@@ -185,12 +249,14 @@ class TaskViewHolder(
                     DateUtils.FORMAT_SHOW_YEAR or DateUtils.FORMAT_SHOW_WEEKDAY or DateUtils.FORMAT_ABBREV_ALL
         )
 
-        txtTaskCreatedAt.text =
-            context.getString(R.string.label_format_created_at, formatDate)
+//        txtTaskCreatedAt.text =
+//            context.getString(R.string.label_format_created_at, formatDate)
+
+        txtTaskCreatedAt.text = formatDate
     }
 
     private fun setChipSummary(summary: PeriodSummaryTO?) {
-        chipSummary.text =
+        /*chipSummary.text =
             context.getString(
                 R.string.label_format_summary_period_time,
                 context.getString(summary?.period?.labelKey!!),
@@ -199,7 +265,7 @@ class TaskViewHolder(
                     summary.minutes / 60,
                     summary.toFormatedHours()
                 )
-            )
+            )*/
     }
 
 

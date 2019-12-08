@@ -8,6 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
+
     android:fillViewport="true"
 
     >
@@ -16,6 +17,7 @@
         android:id="@+id/layoutFragmentMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
         android:clickable="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
@@ -216,14 +218,12 @@
 
             <ImageButton
                 android:id="@+id/btnIconSetTaskTimes"
-                style="@style/Widget.AppCompat.ImageButton"
+                style="@style/ActionButtons"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="8dp"
-                android:tint="@color/text_color_primary"
                 app:srcCompat="@drawable/ic_timer_black_24dp" />
 
             <TextView
@@ -244,13 +244,13 @@
 
             <ImageButton
                 android:id="@+id/btnIconSetBreak"
-                style="@style/Widget.AppCompat.ImageButton"
+                style="@style/ActionButtons"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="8dp"
-                android:tint="@color/text_color_primary"
+
                 app:srcCompat="@drawable/ic_local_cafe_black_24dp" />
 
             <TextView
@@ -267,8 +267,9 @@
 
 
             <ImageButton
+
                 android:id="@+id/btnOpenSettings"
-                style="@style/Widget.AppCompat.ImageButton"
+                style="@style/ActionButtons"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -277,7 +278,7 @@
                 android:layout_marginLeft="16dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="8dp"
-                android:tint="@color/text_color_primary"
+
                 app:layout_constraintBottom_toBottomOf="@+id/layoutTimerSettings"
                 app:layout_constraintStart_toEndOf="@+id/layoutTimerSettings"
                 app:layout_constraintTop_toTopOf="@+id/layoutTimerSettings"
@@ -287,24 +288,10 @@
         </LinearLayout>
 
 
-        <!--<ImageButton
-            android:id="@+id/btnExitApp"
-            style="@style/Widget.AppCompat.ImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="8dp"
-            app:srcCompat="@drawable/ic_exit_to_app_black_24dp"
-            android:tint="@color/text_color_primary"
-            app:layout_constraintBottom_toBottomOf="@+id/btnStartTimer"
-            app:layout_constraintEnd_toEndOf="parent" />-->
-
 
         <ImageButton
             android:id="@+id/btnClearTask"
-            style="@style/Widget.AppCompat.ImageButton"
+            style="@style/ActionButtons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -383,45 +370,46 @@
             >
 
             <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
-                android:foreground="?attr/selectableItemBackgroundBorderless"
-                android:focusable="true"
+                android:id="@+id/frBtnSizePP"
+                style="@style/FrameIconPizzaBackground"
                 android:clickable="true"
 
-                android:id="@+id/frBtnSizePP"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:tag="@string/tag_size_index_0"
-                app:labelText="16"
 
-                app:imageResource="@drawable/sliced_1"
-                style="@style/FrameIconPizzaBackground" />
+                app:imageResource="@drawable/ic_pie_hole_3slices"
+                app:labelText="16" />
 
             <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
 
 
-                android:foreground="?attr/selectableItemBackgroundBorderless"
-                android:focusable="true"
-                android:clickable="true"
                 android:id="@+id/frBtnSizeP"
+                style="@style/FrameIconPizzaBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:tag="@string/tag_size_index_1"
-                app:imageResource="@drawable/sliced_3"
-                style="@style/FrameIconPizzaBackground" />
+                app:imageResource="@drawable/ic_pie_hole_4slices" />
 
             <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
 
                 android:id="@+id/frBtnSizeM"
+                style="@style/FrameIconPizzaBackground"
                 android:tag="@string/tag_size_index_2"
-                app:imageResource="@drawable/sliced_5"
-                style="@style/FrameIconPizzaBackground" />
+                app:imageResource="@drawable/ic_pie_hole_6slices" />
 
             <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
                 android:id="@+id/frBtnSizeG"
+                style="@style/FrameIconPizzaBackground"
                 android:tag="@string/tag_size_index_3"
-                app:imageResource="@drawable/sliced_7"
-                style="@style/FrameIconPizzaBackground" />
+                app:imageResource="@drawable/ic_pie_hole_8slices" />
+
             <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
                 android:id="@+id/frBtnSizeGG"
+                style="@style/FrameIconPizzaBackground"
                 android:tag="@string/tag_size_index_4"
-                app:imageResource="@drawable/sliced_full"
-                style="@style/FrameIconPizzaBackground" />
+                app:imageResource="@drawable/ic_pie_hole_full" />
 
 
             <!--<FrameLayout
