@@ -7,16 +7,14 @@
         android:width="1dp"
         android:color="@color/color_action_dividers" />
 
-    <solid
-        android:color="@color/color_button_selected"
-        />
+    <solid android:color="@color/color_button_selected" />
 
     <corners
 
-        android:radius="@dimen/corner_size_medium">
+        android:radius="@dimen/corner_size_medium"/>
 
 
-    </corners>
+
 
 
 </shape>
