@@ -1,9 +1,9 @@
 package dev.alessi.chunk.pomodoro.timer.android.database
 
 
-annotation class SizeIndex{
+annotation class SizeIndex {
 
-    companion object{
+    companion object {
         const val PP = 0
         const val P = 1
         const val M = 2

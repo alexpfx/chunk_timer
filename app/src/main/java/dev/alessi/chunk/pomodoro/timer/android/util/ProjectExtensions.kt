@@ -1,8 +1,6 @@
 package dev.alessi.chunk.pomodoro.timer.android.util
 
-import android.content.Context
 import android.util.Log
-import android.util.TypedValue
 import java.util.*
 
 fun Any.debug(message: String) {
@@ -11,13 +9,6 @@ fun Any.debug(message: String) {
 
 fun Number.bool() = this != 0
 
-fun Number.toDip(context: Context): Int {
-    return TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP,
-        toFloat(),
-        context.resources.displayMetrics
-    ).toInt()
-}
 
 fun Date.beginningOfDay(): Date {
     return createCalendarBeginningOfDay().time

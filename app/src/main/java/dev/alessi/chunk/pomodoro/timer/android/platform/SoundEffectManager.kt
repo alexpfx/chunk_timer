@@ -19,8 +19,8 @@ class SoundEffectManager(val context: Context) {
     )
 
 
-    fun play(id: Int){
-        if (id < audios.size && id >= 0){
+    fun play(id: Int) {
+        if (id < audios.size && id >= 0) {
             mediaPlayer?.release()
             mediaPlayer = MediaPlayer.create(context, audios[id])
             mediaPlayer?.start()
@@ -28,7 +28,6 @@ class SoundEffectManager(val context: Context) {
 
 
     }
-
 
 
     fun dispose() {

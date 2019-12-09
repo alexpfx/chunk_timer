@@ -26,7 +26,6 @@ import dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.platform.ChunkTimerService
 import dev.alessi.chunk.pomodoro.timer.android.ui.dialog.TimerSettingsDialogFragment
-import dev.alessi.chunk.pomodoro.timer.android.util.Command
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_START_BREAK
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_START_TIMER
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_STOP
@@ -39,7 +38,6 @@ import kotlinx.android.synthetic.main.fragment_timer.*
 class TimerFragment : Fragment() {
 
 
-    private var TAG = TimerFragment::class.java.name
     private lateinit var sizeBtns: List<BadgedButton>
 
 
@@ -295,7 +293,7 @@ class TimerFragment : Fragment() {
     }
 
     override fun onPause() {
-        Log.d(TAG, "onPause")
+        Log.d(tag, "onPause")
         activity?.unregisterReceiver(mTickReceiver)
         super.onPause()
     }
@@ -341,7 +339,7 @@ class TimerFragment : Fragment() {
         btnCancelTimer.text = getText(R.string.button_label_cancel)
         val txtTaskText =
             if (mTask.description.isEmpty()) getString(R.string.message_hint_no_task) else mTask.description
-        txtTask.setText(txtTaskText)
+        txtTask.text = txtTaskText
 
         disableViews()
 
@@ -351,7 +349,7 @@ class TimerFragment : Fragment() {
         btnCancelTimer.visibility = View.VISIBLE
         btnCancelTimer.text = getText(R.string.button_label_cancel_break)
 
-        txtTask.setText(getString(R.string.label_breaktime))
+        txtTask.text = getString(R.string.label_breaktime)
 
         disableViews()
     }
@@ -371,7 +369,7 @@ class TimerFragment : Fragment() {
     }
 
 
-    fun showBreakTimerCanceled(intent: Intent) {
+    private fun showBreakTimerCanceled(intent: Intent) {
         val timeLeft = intent.getLongExtra(ChunkTimerService.extra_param_current_time, 0)
         val totalTime = intent.getLongExtra(ChunkTimerService.extra_param_total_time_millis, 5)
 
@@ -404,7 +402,6 @@ class TimerFragment : Fragment() {
     }
 
 
-
     private fun activeButton(btn: BadgedButton) {
         btn.alpha = 1f
     }
@@ -420,7 +417,7 @@ class TimerFragment : Fragment() {
         txtTask.isEnabled = false
         btnClearTask.visibility = View.INVISIBLE
 
-        if (mTask.uid == -1){
+        if (mTask.uid == -1) {
             txtTask.visibility = View.INVISIBLE
         }
 
@@ -430,7 +427,7 @@ class TimerFragment : Fragment() {
 
     private fun hideUnselectedSizeButtons() {
         forAllSizeButtons { btn: BadgedButton ->
-            if (!btn.isChecked){
+            if (!btn.isChecked) {
                 inativeButton(btn)
             }
         }
@@ -532,7 +529,7 @@ class TimerFragment : Fragment() {
         mTimerRunning = true
         mServiceController?.doStartService(
             mBreaktime * 60 * 1000.toLong(),
-            mSelectedIndex, -1, Command.ACTION_START_BREAK
+            mSelectedIndex, -1, ACTION_START_BREAK
         )
     }
 
@@ -544,7 +541,6 @@ class TimerFragment : Fragment() {
             timeMinutes * 60 * 1000.toLong(),
             mSelectedIndex, mTask.uid!!, ACTION_START_TIMER
         )
-
 
 
     }

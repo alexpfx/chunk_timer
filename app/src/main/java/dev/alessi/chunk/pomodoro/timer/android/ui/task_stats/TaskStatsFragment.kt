@@ -14,7 +14,6 @@ import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.ui.MainSharedViewModel
 import dev.alessi.chunk.pomodoro.timer.android.ui.task.SelectTaskFragment
-import kotlinx.android.synthetic.main.fragment_select_task.*
 import kotlinx.android.synthetic.main.fragment_task_stats.*
 import kotlinx.android.synthetic.main.layout_content_empty.*
 
@@ -24,10 +23,10 @@ import kotlinx.android.synthetic.main.layout_content_empty.*
  */
 class TaskStatsFragment : Fragment() {
 
-    lateinit var mAdapter: TaskStatsRecyclerAdapter
+    private lateinit var mAdapter: TaskStatsRecyclerAdapter
 
-    lateinit var mSummariesViewModel: LoadPeriodSummariesViewModel
-    lateinit var mainSharedViewModel: MainSharedViewModel
+    private lateinit var mSummariesViewModel: LoadPeriodSummariesViewModel
+    private lateinit var mainSharedViewModel: MainSharedViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

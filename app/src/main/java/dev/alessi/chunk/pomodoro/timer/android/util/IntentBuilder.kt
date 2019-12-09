@@ -16,7 +16,7 @@ class IntentBuilder {
             action: String,
             @Command command: Int,
             extras: Bundle? = null
-        ): Intent{
+        ): Intent {
             val intent = Intent(action)
 
             intent.putExtra(KEY_COMMAND, command)
@@ -54,7 +54,7 @@ class IntentBuilder {
         }
 
 
-        fun getIntent(
+        private fun getIntent(
             context: Context,
             @Command command: Int,
             extras: Bundle? = null,

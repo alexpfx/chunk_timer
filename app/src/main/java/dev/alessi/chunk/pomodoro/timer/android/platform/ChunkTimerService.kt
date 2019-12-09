@@ -17,7 +17,7 @@ import dev.alessi.chunk.pomodoro.timer.android.util.*
 class ChunkTimerService : Service() {
 
 
-    var mServiceStarted = false
+    private var mServiceStarted = false
     private var mStatus: @TimerState Int =
         TimerState.status_ready
     private var mCurrentTime: Long = 0
@@ -26,9 +26,8 @@ class ChunkTimerService : Service() {
     private lateinit var mNotificationManagerCompat: NotificationManagerCompat
     private var mTaskId: Int? = null
 
-//    private var mTaskname: String? = null
+    //    private var mTaskname: String? = null
     private var mSizeIndex: Int? = null
-
 
 
     @Target(
@@ -53,17 +52,12 @@ class ChunkTimerService : Service() {
         const val extra_param_no_sound_on_tick = "extra_param_no_sound_on_tick"
         const val extra_param_a_timer_was_finish = "extra_param_a_timer_was_finish"
         const val extra_param_sizeIndex = "extra_param_sizeIndex"
-        const val extra_param_taskname = "extra_param_taskname"
+
         const val extra_param_task_id = "extra_param_task_id"
 
         val message_broadcast_message =
             ChunkTimerService::class.java.`package`.toString() + "BROADCAST_MESSAGE"
 
-    }
-
-    override fun onCreate() {
-
-        super.onCreate()
     }
 
 
@@ -85,7 +79,6 @@ class ChunkTimerService : Service() {
 
         return START_NOT_STICKY
     }
-
 
 
     private fun processIntent(intent: Intent) {
@@ -234,7 +227,6 @@ class ChunkTimerService : Service() {
             IntentBuilder.getIntentForAction(message_broadcast_message, Command.ACTION_TICK, extras)
 
         sendBroadcast(intent)
-
 
 
     }

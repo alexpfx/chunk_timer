@@ -6,7 +6,7 @@ import androidx.room.TypeConverters
 
 @Database(entities = [TaskSize::class, Task::class, WorkUnit::class], version = 5)
 @TypeConverters(Converters::class)
-abstract class AppDatabase: RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
     abstract fun taskDao(): TaskDao
 
     abstract fun workUnitDao(): WorkUnitDao

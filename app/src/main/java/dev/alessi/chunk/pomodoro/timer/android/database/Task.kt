@@ -13,9 +13,8 @@ data class Task(
     var slices: List<WorkUnit> = listOf(),
     var archived: Int = 0
 
-){
-    constructor(): this(null, "", null, listOf())
-
+) {
+    constructor() : this(null, "", null, listOf())
 
 
 }

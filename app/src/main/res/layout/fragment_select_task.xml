@@ -10,14 +10,17 @@
     android:paddingRight="@dimen/default_layout_margin"
     android:paddingTop="0dp"
     android:paddingBottom="0dp"
+
     tools:context=".ui.task.SelectTaskFragment">
 
 
     <include layout="@layout/layout_content_empty" />
 
     <RelativeLayout
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/layout_content"
         android:layout_width="match_parent"
+
         android:layout_height="match_parent">
 
         <!--<TextView
@@ -44,6 +47,8 @@
             tools:itemCount="4"
 
 
+
+
             tools:listitem="@layout/item_select_task" />
 
 
@@ -56,6 +61,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
+
+
+        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
+
+
         android:clickable="true"
         android:focusable="true"
 

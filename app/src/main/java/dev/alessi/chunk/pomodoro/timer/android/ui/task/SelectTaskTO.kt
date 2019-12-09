@@ -12,13 +12,13 @@ data class SelectTaskTO(
     private var selected: Int = 0,
     var visible: Boolean = true
 ) {
-    companion object{
+    companion object {
         var enumPeriods: Array<Period> = enumValues()
     }
 
-    fun rotate(){
-        selected ++
-        if (selected >= enumPeriods.size){
+    fun rotate() {
+        selected++
+        if (selected >= enumPeriods.size) {
             selected = 0
         }
 
@@ -31,7 +31,7 @@ data class SelectTaskTO(
         return periods.find { it.period == p }
     }
 
-    fun isAllEmpty(): Boolean{
+    fun isAllEmpty(): Boolean {
         for (period in periods) {
             if (!period.isEmpty()) {
                 return false
@@ -39,10 +39,6 @@ data class SelectTaskTO(
         }
         return true
     }
-
-
-
-
 
 
 }

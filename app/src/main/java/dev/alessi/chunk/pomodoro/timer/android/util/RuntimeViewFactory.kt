@@ -1,14 +1,11 @@
 package dev.alessi.chunk.pomodoro.timer.android.util
 
 import android.content.Context
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.Drawable
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.core.view.setPadding
 import dev.alessi.chunk.pomodoro.timer.android.R
 

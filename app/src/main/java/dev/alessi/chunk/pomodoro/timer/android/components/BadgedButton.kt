@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import dev.alessi.chunk.pomodoro.timer.android.R
 
 
@@ -30,6 +29,11 @@ class BadgedButton(context: Context, attrs: AttributeSet?) : FrameLayout(context
         }
 
         super.setOnClickListener(l)
+    }
+
+    override fun setContentDescription(contentDescription: CharSequence?) {
+        button.contentDescription = contentDescription
+        super.setContentDescription(contentDescription)
     }
 
     override fun setEnabled(enabled: Boolean) {
@@ -76,7 +80,7 @@ class BadgedButton(context: Context, attrs: AttributeSet?) : FrameLayout(context
 
         txtBadge.text = a.getString(R.styleable.BadgedButton_labelText)
 
-        checked = a.getBoolean(R.styleable.BadgedButton_isChecked, false)!!
+        checked = a.getBoolean(R.styleable.BadgedButton_isChecked, false)
         val buttonIcon = a.getResourceId(R.styleable.BadgedButton_imageResource, 0)
 
         val btnHeight = a.getDimension(R.styleable.BadgedButton_buttonWidth, 56.0f)

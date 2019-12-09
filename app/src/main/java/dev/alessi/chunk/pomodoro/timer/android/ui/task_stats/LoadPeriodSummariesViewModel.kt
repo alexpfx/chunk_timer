@@ -34,7 +34,7 @@ class LoadPeriodSummariesViewModel(app: Application) : AndroidViewModel(app) {
         get() = _taskAndPeriods
 
 
-    val repository
+    private val repository
         get() = (getApplication<App>() as RepositoryProvider).getTaskRepository()
 
 

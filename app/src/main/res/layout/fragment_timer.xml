@@ -9,8 +9,8 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:paddingStart="@dimen/default_layout_margin"
-    android:paddingEnd="@dimen/default_layout_margin"
     android:paddingLeft="@dimen/default_layout_margin"
+    android:paddingEnd="@dimen/default_layout_margin"
     android:paddingRight="@dimen/default_layout_margin"
 
 
@@ -221,6 +221,8 @@
             app:layout_constraintTop_toBottomOf="@id/separator_view">
 
             <ImageButton
+
+                android:contentDescription="@string/content_description_setup_timers_values"
                 android:id="@+id/btnIconSetTaskTimes"
                 style="@style/ActionButtons"
                 android:layout_width="wrap_content"
@@ -241,21 +243,21 @@
 
                 tools:text="00:35:45" />
 
-            <Space
-                android:layout_width="20dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
             <ImageButton
                 android:id="@+id/btnIconSetBreak"
                 style="@style/ActionButtons"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
+
+                android:contentDescription="@string/content_description_setup_break_values"
+
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="8dp"
+                android:layout_marginStart="20dp"
 
-                app:srcCompat="@drawable/ic_local_cafe_black_24dp" />
+                app:srcCompat="@drawable/ic_local_cafe_black_24dp"
+                android:layout_marginLeft="20dp" />
 
             <TextView
                 android:id="@+id/txtBreakTimeDisplay"
@@ -276,6 +278,8 @@
                 style="@style/ActionButtons"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
+                android:contentDescription="@string/content_description_setup_app"
 
 
                 android:layout_marginStart="16dp"
@@ -299,6 +303,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginLeft="4dp"
+
+            android:contentDescription="@string/content_description_clear_task"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:padding="8dp"
             android:tint="@color/text_color_primary"
@@ -337,6 +343,7 @@
             android:layout_width="0dp"
             android:layout_height="80dp"
             android:layout_marginTop="16dp"
+            android:contentDescription="@string/content_description_size_bar"
 
 
             android:animateLayoutChanges="true"
@@ -354,6 +361,8 @@
                 style="@style/FrameIconPizzaBackground"
                 android:clickable="true"
 
+                android:contentDescription="@string/content_description_size0"
+
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:tag="@string/tag_size_index_0"
@@ -363,211 +372,37 @@
 
             <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
 
-
                 android:id="@+id/frBtnSizeP"
+
                 style="@style/FrameIconPizzaBackground"
                 android:clickable="true"
+                android:contentDescription="@string/content_description_size1"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:tag="@string/tag_size_index_1"
                 app:imageResource="@drawable/ic_pie_hole_4slices" />
 
             <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
-
                 android:id="@+id/frBtnSizeM"
+
                 style="@style/FrameIconPizzaBackground"
+                android:contentDescription="@string/content_description_size2"
                 android:tag="@string/tag_size_index_2"
                 app:imageResource="@drawable/ic_pie_hole_6slices" />
 
             <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
                 android:id="@+id/frBtnSizeG"
                 style="@style/FrameIconPizzaBackground"
+                android:contentDescription="@string/content_description_size3"
                 android:tag="@string/tag_size_index_3"
                 app:imageResource="@drawable/ic_pie_hole_8slices" />
 
             <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
                 android:id="@+id/frBtnSizeGG"
                 style="@style/FrameIconPizzaBackground"
+                android:contentDescription="@string/content_description_size4"
                 android:tag="@string/tag_size_index_4"
                 app:imageResource="@drawable/ic_pie_hole_full" />
-
-
-            <!--<FrameLayout
-                android:id="@+id/frBtnSizePP"
-                style="@style/FrameIconPizzaBackground"
-                android:tag="@string/tag_size_index_0"
-                >
-
-                <View
-                    style="@style/ViewIconPizzaBackground"
-                    android:background="@drawable/button_circle_bkg" />
-
-                <ImageButton
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:layout_gravity="top|center"
-                    android:adjustViewBounds="true"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-
-                    android:scaleType="centerCrop"
-                    android:tag="@string/tag_size_index_0"
-                    app:srcCompat="@drawable/sliced_1" />
-
-                <View
-                    style="@style/ViewIconPizzaBackground"
-                    android:background="@drawable/button_circle_bkg_stroke" />
-
-                <TextView
-                    style="@style/TextIconPizza"
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|center"
-                    android:text="broto"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-
-
-            </FrameLayout>-->
-
-            <!--<FrameLayout
-                android:id="@+id/frBtnSizeP"
-                style="@style/FrameIconPizzaBackground"
-                android:background="@color/colorPrimary44">
-
-                <View
-                    style="@style/ViewIconPizzaBackground"
-
-                    android:background="@drawable/button_circle_bkg" />
-
-                <ImageButton
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:layout_gravity="top|center"
-                    android:adjustViewBounds="true"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:scaleType="centerCrop"
-
-
-                    android:tag="@string/tag_size_index_1"
-                    app:srcCompat="@drawable/sliced_3" />
-
-                <View
-                    style="@style/ViewIconPizzaBackground"
-                    android:background="@drawable/button_circle_bkg_stroke" />
-
-                <TextView
-                    style="@style/TextIconPizza"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="pequena"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-
-            </FrameLayout>
-
-
-            <FrameLayout
-                android:id="@+id/frBtnSizeM"
-                style="@style/FrameIconPizzaBackground">
-
-                <View
-
-                    style="@style/ViewIconPizzaBackground"
-                    android:background="@drawable/button_circle_bkg" />
-
-
-                <ImageButton
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:layout_gravity="top|center"
-                    android:adjustViewBounds="true"
-
-                    android:background="?attr/selectableItemBackgroundBorderless"
-
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/sliced_5"
-                    android:tag="@string/tag_size_index_2" />
-
-                <View
-                    style="@style/ViewIconPizzaBackground"
-                    android:background="@drawable/button_circle_bkg_stroke" />
-
-
-                <TextView
-                    style="@style/TextIconPizza"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:text="média"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/frBtnSizeG"
-                style="@style/FrameIconPizzaBackground">
-
-                <View
-                    style="@style/ViewIconPizzaBackground"
-
-                    android:background="@drawable/button_circle_bkg" />
-
-                <ImageButton
-
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:layout_gravity="top|center"
-                    android:adjustViewBounds="true"
-
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:scaleType="centerCrop"
-                    android:tag="@string/tag_size_index_3"
-                    app:srcCompat="@drawable/sliced_7" />
-
-                <View
-                    style="@style/ViewIconPizzaBackground"
-                    android:background="@drawable/button_circle_bkg_stroke" />
-
-                <TextView
-                    style="@style/TextIconPizza"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="grande"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/frBtnSizeGG"
-                style="@style/FrameIconPizzaBackground">
-
-                <View
-                    style="@style/ViewIconPizzaBackground"
-                    android:background="@drawable/button_circle_bkg" />
-
-                <ImageButton
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:layout_gravity="top|center"
-                    android:adjustViewBounds="true"
-
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:scaleType="centerCrop"
-
-                    android:tag="@string/tag_size_index_4"
-                    app:srcCompat="@drawable/sliced_full" />
-
-                <View
-                    style="@style/ViewIconPizzaBackground"
-                    android:background="@drawable/button_circle_bkg_stroke" />
-
-                <TextView
-                    style="@style/TextIconPizza"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="família"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-
-            </FrameLayout>-->
 
 
         </LinearLayout>

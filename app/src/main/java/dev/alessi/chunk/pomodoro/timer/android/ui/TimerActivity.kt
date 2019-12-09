@@ -21,7 +21,7 @@ class TimerActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener, ChunkTimerServiceControl {
 
 
-    lateinit var sharedViewModel: MainSharedViewModel
+    private lateinit var mSharedViewModel: MainSharedViewModel
 
     override fun onDestinationChanged(
         controller: NavController,
@@ -60,9 +60,9 @@ class TimerActivity : AppCompatActivity(),
         setSupportActionBar(toolbar)
 
 
-        sharedViewModel = ViewModelProviders.of(this).get(MainSharedViewModel::class.java)
+        mSharedViewModel = ViewModelProviders.of(this).get(MainSharedViewModel::class.java)
 
-        sharedViewModel.title.observe(this, Observer {
+        mSharedViewModel.title.observe(this, Observer {
             supportActionBar?.title = it
         })
 

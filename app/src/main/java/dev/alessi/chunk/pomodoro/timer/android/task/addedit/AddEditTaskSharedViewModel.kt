@@ -22,12 +22,11 @@ class AddEditTaskSharedViewModel(application: Application) : AndroidViewModel(ap
         get() = addedTask as LiveData<Task>
 
 
-
-    fun saveTask(task: Task){
+    fun saveTask(task: Task) {
         scope.launch {
 
-            val newTask = withContext(Dispatchers.IO){
-               repository.storeTask(task)
+            val newTask = withContext(Dispatchers.IO) {
+                repository.storeTask(task)
             }
 
             addedTask.value = newTask
@@ -35,10 +34,8 @@ class AddEditTaskSharedViewModel(application: Application) : AndroidViewModel(ap
     }
 
 
-
     private val repository
         get() = (getApplication<App>() as RepositoryProvider).getTaskRepository()
-
 
 
 }

@@ -20,24 +20,20 @@ import java.util.*
 
 class AddEditTaskDialog : DialogFragment(), TextWatcher {
 
-    lateinit var mSharedViewModelSelect: SelectTaskSharedViewModel
-    lateinit var mEdtTask: TextInputEditText
-    lateinit var mInputTask: TextInputLayout
-    lateinit var mPositiveButton: Button
-    var mTask: Task = Task(description = "", uid = null)
+    private lateinit var mSharedViewModelSelect: SelectTaskSharedViewModel
+    private lateinit var mEdtTask: TextInputEditText
+    private lateinit var mInputTask: TextInputLayout
+    private lateinit var mPositiveButton: Button
+    private var mTask: Task = Task(description = "", uid = null)
 
 
     lateinit var mAddEditTaskviewModel: AddEditTaskSharedViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        mAddEditTaskviewModel = activity?.run{
+        mAddEditTaskviewModel = activity?.run {
             ViewModelProviders.of(this)[AddEditTaskSharedViewModel::class.java]
-        }?: throw IllegalStateException("Invalid activity")
-
-
-
-
+        } ?: throw IllegalStateException("Invalid activity")
 
         mSharedViewModelSelect = activity?.run {
             ViewModelProviders.of(this)[SelectTaskSharedViewModel::class.java]
@@ -83,15 +79,14 @@ class AddEditTaskDialog : DialogFragment(), TextWatcher {
 
 
         if (arguments != null) {
-       /*     isEditMode = true
-            dialog.setTitle(R.string.title_edit_task)
-            loadTask(arguments!!.getInt(SelectTaskFragment.extra_param_task_id))*/
+            /*     isEditMode = true
+                 dialog.setTitle(R.string.title_edit_task)
+                 loadTask(arguments!!.getInt(SelectTaskFragment.extra_param_task_id))*/
 
         }
 
         return dialog
     }
-
 
 
     /*private fun loadTask(tid: Int) {
@@ -104,14 +99,20 @@ class AddEditTaskDialog : DialogFragment(), TextWatcher {
 
     }*/
 
-    private fun updateUi()  {
+    private fun updateUi() {
 
         mEdtTask.setText(mTask.description)
     }
 
 
     private fun saveTask() {
-        mAddEditTaskviewModel.saveTask(Task(uid = null, description = mTask.description, dateCreated = Date()))
+        mAddEditTaskviewModel.saveTask(
+            Task(
+                uid = null,
+                description = mTask.description,
+                dateCreated = Date()
+            )
+        )
     }
 
     override fun afterTextChanged(s: Editable?) {

@@ -1,7 +1,6 @@
 package dev.alessi.chunk.pomodoro.timer.android.ui.task
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -152,7 +151,8 @@ class TaskViewHolder(
 
     private var expanded = false
 
-    private val linearLayoutEstimative = view.findViewById<LinearLayout>(R.id.linearLayoutEstimative)
+    private val linearLayoutEstimative =
+        view.findViewById<LinearLayout>(R.id.linearLayoutEstimative)
 
 
     init {
@@ -204,7 +204,7 @@ class TaskViewHolder(
     }
 
 
-    fun addChild(value: Int, drawableRes: Int) {
+    private fun addChild(value: Int, drawableRes: Int) {
 
         linearLayoutEstimative.addView(
             RuntimeViewFactory.createTextViewSliceSummary(

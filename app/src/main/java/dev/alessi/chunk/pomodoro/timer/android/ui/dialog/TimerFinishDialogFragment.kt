@@ -24,20 +24,20 @@ import java.util.*
 
 class TimerFinishDialogFragment : DialogFragment() {
 
-    var txtTimer: TextView? = null
-    var txtSize: TextView? = null
-    var txtTask: TextView? = null
-    private val scope = CoroutineScope(Dispatchers.Main)
+    private var txtTimer: TextView? = null
+    private var txtSize: TextView? = null
+    private var txtTask: TextView? = null
+    private val mScope = CoroutineScope(Dispatchers.Main)
 
-    var mSize: Int = 0
-    var mTotalTime: Int = -1
-    lateinit var mWorkUnit: WorkUnit
+    private var mSize: Int = 0
+    private var mTotalTime: Int = -1
+    private lateinit var mWorkUnit: WorkUnit
 
 
     private var mTimerRingIndex = -1
     private var mBreaktimeRingIndex = -1
     private lateinit var sfm: SoundEffectManager
-    lateinit var mTaskRepository: TaskRepository
+    private lateinit var mTaskRepository: TaskRepository
 
     private fun loadSoundEffectPrefs() {
         val pm = PreferenceManager.getDefaultSharedPreferences(this.activity!!)
@@ -65,7 +65,7 @@ class TimerFinishDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         isCancelable = false
 
-        val dialog = activity?.let {
+        return activity?.let {
             val builder = MaterialAlertDialogBuilder(it)
 
             @ChunkTimerService.TimerState val type =
@@ -112,8 +112,6 @@ class TimerFinishDialogFragment : DialogFragment() {
             builder.show()
         } ?: throw IllegalStateException("activity couldn't be null")
 
-        return dialog
-
     }
 
     private fun extractViews(view: View?) {
@@ -141,7 +139,7 @@ class TimerFinishDialogFragment : DialogFragment() {
 
     private fun loadTaskAndUpdateUi(taskId: Int) {
 
-        scope.launch {
+        mScope.launch {
             mWorkUnit = withContext(Dispatchers.IO) {
                 val wu = WorkUnit(
                     finishDate = Date(),

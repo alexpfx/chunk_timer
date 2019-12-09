@@ -119,6 +119,21 @@
     <string name="label_estimative">Estimativa:</string>
     <string name="symbol_no_data">-</string>
     <string name="nothing_yet">Nenhum Ainda</string>
+    <string name="content_description_size0">Timer tamanho PP</string>
+    <string name="content_description_size1">Timer tamanho P</string>
+    <string name="content_description_size2">Timer tamanho M</string>
+    <string name="content_description_size3">Timer tamanho G</string>
+    <string name="content_description_size4">Timer tamanho GG</string>
+    <string name="content_description_size_bar">Lista de timers por tamanho</string>
+    <string name="content_description_setup_timers_values">Configurar timers</string>
+    <string name="content_description_setup_break_values">Configurar intervalo</string>
+    <string name="content_description_setup_app">Configurações gerais</string>
+    <string name="content_description_clear_task">Limpar campo de tarefas</string>
+    <string name="content_description_more_info">Mais informações</string>
+    <string name="content_description_archive_task">Arquivar Tarefa</string>
+    <string name="content_description_plan_task">Planejar Tarefa</string>
+    <string name="content_description_expand_collapse">Expand / Collapse</string>
+
     <plurals name="label_format_hours">
         <item quantity="one">%s hour</item>
         <item quantity="other">%s hours</item>

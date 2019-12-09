@@ -12,8 +12,10 @@ import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.database.TaskSize
 import dev.alessi.chunk.pomodoro.timer.android.repository.TaskRepository
 import dev.alessi.chunk.pomodoro.timer.android.repository.TaskRepositoryImpl
-import kotlinx.coroutines.*
-
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 
 
@@ -45,11 +47,6 @@ class App : Application(), RepositoryProvider {
 
 
     private val onCreateDbCallback = object : RoomDatabase.Callback() {
-        override fun onOpen(db: SupportSQLiteDatabase) {
-
-            super.onOpen(db)
-        }
-
 
         override fun onCreate(db: SupportSQLiteDatabase) {
 
@@ -57,7 +54,13 @@ class App : Application(), RepositoryProvider {
             scope.launch {
                 withContext(Dispatchers.Default) {
 
-                    mTaskRepository.storeTask(Task(uid = -1, description = getString(R.string.message_hint_workunit_without_task), dateCreated = Date()))
+                    mTaskRepository.storeTask(
+                        Task(
+                            uid = -1,
+                            description = getString(R.string.message_hint_workunit_without_task),
+                            dateCreated = Date()
+                        )
+                    )
 
                     mTaskRepository.storeTaskSize(
                         TaskSize(
@@ -91,8 +94,6 @@ class App : Application(), RepositoryProvider {
                     )
 
 
-
-
                 }
             }
 
@@ -103,7 +104,8 @@ class App : Application(), RepositoryProvider {
 
     private fun createDb() {
         val db: AppDatabase =
-            Room.databaseBuilder(this, AppDatabase::class.java, "nbd.db").addCallback(onCreateDbCallback)
+            Room.databaseBuilder(this, AppDatabase::class.java, "nbd.db")
+                .addCallback(onCreateDbCallback)
                 .fallbackToDestructiveMigration().build()
 
         db.query("select 1", null) //
