@@ -16,6 +16,7 @@
     <dimen name="default_border_radious">5dp</dimen>
 
     <dimen name="corner_size_medium">8dp</dimen>
+    <dimen name="corner_size_small">4dp</dimen>
 
     <dimen name="default_layout_margin">16dp</dimen>
 

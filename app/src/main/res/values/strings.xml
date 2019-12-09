@@ -115,6 +115,10 @@
 
     <string name="label_message_noitems">Nenhuma</string>
     <string name="message_content_empty">Não há items</string>
+    <string name="label_done">Realizado:</string>
+    <string name="label_estimative">Estimativa:</string>
+    <string name="symbol_no_data">-</string>
+    <string name="nothing_yet">Nenhum Ainda</string>
     <plurals name="label_format_hours">
         <item quantity="one">%s hour</item>
         <item quantity="other">%s hours</item>
