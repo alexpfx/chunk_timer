@@ -6,35 +6,27 @@
     tools:parentTag="android.widget.FrameLayout">
 
 
-
-        <ImageButton
-            android:id="@+id/btnSizePP"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_gravity="top|center"
-            android:adjustViewBounds="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            style="@style/Widget.AppCompat.ImageButton"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/ic_pie_hole_3slices" />
-
-
-        <TextView
-            style="@style/TextIconPizza"
-            android:id="@+id/txtBadge"
-            android:textStyle="bold"
+    <ImageButton
+        android:id="@+id/btnSizePP"
+        style="@style/Widget.AppCompat.ImageButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="top|center"
+        android:adjustViewBounds="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/ic_pie_hole_3slices" />
 
 
-            tools:text="24"
-
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center"
-
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-
-
+    <TextView
+        android:id="@+id/txtBadge"
+        style="@style/TextIconPizza"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:textStyle="bold"
+        tools:text="24" />
 
 
     <!--

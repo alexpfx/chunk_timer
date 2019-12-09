@@ -8,6 +8,7 @@ import android.content.IntentFilter
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.format.DateUtils
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -229,6 +230,10 @@ class TimerFragment : Fragment() {
         btnClearTask.setOnClickListener(::actionClearTask)
 
 
+
+        txtTask.movementMethod = ScrollingMovementMethod()
+
+
         btnIconSetBreak.setOnClickListener(::openBreaktimeSettingsDialog)
         btnIconSetTaskTimes.setOnClickListener(::openTimerSettingsDialog)
         txtTask.setOnClickListener(::openLoadTaskScreen)
@@ -240,6 +245,9 @@ class TimerFragment : Fragment() {
         forAllSizeButtons { _, it ->
             it.setOnClickListener(::onSizeSetupBtnClick)
         }
+
+
+
 
         super.onViewCreated(view, savedInstanceState)
     }
@@ -386,6 +394,19 @@ class TimerFragment : Fragment() {
         txtTask.isEnabled = true
         btnClearTask.visibility = View.VISIBLE
 
+        forAllSizeButtons { btn: BadgedButton ->
+            activeButton(btn)
+        }
+
+        txtTask.visibility = View.VISIBLE
+
+
+    }
+
+
+
+    private fun activeButton(btn: BadgedButton) {
+        btn.alpha = 1f
     }
 
 
@@ -398,6 +419,25 @@ class TimerFragment : Fragment() {
         btnOpenSettings.visibility = View.INVISIBLE
         txtTask.isEnabled = false
         btnClearTask.visibility = View.INVISIBLE
+
+        if (mTask.uid == -1){
+            txtTask.visibility = View.INVISIBLE
+        }
+
+
+        hideUnselectedSizeButtons()
+    }
+
+    private fun hideUnselectedSizeButtons() {
+        forAllSizeButtons { btn: BadgedButton ->
+            if (!btn.isChecked){
+                inativeButton(btn)
+            }
+        }
+    }
+
+    private fun inativeButton(btn: BadgedButton) {
+        btn.alpha = 0.4f
     }
 
 

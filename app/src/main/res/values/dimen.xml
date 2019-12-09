@@ -17,5 +17,7 @@
 
     <dimen name="corner_size_medium">8dp</dimen>
 
+    <dimen name="default_layout_margin">16dp</dimen>
+
 
 </resources>

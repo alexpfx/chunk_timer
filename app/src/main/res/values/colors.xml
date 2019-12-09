@@ -13,7 +13,7 @@
 
     <color name="color_action_foreground">@color/black_72</color>
     <color name="color_action_dividers">@color/black_82</color>
-    <color name="color_action_inative_dividers">@color/grey_3d</color>
+    <color name="color_action_inative_dividers">@color/grey_5a</color>
 
 
     <color name="text_color_primary">@color/black_80</color>
@@ -23,6 +23,7 @@
     <color name="text_color_primary_on_dark">@color/white</color>
 
 
+    <color name="grey_5a">#5aaa</color>
     <color name="grey_3b">#3bbb</color>
     <color name="grey_3c">#3ccc</color>
     <color name="grey_3d">#3ddd</color>
@@ -31,6 +32,7 @@
     <color name="black_80">#8000</color>
     <color name="black_82">#8222</color>
     <color name="black_72">#7222</color>
+
 
 
 

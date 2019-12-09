@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="12dp"
     android:background="@color/color_background_inative"
-
-
     android:orientation="vertical"
+    android:paddingLeft="@dimen/default_layout_margin"
+    android:paddingRight="@dimen/default_layout_margin"
+    android:paddingTop="0dp"
+    android:paddingBottom="0dp"
     tools:context=".ui.task.SelectTaskFragment">
 
 
@@ -19,14 +20,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
+        <!--<TextView
+            android:background="@color/color_foreground_light"
             android:id="@+id/label_select_message"
+            android:padding="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginBottom="16dp"
+
             android:text="@string/message_select_task"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Small" />-->
 
 
         <!-- TODO: Update blank fragment layout -->
@@ -36,7 +39,6 @@
             style="@style/RecyclerViews"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/label_select_message"
             android:layout_gravity="center"
             android:layout_marginTop="-3dp"
             tools:itemCount="4"

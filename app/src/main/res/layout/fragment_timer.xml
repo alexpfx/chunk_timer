@@ -7,9 +7,12 @@
     android:id="@+id/scrollviewBase"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-
     android:fillViewport="true"
+    android:paddingStart="@dimen/default_layout_margin"
+    android:paddingEnd="@dimen/default_layout_margin"
+    android:paddingLeft="@dimen/default_layout_margin"
+    android:paddingRight="@dimen/default_layout_margin"
+
 
     >
 
@@ -117,14 +120,14 @@
             android:layout_height="1dp"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="100dp"
-            android:layout_marginEnd="16dp"
 
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/linear_layout_buttons_base" />
 
 
         <com.google.android.material.button.MaterialButton
@@ -162,17 +165,20 @@
 
         <FrameLayout
             android:id="@+id/frTxtMainTimer"
-            style="@style/FrameLayoutBrackground"
+            style="@style/FrameLayoutBackground"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_marginBottom="32dp"
+            android:layout_marginTop="32dp"
+
+
+            android:layout_marginBottom="16dp"
             android:minWidth="180dp"
-
-
             app:layout_constraintBottom_toTopOf="@+id/btnStartBreak"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtTask"
+            app:layout_constraintVertical_bias="0.0"
             tools:text="00:00:00">
 
             <TextView
@@ -204,17 +210,15 @@
 
         <LinearLayout
             android:id="@+id/layoutTimerSettings"
-            style="@style/FrameLayoutBrackground"
+            style="@style/FrameLayoutBackground"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="32dp"
 
             android:gravity="center"
-            app:layout_constraintBottom_toTopOf="@+id/frm"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/separator_view">
+            app:layout_constraintTop_toBottomOf="@id/separator_view">
 
             <ImageButton
                 android:id="@+id/btnIconSetTaskTimes"
@@ -232,9 +236,9 @@
                 android:layout_height="wrap_content"
 
                 android:text="@string/init_timer_time"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
 
-                android:textColor="@color/text_color_primary"
+
                 tools:text="00:35:45" />
 
             <Space
@@ -260,8 +264,8 @@
 
 
                 android:text="@string/init_timer_time"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textColor="@color/text_color_primary"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+
 
                 tools:text="10:00" />
 
@@ -288,7 +292,6 @@
         </LinearLayout>
 
 
-
         <ImageButton
             android:id="@+id/btnClearTask"
             style="@style/ActionButtons"
@@ -299,57 +302,32 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:padding="8dp"
             android:tint="@color/text_color_primary"
-            app:layout_constraintBottom_toBottomOf="@+id/frm"
-            app:layout_constraintStart_toEndOf="@+id/frm"
-            app:layout_constraintTop_toTopOf="@+id/frm"
+            app:layout_constraintBottom_toBottomOf="@+id/txtTask"
+            app:layout_constraintStart_toEndOf="@+id/txtTask"
+            app:layout_constraintTop_toTopOf="@+id/txtTask"
             app:srcCompat="@drawable/ic_clear_24dp" />
 
-        <FrameLayout
-            android:id="@+id/frm"
-            style="@style/FrameLayoutBrackground"
+
+        <TextView
+            android:id="@+id/txtTask"
+            style="@style/FrameLayoutBackground"
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
-
-            android:layout_marginBottom="32dp"
-
+            android:layout_marginTop="16dp"
+            android:clickable="true"
             android:focusable="true"
-
-
-            android:focusableInTouchMode="true"
-            android:foregroundGravity="center"
-            app:layout_constraintBottom_toTopOf="@+id/frTxtMainTimer"
+            android:gravity="center"
+            android:maxWidth="200dp"
+            android:maxHeight="100dp"
+            android:minWidth="180dp"
+            android:minHeight="64dp"
+            android:scrollbars="vertical"
+            android:text="@string/message_hint_choose_task"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutTimerSettings" />
 
-
-            <TextView
-
-                android:id="@+id/txtTask"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:gravity="center"
-                android:maxWidth="200dp"
-                android:maxHeight="100dp"
-                android:minWidth="180dp"
-                android:minHeight="64dp"
-
-                android:text="@string/message_hint_choose_task"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-            <!--<TextView
-                android:id="@+id/txtTaskLabel"
-                android:visibility="visible"
-                style="@style/TextViewTask"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="teste"
-                android:textColor="@color/text_color_primary" />-->
-
-        </FrameLayout>
 
         <LinearLayout
 
@@ -357,11 +335,13 @@
             android:id="@+id/linear_layout_buttons_base"
             style="@style/LinearLayoutSizeBar"
             android:layout_width="0dp"
-            android:layout_height="100dp"
-            android:layout_margin="4dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="16dp"
+
+
+            android:animateLayoutChanges="true"
             android:background="@drawable/size_panel_bkg"
             android:orientation="horizontal"
-            android:paddingTop="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
