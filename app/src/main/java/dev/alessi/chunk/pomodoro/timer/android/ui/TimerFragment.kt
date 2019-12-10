@@ -238,7 +238,7 @@ class TimerFragment : Fragment() {
         btnOpenSettings.setOnClickListener(::openSettingsScreen)
 
         sizeBtns =
-            listOf<BadgedButton>(frBtnSizePP, frBtnSizeP, frBtnSizeM, frBtnSizeG, frBtnSizeGG)
+            listOf<BadgedButton>(btnSizePP, btnSizeP, btnSizeM, btnSizeG, btnSizeGG)
 
         forAllSizeButtons { _, it ->
             it.setOnClickListener(::onSizeSetupBtnClick)
@@ -503,7 +503,7 @@ class TimerFragment : Fragment() {
     }
 
     private fun openLoadTaskScreen(view: View) {
-        findNavController().navigate(R.id.taskFragment)
+        findNavController().navigate(R.id.selectTaskFragment)
     }
 
     private fun openTimerSettingsDialog(view: View) {

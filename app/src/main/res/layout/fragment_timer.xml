@@ -357,7 +357,7 @@
             >
 
             <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
-                android:id="@+id/frBtnSizePP"
+                android:id="@+id/btnSizePP"
                 style="@style/FrameIconPizzaBackground"
                 android:clickable="true"
 
@@ -372,7 +372,7 @@
 
             <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
 
-                android:id="@+id/frBtnSizeP"
+                android:id="@+id/btnSizeP"
 
                 style="@style/FrameIconPizzaBackground"
                 android:clickable="true"
@@ -383,7 +383,7 @@
                 app:imageResource="@drawable/ic_pie_hole_4slices" />
 
             <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
-                android:id="@+id/frBtnSizeM"
+                android:id="@+id/btnSizeM"
 
                 style="@style/FrameIconPizzaBackground"
                 android:contentDescription="@string/content_description_size2"
@@ -391,14 +391,14 @@
                 app:imageResource="@drawable/ic_pie_hole_6slices" />
 
             <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
-                android:id="@+id/frBtnSizeG"
+                android:id="@+id/btnSizeG"
                 style="@style/FrameIconPizzaBackground"
                 android:contentDescription="@string/content_description_size3"
                 android:tag="@string/tag_size_index_3"
                 app:imageResource="@drawable/ic_pie_hole_8slices" />
 
             <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
-                android:id="@+id/frBtnSizeGG"
+                android:id="@+id/btnSizeGG"
                 style="@style/FrameIconPizzaBackground"
                 android:contentDescription="@string/content_description_size4"
                 android:tag="@string/tag_size_index_4"

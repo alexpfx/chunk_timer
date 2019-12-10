@@ -19,7 +19,8 @@ class SelectTaskRecyclerAdapter(
     private var items: List<SelectTaskTO>,
     val onSelect: (task: SelectTaskTO) -> Unit,
     val onTaskInfoClick: (taskSummariesTO: SelectTaskTO) -> Unit,
-    val onTaskArchiveClick: (taskId: Task) -> Unit
+    val onTaskArchiveClick: (taskId: Task) -> Unit,
+    val onEstimateTaskClick: (task: Task) -> Unit
 ) :
     RecyclerView.Adapter<TaskViewHolder>(), Filterable {
 
@@ -38,7 +39,7 @@ class SelectTaskRecyclerAdapter(
             LayoutInflater.from(parent.context).inflate(R.layout.item_select_task, parent, false)
 
         return TaskViewHolder(
-            view, taskSelectClick, taskInfoClick, archiveTaskClick, view.context
+            view, taskSelectClick, taskInfoClick, archiveTaskClick, estimateTaskClick, view.context
         )
     }
 
@@ -53,6 +54,13 @@ class SelectTaskRecyclerAdapter(
         onTaskArchiveClick(taskSummariesTO.task)
         removeItem(taskSummariesTO)
     }
+
+    private val estimateTaskClick = View.OnClickListener {
+        val taskSummariesTO = (it.tag as SelectTaskTO)
+        onEstimateTaskClick(taskSummariesTO.task)
+    }
+
+
 
     private fun remove(list: List<SelectTaskTO>, position: Int) {
         (list as MutableList).removeAt(position)
@@ -132,6 +140,7 @@ class TaskViewHolder(
     selectTaskClick: View.OnClickListener,
     taskInfoClick: View.OnClickListener,
     archiveTaskClick: View.OnClickListener,
+    estimateTaskClick: View.OnClickListener,
     val context: Context
 ) :
     RecyclerView.ViewHolder(view) {
@@ -140,6 +149,9 @@ class TaskViewHolder(
     //    private val chipSummary = view.findViewById<Chip>(R.id.chipSummary)
     private val btnInfo = view.findViewById<ImageButton>(R.id.btnInfo)
     private val btnArchive = view.findViewById<ImageButton>(R.id.btnArchive)
+
+    private val btnEstimate = view.findViewById<ImageButton>(R.id.btnEstimate)
+
     private val txtButtonExpand = view.findViewById<TextView>(R.id.txtButtonExpand)
     private val groupPanel = view.findViewById<Group>(R.id.group_panel)
     private val drawableExpand =
@@ -160,6 +172,7 @@ class TaskViewHolder(
 
         txtTaskDesc.setOnClickListener(selectTaskClick)
         btnInfo.setOnClickListener(taskInfoClick)
+        btnEstimate.setOnClickListener(estimateTaskClick)
 
 /*
         chipSummary.setOnClickListener {
@@ -228,6 +241,8 @@ class TaskViewHolder(
         btnInfo.tag = taskSummaryTO
         txtTaskDesc.tag = taskSummaryTO
         btnArchive.tag = taskSummaryTO
+        btnEstimate.tag = taskSummaryTO
+
 
 
         addChild(15, R.drawable.ic_pie_hole_3slices_20dp)

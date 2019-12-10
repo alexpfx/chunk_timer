@@ -31,10 +31,6 @@ class BadgedButton(context: Context, attrs: AttributeSet?) : FrameLayout(context
         super.setOnClickListener(l)
     }
 
-    override fun setContentDescription(contentDescription: CharSequence?) {
-        button.contentDescription = contentDescription
-        super.setContentDescription(contentDescription)
-    }
 
     override fun setEnabled(enabled: Boolean) {
         button.isEnabled = enabled
@@ -72,7 +68,7 @@ class BadgedButton(context: Context, attrs: AttributeSet?) : FrameLayout(context
         LayoutInflater.from(context).inflate(R.layout.compound_view_badged_button, this)
 
         txtBadge = findViewById(R.id.txtBadge)
-        button = findViewById(R.id.btnSizePP)
+        button = findViewById(R.id.btnSize)
 
         tag = super.getTag()
         val a = context.obtainStyledAttributes(attrs, R.styleable.BadgedButton, 0, 0)
@@ -92,7 +88,6 @@ class BadgedButton(context: Context, attrs: AttributeSet?) : FrameLayout(context
         val viewStrokeW = btnWidth + (btnWidth * proportion)
 
 
-
         checkedResource =
             a.getResourceId(R.styleable.BadgedButton_backgroundChecked, checkedResource)
         uncheckedResource =
@@ -101,6 +96,8 @@ class BadgedButton(context: Context, attrs: AttributeSet?) : FrameLayout(context
         isClickable = true
         isFocusable = true
         button.setImageResource(buttonIcon)
+
+        button.contentDescription = this.contentDescription
 
         a.recycle()
 

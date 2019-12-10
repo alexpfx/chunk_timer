@@ -7,7 +7,7 @@
 
 
     <ImageButton
-        android:id="@+id/btnSizePP"
+        android:id="@+id/btnSize"
         style="@style/Widget.AppCompat.ImageButton"
         android:layout_width="50dp"
         android:layout_height="50dp"

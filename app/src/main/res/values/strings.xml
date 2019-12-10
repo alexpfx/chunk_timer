@@ -112,7 +112,6 @@
     <string name="label_format_created_at">Criada em: %s</string>
 
 
-
     <string name="label_message_noitems">Nenhuma</string>
     <string name="message_content_empty">Não há items</string>
     <string name="label_done">Realizado:</string>
@@ -139,9 +138,6 @@
         <item quantity="other">%s hours</item>
 
     </plurals>
-
-
-
 
 
 </resources>
