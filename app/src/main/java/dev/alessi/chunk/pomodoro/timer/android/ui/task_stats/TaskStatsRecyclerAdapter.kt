@@ -1,15 +1,13 @@
 package dev.alessi.chunk.pomodoro.timer.android.ui.task_stats
 
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexboxLayout
 import dev.alessi.chunk.pomodoro.timer.android.R
-import dev.alessi.chunk.pomodoro.timer.android.database.SizeIndex
+import dev.alessi.chunk.pomodoro.timer.android.domain.SizeIndex
 import dev.alessi.chunk.pomodoro.timer.android.util.RuntimeViewFactory
 
 class TaskStatsRecyclerAdapter(private val itemList: List<PeriodSummaryTO>) :
@@ -36,7 +34,9 @@ class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private var txtLabelMessageNotItems = view.findViewById<TextView>(R.id.txtLabelMessageNoItems)
     private var viewDivider = view.findViewById<View>(R.id.view_internal_divider2)
     private var context = itemView.context
+
     private var mapDrawables = mutableMapOf<Int, Int>()
+
     private var drawables = listOf(
         R.drawable.ic_pie_hole_3slices_20dp,
         R.drawable.ic_pie_hole_4slices_20dp,
@@ -67,7 +67,7 @@ class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                         RuntimeViewFactory.createTextViewSliceSummary(
                             context,
                             it.value,
-                            setupAndGetSliceDrawable(it.key)
+                            it.key
                         )
                     )
                 }
@@ -87,16 +87,6 @@ class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         layoutSlicesSummary.visibility = View.INVISIBLE
     }
 
-    private fun setupAndGetSliceDrawable(key: Int): Drawable {
-        val drawable =
-            ContextCompat.getDrawable(context, mapDrawables[key]!!)?.constantState?.newDrawable()
-                ?.mutate()
 
-
-
-
-
-        return drawable!!
-    }
 
 }

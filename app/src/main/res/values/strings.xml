@@ -47,6 +47,7 @@
     <string name="message_exit_app">Tem certeza que deseja sair do App?</string>
 
 
+
     <string name="message_title_timer_running">Pizza Timer em execução</string>
     <string name="message_title_timer_running_break">Em intervalo</string>
     <string name="message_content_title_timer_running">Matenha o foco!</string>
@@ -108,6 +109,7 @@
     <string name="label_menu_action_filter">Filter</string>
 
     <string name="label_format_symbol_equal">= %d</string>
+    <string name="label_format_abbrev_minutes">+%d</string>
     <string name="label_format_summary_period_time">%s: %s</string>
     <string name="label_format_created_at">Criada em: %s</string>
 

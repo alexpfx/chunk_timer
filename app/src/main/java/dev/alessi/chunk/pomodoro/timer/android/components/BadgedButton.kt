@@ -1,6 +1,7 @@
 package dev.alessi.chunk.pomodoro.timer.android.components
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.TextView
+import com.google.android.material.animation.DrawableAlphaProperty
 import dev.alessi.chunk.pomodoro.timer.android.R
 
 
@@ -20,6 +22,11 @@ class BadgedButton(context: Context, attrs: AttributeSet?) : FrameLayout(context
     private var button: ImageButton
     private var checkedResource: Int = R.color.color_action_dividers
     private var uncheckedResource: Int = android.R.color.transparent
+
+
+    fun setImageResource(drawable: Drawable){
+        button.setImageDrawable(drawable)
+    }
 
 
     override fun setOnClickListener(l: OnClickListener?) {
@@ -87,6 +94,10 @@ class BadgedButton(context: Context, attrs: AttributeSet?) : FrameLayout(context
         val viewStrokeH = btnHeight + (btnHeight * proportion)
         val viewStrokeW = btnWidth + (btnWidth * proportion)
 
+        button.setOnTouchListener { v, e ->
+            onTouchEvent(e)
+
+        }
 
         checkedResource =
             a.getResourceId(R.styleable.BadgedButton_backgroundChecked, checkedResource)
@@ -96,6 +107,7 @@ class BadgedButton(context: Context, attrs: AttributeSet?) : FrameLayout(context
         isClickable = true
         isFocusable = true
         button.setImageResource(buttonIcon)
+
 
         button.contentDescription = this.contentDescription
 

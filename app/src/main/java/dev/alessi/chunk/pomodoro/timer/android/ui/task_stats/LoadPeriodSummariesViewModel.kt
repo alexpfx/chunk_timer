@@ -50,7 +50,7 @@ class LoadPeriodSummariesViewModel(app: Application) : AndroidViewModel(app) {
 
                 val slices = withContext(Dispatchers.IO) {
 
-                    return@withContext repository.loadAllFromTask(task.uid!!)
+                    return@withContext repository.allWorkUnitsFromTask(task.uid!!)
                 }
 
                 val summary = summarize(slices, task)
@@ -68,7 +68,7 @@ class LoadPeriodSummariesViewModel(app: Application) : AndroidViewModel(app) {
         scope.launch {
 
             val slices = withContext(Dispatchers.IO) {
-                return@withContext repository.loadAllFromTask(task.uid!!)
+                return@withContext repository.allWorkUnitsFromTask(task.uid!!)
             }
 
             val summary = summarize(slices, task)
@@ -80,7 +80,7 @@ class LoadPeriodSummariesViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     private fun summarize(
-        slices: Array<WorkUnit>,
+        slices: List<WorkUnit>,
         task: Task
     ): SelectTaskTO {
         val now = Date()

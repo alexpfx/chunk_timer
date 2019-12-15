@@ -9,6 +9,7 @@
     <dimen name="stats_size_item">32dp</dimen>
 
     <dimen name="runtime_textview_slice_summary_icon_size">20dp</dimen>
+    <dimen name="runtime_textview_slice_estimative_icon_size">52dp</dimen>
     <dimen name="runtime_textview_slice_summary_textview_padding">4dp</dimen>
     <dimen name="runtime_textview_slice_summary_textview_margin">4dp</dimen>
 

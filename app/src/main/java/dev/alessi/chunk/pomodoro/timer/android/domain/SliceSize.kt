@@ -1,4 +1,4 @@
-package dev.alessi.chunk.pomodoro.timer.android.database
+package dev.alessi.chunk.pomodoro.timer.android.domain
 
 
 annotation class SizeIndex {

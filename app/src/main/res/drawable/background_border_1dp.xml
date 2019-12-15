@@ -4,9 +4,9 @@
     android:shape="rectangle">
 
 
-    <corners android:radius="@dimen/default_border_radious"/>
+    <corners android:radius="@dimen/corner_size_small"/>
 
-    <stroke android:color="@color/cor_chamativa" android:width="0.2dp" />
+    <stroke android:color="@color/color_action_dividers" android:width="0.2dp" />
 
     <solid android:color="@color/white" />
 

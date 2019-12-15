@@ -1,9 +1,12 @@
 package dev.alessi.chunk.pomodoro.timer.android.repository
 
 import dev.alessi.chunk.pomodoro.timer.android.database.*
+import dev.alessi.chunk.pomodoro.timer.android.util.error
 
 class TaskRepositoryImpl(private val taskDao: TaskDao, private val workUnitDao: WorkUnitDao) :
     TaskRepository {
+    private var taskSizeCache: MutableMap<Int, TaskSize>? = null
+
     override suspend fun loadWorkUnit(workUnitId: Int): WorkUnit {
         initCache()
         val workUnit = workUnitDao.loadWorkUnit(workUnitId)
@@ -16,10 +19,8 @@ class TaskRepositoryImpl(private val taskDao: TaskDao, private val workUnitDao: 
         return workUnit
     }
 
-    private var taskSizeCache: MutableMap<Int, TaskSize>? = null
 
-
-    override suspend fun loadAllFromTask(taskId: Int): Array<WorkUnit> {
+    override suspend fun allWorkUnitsFromTask(taskId: Int): List<WorkUnit> {
         initCache()
 
         val wUnits = workUnitDao.loadAllFromTask(taskId)
@@ -29,7 +30,7 @@ class TaskRepositoryImpl(private val taskDao: TaskDao, private val workUnitDao: 
 
         }
 
-        return wUnits
+        return wUnits.asList()
     }
 
     private suspend fun initCache() {
@@ -51,8 +52,8 @@ class TaskRepositoryImpl(private val taskDao: TaskDao, private val workUnitDao: 
         return task
     }
 
-    override suspend fun loadAllActive(): Array<Task> {
-        return taskDao.loadAllActive()
+    override suspend fun loadAllActive(): List<Task> {
+        return taskDao.loadAllActive().asList()
     }
 
     override suspend fun storeTask(task: Task): Task {
@@ -67,7 +68,13 @@ class TaskRepositoryImpl(private val taskDao: TaskDao, private val workUnitDao: 
     }
 
     override suspend fun storeWorkUnit(workUnit: WorkUnit): Int {
-        return workUnitDao.insertWorkUnit(workUnit).toInt()
+        try {
+            return workUnitDao.insertWorkUnit(workUnit).toInt()
+        } catch (e: Exception) {
+            error(e, "erro ao inserir work unit $workUnit")
+            throw e
+        }
+
     }
 
     override suspend fun storeTaskSize(taskSize: TaskSize) {
@@ -77,11 +84,15 @@ class TaskRepositoryImpl(private val taskDao: TaskDao, private val workUnitDao: 
         }
     }
 
+    override suspend fun loadAllSizes(): List<TaskSize> {
+        return workUnitDao.loadAllSizes().asList()
+    }
+
     override suspend fun loadTask(taskId: Int): Task {
-
-
         return taskDao.load(taskId)
+    }
 
-
+    override suspend fun allEstimativesFromTask(taskId: Int): List<WorkUnit>{
+        return workUnitDao.loadAllEstimativesFromTask(taskId).asList()
     }
 }

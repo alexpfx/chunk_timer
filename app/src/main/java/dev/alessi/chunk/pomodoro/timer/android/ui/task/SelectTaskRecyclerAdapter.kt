@@ -217,13 +217,13 @@ class TaskViewHolder(
     }
 
 
-    private fun addChild(value: Int, drawableRes: Int) {
+    private fun addChild(index: Int, value: Int, drawableRes: Int) {
 
         linearLayoutEstimative.addView(
             RuntimeViewFactory.createTextViewSliceSummary(
                 context,
                 value,
-                ContextCompat.getDrawable(context, drawableRes)!!
+                index
             ), LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -244,12 +244,6 @@ class TaskViewHolder(
         btnEstimate.tag = taskSummaryTO
 
 
-
-        addChild(15, R.drawable.ic_pie_hole_3slices_20dp)
-        addChild(15, R.drawable.ic_pie_hole_4slices_20dp)
-        addChild(15, R.drawable.ic_pie_hole_6slices_20dp)
-        addChild(15, R.drawable.ic_pie_hole_8slices_20dp)
-        addChild(15, R.drawable.ic_pie_hole_full_20dp)
 
 
         val summary = taskSummaryTO.getPeriod()

@@ -15,13 +15,29 @@ import kotlinx.coroutines.withContext
 
 class TaskViewModel(application: Application) : AndroidViewModel(application) {
 
-
     private val scope = CoroutineScope(Dispatchers.Main)
 
     private val archivedTask = MutableLiveData<Task>()
+    private val loadedTask = MutableLiveData<Task>()
 
-    val archiveActionObserver
+
+    val taskLoadedObserver
+        get() = loadedTask as LiveData<Task>
+
+    val taskArchivedObserver
         get() = archivedTask as LiveData<Task>
+
+
+    fun loadTask(taskId: Int) {
+        scope.launch {
+            val task = withContext(Dispatchers.IO) {
+                getRepository().loadTask(taskId)
+            }
+
+            loadedTask.value = task
+
+        }
+    }
 
 
     fun archiveTask(task: Task) {

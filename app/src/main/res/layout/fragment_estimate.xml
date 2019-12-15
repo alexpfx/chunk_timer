@@ -1,101 +1,180 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingStart="@dimen/default_layout_margin"
-    android:paddingLeft="@dimen/default_layout_margin"
-    android:paddingEnd="@dimen/default_layout_margin"
-    android:paddingRight="@dimen/default_layout_margin"
-    tools:context=".ui.estimate.EstimateFragment">
+    android:fillViewport="true">
 
-
-    <TextView
-        android:id="@+id/txtTaskDesc"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:text="TextView"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintEnd_toStartOf="@id/btnSizePP"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.flexbox.FlexboxLayout
-        android:id="@+id/flexbox_estimative"
-        android:layout_width="0dp"
-        android:layout_height="400dp"
-        android:layout_marginTop="16dp"
-        android:minHeight="300dp"
-        app:flexDirection="column_reverse"
-        app:layout_constraintEnd_toEndOf="@id/txtTaskDesc"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtTaskDesc" />
+        android:paddingStart="@dimen/default_layout_margin"
+        android:paddingLeft="@dimen/default_layout_margin"
+        android:paddingEnd="@dimen/default_layout_margin"
+        android:paddingRight="@dimen/default_layout_margin"
+        tools:context=".ui.estimate.EstimateFragment">
 
 
-    <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
-        android:id="@+id/btnSizePP"
-        style="@style/DragSizeIcon"
+        <TextView
+            android:id="@+id/txtTaskDesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="TextView"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        android:layout_marginBottom="1dp"
-        android:contentDescription="@string/content_description_size0"
-        android:tag="@string/tag_size_index_0"
-        app:imageResource="@drawable/ic_pie_hole_3slices"
-        app:layout_constraintBottom_toTopOf="@id/btnSizeP"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+        <TextView
 
-
-    <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
-        android:id="@+id/btnSizeP"
-        style="@style/DragSizeIcon"
-        android:contentDescription="@string/content_description_size1"
-        android:tag="@string/tag_size_index_1"
-        app:imageResource="@drawable/ic_pie_hole_4slices"
-        app:layout_constraintBottom_toTopOf="@id/btnSizeM"
-        app:layout_constraintEnd_toEndOf="@id/btnSizePP"
-        app:layout_constraintStart_toStartOf="@id/btnSizePP"
-        app:layout_constraintTop_toBottomOf="@id/btnSizePP" />
+            android:id="@+id/label_estimative"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
 
 
-    <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
-        android:id="@+id/btnSizeM"
-        style="@style/DragSizeIcon"
-        android:contentDescription="@string/content_description_size2"
-        android:tag="@string/tag_size_index_2"
-        app:imageResource="@drawable/ic_pie_hole_6slices"
-        app:layout_constraintBottom_toTopOf="@id/btnSizeG"
-        app:layout_constraintEnd_toEndOf="@id/btnSizeP"
-        app:layout_constraintStart_toStartOf="@id/btnSizeP"
-        app:layout_constraintTop_toBottomOf="@id/btnSizeP" />
+            app:layout_constraintEnd_toEndOf="@id/txtTaskDesc"
+            app:layout_constraintStart_toStartOf="@id/txtTaskDesc"
+            app:layout_constraintTop_toBottomOf="@id/txtTaskDesc"
+            tools:text="estimativa: " />
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/flexbox_totalizer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+
+            android:background="@drawable/background_border_1dp"
+
+            android:padding="4dp"
+            app:flexDirection="row"
+            app:flexWrap="wrap"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+
+            app:layout_constraintTop_toBottomOf="@id/label_estimative"
+            tools:layout_height="80dp" />
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/flexbox_estimative"
+            android:layout_width="0dp"
+
+            android:layout_height="0dp"
+
+            android:layout_marginTop="16dp"
+
+            android:layout_marginEnd="16dp"
+
+            android:layout_marginRight="16dp"
+            android:animateLayoutChanges="true"
+            android:background="@drawable/background_border_1dp"
+
+            android:padding="4dp"
+            app:flexDirection="row"
+            app:flexWrap="wrap"
+            app:justifyContent="flex_start"
+            app:layout_constraintEnd_toStartOf="@+id/btnSizePP"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/flexbox_totalizer"
+            tools:layout_height="200dp">
 
 
-    <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
-        android:id="@+id/btnSizeG"
+        </com.google.android.flexbox.FlexboxLayout>
 
-        style="@style/DragSizeIcon"
-        android:contentDescription="@string/content_description_size3"
-        android:tag="@string/tag_size_index_3"
-        app:imageResource="@drawable/ic_pie_hole_8slices"
-        app:layout_constraintBottom_toTopOf="@id/btnSizeGG"
-        app:layout_constraintEnd_toEndOf="@id/btnSizeM"
-        app:layout_constraintStart_toStartOf="@id/btnSizeM"
-        app:layout_constraintTop_toBottomOf="@id/btnSizeM" />
+        <ImageView
+            android:id="@+id/imageView"
 
-    <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
-        android:id="@+id/btnSizeGG"
-        style="@style/DragSizeIcon"
-        android:contentDescription="@string/content_description_size4"
-        android:tag="@string/tag_size_index_4"
-        app:imageResource="@drawable/ic_pie_hole_full"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/btnSizeG"
-        app:layout_constraintStart_toStartOf="@id/btnSizeG"
-        app:layout_constraintTop_toBottomOf="@id/btnSizeG" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+
+            app:layout_constraintBottom_toBottomOf="@id/label_drag"
+
+            app:layout_constraintEnd_toStartOf="@+id/label_drag"
+            app:layout_constraintTop_toTopOf="@id/label_drag"
+            app:srcCompat="@drawable/ic_chevron_left_black_24dp"
+            tools:layout_editor_absoluteY="157dp" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/label_drag"
+            android:layout_width="wrap_content"
+
+
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:padding="2dp"
+            android:text="arraste"
+
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            app:layout_constraintEnd_toEndOf="@+id/btnSizePP"
+            app:layout_constraintStart_toStartOf="@+id/btnSizePP"
+            app:layout_constraintTop_toTopOf="@+id/flexbox_estimative"
+            tools:text="arraste" />
+
+
+        <ImageView
+
+            android:id="@+id/btnSizePP"
+            style="@style/DragSizeIcon"
+
+            android:clickable="true"
+            android:contentDescription="@string/content_description_size0"
+            android:focusable="true"
+            android:tag="@string/tag_size_index_0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_drag" />
+
+
+        <ImageView
+
+            android:id="@+id/btnSizeP"
+            style="@style/DragSizeIcon"
+            android:contentDescription="@string/content_description_size1"
+            android:tag="@string/tag_size_index_1"
+            app:layout_constraintEnd_toEndOf="@id/btnSizePP"
+            app:layout_constraintStart_toStartOf="@id/btnSizePP"
+            app:layout_constraintTop_toBottomOf="@id/btnSizePP"
+            app:srcCompat="@drawable/ic_pie_hole_4slices" />
+
+
+        <ImageView
+            android:id="@+id/btnSizeM"
+            style="@style/DragSizeIcon"
+            android:contentDescription="@string/content_description_size2"
+            android:tag="@string/tag_size_index_2"
+            app:layout_constraintEnd_toEndOf="@id/btnSizeP"
+            app:layout_constraintStart_toStartOf="@id/btnSizeP"
+            app:layout_constraintTop_toBottomOf="@id/btnSizeP"
+            app:srcCompat="@drawable/ic_pie_hole_6slices" />
+
+
+        <ImageView
+            android:id="@+id/btnSizeG"
+
+            style="@style/DragSizeIcon"
+            android:contentDescription="@string/content_description_size3"
+            android:tag="@string/tag_size_index_3"
+            android:tooltipText="teste"
+            app:layout_constraintEnd_toEndOf="@id/btnSizeM"
+            app:layout_constraintStart_toStartOf="@id/btnSizeM"
+            app:layout_constraintTop_toBottomOf="@id/btnSizeM"
+            app:srcCompat="@drawable/ic_pie_hole_8slices" />
+
+        <ImageView
+            android:id="@+id/btnSizeGG"
+            style="@style/DragSizeIcon"
+            android:contentDescription="@string/content_description_size4"
+            android:tag="@string/tag_size_index_4"
+            app:layout_constraintEnd_toEndOf="@id/btnSizeG"
+            app:layout_constraintStart_toStartOf="@id/btnSizeG"
+            app:layout_constraintTop_toBottomOf="@id/btnSizeG"
+            app:srcCompat="@drawable/ic_pie_hole_full" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

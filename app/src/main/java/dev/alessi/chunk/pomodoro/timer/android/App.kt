@@ -16,6 +16,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.IllegalStateException
 import java.util.*
 
 
@@ -42,7 +43,23 @@ class App : Application(), RepositoryProvider {
 
         createDb()
 
+        testDb()
+
         createNotificationChannel()
+    }
+
+    private fun testDb() {
+        scope.launch {
+
+            val ss = withContext(Dispatchers.IO){
+                mTaskRepository.loadAllSizes()
+            }
+
+            if (ss.isNullOrEmpty()){
+                insertSizes()
+            }
+
+        }
     }
 
 
@@ -51,55 +68,59 @@ class App : Application(), RepositoryProvider {
         override fun onCreate(db: SupportSQLiteDatabase) {
 
             //TODO ver como fazer migracao.
-            scope.launch {
-                withContext(Dispatchers.Default) {
-
-                    mTaskRepository.storeTask(
-                        Task(
-                            uid = -1,
-                            description = getString(R.string.message_hint_workunit_without_task),
-                            dateCreated = Date()
-                        )
-                    )
-
-                    mTaskRepository.storeTaskSize(
-                        TaskSize(
-                            0,
-                            getString(R.string.label_sizes_pp)
-                        )
-                    )
-                    mTaskRepository.storeTaskSize(
-                        TaskSize(
-                            1,
-                            getString(R.string.label_sizes_p)
-                        )
-                    )
-                    mTaskRepository.storeTaskSize(
-                        TaskSize(
-                            2,
-                            getString(R.string.label_sizes_m)
-                        )
-                    )
-                    mTaskRepository.storeTaskSize(
-                        TaskSize(
-                            3,
-                            getString(R.string.label_sizes_g)
-                        )
-                    )
-                    mTaskRepository.storeTaskSize(
-                        TaskSize(
-                            4,
-                            getString(R.string.label_sizes_gg)
-                        )
-                    )
-
-
-                }
-            }
+            insertSizes()
 
 
         }
 
+    }
+
+    private fun insertSizes() {
+        scope.launch {
+            withContext(Dispatchers.Default) {
+
+                mTaskRepository.storeTask(
+                    Task(
+                        uid = -1,
+                        description = getString(R.string.message_hint_workunit_without_task),
+                        dateCreated = Date()
+                    )
+                )
+
+                mTaskRepository.storeTaskSize(
+                    TaskSize(
+                        0,
+                        getString(R.string.label_sizes_pp)
+                    )
+                )
+                mTaskRepository.storeTaskSize(
+                    TaskSize(
+                        1,
+                        getString(R.string.label_sizes_p)
+                    )
+                )
+                mTaskRepository.storeTaskSize(
+                    TaskSize(
+                        2,
+                        getString(R.string.label_sizes_m)
+                    )
+                )
+                mTaskRepository.storeTaskSize(
+                    TaskSize(
+                        3,
+                        getString(R.string.label_sizes_g)
+                    )
+                )
+                mTaskRepository.storeTaskSize(
+                    TaskSize(
+                        4,
+                        getString(R.string.label_sizes_gg)
+                    )
+                )
+
+
+            }
+        }
     }
 
     private fun createDb() {

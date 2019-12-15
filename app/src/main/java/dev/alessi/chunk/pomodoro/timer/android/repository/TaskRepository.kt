@@ -9,11 +9,14 @@ interface TaskRepository {
     suspend fun storeTask(task: Task): Task
     suspend fun loadTask(taskId: Int): Task
     suspend fun loadWorkUnit(workUnitId: Int): WorkUnit
-    suspend fun loadAllActive(): Array<Task>
-    suspend fun loadAllFromTask(taskId: Int): Array<WorkUnit>
+    suspend fun loadAllActive(): List<Task>
+    suspend fun allWorkUnitsFromTask(taskId: Int): List<WorkUnit>
     suspend fun updateTask(task: Task): Task
 
     suspend fun storeWorkUnit(workUnit: WorkUnit): Int
 
     suspend fun storeTaskSize(taskSize: TaskSize)
+    suspend fun loadAllSizes(): List<TaskSize>
+
+    suspend fun allEstimativesFromTask(taskId: Int): List<WorkUnit>
 }

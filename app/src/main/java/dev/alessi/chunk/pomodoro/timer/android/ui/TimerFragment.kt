@@ -25,13 +25,13 @@ import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.platform.ChunkTimerService
-import dev.alessi.chunk.pomodoro.timer.android.ui.dialog.TimerSettingsDialogFragment
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_START_BREAK
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_START_TIMER
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_STOP
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_TICK
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_UPDATE_STATE
 import dev.alessi.chunk.pomodoro.timer.android.util.IntentBuilder
+import dev.alessi.chunk.pomodoro.timer.android.util.RuntimeViewFactory
 import kotlinx.android.synthetic.main.fragment_timer.*
 
 
@@ -164,8 +164,7 @@ class TimerFragment : Fragment() {
     private fun updateSizeButtons() {
 
         forAllSizeButtons { it: BadgedButton ->
-            val intTag = (it.tag as String).toInt()
-            it.text = "${mSizes[intTag]} min"
+            it.text = "${mSizes[it.tag as Int]} min"
         }
     }
 
@@ -178,8 +177,7 @@ class TimerFragment : Fragment() {
     private fun resetTimer() {
 
         forAllSizeButtons { it ->
-            val intTag = (it.tag as String).toInt()
-            it.isChecked = (mSelectedIndex == intTag)
+            it.isChecked = (mSelectedIndex == it.tag)
         }
 
         val timeMinutes = mSizes[mSelectedIndex]
@@ -221,19 +219,17 @@ class TimerFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         btnStartTimer.setOnClickListener(::actionStartTimer)
         btnCancelTimer.setOnClickListener(::actionCancelTimer)
         btnStartBreak.setOnClickListener(::actionStartBreaktime)
         btnClearTask.setOnClickListener(::actionClearTask)
-
-
 
         txtTask.movementMethod = ScrollingMovementMethod()
 
 
         btnIconSetBreak.setOnClickListener(::openBreaktimeSettingsDialog)
         btnIconSetTaskTimes.setOnClickListener(::openTimerSettingsDialog)
+
         txtTask.setOnClickListener(::openLoadTaskScreen)
         btnOpenSettings.setOnClickListener(::openSettingsScreen)
 
@@ -242,10 +238,10 @@ class TimerFragment : Fragment() {
 
         forAllSizeButtons { _, it ->
             it.setOnClickListener(::onSizeSetupBtnClick)
+            val tag = (it.tag as String).toInt()
+            it.tag = tag
+            it.setImageResource(RuntimeViewFactory.getSizeDrawable(tag, context!!))
         }
-
-
-
 
         super.onViewCreated(view, savedInstanceState)
     }
@@ -300,7 +296,7 @@ class TimerFragment : Fragment() {
 
 
     private fun onSizeSetupBtnClick(view: View) {
-        val tag = (view.tag as String).toInt()
+        val tag = (view.tag) as Int
         mTimerSharedViewModel.setSizeIndex(tag)
         updateColor(view)
     }
@@ -318,19 +314,9 @@ class TimerFragment : Fragment() {
     private fun updateColor(view: View) {
 
         forAllSizeButtons { frame ->
-            frame.isChecked = (frame.tag as String).toInt() == mSelectedIndex
+            frame.isChecked = frame.tag == mSelectedIndex
         }
 
-
-//        view.setBackgroundColor(ContextCompat.getColor(context!!,R.color.color_pizza_g))
-//        (view.parent as View).setBackgroundColor(ContextCompat.getColor(context!!,R.color.colorPrimary44))
-
-
-//        frTxtMainTimer.background = background
-        /*scrollviewBase.background = background
-        ((scrollviewBase.parent) as View).background = background
-
-        linear_layout_buttons_base.background = background*/
     }
 
 
@@ -508,12 +494,6 @@ class TimerFragment : Fragment() {
 
     private fun openTimerSettingsDialog(view: View) {
         findNavController().navigate(R.id.timerSettingsDialogFragment)
-
-        TimerSettingsDialogFragment().show(
-            activity!!.supportFragmentManager,
-            "TimerSettingsDialogFragment"
-        )
-
     }
 
     private fun actionClearTask(view: View) {

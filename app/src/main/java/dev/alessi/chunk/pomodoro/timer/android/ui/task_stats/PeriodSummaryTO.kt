@@ -1,7 +1,7 @@
 package dev.alessi.chunk.pomodoro.timer.android.ui.task_stats
 
 import dev.alessi.chunk.pomodoro.timer.android.R
-import dev.alessi.chunk.pomodoro.timer.android.database.SizeIndex
+import dev.alessi.chunk.pomodoro.timer.android.domain.SizeIndex
 import dev.alessi.chunk.pomodoro.timer.android.database.WorkUnit
 import java.text.DecimalFormat
 
