@@ -144,7 +144,7 @@ class TaskViewHolder(
     val context: Context
 ) :
     RecyclerView.ViewHolder(view) {
-    private var txtTaskDesc: TextView = view.findViewById(R.id.txtTaskDesc)
+    private var txtTaskDesc: TextView = view.findViewById(R.id.txt_task_desk)
     private var txtTaskCreatedAt: TextView = view.findViewById(R.id.txtCreatedAt)
     //    private val chipSummary = view.findViewById<Chip>(R.id.chipSummary)
     private val btnInfo = view.findViewById<ImageButton>(R.id.btnInfo)

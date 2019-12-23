@@ -3,176 +3,160 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_estimate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/default_layout_margin"
-        android:paddingLeft="@dimen/default_layout_margin"
-        android:paddingEnd="@dimen/default_layout_margin"
-        android:paddingRight="@dimen/default_layout_margin"
+        android:animateLayoutChanges="true"
+
+        android:padding="@dimen/default_layout_margin"
         tools:context=".ui.estimate.EstimateFragment">
 
 
         <TextView
-            android:id="@+id/txtTaskDesc"
+            android:id="@+id/label_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@id/txt_task_desk"
+            android:text="@string/label_task"
+
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/txt_task_desk"
+
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/background_foreground_active_light"
             android:ellipsize="end"
             android:maxLines="2"
-            android:text="TextView"
+            android:padding="8dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/label_task"
+            tools:text="Descrição da tarefa" />
 
         <TextView
 
             android:id="@+id/label_estimative"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-
-
-            app:layout_constraintEnd_toEndOf="@id/txtTaskDesc"
-            app:layout_constraintStart_toStartOf="@id/txtTaskDesc"
-            app:layout_constraintTop_toBottomOf="@id/txtTaskDesc"
-            tools:text="estimativa: " />
-
-        <com.google.android.flexbox.FlexboxLayout
-            android:id="@+id/flexbox_totalizer"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-
-            android:background="@drawable/background_border_1dp"
-
-            android:padding="4dp"
-            app:flexDirection="row"
-            app:flexWrap="wrap"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-
-            app:layout_constraintTop_toBottomOf="@id/label_estimative"
-            tools:layout_height="80dp" />
-
-        <com.google.android.flexbox.FlexboxLayout
-            android:id="@+id/flexbox_estimative"
-            android:layout_width="0dp"
-
-            android:layout_height="0dp"
-
             android:layout_marginTop="16dp"
+            android:text="@string/label_estimative"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout_estimativeMenu" />
 
-            android:layout_marginEnd="16dp"
 
-            android:layout_marginRight="16dp"
+        <LinearLayout
+            android:id="@+id/linearLayout_estimativeMenu"
+            android:layout_width="0dp"
+            android:layout_height="72dp"
+            android:layout_marginTop="4dp"
             android:animateLayoutChanges="true"
             android:background="@drawable/background_border_1dp"
-
-            android:padding="4dp"
-            app:flexDirection="row"
-            app:flexWrap="wrap"
-            app:justifyContent="flex_start"
-            app:layout_constraintEnd_toStartOf="@+id/btnSizePP"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/flexbox_totalizer"
-            tools:layout_height="200dp">
+            app:layout_constraintTop_toBottomOf="@+id/label_drag" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerEstimatives"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/background_border_1dp"
+            android:minHeight="200dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/label_estimative"
+            app:layout_constraintTop_toBottomOf="@+id/txt_estimative_total"
+            app:layout_constraintVertical_bias="0.0" />
 
-        </com.google.android.flexbox.FlexboxLayout>
-
-        <ImageView
-            android:id="@+id/imageView"
-
+        <TextView
+            android:id="@+id/label_message_drag_here"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="0dp"
+            android:gravity="center"
+            android:lines="2"
+            android:maxWidth="200dp"
+            android:text="@string/label_drag_to_here"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/text_color_secondary_light"
+            app:layout_constraintBottom_toBottomOf="@+id/recyclerEstimatives"
+            app:layout_constraintEnd_toEndOf="@+id/recyclerEstimatives"
+            app:layout_constraintStart_toStartOf="@+id/recyclerEstimatives"
+            app:layout_constraintTop_toTopOf="@+id/recyclerEstimatives" />
 
-            app:layout_constraintBottom_toBottomOf="@id/label_drag"
 
-            app:layout_constraintEnd_toStartOf="@+id/label_drag"
-            app:layout_constraintTop_toTopOf="@id/label_drag"
-            app:srcCompat="@drawable/ic_chevron_left_black_24dp"
-            tools:layout_editor_absoluteY="157dp" />
+        <TextView
+            android:id="@+id/label_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@string/label_total"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            app:layout_constraintEnd_toStartOf="@+id/txt_estimative_total"
+            app:layout_constraintTop_toTopOf="@+id/label_estimative" />
 
+        <TextView
+            android:id="@+id/txt_estimative_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/label_total"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout_estimativeMenu"
+            app:layout_constraintTop_toTopOf="@+id/label_total"
+            tools:text="23h36m" />
 
         <TextView
             android:id="@+id/label_drag"
             android:layout_width="wrap_content"
-
-
             android:layout_height="wrap_content"
-            android:gravity="top"
-            android:padding="2dp"
-            android:text="arraste"
-
+            android:layout_marginTop="16dp"
+            android:drawableEnd="@drawable/ic_expand_more_black_24dp"
+            android:gravity="center_vertical"
+            android:text="@string/label_drag"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            app:layout_constraintEnd_toEndOf="@+id/btnSizePP"
-            app:layout_constraintStart_toStartOf="@+id/btnSizePP"
-            app:layout_constraintTop_toTopOf="@+id/flexbox_estimative"
-            tools:text="arraste" />
+            app:drawableTint="@color/color_action_dividers"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout_estimativeMenu"
+            app:layout_constraintTop_toBottomOf="@+id/txt_task_desk" />
+
+        <ImageButton
+            android:id="@+id/btn_edit_mode"
+            style="@style/ActionButtons"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="@+id/recyclerEstimatives"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerEstimatives"
+            app:srcCompat="@drawable/ic_mode_edit_black_24dp" />
 
 
-        <ImageView
-
-            android:id="@+id/btnSizePP"
-            style="@style/DragSizeIcon"
-
-            android:clickable="true"
-            android:contentDescription="@string/content_description_size0"
-            android:focusable="true"
-            android:tag="@string/tag_size_index_0"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/label_drag" />
-
-
-        <ImageView
-
-            android:id="@+id/btnSizeP"
-            style="@style/DragSizeIcon"
-            android:contentDescription="@string/content_description_size1"
-            android:tag="@string/tag_size_index_1"
-            app:layout_constraintEnd_toEndOf="@id/btnSizePP"
-            app:layout_constraintStart_toStartOf="@id/btnSizePP"
-            app:layout_constraintTop_toBottomOf="@id/btnSizePP"
-            app:srcCompat="@drawable/ic_pie_hole_4slices" />
-
-
-        <ImageView
-            android:id="@+id/btnSizeM"
-            style="@style/DragSizeIcon"
-            android:contentDescription="@string/content_description_size2"
-            android:tag="@string/tag_size_index_2"
-            app:layout_constraintEnd_toEndOf="@id/btnSizeP"
-            app:layout_constraintStart_toStartOf="@id/btnSizeP"
-            app:layout_constraintTop_toBottomOf="@id/btnSizeP"
-            app:srcCompat="@drawable/ic_pie_hole_6slices" />
-
-
-        <ImageView
-            android:id="@+id/btnSizeG"
-
-            style="@style/DragSizeIcon"
-            android:contentDescription="@string/content_description_size3"
-            android:tag="@string/tag_size_index_3"
-            android:tooltipText="teste"
-            app:layout_constraintEnd_toEndOf="@id/btnSizeM"
-            app:layout_constraintStart_toStartOf="@id/btnSizeM"
-            app:layout_constraintTop_toBottomOf="@id/btnSizeM"
-            app:srcCompat="@drawable/ic_pie_hole_8slices" />
-
-        <ImageView
-            android:id="@+id/btnSizeGG"
-            style="@style/DragSizeIcon"
-            android:contentDescription="@string/content_description_size4"
-            android:tag="@string/tag_size_index_4"
-            app:layout_constraintEnd_toEndOf="@id/btnSizeG"
-            app:layout_constraintStart_toStartOf="@id/btnSizeG"
-            app:layout_constraintTop_toBottomOf="@id/btnSizeG"
-            app:srcCompat="@drawable/ic_pie_hole_full" />
+        <ImageButton
+            android:id="@+id/btn_accept_changes"
+            style="@style/ActionButtons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="@+id/recyclerEstimatives"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerEstimatives"
+            app:srcCompat="@drawable/ic_check_black_24dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

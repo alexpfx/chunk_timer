@@ -12,7 +12,7 @@ android {
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "dev.alessi.chunk.pomodoro.timer.android"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -43,7 +43,7 @@ android {
 
 dependencies {
     def nav_version = "2.1.0"
-    def room_version = "2.2.2"
+    def room_version = "2.2.3"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -53,7 +53,7 @@ dependencies {
     implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
     implementation 'com.google.android.material:material:1.2.0-alpha02'
     implementation 'androidx.preference:preference-ktx:1.1.0'
-
+    implementation "androidx.gridlayout:gridlayout:1.0.0"
     implementation "androidx.room:room-runtime:$room_version"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt "androidx.room:room-compiler:$room_version"

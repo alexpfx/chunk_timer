@@ -20,7 +20,7 @@
 
 
         <TextView
-            android:id="@+id/txtTaskDesc"
+            android:id="@+id/txt_task_desk"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -51,7 +51,7 @@
             android:padding="8dp"
             android:tint="@color/color_action_foreground"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/txtTaskDesc"
+            app:layout_constraintStart_toStartOf="@+id/txt_task_desk"
             app:layout_constraintTop_toBottomOf="@+id/view2"
             app:srcCompat="@drawable/ic_info_black_24dp" />
 
@@ -99,7 +99,7 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/drawable_divider_horizontal"
             app:layout_constraintEnd_toEndOf="@+id/linearLayoutWorkDone"
-            app:layout_constraintStart_toStartOf="@+id/txtTaskDesc"
+            app:layout_constraintStart_toStartOf="@+id/txt_task_desk"
             app:layout_constraintTop_toBottomOf="@+id/linearLayoutWorkDone" />
 
 
@@ -112,7 +112,7 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/drawable_divider_horizontal"
             app:layout_constraintEnd_toStartOf="@+id/txtButtonExpand"
-            app:layout_constraintStart_toStartOf="@+id/txtTaskDesc"
+            app:layout_constraintStart_toStartOf="@+id/txt_task_desk"
             app:layout_constraintTop_toBottomOf="@+id/txtCreatedAt" />
 
         <TextView
@@ -128,7 +128,7 @@
             android:padding="8dp"
             app:drawableTint="@color/color_action_foreground"
             app:layout_constraintBottom_toBottomOf="@+id/view4"
-            app:layout_constraintEnd_toEndOf="@+id/txtTaskDesc"
+            app:layout_constraintEnd_toEndOf="@+id/txt_task_desk"
             app:layout_constraintTop_toTopOf="@+id/view4" />
 
 
@@ -140,8 +140,8 @@
 
 
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            app:layout_constraintStart_toStartOf="@+id/txtTaskDesc"
-            app:layout_constraintTop_toBottomOf="@+id/txtTaskDesc"
+            app:layout_constraintStart_toStartOf="@+id/txt_task_desk"
+            app:layout_constraintTop_toBottomOf="@+id/txt_task_desk"
             tools:text="Dom, 08/12/2019 - 16:00" />
 
 
@@ -162,7 +162,7 @@
 
             android:text="Dom, 08/12/2019 - 18:00"
 
-            app:layout_constraintEnd_toEndOf="@+id/txtTaskDesc"
+            app:layout_constraintEnd_toEndOf="@+id/txt_task_desk"
             app:layout_constraintStart_toStartOf="@+id/txtCreatedAt"
             app:layout_constraintTop_toBottomOf="@+id/view4"
             tools:text="Dom, 08/12/2019 - 18:00" />
@@ -177,7 +177,7 @@
             android:text="@string/label_estimative"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/linearLayoutEstimative"
-            app:layout_constraintStart_toStartOf="@id/txtTaskDesc"
+            app:layout_constraintStart_toStartOf="@id/txt_task_desk"
             app:layout_constraintTop_toBottomOf="@+id/txtLastSlice" />
 
         <LinearLayout
@@ -186,8 +186,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="@id/txtTaskDesc"
-            app:layout_constraintStart_toStartOf="@id/txtTaskDesc"
+            app:layout_constraintEnd_toEndOf="@id/txt_task_desk"
+            app:layout_constraintStart_toStartOf="@id/txt_task_desk"
 
             app:layout_constraintTop_toBottomOf="@id/txtLabelEstimative"
             tools:layout_height="20dp" />
@@ -204,7 +204,7 @@
             android:text="@string/label_done"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/linearLayoutWorkDone"
-            app:layout_constraintStart_toStartOf="@id/txtTaskDesc"
+            app:layout_constraintStart_toStartOf="@id/txt_task_desk"
             app:layout_constraintTop_toBottomOf="@id/linearLayoutEstimative" />
 
         <LinearLayout
@@ -215,8 +215,8 @@
 
             android:orientation="horizontal"
 
-            app:layout_constraintEnd_toEndOf="@id/txtTaskDesc"
-            app:layout_constraintStart_toStartOf="@id/txtTaskDesc"
+            app:layout_constraintEnd_toEndOf="@id/txt_task_desk"
+            app:layout_constraintStart_toStartOf="@id/txt_task_desk"
             app:layout_constraintTop_toBottomOf="@id/txtLabelWorkDone"
             tools:layout_height="20dp">
 

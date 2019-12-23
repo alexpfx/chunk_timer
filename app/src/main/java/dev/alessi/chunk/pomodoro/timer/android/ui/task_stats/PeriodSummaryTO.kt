@@ -3,6 +3,7 @@ package dev.alessi.chunk.pomodoro.timer.android.ui.task_stats
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.domain.SizeIndex
 import dev.alessi.chunk.pomodoro.timer.android.database.WorkUnit
+import dev.alessi.chunk.pomodoro.timer.android.util.toFormatedTime
 import java.text.DecimalFormat
 
 
@@ -40,12 +41,7 @@ data class PeriodSummaryTO(
     fun isEmpty() = minutes == 0
 
     fun toFormatedTime(): String {
-        val seconds = minutes * 60
-        val hours = seconds / hours_const_div
-        val s = seconds.rem(hours_const_div)
-        val minutes = s / min_const_div
-
-        return "${hours}h ${minutes.toString().padStart(2, '0')}m"
+       return minutes.toFormatedTime()
     }
 
 

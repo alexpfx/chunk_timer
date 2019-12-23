@@ -29,14 +29,16 @@ data class WorkUnit(
     var taskSize: TaskSize? = null
 
 
-
-
 ) {
+
+
     constructor() : this(0, Date(), 0, 0, 0, 0, null, null)
 
     override fun toString(): String {
         return "WorkUnit(uid=$uid, finishDate=$finishDate, timeMinutes=$timeMinutes, taskId=$taskId, sizeId=$sizeId, estimative=$estimative, task=$task, taskSize=$taskSize)"
     }
+
+
 
 
 }

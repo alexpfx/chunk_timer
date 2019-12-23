@@ -1,21 +1,29 @@
 package dev.alessi.chunk.pomodoro.timer.android.util
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.view.setPadding
 import com.google.android.flexbox.FlexboxLayout
 import dev.alessi.chunk.pomodoro.timer.android.R
+import dev.alessi.chunk.pomodoro.timer.android.domain.SizeValue
+import dev.alessi.chunk.pomodoro.timer.android.util.ViewUtils.Companion.getSizeDrawable
+import java.util.*
 
 class RuntimeViewFactory {
 
@@ -23,22 +31,109 @@ class RuntimeViewFactory {
     companion object {
 
 
-        private var sizeDrawables = listOf(
-            R.drawable.ic_ring_3slices,
-            R.drawable.ic_ring_4slices,
-            R.drawable.ic_ring_6slices,
-            R.drawable.ic_ring_8slices,
-            R.drawable.ic_ring_full
-        )
 
-        fun getSizeDrawable(key: Int, context: Context): Drawable {
-            val drawable =
-                ContextCompat.getDrawable(context, sizeDrawables[key])?.constantState?.newDrawable()
-                    ?.mutate()
+        fun getViewContainer(parent: ConstraintLayout, uuidTag: String, lastId: Int): LinearLayout{
+            println(uuidTag)
 
-            return drawable!!
+            var v = parent?.findViewWithTag<LinearLayout>(uuidTag)
+            if (v != null){
+                return v
+            }
+
+
+            v = LayoutInflater.from(parent.context).inflate(
+                R.layout.layout_estimative_summary,
+                null
+            ) as LinearLayout
+
+            val cs = ConstraintSet()
+            cs.clone(parent)
+
+            if (lastId == null){
+                v.id = View.generateViewId()
+            }
+
+
+            return v
+
 
         }
+
+//        fun inflateOrGetEstimativeView(
+//            parent: ConstraintLayout, context: Context,
+//            sizeValue: SizeValue,
+//            count: Int,
+//            totalTimeMinutes: Int, tag: String? = null
+//        ): LinearLayout {
+//
+//            var v = parent?.findViewWithTag<LinearLayout>(uuid)
+//
+//            if (v == null) {
+//                v = LayoutInflater.from(context).inflate(
+//                    R.layout.layout_estimative_summary,
+//                    null
+//                ) as LinearLayout
+//
+//                val cs = ConstraintSet()
+//                cs.clone(parent)
+//
+//                v.id = View.generateViewId()
+//            }
+//
+//            val txtSummary = v.findViewById<TextView>(R.id.txtEstimativeSummary)
+//
+//            val str =
+//                "${count.toString().padStart(3, ' ')} x ${sizeValue.minutes.toString().padStart(
+//                    2,
+//                    ' '
+//                )} min = ${totalTimeMinutes.toFormatedTime().padStart(6, '0')}"
+//
+//            val imgSizeIcon = v.findViewById<ImageView>(R.id.imgSizeIcon)
+//            imgSizeIcon.setImageDrawable(getSizeDrawable(sizeValue.index, context))
+//
+//            txtSummary.text = str
+//            v.tag = sizeValue.index.toString().plus(totalTimeMinutes)
+//
+//            return v
+//        }
+
+
+        @SuppressLint("ClickableViewAccessibility")
+        fun inflateEstimativeButton(
+            context: Context,
+            sizeValue: SizeValue,
+            topInfo: String? = null,
+            onTouchListener: View.OnTouchListener,
+            tag: Any? = null
+        ): FrameLayout {
+            val l = LayoutInflater.from(context).inflate(
+                R.layout.layout_estimative_button,
+                null
+            ) as FrameLayout
+
+            l.tag = tag ?: sizeValue
+
+            l.setOnTouchListener { v, event ->
+                onTouchListener.onTouch(v, event)
+            }
+            val img = l.findViewById<ImageView>(R.id.imgSize)
+            img.setImageDrawable(getSizeDrawable(sizeValue.index, context))
+
+            topInfo?.let {
+                val txtTopInfo = l.findViewById<TextView>(R.id.txtTopInfo)
+                txtTopInfo.text = it
+                txtTopInfo.visibility = View.VISIBLE
+            }
+
+            val txtBottomInfo = l.findViewById<TextView>(R.id.txtBottomInfo)
+            txtBottomInfo.text =
+                context.getString(R.string.label_format_abbrev_minutes, sizeValue.minutes)
+
+            return l
+        }
+
+
+
 
         private val emptyTouchListener = View.OnTouchListener { v, event -> true }
 
@@ -245,3 +340,4 @@ class RuntimeViewFactory {
             context.resources.getDimension(resId).toInt()
     }
 }
+

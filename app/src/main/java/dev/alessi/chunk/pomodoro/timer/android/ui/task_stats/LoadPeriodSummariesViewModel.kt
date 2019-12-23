@@ -5,9 +5,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dev.alessi.chunk.pomodoro.timer.android.App
-import dev.alessi.chunk.pomodoro.timer.android.RepositoryProvider
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.database.WorkUnit
+import dev.alessi.chunk.pomodoro.timer.android.repository.SliceRepositoryProvider
+import dev.alessi.chunk.pomodoro.timer.android.repository.TaskRepositoryProvider
 import dev.alessi.chunk.pomodoro.timer.android.ui.task.SelectTaskTO
 import dev.alessi.chunk.pomodoro.timer.android.util.beginningOfDay
 import dev.alessi.chunk.pomodoro.timer.android.util.beginningOfMonth
@@ -29,13 +30,15 @@ class LoadPeriodSummariesViewModel(app: Application) : AndroidViewModel(app) {
     val onPeriodsLoadedObserver: LiveData<List<SelectTaskTO>>
         get() = _allTaskAndPeriods
 
-
     val onPeriodsFromTaskLoadedObserver: LiveData<SelectTaskTO>
         get() = _taskAndPeriods
 
+    private val taskRepository
+        get() = (getApplication<App>() as TaskRepositoryProvider).taskRepository
 
-    private val repository
-        get() = (getApplication<App>() as RepositoryProvider).getTaskRepository()
+    private val sliceRepository
+        get() = (getApplication<App>() as SliceRepositoryProvider).sliceRepository
+
 
 
     fun loadAllAndSummarize() {
@@ -43,14 +46,14 @@ class LoadPeriodSummariesViewModel(app: Application) : AndroidViewModel(app) {
             val allSummariesTO = mutableListOf<SelectTaskTO>()
 
             val tasks = withContext(Dispatchers.IO) {
-                return@withContext repository.loadAllActive()
+                return@withContext taskRepository.loadAllActive()
             }
 
             tasks.filter { task -> task.uid!! > 0 }.forEach { task ->
 
                 val slices = withContext(Dispatchers.IO) {
 
-                    return@withContext repository.allWorkUnitsFromTask(task.uid!!)
+                    return@withContext sliceRepository.loadAllSlicesFromTask(task.uid!!)
                 }
 
                 val summary = summarize(slices, task)
@@ -68,7 +71,7 @@ class LoadPeriodSummariesViewModel(app: Application) : AndroidViewModel(app) {
         scope.launch {
 
             val slices = withContext(Dispatchers.IO) {
-                return@withContext repository.allWorkUnitsFromTask(task.uid!!)
+                return@withContext sliceRepository.loadAllSlicesFromTask(task.uid!!)
             }
 
             val summary = summarize(slices, task)

@@ -109,16 +109,23 @@
     <string name="label_menu_action_filter">Filter</string>
 
     <string name="label_format_symbol_equal">= %d</string>
+    <string name="label_symbol_equal">=</string>
     <string name="label_format_abbrev_minutes">+%d</string>
+    <string name="label_format_abbrev_of_min"> %dm</string>
+    <string name="label_format_equal_total_time">%s</string>
+    <string name="label_format_abbrev_times">%d x</string>
+    <string name="label_of">of</string>
     <string name="label_format_summary_period_time">%s: %s</string>
     <string name="label_format_created_at">Criada em: %s</string>
+
 
 
     <string name="label_message_noitems">Nenhuma</string>
     <string name="message_content_empty">Não há items</string>
     <string name="label_done">Realizado:</string>
-    <string name="label_estimative">Estimativa:</string>
+    <string name="label_estimative">Estimativa para esta tarefa:</string>
     <string name="symbol_no_data">-</string>
+
     <string name="nothing_yet">Nenhum Ainda</string>
     <string name="content_description_size0">Timer tamanho PP</string>
     <string name="content_description_size1">Timer tamanho P</string>
@@ -134,6 +141,9 @@
     <string name="content_description_archive_task">Arquivar Tarefa</string>
     <string name="content_description_plan_task">Planejar Tarefa</string>
     <string name="content_description_expand_collapse">Expand / Collapse</string>
+    <string name="label_total">Total:</string>
+    <string name="label_drag">Arraste</string>
+    <string name="label_drag_to_here">Arraste aqui para adicionar tempo às estimativas</string>
 
     <plurals name="label_format_hours">
         <item quantity="one">%s hour</item>

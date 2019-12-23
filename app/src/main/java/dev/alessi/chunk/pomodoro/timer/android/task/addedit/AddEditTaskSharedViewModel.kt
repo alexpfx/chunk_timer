@@ -5,8 +5,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dev.alessi.chunk.pomodoro.timer.android.App
-import dev.alessi.chunk.pomodoro.timer.android.RepositoryProvider
+import dev.alessi.chunk.pomodoro.timer.android.repository.EstimateRepositoryProvider
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
+import dev.alessi.chunk.pomodoro.timer.android.repository.TaskRepositoryProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -35,7 +36,7 @@ class AddEditTaskSharedViewModel(application: Application) : AndroidViewModel(ap
 
 
     private val repository
-        get() = (getApplication<App>() as RepositoryProvider).getTaskRepository()
+        get() = (getApplication<App>() as TaskRepositoryProvider).taskRepository
 
 
 }

@@ -17,30 +17,26 @@
     <!-- Text Views -->
 
 
-
-
-    <style name="LogicalDataTableTop" >
+    <style name="LogicalDataTableTop">
         <item name="android:padding">8dp</item>
         <item name="android:background">@drawable/drawable_top_corner</item>
         <item name="android:gravity">start|center_vertical</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Caption</item>
     </style>
 
-    <style name="LogicalDataTableMiddle" >
+    <style name="LogicalDataTableMiddle">
         <item name="android:padding">8dp</item>
         <item name="android:background">@color/color_foreground_light</item>
         <item name="android:gravity">start|center_vertical</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Caption</item>
     </style>
 
-    <style name="LogicalDataTableBottom" >
+    <style name="LogicalDataTableBottom">
         <item name="android:padding">8dp</item>
         <item name="android:background">@drawable/drawable_bottom_corner</item>
         <item name="android:gravity">start|center_vertical</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Caption</item>
     </style>
-
-
 
 
     <!-- Dialogs -->
@@ -81,6 +77,16 @@
 
     <style name="ActionButtons" parent="@style/Widget.AppCompat.ImageButton">
         <item name="android:tint">@color/color_action_foreground</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
+    <style name="ActionButtonsSmall" parent="@style/Widget.AppCompat.ImageButton">
+        <item name="android:tint">@color/color_action_foreground</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:padding">8dp</item>
     </style>
 
 
@@ -131,10 +137,24 @@
 
     </style>
 
+    <!--android:gravity="center"
+    android:padding="2dp"
+    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+    android:textStyle="bold"-->
+
+    <style name="TextViewEstimativeSummary">
+        <item name="android:gravity">center_vertical|end</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:padding">2dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+
+    </style>
+
     <style name="TextIconPizza">
         <item name="android:textColor">@color/text_color_primary</item>
         <item name="android:layout_gravity">bottom|center</item>
-
 
     </style>
 

@@ -32,6 +32,7 @@ import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_TIC
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_UPDATE_STATE
 import dev.alessi.chunk.pomodoro.timer.android.util.IntentBuilder
 import dev.alessi.chunk.pomodoro.timer.android.util.RuntimeViewFactory
+import dev.alessi.chunk.pomodoro.timer.android.util.ViewUtils.Companion.getSizeDrawable
 import kotlinx.android.synthetic.main.fragment_timer.*
 
 
@@ -240,7 +241,7 @@ class TimerFragment : Fragment() {
             it.setOnClickListener(::onSizeSetupBtnClick)
             val tag = (it.tag as String).toInt()
             it.tag = tag
-            it.setImageResource(RuntimeViewFactory.getSizeDrawable(tag, context!!))
+            it.setImageResource(getSizeDrawable(tag, context!!))
         }
 
         super.onViewCreated(view, savedInstanceState)

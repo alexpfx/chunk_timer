@@ -10,11 +10,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.alessi.chunk.pomodoro.timer.android.R
-import dev.alessi.chunk.pomodoro.timer.android.RepositoryProvider
 import dev.alessi.chunk.pomodoro.timer.android.database.WorkUnit
 import dev.alessi.chunk.pomodoro.timer.android.platform.ChunkTimerService
 import dev.alessi.chunk.pomodoro.timer.android.platform.SoundEffectManager
-import dev.alessi.chunk.pomodoro.timer.android.repository.TaskRepository
+import dev.alessi.chunk.pomodoro.timer.android.repository.SliceRepository
+import dev.alessi.chunk.pomodoro.timer.android.repository.SliceRepositoryProvider
 import dev.alessi.chunk.pomodoro.timer.android.settings.SettingsFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -37,7 +37,8 @@ class TimerFinishDialogFragment : DialogFragment() {
     private var mTimerRingIndex = -1
     private var mBreaktimeRingIndex = -1
     private lateinit var sfm: SoundEffectManager
-    private lateinit var mTaskRepository: TaskRepository
+    //TODO mover para viewmodel
+    private lateinit var mEstimateRepository: SliceRepository
 
     private fun loadSoundEffectPrefs() {
         val pm = PreferenceManager.getDefaultSharedPreferences(this.activity!!)
@@ -47,7 +48,7 @@ class TimerFinishDialogFragment : DialogFragment() {
     }
 
     override fun onAttach(context: Context) {
-        mTaskRepository = (activity?.applicationContext as RepositoryProvider).getTaskRepository()
+        mEstimateRepository = (activity?.applicationContext as SliceRepositoryProvider).sliceRepository
         super.onAttach(context)
     }
 
@@ -147,8 +148,8 @@ class TimerFinishDialogFragment : DialogFragment() {
                     taskId = taskId,
                     timeMinutes = mTotalTime
                 )
-                val id = mTaskRepository.storeWorkUnit(wu)
-                val newWUnit = mTaskRepository.loadWorkUnit(id)
+                val id = mEstimateRepository.storeSlice(wu)
+                val newWUnit = mEstimateRepository.loadSlice(id)
 
                 newWUnit
             }

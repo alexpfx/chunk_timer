@@ -23,7 +23,7 @@
 
         <TextView
 
-            android:id="@+id/txtTaskDesc"
+            android:id="@+id/txt_task_desk"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:minHeight="48dp"
@@ -43,7 +43,7 @@
             android:background="@drawable/drawable_divider_horizontal"
             app:layout_constraintEnd_toStartOf="@+id/frameLayout"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtTaskDesc" />
+            app:layout_constraintTop_toBottomOf="@+id/txt_task_desk" />
 
         <TextView
 
@@ -55,7 +55,7 @@
             android:paddingBottom="4dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
 
-            app:layout_constraintStart_toStartOf="@+id/txtTaskDesc"
+            app:layout_constraintStart_toStartOf="@+id/txt_task_desk"
             app:layout_constraintTop_toBottomOf="@+id/view"
             tools:text="2 G, 4 M, 2 PP " />
 

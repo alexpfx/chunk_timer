@@ -3,12 +3,16 @@ package dev.alessi.chunk.pomodoro.timer.android.util
 import android.content.Context
 import android.util.Log
 import android.util.TypedValue
+import dev.alessi.chunk.pomodoro.timer.android.database.SizeTimeCountTO
+import dev.alessi.chunk.pomodoro.timer.android.domain.SizeValue
+import dev.alessi.chunk.pomodoro.timer.android.ui.task_stats.PeriodSummaryTO
 import java.util.*
 
 fun Any.debug(message: String) {
     Log.d(this.javaClass.name, message)
 }
-fun Any.error(err: Throwable, message: String = ""){
+
+fun Any.error(err: Throwable, message: String = "") {
     Log.e(this.javaClass.name, message, err)
 }
 
@@ -37,6 +41,26 @@ fun Date.beginningOfMonth(): Date {
     val cal = createCalendarBeginningOfDay()
     cal.set(Calendar.DAY_OF_MONTH, 1)
     return cal.time
+}
+
+fun Int.toFormatedTime(): String {
+    val seconds = this * 60
+    val hours = seconds / PeriodSummaryTO.hours_const_div
+    val s = seconds.rem(PeriodSummaryTO.hours_const_div)
+    val minutes = s / PeriodSummaryTO.min_const_div
+
+    return "${hours}h${minutes.toString().padStart(2, '0')}m"
+}
+
+fun SizeTimeCountTO.toSizeValue(): SizeValue {
+    return SizeValue(this.sizeId, this.timeMinutes)
+}
+
+fun SizeTimeCountTO.toFormatedSummary(count: Int, countPad: Int = 2, minutesPad: Int = 2): String {
+    return "${count.toString().padStart(3, ' ')} x ${this.timeMinutes.toString().padStart(
+        minutesPad,
+        ' '
+    )}"
 }
 
 private fun createCalendarBeginningOfDay(): Calendar {

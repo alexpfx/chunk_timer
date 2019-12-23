@@ -2,23 +2,20 @@ package dev.alessi.chunk.pomodoro.timer.android.ui.estimate
 
 
 import android.content.ClipData
-import android.graphics.Point
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.view.*
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.ScrollView
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.widget.*
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.preference.PreferenceManager
-import com.google.android.flexbox.FlexboxLayout
-import com.google.android.flexbox.JustifyContent
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dev.alessi.chunk.pomodoro.timer.android.R
+import dev.alessi.chunk.pomodoro.timer.android.database.SizeTimeCountTO
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.database.WorkUnit
 import dev.alessi.chunk.pomodoro.timer.android.domain.SizeValue
@@ -26,8 +23,8 @@ import dev.alessi.chunk.pomodoro.timer.android.ui.task.SelectTaskFragment
 import dev.alessi.chunk.pomodoro.timer.android.ui.task.TaskViewModel
 import dev.alessi.chunk.pomodoro.timer.android.util.RuntimeViewFactory
 import dev.alessi.chunk.pomodoro.timer.android.util.ViewUtils
-import dev.alessi.chunk.pomodoro.timer.android.util.debug
-import dev.alessi.chunk.pomodoro.timer.android.util.toDip
+import dev.alessi.chunk.pomodoro.timer.android.util.ViewUtils.Companion.getSizeTimeCountTOFromTag
+import dev.alessi.chunk.pomodoro.timer.android.util.toFormatedTime
 import kotlinx.android.synthetic.main.fragment_estimate.*
 
 
@@ -35,8 +32,11 @@ import kotlinx.android.synthetic.main.fragment_estimate.*
  * A simple [Fragment] subclass.
  */
 
-class EstimateFragment : Fragment() {
 
+class EstimateFragment : Fragment(), EstimativeActionListeners {
+    companion object {
+        const val tagSummary = "summaryButtons"
+    }
 
     private lateinit var sizeMap: Map<Int, SizeValue>
     lateinit var rlInfoContent: FrameLayout
@@ -46,6 +46,19 @@ class EstimateFragment : Fragment() {
     lateinit var mEstimativeViewModel: EstimateViewModel
     lateinit var mLoadTaskViewModel: TaskViewModel
     lateinit var mTask: Task
+    lateinit var mEstimativeAdapter: EstimateAdapter
+
+
+    private var mMinutesEditable = 0
+
+    private val editModeIcon: Drawable by lazy {
+        ViewUtils.getDrawable(context!!, R.drawable.ic_mode_edit_black_24dp)
+    }
+
+    private val checkIcon: Drawable by lazy {
+        ViewUtils.getDrawable(context!!, R.drawable.ic_check_black_24dp)
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         sizeMap =
@@ -57,39 +70,74 @@ class EstimateFragment : Fragment() {
             ViewModelProviders.of(this)[TaskViewModel::class.java]
         } ?: throw IllegalArgumentException("activity nula")
 
+        mEstimativeAdapter =
+            EstimateAdapter(this)
         super.onCreate(savedInstanceState)
 
     }
 
-    private val onAddNewEstimativeObserver = Observer<WorkUnit> {
-        val tv = RuntimeViewFactory.createEstimativeView(context!!, it.sizeId, it.timeMinutes, orderInLayout = it.sizeId)
 
-        flexbox_estimative.addView(tv)
+    override val onBtnPlus = View.OnClickListener {
+        val sizeTO = getSizeTimeCountTOFromTag(it)
 
-        val t = RuntimeViewFactory.createEstimativeView(context!!, it.sizeId, it.timeMinutes, orderInLayout = it.sizeId, info = "2x")
+        addToEstimative(sizeTO)
 
-        flexbox_totalizer.addView(t)
+        updateTotalTime()
 
 
-        updateFlexbox()
+    }
 
-        if (!asAdded){
-            val tot = RuntimeViewFactory.createTotalizerText(context!!, "Total:", "2h 20m")
-            flexbox_totalizer.addView(tot)
-            asAdded = true
-        }
 
+    override val onBtnMinus = View.OnClickListener {
+        val sizeTO = getSizeTimeCountTOFromTag(it)
+
+        removeFromEstimative(sizeTO)
+
+        updateTotalTime()
+
+
+    }
+
+    override val onBtnDelete = View.OnClickListener {
+        val sizeTO = getSizeTimeCountTOFromTag(it)
+
+        mEstimativeViewModel.removeAllEstimatives(
+            WorkUnit(
+                timeMinutes = sizeTO.minutes,
+                sizeId = sizeTO.index,
+                task = mTask,
+                taskId = mTask.uid!!,
+                estimative = 1
+            )
+        )
 
 
 
     }
 
-    var asAdded = false
 
-    private val onAllEstimatives = Observer<List<WorkUnit>>{ list ->
-        list.forEach{
-            debug("pegou estimativa: $it")
-        }
+    private val onAllEstimatives = Observer<List<SizeTimeCountTO>> { list ->
+        mEstimativeAdapter.setItems(list)
+        mMinutesEditable = list.fold(0, { total, next ->
+            total + (next.timeMinutes * next.count)
+        })
+
+        updateTotalTime()
+        updateDragHereMessage()
+
+    }
+
+    private val onAllEstimativesFor = Observer<SizeTimeCountTO> { entry ->
+        mEstimativeAdapter.setItem(entry)
+        println("onAllEstimativesFor $entry")
+
+        updateTotalTime()
+        updateDragHereMessage()
+
+    }
+
+    private fun updateTotalTime() {
+        txt_estimative_total.text = mMinutesEditable.toFormatedTime()
     }
 
     private val onTaskLoaded = Observer<Task> {
@@ -98,7 +146,7 @@ class EstimateFragment : Fragment() {
     }
 
     private fun updateUi() {
-        txtTaskDesc.text = mTask.description
+        txt_task_desk.text = mTask.description
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -109,10 +157,9 @@ class EstimateFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        mEstimativeViewModel.onNewEstimative.observe(viewLifecycleOwner, onAddNewEstimativeObserver)
         mLoadTaskViewModel.taskLoadedObserver.observe(viewLifecycleOwner, onTaskLoaded)
         mEstimativeViewModel.onAllEstimativesLoaded.observe(viewLifecycleOwner, onAllEstimatives)
-
+        mEstimativeViewModel.onAllEstimativesFor.observe(viewLifecycleOwner, onAllEstimativesFor)
 
     }
 
@@ -132,18 +179,7 @@ class EstimateFragment : Fragment() {
             MotionEvent.ACTION_DOWN -> {
                 val data = ClipData.newPlainText("Label", "Teste")
 
-                imageDragIconInfo.setImageDrawable((view as ImageView).drawable.constantState?.newDrawable())
-                val sizeValue = view.tag as SizeValue
-
-                textDragInfo.text =
-                    getString(R.string.label_format_abbrev_minutes, sizeValue.minutes)
-
-
-                val shadowBuilder = ViewUtils.createShadowBuilder(
-                    rlInfoContent,
-                    view,
-                    fingerOffset = Point(view.width, view.height)
-                )
+                val shadowBuilder = View.DragShadowBuilder(view)
 
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -162,10 +198,29 @@ class EstimateFragment : Fragment() {
         false
     }
 
+    private val onEditModeClick = View.OnClickListener {
+        val isEditMode = mEstimativeAdapter.toggleEditMode()
+
+        if (!isEditMode){
+            mEstimativeViewModel.loadAllEstimatives(mTask.uid!!)
+        }
+        updateEditModeIcon(isEditMode)
+
+    }
+
+    private fun updateEditModeIcon(editMode: Boolean) {
+        if (!editMode) {
+            btn_edit_mode.setImageDrawable(editModeIcon)
+        } else {
+            btn_edit_mode.setImageDrawable(checkIcon)
+        }
+    }
+
     private val onDrag = View.OnDragListener { targetView: View, dragEvent: DragEvent ->
         val originView = dragEvent.localState as View
 
         when (dragEvent.action) {
+
             DragEvent.ACTION_DRAG_ENDED -> {
                 originView.visibility = View.VISIBLE
 
@@ -181,6 +236,21 @@ class EstimateFragment : Fragment() {
 
     }
 
+    private fun removeFromEstimative(sizeValue: SizeValue) {
+        mEstimativeViewModel.removeEstimative(
+            WorkUnit(
+                timeMinutes = sizeValue.minutes,
+                sizeId = sizeValue.index,
+                task = mTask,
+                taskId = mTask.uid!!,
+                estimative = 1
+            )
+        )
+
+        mMinutesEditable -= sizeValue.minutes
+
+
+    }
 
     private fun addToEstimative(sizeValue: SizeValue) {
         mEstimativeViewModel.storeEstimative(
@@ -188,11 +258,12 @@ class EstimateFragment : Fragment() {
                 timeMinutes = sizeValue.minutes,
                 sizeId = sizeValue.index,
                 task = mTask,
-                taskId = mTask.uid!!
+                taskId = mTask.uid!!,
+                estimative = 1
             )
         )
 
-
+        mMinutesEditable += sizeValue.minutes
 
 
     }
@@ -206,13 +277,32 @@ class EstimateFragment : Fragment() {
         val taskId = arguments?.getInt(SelectTaskFragment.extra_param_task_id, -1)
             ?: throw IllegalArgumentException("Não passou a task")
 
+        mLoadTaskViewModel.loadTask(taskId)
+        val p = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1.0f)
+        p.gravity = Gravity.CENTER
+
+        for (value in sizeMap.values) {
+            val inflated = RuntimeViewFactory.inflateEstimativeButton(
+                context!!,
+                value,
+                onTouchListener = onSizeButtonTouch
+            )
+            linearLayout_estimativeMenu.addView(inflated, p)
+        }
+
+        btn_edit_mode.setOnClickListener(onEditModeClick)
+
+
+        recyclerEstimatives.setOnDragListener(onDrag)
+        recyclerEstimatives.adapter = mEstimativeAdapter
+        recyclerEstimatives.layoutManager =
+            LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+
+
         mEstimativeViewModel.loadAllEstimatives(taskId)
 
-        updateFlexbox()
 
-
-        mLoadTaskViewModel.loadTask(taskId)
-
+        updateDragHereMessage()
 
         rlInfoContent = LayoutInflater.from(context).inflate(
             R.layout.layout_drag_info,
@@ -234,35 +324,17 @@ class EstimateFragment : Fragment() {
                 val index = (it.tag as String).toInt()
                 val sizeValue = sizeMap[index]
                 it.tag = sizeValue!!
-                it.setImageDrawable(RuntimeViewFactory.getSizeDrawable(sizeValue.index, context!!))
-
-
+                it.setImageDrawable(ViewUtils.getSizeDrawable(sizeValue.index, context!!))
             }
         }
 
-        flexbox_estimative.setOnDragListener(onDrag)
     }
 
-    private fun updateFlexbox() {
+    private fun updateDragHereMessage() {
+        label_message_drag_here.visibility =
+            if (mEstimativeAdapter.itemCount > 0) View.INVISIBLE else View.VISIBLE
 
-        setMinFlexboxHeight(flexbox_totalizer, 72)
-        setMinFlexboxHeight(flexbox_estimative)
 
-        if (flexbox_totalizer.childCount > 4){
-            flexbox_totalizer.justifyContent = JustifyContent.SPACE_BETWEEN
-        }else{
-            flexbox_totalizer.justifyContent = JustifyContent.FLEX_START
-        }
-
-    }
-
-    private fun setMinFlexboxHeight(flex: FlexboxLayout, minHeight: Int = 100) {
-        if (flex.childCount == 0) {
-            flex.layoutParams.height = minHeight.toDip(context!!)
-        } else {
-            flex.layoutParams.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
-
-        }
     }
 
 
