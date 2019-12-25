@@ -142,7 +142,7 @@
     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
     android:textStyle="bold"-->
 
-    <style name="TextViewEstimativeSummary">
+    <style name="TextViewEstimationSummary">
         <item name="android:gravity">center_vertical|end</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
         <item name="android:textStyle">normal</item>

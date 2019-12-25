@@ -168,20 +168,20 @@
             tools:text="Dom, 08/12/2019 - 18:00" />
 
         <TextView
-            android:id="@+id/txtLabelEstimative"
+            android:id="@+id/txtLabelEstimation"
             style="@style/LogicalDataTableMiddle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
 
-            android:text="@string/label_estimative"
+            android:text="@string/label_estimation"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/linearLayoutEstimative"
+            app:layout_constraintEnd_toEndOf="@id/linearLayoutEstimation"
             app:layout_constraintStart_toStartOf="@id/txt_task_desk"
             app:layout_constraintTop_toBottomOf="@+id/txtLastSlice" />
 
         <LinearLayout
-            android:id="@+id/linearLayoutEstimative"
+            android:id="@+id/linearLayoutEstimation"
             style="@style/LogicalDataTableMiddle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -189,7 +189,7 @@
             app:layout_constraintEnd_toEndOf="@id/txt_task_desk"
             app:layout_constraintStart_toStartOf="@id/txt_task_desk"
 
-            app:layout_constraintTop_toBottomOf="@id/txtLabelEstimative"
+            app:layout_constraintTop_toBottomOf="@id/txtLabelEstimation"
             tools:layout_height="20dp" />
 
         <TextView
@@ -205,7 +205,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/linearLayoutWorkDone"
             app:layout_constraintStart_toStartOf="@id/txt_task_desk"
-            app:layout_constraintTop_toBottomOf="@id/linearLayoutEstimative" />
+            app:layout_constraintTop_toBottomOf="@id/linearLayoutEstimation" />
 
         <LinearLayout
             android:id="@+id/linearLayoutWorkDone"
@@ -238,7 +238,7 @@
 
             android:padding="8dp"
             android:visibility="gone"
-            app:constraint_referenced_ids="txtLastSlice,txtLabelEstimative,linearLayoutEstimative,txtLabelWorkDone,linearLayoutWorkDone,view2"
+            app:constraint_referenced_ids="txtLastSlice,txtLabelEstimation,linearLayoutEstimation,txtLabelWorkDone,linearLayoutWorkDone,view2"
             tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

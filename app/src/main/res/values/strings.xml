@@ -123,7 +123,7 @@
     <string name="label_message_noitems">Nenhuma</string>
     <string name="message_content_empty">Não há items</string>
     <string name="label_done">Realizado:</string>
-    <string name="label_estimative">Estimativa para esta tarefa:</string>
+    <string name="label_estimation">Estimativa para esta tarefa:</string>
     <string name="symbol_no_data">-</string>
 
     <string name="nothing_yet">Nenhum Ainda</string>

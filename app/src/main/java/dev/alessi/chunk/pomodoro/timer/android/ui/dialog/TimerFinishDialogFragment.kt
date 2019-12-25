@@ -1,66 +1,55 @@
 package dev.alessi.chunk.pomodoro.timer.android.ui.dialog
 
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
-import androidx.preference.PreferenceManager
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.database.WorkUnit
-import dev.alessi.chunk.pomodoro.timer.android.platform.ChunkTimerService
-import dev.alessi.chunk.pomodoro.timer.android.platform.SoundEffectManager
-import dev.alessi.chunk.pomodoro.timer.android.repository.SliceRepository
-import dev.alessi.chunk.pomodoro.timer.android.repository.SliceRepositoryProvider
-import dev.alessi.chunk.pomodoro.timer.android.settings.SettingsFragment
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.util.*
+import dev.alessi.chunk.pomodoro.timer.android.service.ChunkTimerService
 
 class TimerFinishDialogFragment : DialogFragment() {
 
     private var txtTimer: TextView? = null
     private var txtSize: TextView? = null
     private var txtTask: TextView? = null
-    private val mScope = CoroutineScope(Dispatchers.Main)
-
-    private var mSize: Int = 0
-    private var mTotalTime: Int = -1
-    private lateinit var mWorkUnit: WorkUnit
+    private lateinit var mTimerFinishViewModel: TimerFinishViewModel
 
 
-    private var mTimerRingIndex = -1
-    private var mBreaktimeRingIndex = -1
-    private lateinit var sfm: SoundEffectManager
-    //TODO mover para viewmodel
-    private lateinit var mEstimateRepository: SliceRepository
-
-    private fun loadSoundEffectPrefs() {
-        val pm = PreferenceManager.getDefaultSharedPreferences(this.activity!!)
-        mBreaktimeRingIndex = pm.getInt(SettingsFragment.pref_ring_breaktime, -1)
-        mTimerRingIndex = pm.getInt(SettingsFragment.pref_ring_timer, -1)
-
-    }
-
-    override fun onAttach(context: Context) {
-        mEstimateRepository = (activity?.applicationContext as SliceRepositoryProvider).sliceRepository
-        super.onAttach(context)
-    }
+    private var mSlice: WorkUnit? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        mTimerFinishViewModel = ViewModelProviders.of(this).get(TimerFinishViewModel::class.java)
         super.onCreate(savedInstanceState)
-        sfm = SoundEffectManager(this.activity!!)
-
     }
 
-    override fun onDestroy() {
-        sfm.dispose()
-        super.onDestroy()
+
+    private val onSliceLoaded = Observer<WorkUnit> {
+        mSlice = it
+
+        updateUi()
+    }
+
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        if (activity != null){
+            mTimerFinishViewModel = ViewModelProviders.of(activity!!)[TimerFinishViewModel::class.java]
+            mTimerFinishViewModel.onSliceLoaded.observe(activity!!, onSliceLoaded)
+        }
+
+        super.onActivityCreated(savedInstanceState)
+    }
+
+
+    fun getViewLayout(@ChunkTimerService.TimerState state: Int): Int {
+        return if (state == ChunkTimerService.TimerState.status_running_timer)
+            R.layout.dialog_timer_finish else R.layout.dialog_breaktime_finish
+
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -70,37 +59,16 @@ class TimerFinishDialogFragment : DialogFragment() {
             val builder = MaterialAlertDialogBuilder(it)
 
             @ChunkTimerService.TimerState val type =
-                arguments?.getInt(ChunkTimerService.extra_param_status)
+                arguments?.getInt(ChunkTimerService.extra_param_status)!!
 
 
-            loadSoundEffectPrefs()
+            val layout = getViewLayout(type)
+            val inflatedView =
+                LayoutInflater.from(context).inflate(layout, null)
+            extractViews(inflatedView)
 
-
-            if (ChunkTimerService.TimerState.status_running_break == type) {
-                val inflatedView =
-                    LayoutInflater.from(context).inflate(R.layout.dialog_breaktime_finish, null)
-                builder.setView(inflatedView)
-
-                extractViews(inflatedView)
-
-                fillBreak(builder, arguments!!)
-                sfm.play(mBreaktimeRingIndex)
-
-            } else {
-                val inflatedView = LayoutInflater.from(context).inflate(
-                    R.layout.dialog_timer_finish,
-                    null
-                )
-                builder.setView(
-                    inflatedView
-                )
-
-                extractViews(inflatedView)
-
-                fillTimerFinishBuilder(builder, arguments!!)
-                sfm.play(mTimerRingIndex)
-            }
-
+            fillBreak(builder, arguments!!)
+            fillTimerFinishBuilder(builder, arguments!!)
 
             builder.setPositiveButton(
                 android.R.string.ok
@@ -111,7 +79,9 @@ class TimerFinishDialogFragment : DialogFragment() {
 
             builder.create()
             builder.show()
+
         } ?: throw IllegalStateException("activity couldn't be null")
+
 
     }
 
@@ -122,6 +92,20 @@ class TimerFinishDialogFragment : DialogFragment() {
     }
 
 
+    private fun updateUi() {
+
+        txtTimer?.text = context?.resources?.getQuantityString(
+            R.plurals.minutes,
+            mSlice?.timeMinutes ?: 0, mSlice?.timeMinutes ?: 0
+
+        )
+
+        //TODO mostrar icone do size
+        txtSize?.text = mSlice?.taskSize?.name ?: ""
+        txtTask?.text = mSlice?.task?.description ?: ""
+
+    }
+
     private fun fillTimerFinishBuilder(
         builder: MaterialAlertDialogBuilder,
         arg: Bundle
@@ -129,45 +113,7 @@ class TimerFinishDialogFragment : DialogFragment() {
         builder.setTitle(R.string.message_title_timer_finish)
         builder.setMessage(R.string.message_content_timer_finish)
 
-        mSize = arg.getInt(ChunkTimerService.extra_param_sizeIndex, -1)
-        val taskId = arg.getInt(ChunkTimerService.extra_param_task_id, -1)
-        mTotalTime =
-            (arg.getLong(ChunkTimerService.extra_param_total_time_millis) / 60 / 1000).toInt()
-
-        loadTaskAndUpdateUi(taskId)
-
-    }
-
-    private fun loadTaskAndUpdateUi(taskId: Int) {
-
-        mScope.launch {
-            mWorkUnit = withContext(Dispatchers.IO) {
-                val wu = WorkUnit(
-                    finishDate = Date(),
-                    sizeId = mSize,
-                    taskId = taskId,
-                    timeMinutes = mTotalTime
-                )
-                val id = mEstimateRepository.storeSlice(wu)
-                val newWUnit = mEstimateRepository.loadSlice(id)
-
-                newWUnit
-            }
-
-            updateUi()
-        }
-
-    }
-
-    private fun updateUi() {
-
-        txtTimer?.text = context?.resources?.getQuantityString(
-            R.plurals.minutes,
-            mWorkUnit.timeMinutes, mWorkUnit.timeMinutes
-
-        )
-        txtSize?.text = mWorkUnit.taskSize?.name
-        txtTask?.text = mWorkUnit.task?.description ?: ""
+        updateUi()
 
     }
 

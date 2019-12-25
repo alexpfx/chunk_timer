@@ -79,7 +79,7 @@
         tools:layout="@layout/fragment_task_stats" />
     <fragment
         android:id="@+id/estimateFragment"
-        android:name="dev.alessi.chunk.pomodoro.timer.android.ui.estimate.EstimateFragment"
+        android:name="dev.alessi.chunk.pomodoro.timer.android.ui.estimate.EstimationFragment"
         android:label="fragment_estimate"
         tools:layout="@layout/fragment_estimate" />
 </navigation>

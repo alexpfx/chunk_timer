@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProviders
 import dev.alessi.chunk.pomodoro.timer.android.repository.EstimateRepositoryProvider
 import dev.alessi.chunk.pomodoro.timer.android.database.SizeTimeCountTO
 import dev.alessi.chunk.pomodoro.timer.android.database.WorkUnit
@@ -17,79 +18,81 @@ class EstimateViewModel(val app: Application) : AndroidViewModel(app) {
 
     private val scope = CoroutineScope(Dispatchers.Main)
 
-    private val _allEstimatives = MutableLiveData<List<SizeTimeCountTO>>()
-    private val _allEstimativesFor = MutableLiveData<SizeTimeCountTO>()
+    private val mAllEstimations = MutableLiveData<List<SizeTimeCountTO>>()
+    private val mAllEstimationsFor = MutableLiveData<SizeTimeCountTO>()
 
 
-    val onAllEstimativesLoaded: LiveData<List<SizeTimeCountTO>>
-        get() = _allEstimatives
+    val onAllEstimationsLoaded: LiveData<List<SizeTimeCountTO>>
+        get() = mAllEstimations
 
 
-    val onAllEstimativesFor: LiveData<SizeTimeCountTO>
-        get() = _allEstimativesFor
+    val onAllEstimationsFor: LiveData<SizeTimeCountTO>
+        get() = mAllEstimationsFor
 
 
-    fun storeEstimative(estimative: WorkUnit) {
+    fun storeEstimation(estimation: WorkUnit) {
+
+
 
         scope.launch {
             val id = withContext(Dispatchers.IO) {
-                getRepository().storeEstimation(estimative.copy(estimative = 1))
+                getRepository().storeEstimation(estimation.copy(estimation = 1))
             }
 
             val sizeTimeCountTO = withContext(Dispatchers.IO) {
-                getRepository().countAllSimilarEstimations(estimative.taskId, estimative)
+                getRepository().countAllSimilarEstimations(estimation.taskId, estimation)
             }
 
-            _allEstimativesFor.value = sizeTimeCountTO
+            mAllEstimationsFor.value = sizeTimeCountTO
 
         }
 
     }
 
 
-    fun removeEstimative(estimative: WorkUnit) {
+    fun removeEstimation(estimation: WorkUnit) {
 
         scope.launch {
 
             withContext(Dispatchers.IO) {
-                getRepository().removeEstimation(estimative.copy(estimative = 1))
+                getRepository().removeEstimation(estimation.copy(estimation = 1))
             }
 
             val sizeTimeCountTO: SizeTimeCountTO? = withContext(Dispatchers.IO) {
-                getRepository().countAllSimilarEstimations(estimative.taskId, estimative)
+                getRepository().countAllSimilarEstimations(estimation.taskId, estimation)
             }
 
-            _allEstimativesFor.value = sizeTimeCountTO?.run {
+            mAllEstimationsFor.value = sizeTimeCountTO?.run {
                 sizeTimeCountTO
-            } ?: SizeTimeCountTO.zero(estimative.sizeId, estimative.timeMinutes)
+            } ?: SizeTimeCountTO.zero(estimation.sizeId, estimation.timeMinutes)
 
         }
 
     }
 
-    fun removeAllEstimatives(workUnit: WorkUnit) {
+    fun removeAllEstimations(workUnit: WorkUnit) {
         scope.launch {
             withContext(Dispatchers.IO){
                 getRepository().removeAllSimilarEstimations(workUnit)
             }
 
-            val estimatives = withContext(Dispatchers.IO){
+            val estimations = withContext(Dispatchers.IO){
                 getRepository().countAllEstimationsFromTask(workUnit.taskId)
             }
 
-            _allEstimatives.value = estimatives
+            mAllEstimations.value = estimations
         }
 
     }
 
 
-    fun loadAllEstimatives(taskId: Int) {
+    fun loadAllEstimations(taskId: Int) {
         scope.launch {
-            val estimatives = withContext(Dispatchers.IO) {
+            val estimation = withContext(Dispatchers.IO) {
                 getRepository().countAllEstimationsFromTask(taskId)
             }
 
-            _allEstimatives.value = estimatives
+            mAllEstimations.value = estimation
         }
 
     }

@@ -13,7 +13,7 @@ class SliceRepositoryImpl(private val workUnitDao: WorkUnitDao, private val task
     override suspend fun loadAllSlicesFromTask(taskId: Int): List<WorkUnit> {
         initCache()
 
-        val wUnits = workUnitDao.selectAllFromTask(taskId, estimative = 0)
+        val wUnits = workUnitDao.selectAllFromTask(taskId, estimation = 0)
         for (wu in wUnits) {
             val size = taskSizeCache?.get(wu.sizeId)
             wu.taskSize = size!!
@@ -37,7 +37,7 @@ class SliceRepositoryImpl(private val workUnitDao: WorkUnitDao, private val task
 
     override suspend fun storeSlice(workUnit: WorkUnit): Int {
         try {
-            return workUnitDao.insertWorkUnit(workUnit.copy(estimative = 0)).toInt()
+            return workUnitDao.insertWorkUnit(workUnit.copy(estimation = 0)).toInt()
         } catch (e: Exception) {
             error(e, "erro ao inserir work unit $workUnit")
             throw e

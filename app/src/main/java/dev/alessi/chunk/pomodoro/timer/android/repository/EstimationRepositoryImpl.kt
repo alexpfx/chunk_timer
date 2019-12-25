@@ -11,7 +11,7 @@ class EstimationRepositoryImpl(private val workUnitDao: WorkUnitDao) :
 
     override suspend fun storeEstimation(workUnit: WorkUnit): Int {
         try {
-            return workUnitDao.insertWorkUnit(workUnit.copy(estimative = 1)).toInt()
+            return workUnitDao.insertWorkUnit(workUnit.copy(estimation = 1)).toInt()
         } catch (e: Exception) {
             error(e, "erro ao inserir work unit $workUnit")
             throw e
@@ -57,12 +57,12 @@ class EstimationRepositoryImpl(private val workUnitDao: WorkUnitDao) :
             taskId,
             workUnit.sizeId,
             workUnit.timeMinutes,
-            estimative = 1
+            estimation = 1
         )
     }
 
     override suspend fun countAllEstimationsFromTask(taskId: Int): List<SizeTimeCountTO> {
-        return workUnitDao.countAllFromTask(taskId, estimative = 1)
+        return workUnitDao.countAllFromTask(taskId, estimation = 1)
 
     }
 

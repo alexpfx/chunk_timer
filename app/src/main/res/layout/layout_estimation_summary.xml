@@ -22,7 +22,7 @@
 
     <ImageView
         android:id="@+id/imgSizeIcon"
-        style="@style/TextViewEstimativeSummary"
+        style="@style/TextViewEstimationSummary"
         android:layout_width="36dp"
         android:layout_height="36dp"
 
@@ -36,8 +36,8 @@
 
     <TextView
 
-        android:id="@+id/txtEstimativeSummary"
-        style="@style/TextViewEstimativeSummary"
+        android:id="@+id/txtEstimationSummary"
+        style="@style/TextViewEstimationSummary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
@@ -54,7 +54,7 @@
     <TextView
 
         android:id="@+id/txtTotalTime"
-        style="@style/TextViewEstimativeSummary"
+        style="@style/TextViewEstimationSummary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
@@ -63,9 +63,9 @@
         android:fontFamily="monospace"
         android:gravity="start|center_vertical"
         app:layout_constraintBaseline_creator="@+id/imgSizeIcon"
-        app:layout_constraintBottom_toBottomOf="@+id/txtEstimativeSummary"
+        app:layout_constraintBottom_toBottomOf="@+id/txtEstimationSummary"
         app:layout_constraintEnd_toStartOf="@+id/btnDelete"
-        app:layout_constraintTop_toTopOf="@+id/txtEstimativeSummary"
+        app:layout_constraintTop_toTopOf="@+id/txtEstimationSummary"
         app:layout_constraintVertical_bias="0.0"
         tools:text="2h:45m" />
 

@@ -20,7 +20,7 @@ data class WorkUnit(
     var timeMinutes: Int,
     var taskId: Int,
     var sizeId: Int,
-    var estimative: Int = 0,
+    var estimation: Int = 0,
 
     @Ignore
     var task: Task? = null,
@@ -35,7 +35,7 @@ data class WorkUnit(
     constructor() : this(0, Date(), 0, 0, 0, 0, null, null)
 
     override fun toString(): String {
-        return "WorkUnit(uid=$uid, finishDate=$finishDate, timeMinutes=$timeMinutes, taskId=$taskId, sizeId=$sizeId, estimative=$estimative, task=$task, taskSize=$taskSize)"
+        return "WorkUnit(uid=$uid, finishDate=$finishDate, timeMinutes=$timeMinutes, taskId=$taskId, sizeId=$sizeId, estimation=$estimation, task=$task, taskSize=$taskSize)"
     }
 
 

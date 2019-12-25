@@ -8,7 +8,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import dev.alessi.chunk.pomodoro.timer.android.App
 import dev.alessi.chunk.pomodoro.timer.android.R
-import dev.alessi.chunk.pomodoro.timer.android.platform.ChunkTimerService
+import dev.alessi.chunk.pomodoro.timer.android.service.ChunkTimerService
 import dev.alessi.chunk.pomodoro.timer.android.ui.TimerActivity
 
 

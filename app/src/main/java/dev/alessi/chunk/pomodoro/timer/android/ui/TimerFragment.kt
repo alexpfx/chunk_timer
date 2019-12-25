@@ -24,14 +24,13 @@ import com.google.gson.Gson
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
-import dev.alessi.chunk.pomodoro.timer.android.platform.ChunkTimerService
+import dev.alessi.chunk.pomodoro.timer.android.service.ChunkTimerService
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_START_BREAK
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_START_TIMER
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_STOP
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_TICK
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_UPDATE_STATE
 import dev.alessi.chunk.pomodoro.timer.android.util.IntentBuilder
-import dev.alessi.chunk.pomodoro.timer.android.util.RuntimeViewFactory
 import dev.alessi.chunk.pomodoro.timer.android.util.ViewUtils.Companion.getSizeDrawable
 import kotlinx.android.synthetic.main.fragment_timer.*
 

@@ -3,7 +3,7 @@ package dev.alessi.chunk.pomodoro.timer.android.util
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import dev.alessi.chunk.pomodoro.timer.android.platform.ChunkTimerService
+import dev.alessi.chunk.pomodoro.timer.android.service.ChunkTimerService
 import dev.alessi.chunk.pomodoro.timer.android.ui.TimerActivity
 
 

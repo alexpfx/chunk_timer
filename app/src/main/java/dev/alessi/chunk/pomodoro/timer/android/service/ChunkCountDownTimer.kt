@@ -1,4 +1,4 @@
-package dev.alessi.chunk.pomodoro.timer.android.platform
+package dev.alessi.chunk.pomodoro.timer.android.service
 
 import android.os.CountDownTimer
 

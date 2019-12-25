@@ -12,7 +12,9 @@ import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import dev.alessi.chunk.pomodoro.timer.android.R
-import dev.alessi.chunk.pomodoro.timer.android.platform.ChunkTimerService
+import dev.alessi.chunk.pomodoro.timer.android.database.WorkUnit
+import dev.alessi.chunk.pomodoro.timer.android.service.ChunkTimerService
+import dev.alessi.chunk.pomodoro.timer.android.ui.dialog.TimerFinishViewModel
 import dev.alessi.chunk.pomodoro.timer.android.util.Command
 import dev.alessi.chunk.pomodoro.timer.android.util.IntentBuilder
 import kotlinx.android.synthetic.main.toolbar.*
@@ -22,6 +24,7 @@ class TimerActivity : AppCompatActivity(),
 
 
     private lateinit var mSharedViewModel: MainSharedViewModel
+    private lateinit var mTimerFinishViewModel: TimerFinishViewModel
 
     override fun onDestinationChanged(
         controller: NavController,
@@ -34,11 +37,15 @@ class TimerActivity : AppCompatActivity(),
 
     override fun onResume() {
         if (intent?.hasExtra(ChunkTimerService.extra_param_a_timer_was_finish) == true) {
-            getNavController().navigate(R.id.timerFinishDialogFragment, intent.extras)
+            val id = intent?.getIntExtra(ChunkTimerService.extra_param_slice_id, -1)!!
+            mTimerFinishViewModel.loadSlice(id)
+            findNavController(R.id.nav_host_fragment).navigate(R.id.timerFinishDialogFragment, intent.extras)
+
             intent?.removeExtra(ChunkTimerService.extra_param_a_timer_was_finish)
         }
 
         super.onResume()
+
     }
 
 
@@ -62,11 +69,15 @@ class TimerActivity : AppCompatActivity(),
 
         mSharedViewModel = ViewModelProviders.of(this).get(MainSharedViewModel::class.java)
 
+        mTimerFinishViewModel = ViewModelProviders.of(this).get(TimerFinishViewModel::class.java)
+
         mSharedViewModel.title.observe(this, Observer {
             supportActionBar?.title = it
         })
 
     }
+
+
 
     override fun onSupportNavigateUp(): Boolean {
         return getNavController().navigateUp() || super.onSupportNavigateUp()

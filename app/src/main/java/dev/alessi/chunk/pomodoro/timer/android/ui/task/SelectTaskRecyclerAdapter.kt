@@ -163,8 +163,8 @@ class TaskViewHolder(
 
     private var expanded = false
 
-    private val linearLayoutEstimative =
-        view.findViewById<LinearLayout>(R.id.linearLayoutEstimative)
+    private val linearLayoutEstimation =
+        view.findViewById<LinearLayout>(R.id.linearLayoutEstimation)
 
 
     init {
@@ -219,7 +219,7 @@ class TaskViewHolder(
 
     private fun addChild(index: Int, value: Int, drawableRes: Int) {
 
-        linearLayoutEstimative.addView(
+        linearLayoutEstimation.addView(
             RuntimeViewFactory.createTextViewSliceSummary(
                 context,
                 value,

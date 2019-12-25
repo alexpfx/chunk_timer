@@ -1,5 +1,5 @@
 <resources>
-    <declare-styleable name="EstimativeSummaryView">
+    <declare-styleable name="EstimationSummaryView">
 
 
     </declare-styleable>

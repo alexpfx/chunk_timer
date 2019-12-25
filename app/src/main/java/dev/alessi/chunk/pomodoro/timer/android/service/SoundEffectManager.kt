@@ -1,4 +1,4 @@
-package dev.alessi.chunk.pomodoro.timer.android.platform
+package dev.alessi.chunk.pomodoro.timer.android.service
 
 import android.content.Context
 import android.media.MediaPlayer
@@ -20,6 +20,7 @@ class SoundEffectManager(val context: Context) {
 
 
     fun play(id: Int) {
+        println("play $id")
         if (id < audios.size && id >= 0) {
             mediaPlayer?.release()
             mediaPlayer = MediaPlayer.create(context, audios[id])

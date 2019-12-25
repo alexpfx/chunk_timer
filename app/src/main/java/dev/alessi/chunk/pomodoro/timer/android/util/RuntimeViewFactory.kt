@@ -4,12 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -17,13 +15,11 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.content.ContextCompat
 import androidx.core.view.setPadding
 import com.google.android.flexbox.FlexboxLayout
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.domain.SizeValue
 import dev.alessi.chunk.pomodoro.timer.android.util.ViewUtils.Companion.getSizeDrawable
-import java.util.*
 
 class RuntimeViewFactory {
 
@@ -42,7 +38,7 @@ class RuntimeViewFactory {
 
 
             v = LayoutInflater.from(parent.context).inflate(
-                R.layout.layout_estimative_summary,
+                R.layout.layout_estimation_summary,
                 null
             ) as LinearLayout
 
@@ -99,7 +95,7 @@ class RuntimeViewFactory {
 
 
         @SuppressLint("ClickableViewAccessibility")
-        fun inflateEstimativeButton(
+        fun inflateEstimationButton(
             context: Context,
             sizeValue: SizeValue,
             topInfo: String? = null,
@@ -107,7 +103,7 @@ class RuntimeViewFactory {
             tag: Any? = null
         ): FrameLayout {
             val l = LayoutInflater.from(context).inflate(
-                R.layout.layout_estimative_button,
+                R.layout.layout_estimation_button,
                 null
             ) as FrameLayout
 
@@ -185,7 +181,7 @@ class RuntimeViewFactory {
             frameLayout.addView(view, FrameLayout.LayoutParams(width, height, gravity))
         }
 
-        fun createEstimativeView(
+        fun createEstimationView(
             context: Context,
             sizeIndex: Int,
             minutes: Int,
@@ -195,7 +191,7 @@ class RuntimeViewFactory {
         ): FrameLayout {
             val drawable = getSizeDrawable(sizeIndex, context)
             val iconSize =
-                getDimension(context, R.dimen.runtime_textview_slice_estimative_icon_size)
+                getDimension(context, R.dimen.runtime_textview_slice_estimation_icon_size)
 
 
             val frameLayout = FrameLayout(context)

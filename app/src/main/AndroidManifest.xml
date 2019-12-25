@@ -15,7 +15,7 @@
 
 
         <service
-            android:name=".platform.ChunkTimerService"
+            android:name=".service.ChunkTimerService"
             android:exported="false" />
 
         <!--android:screenOrientation="portrait"-->

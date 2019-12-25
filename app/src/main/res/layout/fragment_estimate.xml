@@ -13,7 +13,7 @@
         android:animateLayoutChanges="true"
 
         android:padding="@dimen/default_layout_margin"
-        tools:context=".ui.estimate.EstimateFragment">
+        tools:context=".ui.estimate.EstimationFragment">
 
 
         <TextView
@@ -46,18 +46,18 @@
 
         <TextView
 
-            android:id="@+id/label_estimative"
+            android:id="@+id/label_estimation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@string/label_estimative"
+            android:text="@string/label_estimation"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout_estimativeMenu" />
+            app:layout_constraintTop_toBottomOf="@+id/layout_estimation_menu" />
 
 
         <LinearLayout
-            android:id="@+id/linearLayout_estimativeMenu"
+            android:id="@+id/layout_estimation_menu"
             android:layout_width="0dp"
             android:layout_height="72dp"
             android:layout_marginTop="4dp"
@@ -70,7 +70,7 @@
             app:layout_constraintTop_toBottomOf="@+id/label_drag" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerEstimatives"
+            android:id="@+id/reycler_estimations"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -79,8 +79,8 @@
             android:minHeight="200dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/label_estimative"
-            app:layout_constraintTop_toBottomOf="@+id/txt_estimative_total"
+            app:layout_constraintStart_toStartOf="@+id/label_estimation"
+            app:layout_constraintTop_toBottomOf="@+id/txt_estimation_total"
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
@@ -93,10 +93,10 @@
             android:text="@string/label_drag_to_here"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/text_color_secondary_light"
-            app:layout_constraintBottom_toBottomOf="@+id/recyclerEstimatives"
-            app:layout_constraintEnd_toEndOf="@+id/recyclerEstimatives"
-            app:layout_constraintStart_toStartOf="@+id/recyclerEstimatives"
-            app:layout_constraintTop_toTopOf="@+id/recyclerEstimatives" />
+            app:layout_constraintBottom_toBottomOf="@+id/reycler_estimations"
+            app:layout_constraintEnd_toEndOf="@+id/reycler_estimations"
+            app:layout_constraintStart_toStartOf="@+id/reycler_estimations"
+            app:layout_constraintTop_toTopOf="@+id/reycler_estimations" />
 
 
         <TextView
@@ -106,18 +106,18 @@
             android:layout_marginEnd="8dp"
             android:text="@string/label_total"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            app:layout_constraintEnd_toStartOf="@+id/txt_estimative_total"
-            app:layout_constraintTop_toTopOf="@+id/label_estimative" />
+            app:layout_constraintEnd_toStartOf="@+id/txt_estimation_total"
+            app:layout_constraintTop_toTopOf="@+id/label_estimation" />
 
         <TextView
-            android:id="@+id/txt_estimative_total"
+            android:id="@+id/txt_estimation_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/label_total"
-            app:layout_constraintEnd_toEndOf="@+id/linearLayout_estimativeMenu"
+            app:layout_constraintEnd_toEndOf="@+id/layout_estimation_menu"
             app:layout_constraintTop_toTopOf="@+id/label_total"
             tools:text="23h36m" />
 
@@ -131,7 +131,7 @@
             android:text="@string/label_drag"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             app:drawableTint="@color/color_action_dividers"
-            app:layout_constraintStart_toStartOf="@+id/linearLayout_estimativeMenu"
+            app:layout_constraintStart_toStartOf="@+id/layout_estimation_menu"
             app:layout_constraintTop_toBottomOf="@+id/txt_task_desk" />
 
         <ImageButton
@@ -142,8 +142,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="@+id/recyclerEstimatives"
-            app:layout_constraintTop_toBottomOf="@+id/recyclerEstimatives"
+            app:layout_constraintEnd_toEndOf="@+id/reycler_estimations"
+            app:layout_constraintTop_toBottomOf="@+id/reycler_estimations"
             app:srcCompat="@drawable/ic_mode_edit_black_24dp" />
 
 
@@ -154,8 +154,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="@+id/recyclerEstimatives"
-            app:layout_constraintTop_toBottomOf="@+id/recyclerEstimatives"
+            app:layout_constraintEnd_toEndOf="@+id/reycler_estimations"
+            app:layout_constraintTop_toBottomOf="@+id/reycler_estimations"
             app:srcCompat="@drawable/ic_check_black_24dp" />
 
 

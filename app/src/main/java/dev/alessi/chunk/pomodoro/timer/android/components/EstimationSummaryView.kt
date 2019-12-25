@@ -7,11 +7,10 @@ import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.util.toFormatedTime
 
-class EstimativeSummaryView(context: Context, imageDrawable: Drawable) : LinearLayout(context) {
+class EstimationSummaryView(context: Context, imageDrawable: Drawable) : LinearLayout(context) {
 
 
     lateinit var imgSize: ImageView
@@ -33,7 +32,7 @@ class EstimativeSummaryView(context: Context, imageDrawable: Drawable) : LinearL
     }
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.compound_estimative_summary_view, this)
+        LayoutInflater.from(context).inflate(R.layout.compound_estimation_summary_view, this)
         imgSize = findViewById(R.id.imgSize)
         imgSize.setImageDrawable(imageDrawable)
         imgSize.setBackgroundColor(Color.YELLOW)

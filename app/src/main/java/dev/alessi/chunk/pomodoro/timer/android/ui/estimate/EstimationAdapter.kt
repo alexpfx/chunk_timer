@@ -17,9 +17,9 @@ import dev.alessi.chunk.pomodoro.timer.android.util.ViewUtils
 import dev.alessi.chunk.pomodoro.timer.android.util.toFormatedSummary
 import dev.alessi.chunk.pomodoro.timer.android.util.toFormatedTime
 
-class EstimateAdapter(private val listeners: EstimativeActionListeners) :
+class EstimationAdapter(private val listeners: EstimationActionListeners) :
 
-    RecyclerView.Adapter<ViewHolder>(), EstimativeActionListeners {
+    RecyclerView.Adapter<ViewHolder>(), EstimationActionListeners {
 
 
     private var itemsSummarized = mutableListOf<SizeTimeCountTO>()
@@ -33,7 +33,7 @@ class EstimateAdapter(private val listeners: EstimativeActionListeners) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context)
-            .inflate(R.layout.layout_estimative_summary, parent, false)
+            .inflate(R.layout.layout_estimation_summary, parent, false)
         return ViewHolder(v, this)
     }
 
@@ -131,12 +131,12 @@ class EstimateAdapter(private val listeners: EstimativeActionListeners) :
 
 class ViewHolder(
     itemView: View,
-    private val estimativeActionListeners: EstimativeActionListeners
+    private val estimationActionListeners: EstimationActionListeners
 ) :
-    RecyclerView.ViewHolder(itemView), EstimativeActionListeners {
+    RecyclerView.ViewHolder(itemView), EstimationActionListeners {
     private val imgIconSize = itemView.findViewById<ImageView>(R.id.imgSizeIcon)
     private val txtTotalTime = itemView.findViewById<TextView>(R.id.txtTotalTime)
-    private val txtEstimativeSummary = itemView.findViewById<TextView>(R.id.txtEstimativeSummary)
+    private val txtEstimationSummary = itemView.findViewById<TextView>(R.id.txtEstimationSummary)
     private val btnMinus: ImageButton = itemView.findViewById(R.id.btnMinus)
     private val btnPlus: ImageButton = itemView.findViewById(R.id.btnPlus)
     private val btnDelete: ImageButton = itemView.findViewById(R.id.btnDelete)
@@ -182,31 +182,31 @@ class ViewHolder(
     ) {
         println("updateSizes $item")
         txtTotalTime.text = (item.count * item.timeMinutes).toFormatedTime()
-        txtEstimativeSummary.text = item.toFormatedSummary(item.count, countPad, minutesPad)
+        txtEstimationSummary.text = item.toFormatedSummary(item.count, countPad, minutesPad)
     }
 
 
     override val onBtnPlus = View.OnClickListener {
 
 
-        estimativeActionListeners.onBtnPlus.onClick(it)
+        estimationActionListeners.onBtnPlus.onClick(it)
     }
     override val onBtnMinus = View.OnClickListener {
 
-        estimativeActionListeners.onBtnMinus.onClick(it)
+        estimationActionListeners.onBtnMinus.onClick(it)
 
     }
     override val onBtnDelete = View.OnClickListener {
 
 
-        estimativeActionListeners.onBtnDelete.onClick(it)
+        estimationActionListeners.onBtnDelete.onClick(it)
     }
 
 
 }
 
 
-interface EstimativeActionListeners {
+interface EstimationActionListeners {
     val onBtnPlus: View.OnClickListener
     val onBtnMinus: View.OnClickListener
     val onBtnDelete: View.OnClickListener

@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.preference.PreferenceManager
 import dev.alessi.chunk.pomodoro.timer.android.R
-import dev.alessi.chunk.pomodoro.timer.android.platform.SoundEffectManager
+import dev.alessi.chunk.pomodoro.timer.android.service.SoundEffectManager
 import dev.alessi.chunk.pomodoro.timer.android.ui.MainSharedViewModel
 import kotlinx.android.synthetic.main.fragment_settings.*
 
