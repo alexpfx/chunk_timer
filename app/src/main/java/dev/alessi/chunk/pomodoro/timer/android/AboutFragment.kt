@@ -2,10 +2,10 @@ package dev.alessi.chunk.pomodoro.timer.android
 
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import mehdi.sakout.aboutpage.AboutPage
 
 /**
@@ -18,13 +18,11 @@ class AboutFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val ap = AboutPage(this.context).setDescription("About Page")
+
+        return AboutPage(context).setDescription("About Page")
 
 
             .create()
-
-
-        return ap
     }
 
 

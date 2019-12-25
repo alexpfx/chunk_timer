@@ -18,8 +18,8 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
 import dev.alessi.chunk.pomodoro.timer.android.R
-import dev.alessi.chunk.pomodoro.timer.android.ui.TimerSharedViewModel
 import dev.alessi.chunk.pomodoro.timer.android.ui.TimerFragment
+import dev.alessi.chunk.pomodoro.timer.android.ui.TimerSharedViewModel
 
 class BreaktimeSettingsDialogFragment : DialogFragment(),
     TextWatcher {
@@ -55,11 +55,11 @@ class BreaktimeSettingsDialogFragment : DialogFragment(),
     }
 
 
-    private fun onRestoreDefaultClick(view: View){
+    private fun onRestoreDefaultClick(view: View) {
         restoreDefault()
     }
 
-    private fun restoreDefault(){
+    private fun restoreDefault() {
         val default = TimerFragment.DEFAULT_TIME_BREAK
         inputTextMinutes.setText(default.toString())
 
@@ -77,23 +77,26 @@ class BreaktimeSettingsDialogFragment : DialogFragment(),
 
     private fun validateForm() {
         val inputMinutes = inputTextMinutes.text.toString()
-        if (inputMinutes.isEmpty()) {
-            inputLayoutTextMinutes.isErrorEnabled = true
-            inputLayoutTextMinutes.error = getString(R.string.message_error_input_break_time_empty)
-            positiveButton.visibility = View.INVISIBLE
-        } else if (inputMinutes.toInt() <= 0) {
-            inputLayoutTextMinutes.isErrorEnabled = true
-            inputLayoutTextMinutes.error =
-                getString(R.string.message_error_input_break_time_minutes_less_equal_zero)
-            positiveButton.visibility = View.INVISIBLE
-        } else {
-            inputLayoutTextMinutes.isErrorEnabled = false
-            positiveButton.visibility = View.VISIBLE
+        when {
+            inputMinutes.isEmpty() -> {
+                inputLayoutTextMinutes.isErrorEnabled = true
+                inputLayoutTextMinutes.error =
+                    getString(R.string.message_error_input_break_time_empty)
+                positiveButton.visibility = View.INVISIBLE
+            }
+            inputMinutes.toInt() <= 0 -> {
+                inputLayoutTextMinutes.isErrorEnabled = true
+                inputLayoutTextMinutes.error =
+                    getString(R.string.message_error_input_break_time_minutes_less_equal_zero)
+                positiveButton.visibility = View.INVISIBLE
+            }
+            else -> {
+                inputLayoutTextMinutes.isErrorEnabled = false
+                positiveButton.visibility = View.VISIBLE
+            }
         }
 
     }
-
-
 
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

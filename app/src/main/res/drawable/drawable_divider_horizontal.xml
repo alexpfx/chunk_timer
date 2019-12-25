@@ -6,12 +6,10 @@
         android:width="1dp"
         android:height="1dp" />
     <gradient
-        android:angle="0"
-        android:centerColor="@color/bg_color_light"
-        android:endColor="@color/white"
-        android:startColor="@color/white"
+        android:angle="90"
 
-        android:centerX="0.3"
+        android:endColor="@color/white"
+        android:startColor="@color/color_action_dividers"
 
         android:type="linear" />
 

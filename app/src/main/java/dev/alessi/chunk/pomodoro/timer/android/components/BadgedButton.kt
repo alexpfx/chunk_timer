@@ -1,6 +1,7 @@
 package dev.alessi.chunk.pomodoro.timer.android.components
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -8,7 +9,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.core.content.ContextCompat
+import com.google.android.material.animation.DrawableAlphaProperty
 import dev.alessi.chunk.pomodoro.timer.android.R
 
 
@@ -19,8 +20,13 @@ class BadgedButton(context: Context, attrs: AttributeSet?) : FrameLayout(context
     private var checked = false
     private var txtBadge: TextView
     private var button: ImageButton
-    private var checkedResource: Int = R.color.bg_color_light
+    private var checkedResource: Int = R.color.color_action_dividers
     private var uncheckedResource: Int = android.R.color.transparent
+
+
+    fun setImageResource(drawable: Drawable){
+        button.setImageDrawable(drawable)
+    }
 
 
     override fun setOnClickListener(l: OnClickListener?) {
@@ -31,6 +37,7 @@ class BadgedButton(context: Context, attrs: AttributeSet?) : FrameLayout(context
 
         super.setOnClickListener(l)
     }
+
 
     override fun setEnabled(enabled: Boolean) {
         button.isEnabled = enabled
@@ -68,10 +75,7 @@ class BadgedButton(context: Context, attrs: AttributeSet?) : FrameLayout(context
         LayoutInflater.from(context).inflate(R.layout.compound_view_badged_button, this)
 
         txtBadge = findViewById(R.id.txtBadge)
-        button = findViewById(R.id.btnSizePP)
-
-        val viewStrokeLayer1 = findViewById<View>(R.id.viewStrokeLayer1)
-        val viewStrokeLayer2 = findViewById<View>(R.id.viewStrokeLayer2)
+        button = findViewById(R.id.btnSize)
 
         tag = super.getTag()
         val a = context.obtainStyledAttributes(attrs, R.styleable.BadgedButton, 0, 0)
@@ -79,7 +83,7 @@ class BadgedButton(context: Context, attrs: AttributeSet?) : FrameLayout(context
 
         txtBadge.text = a.getString(R.styleable.BadgedButton_labelText)
 
-        checked = a.getBoolean(R.styleable.BadgedButton_isChecked, false)!!
+        checked = a.getBoolean(R.styleable.BadgedButton_isChecked, false)
         val buttonIcon = a.getResourceId(R.styleable.BadgedButton_imageResource, 0)
 
         val btnHeight = a.getDimension(R.styleable.BadgedButton_buttonWidth, 56.0f)
@@ -90,9 +94,10 @@ class BadgedButton(context: Context, attrs: AttributeSet?) : FrameLayout(context
         val viewStrokeH = btnHeight + (btnHeight * proportion)
         val viewStrokeW = btnWidth + (btnWidth * proportion)
 
-        applyDimensions(viewStrokeLayer1, viewStrokeH, viewStrokeW)
-        applyDimensions(viewStrokeLayer2, viewStrokeH, viewStrokeW)
+        button.setOnTouchListener { v, e ->
+            onTouchEvent(e)
 
+        }
 
         checkedResource =
             a.getResourceId(R.styleable.BadgedButton_backgroundChecked, checkedResource)
@@ -102,6 +107,9 @@ class BadgedButton(context: Context, attrs: AttributeSet?) : FrameLayout(context
         isClickable = true
         isFocusable = true
         button.setImageResource(buttonIcon)
+
+
+        button.contentDescription = this.contentDescription
 
         a.recycle()
 

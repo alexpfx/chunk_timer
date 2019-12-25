@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.preference.PreferenceManager
 import dev.alessi.chunk.pomodoro.timer.android.R
-import dev.alessi.chunk.pomodoro.timer.android.platform.SoundEffectManager
+import dev.alessi.chunk.pomodoro.timer.android.service.SoundEffectManager
 import dev.alessi.chunk.pomodoro.timer.android.ui.MainSharedViewModel
 import kotlinx.android.synthetic.main.fragment_settings.*
 
@@ -23,7 +23,7 @@ class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener,
     SharedPreferences.OnSharedPreferenceChangeListener {
 
 
-    lateinit var sfm: SoundEffectManager
+    private lateinit var sfm: SoundEffectManager
 
 
     companion object {
@@ -58,7 +58,7 @@ class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener,
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        if (key == pref_ring_timer || key == pref_ring_breaktime){
+        if (key == pref_ring_timer || key == pref_ring_breaktime) {
             val sound = sharedPreferences?.getInt(key, -1)
             sound?.let { sfm.play(it) }
         }
@@ -77,7 +77,6 @@ class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener,
         mPreference.unregisterOnSharedPreferenceChangeListener(this)
         super.onStop()
     }
-
 
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -116,7 +115,10 @@ class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener,
 
     private fun loadPreferences() {
         mTimerRingIndex =
-            PreferenceManager.getDefaultSharedPreferences(this.context).getInt(pref_ring_timer, -1) + 1
+            PreferenceManager.getDefaultSharedPreferences(this.context).getInt(
+                pref_ring_timer,
+                -1
+            ) + 1
         mBreaktimeRingIndex = PreferenceManager.getDefaultSharedPreferences(this.context).getInt(
             pref_ring_breaktime, -1
         ) + 1

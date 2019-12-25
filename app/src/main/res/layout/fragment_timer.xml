@@ -7,8 +7,12 @@
     android:id="@+id/scrollviewBase"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:fillViewport="true"
+    android:paddingStart="@dimen/default_layout_margin"
+    android:paddingLeft="@dimen/default_layout_margin"
+    android:paddingEnd="@dimen/default_layout_margin"
+    android:paddingRight="@dimen/default_layout_margin"
+
 
     >
 
@@ -16,6 +20,7 @@
         android:id="@+id/layoutFragmentMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
         android:clickable="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
@@ -115,14 +120,14 @@
             android:layout_height="1dp"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="100dp"
-            android:layout_marginEnd="16dp"
 
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/linear_layout_buttons_base" />
 
 
         <com.google.android.material.button.MaterialButton
@@ -160,17 +165,20 @@
 
         <FrameLayout
             android:id="@+id/frTxtMainTimer"
-            style="@style/FrameLayoutBrackground"
+            style="@style/FrameLayoutBackground"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_marginBottom="32dp"
+            android:layout_marginTop="32dp"
+
+
+            android:layout_marginBottom="16dp"
             android:minWidth="180dp"
-
-
             app:layout_constraintBottom_toTopOf="@+id/btnStartBreak"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtTask"
+            app:layout_constraintVertical_bias="0.0"
             tools:text="00:00:00">
 
             <TextView
@@ -202,28 +210,26 @@
 
         <LinearLayout
             android:id="@+id/layoutTimerSettings"
-            style="@style/FrameLayoutBrackground"
+            style="@style/FrameLayoutBackground"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="32dp"
 
             android:gravity="center"
-            app:layout_constraintBottom_toTopOf="@+id/frm"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/separator_view">
+            app:layout_constraintTop_toBottomOf="@id/separator_view">
 
             <ImageButton
+
+                android:contentDescription="@string/content_description_setup_timers_values"
                 android:id="@+id/btnIconSetTaskTimes"
-                style="@style/Widget.AppCompat.ImageButton"
+                style="@style/ActionButtons"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="8dp"
-                android:tint="@color/text_color_primary"
                 app:srcCompat="@drawable/ic_timer_black_24dp" />
 
             <TextView
@@ -232,26 +238,26 @@
                 android:layout_height="wrap_content"
 
                 android:text="@string/init_timer_time"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
 
-                android:textColor="@color/text_color_primary"
+
                 tools:text="00:35:45" />
-
-            <Space
-                android:layout_width="20dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
 
             <ImageButton
                 android:id="@+id/btnIconSetBreak"
-                style="@style/Widget.AppCompat.ImageButton"
+                style="@style/ActionButtons"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
+
+                android:contentDescription="@string/content_description_setup_break_values"
+
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="8dp"
-                android:tint="@color/text_color_primary"
-                app:srcCompat="@drawable/ic_local_cafe_black_24dp" />
+                android:layout_marginStart="20dp"
+
+                app:srcCompat="@drawable/ic_local_cafe_black_24dp"
+                android:layout_marginLeft="20dp" />
 
             <TextView
                 android:id="@+id/txtBreakTimeDisplay"
@@ -260,24 +266,27 @@
 
 
                 android:text="@string/init_timer_time"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textColor="@color/text_color_primary"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+
 
                 tools:text="10:00" />
 
 
             <ImageButton
+
                 android:id="@+id/btnOpenSettings"
-                style="@style/Widget.AppCompat.ImageButton"
+                style="@style/ActionButtons"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
+                android:contentDescription="@string/content_description_setup_app"
 
 
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="8dp"
-                android:tint="@color/text_color_primary"
+
                 app:layout_constraintBottom_toBottomOf="@+id/layoutTimerSettings"
                 app:layout_constraintStart_toEndOf="@+id/layoutTimerSettings"
                 app:layout_constraintTop_toTopOf="@+id/layoutTimerSettings"
@@ -287,82 +296,44 @@
         </LinearLayout>
 
 
-        <!--<ImageButton
-            android:id="@+id/btnExitApp"
-            style="@style/Widget.AppCompat.ImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="8dp"
-            app:srcCompat="@drawable/ic_exit_to_app_black_24dp"
-            android:tint="@color/text_color_primary"
-            app:layout_constraintBottom_toBottomOf="@+id/btnStartTimer"
-            app:layout_constraintEnd_toEndOf="parent" />-->
-
-
         <ImageButton
             android:id="@+id/btnClearTask"
-            style="@style/Widget.AppCompat.ImageButton"
+            style="@style/ActionButtons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginLeft="4dp"
+
+            android:contentDescription="@string/content_description_clear_task"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:padding="8dp"
             android:tint="@color/text_color_primary"
-            app:layout_constraintBottom_toBottomOf="@+id/frm"
-            app:layout_constraintStart_toEndOf="@+id/frm"
-            app:layout_constraintTop_toTopOf="@+id/frm"
+            app:layout_constraintBottom_toBottomOf="@+id/txtTask"
+            app:layout_constraintStart_toEndOf="@+id/txtTask"
+            app:layout_constraintTop_toTopOf="@+id/txtTask"
             app:srcCompat="@drawable/ic_clear_24dp" />
 
-        <FrameLayout
-            android:id="@+id/frm"
-            style="@style/FrameLayoutBrackground"
+
+        <TextView
+            android:id="@+id/txtTask"
+            style="@style/FrameLayoutBackground"
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
-
-            android:layout_marginBottom="32dp"
-
+            android:layout_marginTop="16dp"
+            android:clickable="true"
             android:focusable="true"
-
-
-            android:focusableInTouchMode="true"
-            android:foregroundGravity="center"
-            app:layout_constraintBottom_toTopOf="@+id/frTxtMainTimer"
+            android:gravity="center"
+            android:maxWidth="200dp"
+            android:maxHeight="100dp"
+            android:minWidth="180dp"
+            android:minHeight="64dp"
+            android:scrollbars="vertical"
+            android:text="@string/message_hint_choose_task"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutTimerSettings" />
 
-
-            <TextView
-
-                android:id="@+id/txtTask"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:gravity="center"
-                android:maxWidth="200dp"
-                android:maxHeight="100dp"
-                android:minWidth="180dp"
-                android:minHeight="64dp"
-
-                android:text="@string/message_hint_choose_task"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-            <!--<TextView
-                android:id="@+id/txtTaskLabel"
-                android:visibility="visible"
-                style="@style/TextViewTask"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="teste"
-                android:textColor="@color/text_color_primary" />-->
-
-        </FrameLayout>
 
         <LinearLayout
 
@@ -370,11 +341,14 @@
             android:id="@+id/linear_layout_buttons_base"
             style="@style/LinearLayoutSizeBar"
             android:layout_width="0dp"
-            android:layout_height="100dp"
-            android:layout_margin="4dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="16dp"
+            android:contentDescription="@string/content_description_size_bar"
+
+
+            android:animateLayoutChanges="true"
             android:background="@drawable/size_panel_bkg"
             android:orientation="horizontal"
-            android:paddingTop="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -383,223 +357,52 @@
             >
 
             <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
-                android:foreground="?attr/selectableItemBackgroundBorderless"
-                android:focusable="true"
+                android:id="@+id/btnSizePP"
+                style="@style/FrameIconPizzaBackground"
                 android:clickable="true"
 
-                android:id="@+id/frBtnSizePP"
-                android:tag="@string/tag_size_index_0"
-                app:labelText="16"
+                android:contentDescription="@string/content_description_size0"
 
-                app:imageResource="@drawable/sliced_1"
-                style="@style/FrameIconPizzaBackground" />
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:tag="@string/tag_size_index_0"
+
+                app:imageResource="@drawable/ic_pie_hole_3slices"
+                app:labelText="16" />
 
             <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
 
+                android:id="@+id/btnSizeP"
 
-                android:foreground="?attr/selectableItemBackgroundBorderless"
-                android:focusable="true"
+                style="@style/FrameIconPizzaBackground"
                 android:clickable="true"
-                android:id="@+id/frBtnSizeP"
+                android:contentDescription="@string/content_description_size1"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:tag="@string/tag_size_index_1"
-                app:imageResource="@drawable/sliced_3"
-                style="@style/FrameIconPizzaBackground" />
+                app:imageResource="@drawable/ic_pie_hole_4slices" />
 
             <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
+                android:id="@+id/btnSizeM"
 
-                android:id="@+id/frBtnSizeM"
+                style="@style/FrameIconPizzaBackground"
+                android:contentDescription="@string/content_description_size2"
                 android:tag="@string/tag_size_index_2"
-                app:imageResource="@drawable/sliced_5"
-                style="@style/FrameIconPizzaBackground" />
+                app:imageResource="@drawable/ic_pie_hole_6slices" />
 
             <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
-                android:id="@+id/frBtnSizeG"
+                android:id="@+id/btnSizeG"
+                style="@style/FrameIconPizzaBackground"
+                android:contentDescription="@string/content_description_size3"
                 android:tag="@string/tag_size_index_3"
-                app:imageResource="@drawable/sliced_7"
-                style="@style/FrameIconPizzaBackground" />
+                app:imageResource="@drawable/ic_pie_hole_8slices" />
+
             <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
-                android:id="@+id/frBtnSizeGG"
+                android:id="@+id/btnSizeGG"
+                style="@style/FrameIconPizzaBackground"
+                android:contentDescription="@string/content_description_size4"
                 android:tag="@string/tag_size_index_4"
-                app:imageResource="@drawable/sliced_full"
-                style="@style/FrameIconPizzaBackground" />
-
-
-            <!--<FrameLayout
-                android:id="@+id/frBtnSizePP"
-                style="@style/FrameIconPizzaBackground"
-                android:tag="@string/tag_size_index_0"
-                >
-
-                <View
-                    style="@style/ViewIconPizzaBackground"
-                    android:background="@drawable/button_circle_bkg" />
-
-                <ImageButton
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:layout_gravity="top|center"
-                    android:adjustViewBounds="true"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-
-                    android:scaleType="centerCrop"
-                    android:tag="@string/tag_size_index_0"
-                    app:srcCompat="@drawable/sliced_1" />
-
-                <View
-                    style="@style/ViewIconPizzaBackground"
-                    android:background="@drawable/button_circle_bkg_stroke" />
-
-                <TextView
-                    style="@style/TextIconPizza"
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|center"
-                    android:text="broto"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-
-
-            </FrameLayout>-->
-
-            <!--<FrameLayout
-                android:id="@+id/frBtnSizeP"
-                style="@style/FrameIconPizzaBackground"
-                android:background="@color/colorPrimary44">
-
-                <View
-                    style="@style/ViewIconPizzaBackground"
-
-                    android:background="@drawable/button_circle_bkg" />
-
-                <ImageButton
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:layout_gravity="top|center"
-                    android:adjustViewBounds="true"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:scaleType="centerCrop"
-
-
-                    android:tag="@string/tag_size_index_1"
-                    app:srcCompat="@drawable/sliced_3" />
-
-                <View
-                    style="@style/ViewIconPizzaBackground"
-                    android:background="@drawable/button_circle_bkg_stroke" />
-
-                <TextView
-                    style="@style/TextIconPizza"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="pequena"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-
-            </FrameLayout>
-
-
-            <FrameLayout
-                android:id="@+id/frBtnSizeM"
-                style="@style/FrameIconPizzaBackground">
-
-                <View
-
-                    style="@style/ViewIconPizzaBackground"
-                    android:background="@drawable/button_circle_bkg" />
-
-
-                <ImageButton
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:layout_gravity="top|center"
-                    android:adjustViewBounds="true"
-
-                    android:background="?attr/selectableItemBackgroundBorderless"
-
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/sliced_5"
-                    android:tag="@string/tag_size_index_2" />
-
-                <View
-                    style="@style/ViewIconPizzaBackground"
-                    android:background="@drawable/button_circle_bkg_stroke" />
-
-
-                <TextView
-                    style="@style/TextIconPizza"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:text="média"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/frBtnSizeG"
-                style="@style/FrameIconPizzaBackground">
-
-                <View
-                    style="@style/ViewIconPizzaBackground"
-
-                    android:background="@drawable/button_circle_bkg" />
-
-                <ImageButton
-
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:layout_gravity="top|center"
-                    android:adjustViewBounds="true"
-
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:scaleType="centerCrop"
-                    android:tag="@string/tag_size_index_3"
-                    app:srcCompat="@drawable/sliced_7" />
-
-                <View
-                    style="@style/ViewIconPizzaBackground"
-                    android:background="@drawable/button_circle_bkg_stroke" />
-
-                <TextView
-                    style="@style/TextIconPizza"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="grande"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/frBtnSizeGG"
-                style="@style/FrameIconPizzaBackground">
-
-                <View
-                    style="@style/ViewIconPizzaBackground"
-                    android:background="@drawable/button_circle_bkg" />
-
-                <ImageButton
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:layout_gravity="top|center"
-                    android:adjustViewBounds="true"
-
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:scaleType="centerCrop"
-
-                    android:tag="@string/tag_size_index_4"
-                    app:srcCompat="@drawable/sliced_full" />
-
-                <View
-                    style="@style/ViewIconPizzaBackground"
-                    android:background="@drawable/button_circle_bkg_stroke" />
-
-                <TextView
-                    style="@style/TextIconPizza"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="família"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-
-            </FrameLayout>-->
+                app:imageResource="@drawable/ic_pie_hole_full" />
 
 
         </LinearLayout>

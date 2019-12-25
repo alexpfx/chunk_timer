@@ -5,16 +5,16 @@
 
     <stroke
 
-        android:width="0.1dp"
-        android:color="@color/colorPrimary" />
+        android:width="0.5dp"
+        android:color="@color/color_action_inative_dividers" />
 
     <solid
-        android:color="#fff"
+        android:color="@color/color_background_active"
         />
 
     <corners
 
-        android:radius="8dp">
+        android:radius="@dimen/corner_size_medium">
 
 
     </corners>

@@ -8,6 +8,7 @@ import android.content.IntentFilter
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.format.DateUtils
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -23,22 +24,20 @@ import com.google.gson.Gson
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
-import dev.alessi.chunk.pomodoro.timer.android.platform.ChunkTimerService
-import dev.alessi.chunk.pomodoro.timer.android.ui.dialog.TimerSettingsDialogFragment
-import dev.alessi.chunk.pomodoro.timer.android.util.Command
+import dev.alessi.chunk.pomodoro.timer.android.service.ChunkTimerService
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_START_BREAK
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_START_TIMER
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_STOP
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_TICK
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_UPDATE_STATE
 import dev.alessi.chunk.pomodoro.timer.android.util.IntentBuilder
+import dev.alessi.chunk.pomodoro.timer.android.util.ViewUtils.Companion.getSizeDrawable
 import kotlinx.android.synthetic.main.fragment_timer.*
 
 
 class TimerFragment : Fragment() {
 
 
-    private var TAG = TimerFragment::class.java.name
     private lateinit var sizeBtns: List<BadgedButton>
 
 
@@ -165,8 +164,7 @@ class TimerFragment : Fragment() {
     private fun updateSizeButtons() {
 
         forAllSizeButtons { it: BadgedButton ->
-            val intTag = (it.tag as String).toInt()
-            it.text = "${mSizes[intTag]} min"
+            it.text = "${mSizes[it.tag as Int]} min"
         }
     }
 
@@ -179,8 +177,7 @@ class TimerFragment : Fragment() {
     private fun resetTimer() {
 
         forAllSizeButtons { it ->
-            val intTag = (it.tag as String).toInt()
-            it.isChecked = (mSelectedIndex == intTag)
+            it.isChecked = (mSelectedIndex == it.tag)
         }
 
         val timeMinutes = mSizes[mSelectedIndex]
@@ -222,23 +219,28 @@ class TimerFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         btnStartTimer.setOnClickListener(::actionStartTimer)
         btnCancelTimer.setOnClickListener(::actionCancelTimer)
         btnStartBreak.setOnClickListener(::actionStartBreaktime)
         btnClearTask.setOnClickListener(::actionClearTask)
 
+        txtTask.movementMethod = ScrollingMovementMethod()
+
 
         btnIconSetBreak.setOnClickListener(::openBreaktimeSettingsDialog)
         btnIconSetTaskTimes.setOnClickListener(::openTimerSettingsDialog)
+
         txtTask.setOnClickListener(::openLoadTaskScreen)
         btnOpenSettings.setOnClickListener(::openSettingsScreen)
 
         sizeBtns =
-            listOf<BadgedButton>(frBtnSizePP, frBtnSizeP, frBtnSizeM, frBtnSizeG, frBtnSizeGG)
+            listOf<BadgedButton>(btnSizePP, btnSizeP, btnSizeM, btnSizeG, btnSizeGG)
 
         forAllSizeButtons { _, it ->
             it.setOnClickListener(::onSizeSetupBtnClick)
+            val tag = (it.tag as String).toInt()
+            it.tag = tag
+            it.setImageResource(getSizeDrawable(tag, context!!))
         }
 
         super.onViewCreated(view, savedInstanceState)
@@ -287,14 +289,14 @@ class TimerFragment : Fragment() {
     }
 
     override fun onPause() {
-        Log.d(TAG, "onPause")
+        Log.d(tag, "onPause")
         activity?.unregisterReceiver(mTickReceiver)
         super.onPause()
     }
 
 
     private fun onSizeSetupBtnClick(view: View) {
-        val tag = (view.tag as String).toInt()
+        val tag = (view.tag) as Int
         mTimerSharedViewModel.setSizeIndex(tag)
         updateColor(view)
     }
@@ -312,19 +314,9 @@ class TimerFragment : Fragment() {
     private fun updateColor(view: View) {
 
         forAllSizeButtons { frame ->
-            frame.isChecked = (frame.tag as String).toInt() == mSelectedIndex
+            frame.isChecked = frame.tag == mSelectedIndex
         }
 
-
-//        view.setBackgroundColor(ContextCompat.getColor(context!!,R.color.color_pizza_g))
-//        (view.parent as View).setBackgroundColor(ContextCompat.getColor(context!!,R.color.colorPrimary44))
-
-
-//        frTxtMainTimer.background = background
-        /*scrollviewBase.background = background
-        ((scrollviewBase.parent) as View).background = background
-
-        linear_layout_buttons_base.background = background*/
     }
 
 
@@ -333,7 +325,7 @@ class TimerFragment : Fragment() {
         btnCancelTimer.text = getText(R.string.button_label_cancel)
         val txtTaskText =
             if (mTask.description.isEmpty()) getString(R.string.message_hint_no_task) else mTask.description
-        txtTask.setText(txtTaskText)
+        txtTask.text = txtTaskText
 
         disableViews()
 
@@ -343,7 +335,7 @@ class TimerFragment : Fragment() {
         btnCancelTimer.visibility = View.VISIBLE
         btnCancelTimer.text = getText(R.string.button_label_cancel_break)
 
-        txtTask.setText(getString(R.string.label_breaktime))
+        txtTask.text = getString(R.string.label_breaktime)
 
         disableViews()
     }
@@ -363,7 +355,7 @@ class TimerFragment : Fragment() {
     }
 
 
-    fun showBreakTimerCanceled(intent: Intent) {
+    private fun showBreakTimerCanceled(intent: Intent) {
         val timeLeft = intent.getLongExtra(ChunkTimerService.extra_param_current_time, 0)
         val totalTime = intent.getLongExtra(ChunkTimerService.extra_param_total_time_millis, 5)
 
@@ -386,6 +378,18 @@ class TimerFragment : Fragment() {
         txtTask.isEnabled = true
         btnClearTask.visibility = View.VISIBLE
 
+        forAllSizeButtons { btn: BadgedButton ->
+            activeButton(btn)
+        }
+
+        txtTask.visibility = View.VISIBLE
+
+
+    }
+
+
+    private fun activeButton(btn: BadgedButton) {
+        btn.alpha = 1f
     }
 
 
@@ -398,6 +402,25 @@ class TimerFragment : Fragment() {
         btnOpenSettings.visibility = View.INVISIBLE
         txtTask.isEnabled = false
         btnClearTask.visibility = View.INVISIBLE
+
+        if (mTask.uid == -1) {
+            txtTask.visibility = View.INVISIBLE
+        }
+
+
+        hideUnselectedSizeButtons()
+    }
+
+    private fun hideUnselectedSizeButtons() {
+        forAllSizeButtons { btn: BadgedButton ->
+            if (!btn.isChecked) {
+                inativeButton(btn)
+            }
+        }
+    }
+
+    private fun inativeButton(btn: BadgedButton) {
+        btn.alpha = 0.4f
     }
 
 
@@ -466,17 +489,11 @@ class TimerFragment : Fragment() {
     }
 
     private fun openLoadTaskScreen(view: View) {
-        findNavController().navigate(R.id.taskFragment)
+        findNavController().navigate(R.id.selectTaskFragment)
     }
 
     private fun openTimerSettingsDialog(view: View) {
         findNavController().navigate(R.id.timerSettingsDialogFragment)
-
-        TimerSettingsDialogFragment().show(
-            activity!!.supportFragmentManager,
-            "TimerSettingsDialogFragment"
-        )
-
     }
 
     private fun actionClearTask(view: View) {
@@ -492,7 +509,7 @@ class TimerFragment : Fragment() {
         mTimerRunning = true
         mServiceController?.doStartService(
             mBreaktime * 60 * 1000.toLong(),
-            mSelectedIndex, -1, Command.ACTION_START_BREAK
+            mSelectedIndex, -1, ACTION_START_BREAK
         )
     }
 
@@ -504,7 +521,6 @@ class TimerFragment : Fragment() {
             timeMinutes * 60 * 1000.toLong(),
             mSelectedIndex, mTask.uid!!, ACTION_START_TIMER
         )
-
 
 
     }

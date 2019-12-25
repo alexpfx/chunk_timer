@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import android.widget.Space
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
@@ -14,10 +13,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
 import dev.alessi.chunk.pomodoro.timer.android.R
-
-import dev.alessi.chunk.pomodoro.timer.android.ui.TimerSharedViewModel
 import dev.alessi.chunk.pomodoro.timer.android.ui.TimerFragment.Companion.DEFAULT_JSON_SIZES
 import dev.alessi.chunk.pomodoro.timer.android.ui.TimerFragment.Companion.KEY_SIZE_JSON_ARRAY
+import dev.alessi.chunk.pomodoro.timer.android.ui.TimerSharedViewModel
 
 class TimerSettingsDialogFragment : DialogFragment() {
 
@@ -26,7 +24,7 @@ class TimerSettingsDialogFragment : DialogFragment() {
     private lateinit var edts: Set<TextInputEditText>
     private lateinit var mBtnRestoreDefaults: MaterialButton
     private lateinit var neutralButton: Button
-    private lateinit var mSpace: Space
+
     private val gson: Gson = Gson()
 
 
@@ -67,7 +65,7 @@ class TimerSettingsDialogFragment : DialogFragment() {
                 it.requestFocus()
                 it.error = getString(R.string.message_error_required_sorted_sizes)
 
-                if (index == edts.size - 1){
+                if (index == edts.size - 1) {
 //                    mSpace.visibility = View.VISIBLE
 
                 }

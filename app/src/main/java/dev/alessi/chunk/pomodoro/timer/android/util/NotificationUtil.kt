@@ -7,8 +7,8 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import dev.alessi.chunk.pomodoro.timer.android.App
-import dev.alessi.chunk.pomodoro.timer.android.platform.ChunkTimerService
 import dev.alessi.chunk.pomodoro.timer.android.R
+import dev.alessi.chunk.pomodoro.timer.android.service.ChunkTimerService
 import dev.alessi.chunk.pomodoro.timer.android.ui.TimerActivity
 
 
@@ -30,7 +30,7 @@ fun NotificationManagerCompat.getForegroundNotification(context: Context): Notif
     return builder.build()
 }
 
-fun NotificationManagerCompat.notifyTimerFinish(context: Context){
+fun NotificationManagerCompat.notifyTimerFinish(context: Context) {
     val builder = getBaseNotificationBuilder(context)
     builder.setContentTitle(context.getString(R.string.message_title_timer_finish))
     builder.setContentText(context.getString(R.string.message_content_timer_finish))
@@ -40,7 +40,7 @@ fun NotificationManagerCompat.notifyTimerFinish(context: Context){
     notify(App.NOTIFICATION_ID, builder.build())
 }
 
-fun NotificationManagerCompat.notifyBreakFinish(context: Context){
+fun NotificationManagerCompat.notifyBreakFinish(context: Context) {
     val builder = getBaseNotificationBuilder(context)
     builder.setContentTitle(context.getString(R.string.message_title_timer_break_finish))
     builder.setContentText(context.getString(R.string.message_content_timer_break_finish))

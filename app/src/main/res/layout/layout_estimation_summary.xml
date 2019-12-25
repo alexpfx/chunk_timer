@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:layout_margin="0.5dp"
+
+
+    android:background="@color/color_foreground_light"
+
+    android:orientation="horizontal"
+    android:paddingStart="8dp"
+
+    android:paddingTop="4dp"
+    android:paddingEnd="8dp"
+    android:paddingBottom="4dp"
+
+    >
+
+
+    <ImageView
+        android:id="@+id/imgSizeIcon"
+        style="@style/TextViewEstimationSummary"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+
+
+        android:layout_marginStart="4dp"
+        android:baselineAlignBottom="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnPlus"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_ring_8slices" />
+
+    <TextView
+
+        android:id="@+id/txtEstimationSummary"
+        style="@style/TextViewEstimationSummary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+
+        android:fontFamily="monospace"
+        android:gravity="start|center_vertical"
+        app:layout_constraintBaseline_creator="@+id/imgSizeIcon"
+        app:layout_constraintBottom_toBottomOf="@+id/imgSizeIcon"
+        app:layout_constraintEnd_toStartOf="@+id/txtTotalTime"
+        app:layout_constraintStart_toEndOf="@+id/imgSizeIcon"
+        app:layout_constraintTop_toTopOf="@+id/imgSizeIcon"
+        tools:text="2h:45m" />
+
+    <TextView
+
+        android:id="@+id/txtTotalTime"
+        style="@style/TextViewEstimationSummary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+
+        android:layout_marginEnd="4dp"
+        android:fontFamily="monospace"
+        android:gravity="start|center_vertical"
+        app:layout_constraintBaseline_creator="@+id/imgSizeIcon"
+        app:layout_constraintBottom_toBottomOf="@+id/txtEstimationSummary"
+        app:layout_constraintEnd_toStartOf="@+id/btnDelete"
+        app:layout_constraintTop_toTopOf="@+id/txtEstimationSummary"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="2h:45m" />
+
+    <ImageButton
+        android:id="@+id/btnMinus"
+        style="@style/ActionButtonsSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_remove_black_24dp"
+        tools:visibility="visible" />
+
+    <ImageButton
+        android:id="@+id/btnPlus"
+        style="@style/ActionButtonsSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:layout_constraintBottom_toBottomOf="@+id/btnMinus"
+        app:layout_constraintStart_toEndOf="@+id/btnMinus"
+        app:layout_constraintTop_toTopOf="@+id/btnMinus"
+        app:srcCompat="@drawable/ic_add_black_24dp"
+        tools:visibility="visible" />
+
+    <ImageButton
+
+        android:id="@+id/btnDelete"
+        style="@style/ActionButtonsSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/btnMinus"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnMinus"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/ic_delete_forever_black_24dp"
+        tools:visibility="visible" />
+
+    <androidx.constraintlayout.widget.Group
+
+        android:id="@+id/group_edit_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="btnMinus,btnPlus,btnDelete" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

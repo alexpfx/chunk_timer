@@ -190,7 +190,9 @@ class SelectTaskFragment : Fragment() {
             arrayListOf(),
             ::onItemSelect,
             ::onOpenTaskInfoClick,
-            ::onArchiveClick
+            ::onArchiveClick,
+            ::onEstimateClick
+
         )
 
         initViewModelsListeners()
@@ -220,7 +222,7 @@ class SelectTaskFragment : Fragment() {
             mSummariesViewModel.loadAllAndSummarize()
         }))
 
-        mTaskViewModel.archiveActionObserver.observe(
+        mTaskViewModel.taskArchivedObserver.observe(
             viewLifecycleOwner,
             onArchiveActionObserver
         )
@@ -249,6 +251,12 @@ class SelectTaskFragment : Fragment() {
     private fun onArchiveClick(task: Task) {
         mTaskViewModel.archiveTask(task)
 
+    }
+
+    private fun onEstimateClick(task: Task) {
+        val args = Bundle()
+        args.putInt(extra_param_task_id, task.uid!!)
+        findNavController().navigate(R.id.estimateFragment, args)
     }
 
     private fun onOpenTaskInfoClick(taskSummaries: SelectTaskTO) {

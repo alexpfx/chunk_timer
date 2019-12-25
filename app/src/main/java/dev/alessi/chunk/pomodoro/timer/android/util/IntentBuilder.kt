@@ -3,7 +3,7 @@ package dev.alessi.chunk.pomodoro.timer.android.util
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import dev.alessi.chunk.pomodoro.timer.android.platform.ChunkTimerService
+import dev.alessi.chunk.pomodoro.timer.android.service.ChunkTimerService
 import dev.alessi.chunk.pomodoro.timer.android.ui.TimerActivity
 
 
@@ -16,7 +16,7 @@ class IntentBuilder {
             action: String,
             @Command command: Int,
             extras: Bundle? = null
-        ): Intent{
+        ): Intent {
             val intent = Intent(action)
 
             intent.putExtra(KEY_COMMAND, command)
@@ -54,7 +54,7 @@ class IntentBuilder {
         }
 
 
-        fun getIntent(
+        private fun getIntent(
             context: Context,
             @Command command: Int,
             extras: Bundle? = null,

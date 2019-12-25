@@ -1,34 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="color_background_inative">@color/grey_3c</color>
+    <color name="color_background_active">@color/white</color>
+
+
+    <color name="color_foreground_light">@color/grey_3b</color>
+
+    <color name="color_button_primary">@color/colorPrimary</color>
+    <color name="color_button_secondary">@color/grey_3c</color>
+    <color name="color_button_selected">@color/grey_3b</color>
+
+    <color name="color_action_foreground">@color/black_72</color>
+    <color name="color_action_dividers">@color/black_82</color>
+    <color name="color_action_inative_dividers">@color/grey_5a</color>
+
+
+    <color name="text_color_primary">@color/black_80</color>
+    <color name="text_color_secondary">@color/black_80</color>
+    <color name="text_color_secondary_light">@color/black_82</color>
+
+    <color name="text_color_primary_on_dark">@color/white</color>
+
+
+    <color name="grey_5a">#5aaa</color>
+    <color name="grey_3b">#3bbb</color>
+    <color name="grey_3c">#3ccc</color>
+    <color name="grey_3d">#3ddd</color>
+
+
+    <color name="black_80">#8000</color>
+    <color name="black_82">#8222</color>
+    <color name="black_72">#7222</color>
+
+
+
+
     <color name="colorPrimaryDark">#0f161f</color>
     <color name="colorPrimary">#2d3854</color>
-    <color name="colorPrimary44">#441b7667</color>
-    <color name="colorPrimaryLight">#fbd5cb</color>
-    <color name="colorAccent">#53574f</color>
-    <color name="color_action_icon">#000000</color>
 
-    <color name="bg_color_light">#5553574f</color>
-    <color name="bg_color_light2">#aafbede9</color>
-    <color name="bg_color_light3">#aaf8efec</color>
-    <color name="text_color_primary">#aa050406</color>
     <color name="white">#fff</color>
+    <color name="colorAccent">#53574f</color>
 
-    <color name="color_pizza_pp">#44b9b9b9</color>
-    <color name="color_pizza_p">#44eb6464</color>
-    <color name="color_pizza_m">#44f6e84c</color>
-    <color name="color_pizza_g">#445cbdea</color>
-    <color name="color_pizza_gg">#447bdb6b</color>
-    <color name="pizza_icon_background_color">#ddff5050</color>
+    <color name="cor_chamativa">#f0f</color>
+    <color name="cor_chamativa2">#f00</color>
 
 
 
 
-    <!--<color name="colorPrimaryDark">#152256</color>
-    <color name="colorPrimary">#353555</color>
-    <color name="colorAccent">#13a245</color>
-    <color name="bg_color_light">#43b3bc</color>
-    <color name="bg_color_light2">#96d5d9</color>
-    <color name="bg_color_light3">#d6eef0</color>-->
 
 
 </resources>
