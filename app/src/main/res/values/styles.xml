@@ -185,5 +185,24 @@
 
     </style>
 
+    <style name="ButtonClockView">
+        <item name="applyGradientToBackground">false</item>
+        <item name="applyGradientToBorder">false</item>
+        <item name="borderWidth">6dp</item>
+        <item name="circleRadius">3.6dp</item>
+        <item name="clockBackgroundColor">@color/white</item>
+        <item name="clockBorderColor">#f17f3d</item>
+        <item name="clockCircleColor">#f17f3d</item>
+        <item name="hoursClockHandColor">#f17f3d</item>
+        <item name="hoursHandHeight">18dp</item>
+        <item name="hoursHandWidth">2.8dp</item>
+        <item name="minutesClockHandColor">#f17f3d</item>
+        <item name="minutesFontSize">10sp</item>
+        <item name="minutesHandHeight">20dp</item>
+        <item name="minutesHandWidth">2.2dp</item>
+
+    </style>
+
 
 </resources>
+

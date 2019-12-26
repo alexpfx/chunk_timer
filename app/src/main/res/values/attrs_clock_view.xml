@@ -1,0 +1,22 @@
+<resources>
+    <declare-styleable name="ClockView">
+        <attr name="borderWidth" format="dimension" />
+        <attr name="minutesClockHandColor" format="color" />
+        <attr name="hoursClockHandColor" format="color" />
+        <attr name="clockBorderColor" format="color|reference|integer" />
+        <attr name="clockBackgroundColor" format="color|reference|integer" />
+        <attr name="applyGradientToBorder" format="boolean" />
+        <attr name="applyGradientToBackground" format="boolean" />
+        <attr name="clockCircleColor" format="color" />
+        <attr name="clockMinutes" format="integer" />
+        <attr name="clockHours" format="integer" />
+        <attr name="minutesHandWidth" format="dimension" />
+        <attr name="hoursHandWidth" format="dimension" />
+        <attr name="minutesHandHeight" format="dimension" />
+        <attr name="minutesFontSize" format="dimension" />
+        <attr name="hoursHandHeight" format="dimension" />
+        <attr name="circleRadius" format="dimension"/>
+
+    </declare-styleable>
+</resources>
+

@@ -27,6 +27,14 @@ fun Number.toDip(context: Context): Int {
 }
 
 
+
+fun Int.minutesToDegree(): Float{
+    return this * 6f
+}
+fun Int.hoursToDegree(): Float{
+    return this * 30f
+}
+
 fun Date.beginningOfDay(): Date {
     return createCalendarBeginningOfDay().time
 }

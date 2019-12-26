@@ -169,16 +169,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_marginTop="32dp"
-
 
             android:layout_marginBottom="16dp"
             android:minWidth="180dp"
             app:layout_constraintBottom_toTopOf="@+id/btnStartBreak"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtTask"
-            app:layout_constraintVertical_bias="0.0"
             tools:text="00:00:00">
 
             <TextView
@@ -222,13 +218,13 @@
 
             <ImageButton
 
-                android:contentDescription="@string/content_description_setup_timers_values"
                 android:id="@+id/btnIconSetTaskTimes"
                 style="@style/ActionButtons"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:background="?attr/selectableItemBackgroundBorderless"
+
+                android:contentDescription="@string/content_description_setup_timers_values"
                 android:padding="8dp"
                 app:srcCompat="@drawable/ic_timer_black_24dp" />
 
@@ -250,14 +246,14 @@
                 android:layout_height="wrap_content"
 
 
-                android:contentDescription="@string/content_description_setup_break_values"
-
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="8dp"
                 android:layout_marginStart="20dp"
 
-                app:srcCompat="@drawable/ic_local_cafe_black_24dp"
-                android:layout_marginLeft="20dp" />
+                android:layout_marginLeft="20dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/content_description_setup_break_values"
+
+                android:padding="8dp"
+                app:srcCompat="@drawable/ic_local_cafe_black_24dp" />
 
             <TextView
                 android:id="@+id/txtBreakTimeDisplay"
@@ -279,12 +275,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                android:contentDescription="@string/content_description_setup_app"
-
-
                 android:layout_marginStart="16dp"
+
+
                 android:layout_marginLeft="16dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/content_description_setup_app"
                 android:padding="8dp"
 
                 app:layout_constraintBottom_toBottomOf="@+id/layoutTimerSettings"
@@ -304,8 +300,8 @@
             android:layout_marginStart="4dp"
             android:layout_marginLeft="4dp"
 
-            android:contentDescription="@string/content_description_clear_task"
             android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/content_description_clear_task"
             android:padding="8dp"
             android:tint="@color/text_color_primary"
             app:layout_constraintBottom_toBottomOf="@+id/txtTask"
@@ -343,11 +339,11 @@
             android:layout_width="0dp"
             android:layout_height="80dp"
             android:layout_marginTop="16dp"
-            android:contentDescription="@string/content_description_size_bar"
-
-
             android:animateLayoutChanges="true"
+
+
             android:background="@drawable/size_panel_bkg"
+            android:contentDescription="@string/content_description_size_bar"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -406,6 +402,25 @@
 
 
         </LinearLayout>
+
+        <dev.alessi.chunk.pomodoro.timer.android.ClockView
+            android:id="@+id/clockViewExample"
+            style="@style/ButtonClockView"
+
+            android:layout_width="72dp"
+
+            android:layout_height="72dp"
+            android:layout_marginTop="8dp"
+
+
+            app:clockHours="0"
+            app:clockMinutes="18"
+
+
+            app:layout_constraintStart_toStartOf="@+id/frTxtMainTimer"
+            app:layout_constraintTop_toBottomOf="@+id/txtTask"
+
+            />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
