@@ -88,7 +88,7 @@ class TimerFinishDialogFragment : DialogFragment() {
     private fun extractViews(view: View?) {
         txtTimer = view?.findViewById(R.id.txtTimer)
         txtSize = view?.findViewById(R.id.txtSize)
-        txtTask = view?.findViewById(R.id.txtTask)
+        txtTask = view?.findViewById(R.id.cardTask)
     }
 
 

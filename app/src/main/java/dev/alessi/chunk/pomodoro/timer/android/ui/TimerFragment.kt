@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.format.DateUtils
@@ -21,8 +22,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.google.gson.Gson
+import dev.alessi.chunk.pomodoro.timer.android.ClockView
 import dev.alessi.chunk.pomodoro.timer.android.R
-import dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
+
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.service.ChunkTimerService
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_START_BREAK
@@ -31,14 +33,13 @@ import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_STO
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_TICK
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_UPDATE_STATE
 import dev.alessi.chunk.pomodoro.timer.android.util.IntentBuilder
-import dev.alessi.chunk.pomodoro.timer.android.util.ViewUtils.Companion.getSizeDrawable
 import kotlinx.android.synthetic.main.fragment_timer.*
 
 
 class TimerFragment : Fragment() {
 
 
-    private lateinit var sizeBtns: List<BadgedButton>
+    private lateinit var sizeBtns: List<ClockView>
 
 
     private var mTimerRunning = false
@@ -163,8 +164,9 @@ class TimerFragment : Fragment() {
 
     private fun updateSizeButtons() {
 
-        forAllSizeButtons { it: BadgedButton ->
-            it.text = "${mSizes[it.tag as Int]} min"
+        forAllSizeButtons { it: ClockView ->
+            it.minutes = mSizes[it.tag as Int]
+
         }
     }
 
@@ -188,6 +190,7 @@ class TimerFragment : Fragment() {
         val timeMillis = timeMinutes * 60 * 1000.toLong()
 
         updateTimer(timeMillis, timeMillis)
+        updateColor()
 
     }
 
@@ -234,14 +237,17 @@ class TimerFragment : Fragment() {
         btnOpenSettings.setOnClickListener(::openSettingsScreen)
 
         sizeBtns =
-            listOf<BadgedButton>(btnSizePP, btnSizeP, btnSizeM, btnSizeG, btnSizeGG)
+            listOf<ClockView>(btnSizePP, btnSizeP, btnSizeM, btnSizeG, btnSizeGG)
+
 
         forAllSizeButtons { _, it ->
             it.setOnClickListener(::onSizeSetupBtnClick)
             val tag = (it.tag as String).toInt()
             it.tag = tag
-            it.setImageResource(getSizeDrawable(tag, context!!))
+//            it.setImageResource(getSizeDrawable(tag, context!!))
         }
+
+
 
         super.onViewCreated(view, savedInstanceState)
     }
@@ -311,11 +317,18 @@ class TimerFragment : Fragment() {
         return g
     }
 
-    private fun updateColor(view: View) {
+    private fun updateColor(view: View? = null) {
 
-        forAllSizeButtons { frame ->
-            frame.isChecked = frame.tag == mSelectedIndex
+        var selectedButtonColor = Color.WHITE
+        forAllSizeButtons { button ->
+            button.isChecked = button.tag == mSelectedIndex
+            if (button.isChecked){
+                selectedButtonColor = button.borderColor
+            }
         }
+
+        frTxtMainTimer.strokeColor = selectedButtonColor
+
 
     }
 
@@ -378,7 +391,7 @@ class TimerFragment : Fragment() {
         txtTask.isEnabled = true
         btnClearTask.visibility = View.VISIBLE
 
-        forAllSizeButtons { btn: BadgedButton ->
+        forAllSizeButtons { btn: ClockView ->
             activeButton(btn)
         }
 
@@ -388,7 +401,7 @@ class TimerFragment : Fragment() {
     }
 
 
-    private fun activeButton(btn: BadgedButton) {
+    private fun activeButton(btn: ClockView) {
         btn.alpha = 1f
     }
 
@@ -412,14 +425,14 @@ class TimerFragment : Fragment() {
     }
 
     private fun hideUnselectedSizeButtons() {
-        forAllSizeButtons { btn: BadgedButton ->
+        forAllSizeButtons { btn: ClockView ->
             if (!btn.isChecked) {
                 inativeButton(btn)
             }
         }
     }
 
-    private fun inativeButton(btn: BadgedButton) {
+    private fun inativeButton(btn: ClockView) {
         btn.alpha = 0.4f
     }
 
@@ -531,11 +544,11 @@ class TimerFragment : Fragment() {
 
     }
 
-    private fun forAllSizeButtons(action: (Int, BadgedButton) -> Unit) {
+    private fun forAllSizeButtons(action: (Int, ClockView) -> Unit) {
         sizeBtns.forEachIndexed(action)
     }
 
-    private fun forAllSizeButtons(action: (BadgedButton) -> Unit) {
+    private fun forAllSizeButtons(action: (ClockView) -> Unit) {
         sizeBtns.onEach(action)
     }
 

@@ -20,6 +20,10 @@
     <dimen name="corner_size_small">4dp</dimen>
     <dimen name="corner_size_large">16dp</dimen>
 
+    <dimen name="stroke_width_small">0.4dp</dimen>
+    <dimen name="stroke_width_medium">1.2dp</dimen>
+    <dimen name="stroke_width_large">2.4dp</dimen>
+
     <dimen name="default_layout_margin">16dp</dimen>
 
 

@@ -63,7 +63,7 @@ class TimerActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timer)
 
-        window.setBackgroundDrawableResource(R.drawable.pizza_background)
+//        window.setBackgroundDrawableResource(R.drawable.pizza_background)
         setSupportActionBar(toolbar)
 
 

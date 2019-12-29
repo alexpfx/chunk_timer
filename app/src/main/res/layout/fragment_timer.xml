@@ -145,6 +145,7 @@
 
 
         <com.google.android.material.button.MaterialButton
+
             android:id="@+id/btnCancelTimer"
             style="@style/TimerActionButton"
             android:layout_width="200dp"
@@ -163,12 +164,13 @@
             app:layout_constraintStart_toStartOf="parent" />
 
 
-        <FrameLayout
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/frTxtMainTimer"
-            style="@style/FrameLayoutBackground"
+            app:strokeWidth="@dimen/stroke_width_medium"
+            style="@style/TimerCardView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:background="@color/white"
 
             android:layout_marginBottom="16dp"
             android:minWidth="180dp"
@@ -184,18 +186,20 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:maxLines="1"
+                android:layout_margin="4dp"
                 android:text="00:00"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display3"
                 android:textStyle="bold" />
 
-        </FrameLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnStartBreak"
             style="@style/TimerBreakButton"
             android:layout_width="160dp"
             android:layout_height="48dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/button_label_start_break"
             app:icon="@drawable/ic_local_cafe_black_24dp"
             app:iconPadding="2dp"
@@ -204,92 +208,97 @@
             app:layout_constraintStart_toStartOf="@+id/btnStartTimer" />
 
 
-        <LinearLayout
-            android:id="@+id/layoutTimerSettings"
-            style="@style/FrameLayoutBackground"
+        <ImageButton
+
+            android:id="@+id/btnIconSetTaskTimes"
+            style="@style/ActionButtons"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
 
-            android:gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:contentDescription="@string/content_description_setup_timers_values"
+            android:padding="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/txtTimerDisplay"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/separator_view">
+            app:layout_constraintTop_toBottomOf="@id/separator_view"
+            app:srcCompat="@drawable/ic_timer_black_24dp" />
 
-            <ImageButton
+        <TextView
 
-                android:id="@+id/btnIconSetTaskTimes"
-                style="@style/ActionButtons"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
+            android:id="@+id/txtTimerDisplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
-                android:contentDescription="@string/content_description_setup_timers_values"
-                android:padding="8dp"
-                app:srcCompat="@drawable/ic_timer_black_24dp" />
+            android:text="@string/init_timer_time"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
 
-            <TextView
-                android:id="@+id/txtTimerDisplay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/btnIconSetTaskTimes"
+            app:layout_constraintEnd_toStartOf="@+id/btnIconSetBreak"
+            app:layout_constraintHorizontal_bias="0.5"
 
-                android:text="@string/init_timer_time"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            app:layout_constraintStart_toEndOf="@+id/btnIconSetTaskTimes"
+            app:layout_constraintTop_toTopOf="@id/btnIconSetTaskTimes"
+            tools:text="00:35:45" />
 
-
-                tools:text="00:35:45" />
-
-            <ImageButton
-                android:id="@+id/btnIconSetBreak"
-                style="@style/ActionButtons"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+        <ImageButton
+            android:id="@+id/btnIconSetBreak"
+            style="@style/ActionButtons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
 
 
-                android:layout_marginStart="20dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
 
-                android:layout_marginLeft="20dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/content_description_setup_break_values"
+            android:contentDescription="@string/content_description_setup_break_values"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/btnIconSetTaskTimes"
+            app:layout_constraintEnd_toStartOf="@+id/txtBreakTimeDisplay"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/txtTimerDisplay"
+            app:layout_constraintTop_toTopOf="@id/btnIconSetTaskTimes"
+            app:srcCompat="@drawable/ic_local_cafe_black_24dp" />
 
-                android:padding="8dp"
-                app:srcCompat="@drawable/ic_local_cafe_black_24dp" />
+        <TextView
+            android:id="@+id/txtBreakTimeDisplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
-            <TextView
-                android:id="@+id/txtBreakTimeDisplay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            android:text="@string/init_timer_time"
 
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            app:layout_constraintBottom_toBottomOf="@id/btnIconSetTaskTimes"
+            app:layout_constraintEnd_toStartOf="@+id/btnOpenSettings"
+            app:layout_constraintHorizontal_bias="0.5"
 
-                android:text="@string/init_timer_time"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-
-
-                tools:text="10:00" />
-
-
-            <ImageButton
-
-                android:id="@+id/btnOpenSettings"
-                style="@style/ActionButtons"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@+id/btnIconSetBreak"
+            app:layout_constraintTop_toTopOf="@id/btnIconSetTaskTimes"
+            tools:text="10:00" />
 
 
-                android:layout_marginLeft="16dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/content_description_setup_app"
-                android:padding="8dp"
+        <ImageButton
 
-                app:layout_constraintBottom_toBottomOf="@+id/layoutTimerSettings"
-                app:layout_constraintStart_toEndOf="@+id/layoutTimerSettings"
-                app:layout_constraintTop_toTopOf="@+id/layoutTimerSettings"
-                app:srcCompat="@drawable/ic_settings_black_24dp" />
+            android:id="@+id/btnOpenSettings"
+            style="@style/ActionButtons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
+            android:layout_marginStart="16dp"
 
-        </LinearLayout>
+            android:background="?attr/selectableItemBackgroundBorderless"
+
+            android:contentDescription="@string/content_description_setup_app"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/btnIconSetTaskTimes"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/txtBreakTimeDisplay"
+            app:layout_constraintTop_toTopOf="@id/btnIconSetTaskTimes"
+            app:srcCompat="@drawable/ic_settings_black_24dp" />
 
 
         <ImageButton
@@ -304,31 +313,41 @@
             android:contentDescription="@string/content_description_clear_task"
             android:padding="8dp"
             android:tint="@color/text_color_primary"
-            app:layout_constraintBottom_toBottomOf="@+id/txtTask"
-            app:layout_constraintStart_toEndOf="@+id/txtTask"
-            app:layout_constraintTop_toTopOf="@+id/txtTask"
+            app:layout_constraintBottom_toBottomOf="@+id/cardTask"
+            app:layout_constraintStart_toEndOf="@+id/cardTask"
+            app:layout_constraintTop_toTopOf="@+id/cardTask"
             app:srcCompat="@drawable/ic_clear_24dp" />
 
 
-        <TextView
-            android:id="@+id/txtTask"
-            style="@style/FrameLayoutBackground"
+        <com.google.android.material.card.MaterialCardView
+
+            android:id="@+id/cardTask"
+            style="@style/TimerCardView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center"
-            android:maxWidth="200dp"
-            android:maxHeight="100dp"
-            android:minWidth="180dp"
-            android:minHeight="64dp"
-            android:scrollbars="vertical"
-            android:text="@string/message_hint_choose_task"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutTimerSettings" />
+            app:layout_constraintTop_toBottomOf="@id/btnIconSetTaskTimes">
+
+            <TextView
+                android:id="@+id/txtTask"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:maxWidth="200dp"
+                android:maxHeight="100dp"
+                android:minWidth="180dp"
+                android:minHeight="64dp"
+
+                android:scrollbars="vertical"
+                android:text="@string/message_hint_choose_task"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+
+        </com.google.android.material.card.MaterialCardView>
 
 
         <LinearLayout
@@ -337,7 +356,7 @@
             android:id="@+id/linear_layout_buttons_base"
             style="@style/LinearLayoutSizeBar"
             android:layout_width="0dp"
-            android:layout_height="80dp"
+            android:layout_height="64dp"
             android:layout_marginTop="16dp"
             android:animateLayoutChanges="true"
 
@@ -352,75 +371,60 @@
 
             >
 
-            <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
+            <dev.alessi.chunk.pomodoro.timer.android.ClockView
+
                 android:id="@+id/btnSizePP"
-                style="@style/FrameIconPizzaBackground"
+                style="@style/ButtonClockView.PP"
+
                 android:clickable="true"
-
                 android:contentDescription="@string/content_description_size0"
-
                 android:focusable="true"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
-                android:tag="@string/tag_size_index_0"
+                android:tag="@string/tag_size_index_0">
 
-                app:imageResource="@drawable/ic_pie_hole_3slices"
-                app:labelText="16" />
+            </dev.alessi.chunk.pomodoro.timer.android.ClockView>
 
-            <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
 
+            <dev.alessi.chunk.pomodoro.timer.android.ClockView
                 android:id="@+id/btnSizeP"
-
-                style="@style/FrameIconPizzaBackground"
+                style="@style/ButtonClockView.P"
                 android:clickable="true"
                 android:contentDescription="@string/content_description_size1"
                 android:focusable="true"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
-                android:tag="@string/tag_size_index_1"
-                app:imageResource="@drawable/ic_pie_hole_4slices" />
+                android:tag="@string/tag_size_index_1" />
 
-            <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
+            <dev.alessi.chunk.pomodoro.timer.android.ClockView
                 android:id="@+id/btnSizeM"
+                style="@style/ButtonClockView.M"
 
-                style="@style/FrameIconPizzaBackground"
                 android:contentDescription="@string/content_description_size2"
                 android:tag="@string/tag_size_index_2"
-                app:imageResource="@drawable/ic_pie_hole_6slices" />
 
-            <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
+
+                app:checked="true" />
+
+            <dev.alessi.chunk.pomodoro.timer.android.ClockView
                 android:id="@+id/btnSizeG"
-                style="@style/FrameIconPizzaBackground"
-                android:contentDescription="@string/content_description_size3"
-                android:tag="@string/tag_size_index_3"
-                app:imageResource="@drawable/ic_pie_hole_8slices" />
+                style="@style/ButtonClockView.G"
 
-            <dev.alessi.chunk.pomodoro.timer.android.components.BadgedButton
+
+                android:contentDescription="@string/content_description_size3"
+                android:tag="@string/tag_size_index_3" />
+
+            <dev.alessi.chunk.pomodoro.timer.android.ClockView
                 android:id="@+id/btnSizeGG"
-                style="@style/FrameIconPizzaBackground"
+                style="@style/ButtonClockView.GG"
+
                 android:contentDescription="@string/content_description_size4"
-                android:tag="@string/tag_size_index_4"
-                app:imageResource="@drawable/ic_pie_hole_full" />
+                android:tag="@string/tag_size_index_4" />
 
 
         </LinearLayout>
 
-        <dev.alessi.chunk.pomodoro.timer.android.ClockView
-            android:id="@+id/clockViewExample"
-            style="@style/ButtonClockView"
-
-            android:layout_width="72dp"
-
-            android:layout_height="72dp"
-            android:layout_marginTop="8dp"
-
-
-            app:clockHours="0"
-            app:clockMinutes="18"
-
-
-            app:layout_constraintStart_toStartOf="@+id/frTxtMainTimer"
-            app:layout_constraintTop_toBottomOf="@+id/txtTask"
-
-            />
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/layoutTimerSettings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="btnIconSetBreak,txtTimerDisplay,btnIconSetTaskTimes,txtBreakTimeDisplay,btnOpenSettings" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

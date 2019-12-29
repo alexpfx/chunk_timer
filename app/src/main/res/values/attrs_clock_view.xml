@@ -3,8 +3,8 @@
         <attr name="borderWidth" format="dimension" />
         <attr name="minutesClockHandColor" format="color" />
         <attr name="hoursClockHandColor" format="color" />
-        <attr name="clockBorderColor" format="color|reference|integer" />
-        <attr name="clockBackgroundColor" format="color|reference|integer" />
+
+
         <attr name="applyGradientToBorder" format="boolean" />
         <attr name="applyGradientToBackground" format="boolean" />
         <attr name="clockCircleColor" format="color" />
@@ -16,6 +16,27 @@
         <attr name="minutesFontSize" format="dimension" />
         <attr name="hoursHandHeight" format="dimension" />
         <attr name="circleRadius" format="dimension"/>
+        <attr name="checked" format="boolean"/>
+        <attr name="checkedResource" format="reference"/>
+        <attr name="checkedColor" format="color"/>
+
+
+        <attr name="clockActiveBackgroundColor" format="color"/>
+        <attr name="clockBackgroundColor" format="color"/>
+        <attr name="clockActiveBorderColor" format="color"/>
+        <attr name="clockBorderColor" format="color" />
+        <attr name="clockActiveClockHandsColor" format="color"/>
+        <attr name="clockClockHandsColor" format="color"/>
+        <attr name="clockMinutesFontColor" format="color"/>
+        <attr name="clockActiveMinutesFontColor" format="color"/>
+
+
+
+
+
+
+
+
 
     </declare-styleable>
 </resources>

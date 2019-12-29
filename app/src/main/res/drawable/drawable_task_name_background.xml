@@ -6,10 +6,10 @@
     <stroke
 
         android:width="0.5dp"
-        android:color="@color/color_action_inative_dividers" />
+        android:color="#ffa" />
 
     <solid
-        android:color="@color/color_background_active"
+        android:color="#faa"
         />
 
     <corners

@@ -145,7 +145,6 @@ class RuntimeViewFactory {
             frameLayout.setPadding(0.toDip(context))
             frameLayout.setBackgroundResource(R.drawable.background_border_1dp)
 
-
             val textViewTotalizer = createDefaultTextView(context, text)
 
             val textViewLabel = createDefaultTextView(context, label)

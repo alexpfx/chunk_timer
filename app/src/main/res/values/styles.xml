@@ -1,16 +1,18 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <!--<item name="android:windowFullscreen">true</item>-->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorOnSecondary">@color/text_color_primary_on_dark</item>
+        <item name="colorOnSecondary">@color/color_on_light</item>
         <item name="android:textColor">@color/text_color_primary</item>
+        <item name="colorSurface">#414141</item>
 
     </style>
 
@@ -26,7 +28,7 @@
 
     <style name="LogicalDataTableMiddle">
         <item name="android:padding">8dp</item>
-        <item name="android:background">@color/color_foreground_light</item>
+
         <item name="android:gravity">start|center_vertical</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Caption</item>
     </style>
@@ -50,24 +52,19 @@
 
 
     <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">@color/text_color_primary_on_dark</item>
-        <item name="backgroundTint">@color/color_button_primary</item>
+        <item name="android:textColor">@color/color_on_light</item>
+
 
     </style>
 
     <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">@color/text_color_secondary</item>
-        <item name="backgroundTint">@color/color_button_secondary</item>
+
     </style>
 
 
     <!--Buttons -->
-    <style name="TimerActionButton" parent="@style/Widget.MaterialComponents.Button">
-        <item name="shapeAppearance">@style/TimerButtonShapeAppearance</item>
-        <item name="strokeColor">@color/color_action_dividers</item>
-        <item name="android:textSize">12sp</item>
-        <item name="iconSize">28dp</item>
-    </style>
+
 
     <style name="TextInputLayoutPreferences" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
         <item name="boxBackgroundColor">@color/white</item>
@@ -76,56 +73,44 @@
     </style>
 
     <style name="ActionButtons" parent="@style/Widget.AppCompat.ImageButton">
-        <item name="android:tint">@color/color_action_foreground</item>
+        <item name="iconTint">@color/action_color</item>
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
         <item name="android:padding">8dp</item>
     </style>
 
     <style name="ActionButtonsSmall" parent="@style/Widget.AppCompat.ImageButton">
-        <item name="android:tint">@color/color_action_foreground</item>
+
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
         <item name="android:layout_width">48dp</item>
         <item name="android:layout_height">48dp</item>
         <item name="android:padding">8dp</item>
     </style>
 
+    <style name="TimerActionButton" parent="Widget.MaterialComponents.Button">
+
+        <item name="backgroundTint">@color/colorAccent</item>
+
+
+        <item name="shapeAppearance">@style/RoundedButtonShapeAppearance</item>
+        <item name="android:textSize">13sp</item>
+        <item name="iconSize">36dp</item>
+        <item name="iconTint">@color/color_on_light</item>
+        <item name="android:textColor">@color/color_on_light</item>
+    </style>
+
 
     <style name="TimerBreakButton" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="shapeAppearance">@style/TimerButtonShapeAppearance</item>
+        <item name="shapeAppearance">@style/RoundedButtonShapeAppearance</item>
         <item name="android:textColor">@color/text_color_primary</item>
-        <item name="strokeColor">@color/color_action_dividers</item>
+        <item name="strokeColor">@color/stroke_color</item>
+        <item name="strokeWidth">@dimen/stroke_width_small</item>
+        <item name="iconTint">@color/action_color</item>
+
         <item name="android:textSize">11sp</item>
         <item name="iconSize">23dp</item>
     </style>
 
 
-    <style name="FrameIconPizzaBackground">
-        <!--<item name="android:background">@color/colorPrimary</item>-->
-
-        <item name="backgroundUnchecked">@drawable/background_unselected_button</item>
-        <item name="backgroundChecked">@drawable/background_selected_button</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_width">0dp</item>
-        <item name="android:paddingTop">4dp</item>
-        <item name="android:paddingBottom">4dp</item>
-        <item name="android:layout_margin">1dp</item>
-        <item name="android:layout_weight">1</item>
-
-    </style>
-
-    <style name="DragSizeIcon">
-        <!--<item name="android:background">@color/colorPrimary</item>-->
-
-        <item name="android:clickable">true</item>
-        <item name="android:focusable">true</item>
-        <item name="android:background">@drawable/background_selected_button</item>
-        <item name="android:layout_height">56dp</item>
-        <item name="android:layout_width">56dp</item>
-        <item name="android:padding">4dp</item>
-        <item name="android:layout_margin">4dp</item>
-
-
-    </style>
 
     <style name="ViewIconPizzaBackground">
         <item name="android:layout_width">58dp</item>
@@ -159,19 +144,17 @@
     </style>
 
 
-    <style name="FrameLayoutBackground">
-        <item name="android:background">@drawable/drawable_task_name_background</item>
-        <item name="android:paddingStart">8dp</item>
-        <item name="android:paddingLeft">8dp</item>
-        <item name="android:paddingEnd">8dp</item>
-        <item name="android:paddingRight">8dp</item>
-        <item name="android:paddingTop">8dp</item>
-        <item name="android:paddingBottom">8dp</item>
+    <style name="TimerCardView" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="shapeAppearance">@style/RoundedButtonShapeAppearance</item>
+        <item name="strokeWidth">@dimen/stroke_width_small</item>
+        <item name="android:padding">8dp</item>
+        <item name="strokeColor">@color/stroke_color</item>
+        <item name="cardBackgroundColor">@android:color/transparent</item>
+
     </style>
 
 
-    <style name="TimerButtonShapeAppearance">
-
+    <style name="RoundedButtonShapeAppearance">
         <item name="cornerFamilyTopLeft">rounded</item>
         <item name="cornerFamilyBottomLeft">rounded</item>
         <item name="cornerFamilyTopRight">rounded</item>
@@ -186,22 +169,77 @@
     </style>
 
     <style name="ButtonClockView">
-        <item name="applyGradientToBackground">false</item>
-        <item name="applyGradientToBorder">false</item>
-        <item name="borderWidth">6dp</item>
-        <item name="circleRadius">3.6dp</item>
-        <item name="clockBackgroundColor">@color/white</item>
-        <item name="clockBorderColor">#f17f3d</item>
-        <item name="clockCircleColor">#f17f3d</item>
-        <item name="hoursClockHandColor">#f17f3d</item>
-        <item name="hoursHandHeight">18dp</item>
-        <item name="hoursHandWidth">2.8dp</item>
-        <item name="minutesClockHandColor">#f17f3d</item>
+
+        <item name="borderWidth">@dimen/stroke_width_medium</item>
+        <item name="circleRadius">3dp</item>
+        <item name="hoursHandHeight">17dp</item>
+        <item name="hoursHandWidth">3dp</item>
         <item name="minutesFontSize">10sp</item>
-        <item name="minutesHandHeight">20dp</item>
         <item name="minutesHandWidth">2.2dp</item>
+        <item name="android:padding">1dp</item>
+        <item name="minutesHandHeight">19dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:foreground">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:layout_margin">1dp</item>
+        <item name="clockActiveBackgroundColor" >@color/clock_active_background_color</item>
+        <item name="clockBackgroundColor" >@color/clock_background_color</item>
+        <item name="clockActiveBorderColor" >@color/clock_active_border_color</item>
+        <item name="clockBorderColor" >@color/clock_border_color</item>
+        <item name="clockActiveClockHandsColor" >@color/clock_active_clock_hands_color</item>
+        <item name="clockClockHandsColor" >@color/clock_hands_color</item>
+
+        <item name="clockMinutesFontColor">@color/clock_hands_color</item>
+        <item name="clockActiveMinutesFontColor">@color/clock_active_clock_hands_color</item>
+
+
+        <!--<item name="android:background">@drawable/background_selected_button</item>-->
+
 
     </style>
+
+
+
+
+    <style name="ButtonClockView.PP" parent="ButtonClockView">
+        <item name="clockBorderColor" >@color/clock_border_color_pp</item>
+
+        <item name="clockClockHandsColor" >@color/clock_hands_color_pp</item>
+        <item name="clockActiveClockHandsColor" >@color/clock_active_clock_hands_color</item>
+
+        <item name="clockMinutesFontColor">@color/clock_hands_color_pp</item>
+        <item name="clockActiveMinutesFontColor">@color/clock_active_clock_hands_color_pp</item>
+    </style>
+
+    <style name="ButtonClockView.P" parent="ButtonClockView">
+        <item name="clockBorderColor" >@color/clock_border_color_p</item>
+        <item name="clockClockHandsColor" >@color/clock_hands_color_p</item>
+        <item name="clockMinutesFontColor">@color/clock_hands_color_p</item>
+        <item name="clockActiveMinutesFontColor">@color/clock_active_clock_hands_color_p</item>
+    </style>
+
+    <style name="ButtonClockView.M" parent="ButtonClockView">
+        <item name="clockBorderColor" >@color/clock_border_color_m</item>
+        <item name="clockClockHandsColor" >@color/clock_hands_color_m</item>
+        <item name="clockMinutesFontColor">@color/clock_hands_color_m</item>
+        <item name="clockActiveMinutesFontColor">@color/clock_active_clock_hands_color_m</item>
+    </style>
+
+    <style name="ButtonClockView.G" parent="ButtonClockView">
+        <item name="clockBorderColor" >@color/clock_border_color_g</item>
+        <item name="clockClockHandsColor" >@color/clock_hands_color_g</item>
+        <item name="clockMinutesFontColor">@color/clock_hands_color_g</item>
+        <item name="clockActiveMinutesFontColor">@color/clock_active_clock_hands_color_g</item>
+    </style>
+
+    <style name="ButtonClockView.GG" parent="ButtonClockView">
+        <item name="clockBorderColor" >@color/clock_border_color_gg</item>
+        <item name="clockClockHandsColor" >@color/clock_hands_color_gg</item>
+        <item name="clockMinutesFontColor">@color/clock_hands_color_gg</item>
+        <item name="clockActiveMinutesFontColor">@color/clock_active_clock_hands_color_gg</item>
+    </style>
+
 
 
 </resources>

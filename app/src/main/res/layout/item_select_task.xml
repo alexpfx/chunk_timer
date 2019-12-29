@@ -49,7 +49,7 @@
 
             android:background="?attr/selectableItemBackgroundBorderless"
             android:padding="8dp"
-            android:tint="@color/color_action_foreground"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/txt_task_desk"
             app:layout_constraintTop_toBottomOf="@+id/view2"
@@ -68,7 +68,7 @@
 
             android:background="?attr/selectableItemBackgroundBorderless"
             android:padding="8dp"
-            android:tint="@color/color_action_foreground"
+
             app:layout_constraintBottom_toBottomOf="@+id/btnInfo"
             app:layout_constraintStart_toEndOf="@+id/btnInfo"
             app:srcCompat="@drawable/ic_archive_black_24dp" />
@@ -84,7 +84,7 @@
 
             android:background="?attr/selectableItemBackgroundBorderless"
             android:padding="8dp"
-            android:tint="@color/color_action_foreground"
+
             app:layout_constraintBottom_toBottomOf="@+id/btnArchive"
             app:layout_constraintStart_toEndOf="@+id/btnArchive"
             app:srcCompat="@drawable/ic_assignment_black_24dp" />
@@ -126,7 +126,7 @@
             android:drawableRight="@drawable/ic_expand_more_black_24dp"
             android:focusable="true"
             android:padding="8dp"
-            app:drawableTint="@color/color_action_foreground"
+
             app:layout_constraintBottom_toBottomOf="@+id/view4"
             app:layout_constraintEnd_toEndOf="@+id/txt_task_desk"
             app:layout_constraintTop_toTopOf="@+id/view4" />

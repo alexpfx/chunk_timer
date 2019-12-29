@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.Group
 import androidx.recyclerview.widget.RecyclerView
+import dev.alessi.chunk.pomodoro.timer.android.ClockView
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.database.SizeTimeCountTO
 import dev.alessi.chunk.pomodoro.timer.android.domain.SizeValue
@@ -134,11 +134,12 @@ class ViewHolder(
     private val estimationActionListeners: EstimationActionListeners
 ) :
     RecyclerView.ViewHolder(itemView), EstimationActionListeners {
-    private val imgIconSize = itemView.findViewById<ImageView>(R.id.imgSizeIcon)
+    private val clockView = itemView.findViewById<ClockView>(R.id.clockView)
     private val txtTotalTime = itemView.findViewById<TextView>(R.id.txtTotalTime)
     private val txtEstimationSummary = itemView.findViewById<TextView>(R.id.txtEstimationSummary)
     private val btnMinus: ImageButton = itemView.findViewById(R.id.btnMinus)
     private val btnPlus: ImageButton = itemView.findViewById(R.id.btnPlus)
+
     private val btnDelete: ImageButton = itemView.findViewById(R.id.btnDelete)
 
     private val groupEditModel = itemView.findViewById<Group>(R.id.group_edit_mode)
@@ -151,7 +152,7 @@ class ViewHolder(
         minutesPad: Int = 2,
         editMode: Boolean, animate: Boolean = false
     ) {
-        imgIconSize.setImageDrawable(ViewUtils.getSizeDrawable(item.sizeId, context))
+        clockView.minutes = item.timeMinutes
 
         updateSizes(item, countPad, minutesPad)
 
@@ -164,6 +165,7 @@ class ViewHolder(
         btnDelete.setOnClickListener(onBtnDelete)
         btnPlus.setOnClickListener(onBtnPlus)
         btnMinus.setOnClickListener(onBtnMinus)
+
 
         if (animate) {
             val fadeIn = AnimationUtils.loadAnimation(context, android.R.anim.fade_in)
