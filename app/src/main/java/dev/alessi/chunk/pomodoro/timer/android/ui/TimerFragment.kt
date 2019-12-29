@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.os.Build
 import android.os.Bundle
 import android.text.format.DateUtils
 import android.text.method.ScrollingMovementMethod
@@ -14,6 +15,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -322,14 +324,34 @@ class TimerFragment : Fragment() {
         var selectedButtonColor = Color.WHITE
         forAllSizeButtons { button ->
             button.isChecked = button.tag == mSelectedIndex
-            if (button.isChecked){
+            if (button.isChecked) {
                 selectedButtonColor = button.borderColor
             }
         }
 
-        frTxtMainTimer.strokeColor = selectedButtonColor
+        updateTimerTextStyle(selectedButtonColor)
 
 
+    }
+
+    private fun updateTimerTextStyle(selectedButtonColor: Int) {
+
+        val timeMinutes = mSizes[mSelectedIndex]
+        if (timeMinutes >= 60) {
+            setTextAppereance(txtMainTimer, R.style.TextAppearance_AppCompat_Display3)
+        } else {
+            setTextAppereance(txtMainTimer, R.style.TextAppearance_AppCompat_Display4)
+        }
+
+        txtMainTimer.setTextColor(selectedButtonColor)
+    }
+
+    private fun setTextAppereance(view: TextView, style: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            view.setTextAppearance(style)
+        } else {
+            view.setTextAppearance(this.context, style)
+        }
     }
 
 

@@ -166,17 +166,22 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/frTxtMainTimer"
-            app:strokeWidth="@dimen/stroke_width_medium"
-            style="@style/TimerCardView"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardElevation="0dp"
+            android:background="@android:color/transparent"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-
             android:layout_marginBottom="16dp"
+
+
             android:minWidth="180dp"
+            android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/btnStartBreak"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardTask"
+
             tools:text="00:00:00">
 
             <TextView
@@ -184,13 +189,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:layout_margin="8dp"
                 android:gravity="center"
                 android:maxLines="1"
-                android:layout_margin="4dp"
                 android:text="00:00"
                 android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display3"
-                android:textStyle="bold" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Display4" />
 
         </com.google.android.material.card.MaterialCardView>
 
