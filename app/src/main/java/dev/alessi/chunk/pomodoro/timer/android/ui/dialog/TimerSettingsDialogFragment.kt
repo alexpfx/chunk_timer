@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.preference.PreferenceManager
@@ -17,7 +18,7 @@ import dev.alessi.chunk.pomodoro.timer.android.ui.TimerFragment.Companion.DEFAUL
 import dev.alessi.chunk.pomodoro.timer.android.ui.TimerFragment.Companion.KEY_SIZE_JSON_ARRAY
 import dev.alessi.chunk.pomodoro.timer.android.ui.TimerSharedViewModel
 
-class TimerSettingsDialogFragment : DialogFragment() {
+class TimerSettingsDialogFragment : AppCompatDialogFragment() {
 
     private lateinit var mTimerSharedModel: TimerSharedViewModel
     private lateinit var positiveButton: Button
@@ -33,8 +34,10 @@ class TimerSettingsDialogFragment : DialogFragment() {
             ViewModelProviders.of(this)[TimerSharedViewModel::class.java]
         } ?: throw IllegalStateException("Invalid activity")
 
-
         super.onCreate(savedInstanceState)
+
+
+
     }
 
 
@@ -92,8 +95,7 @@ class TimerSettingsDialogFragment : DialogFragment() {
 
 
             val builder = MaterialAlertDialogBuilder(
-                it,
-                R.style.AlertDialogTheme
+                it, R.style.AlertDialogTheme
             )
 
             builder.setTitle(R.string.dialog_title_sizes)

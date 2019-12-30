@@ -133,12 +133,10 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnStartTimer"
             style="@style/TimerActionButton"
-            android:layout_width="200dp"
-            android:layout_height="60dp"
             android:layout_marginBottom="32dp"
             android:text="@string/button_label_start"
             app:icon="@drawable/ic_timer_black_24dp"
-            app:iconPadding="2dp"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -148,17 +146,16 @@
 
             android:id="@+id/btnCancelTimer"
             style="@style/TimerActionButton"
-            android:layout_width="200dp"
-            android:layout_height="60dp"
-            android:layout_marginBottom="32dp"
 
+            android:layout_marginBottom="32dp"
             android:text="@string/button_label_cancel"
+
             android:visibility="invisible"
+
 
             app:icon="@drawable/ic_cancel_black_24dp"
 
 
-            app:iconPadding="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -166,17 +163,17 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/frTxtMainTimer"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardElevation="0dp"
-            android:background="@android:color/transparent"
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
 
-
+            android:background="@android:color/transparent"
             android:minWidth="180dp"
             android:visibility="visible"
+
+
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardElevation="0dp"
             app:layout_constraintBottom_toTopOf="@+id/btnStartBreak"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -201,12 +198,11 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnStartBreak"
             style="@style/TimerBreakButton"
-            android:layout_width="160dp"
-            android:layout_height="48dp"
-            android:layout_marginBottom="8dp"
+
+            android:layout_marginBottom="4dp"
             android:text="@string/button_label_start_break"
             app:icon="@drawable/ic_local_cafe_black_24dp"
-            app:iconPadding="2dp"
+
             app:layout_constraintBottom_toTopOf="@+id/btnStartTimer"
             app:layout_constraintEnd_toEndOf="@+id/btnStartTimer"
             app:layout_constraintStart_toStartOf="@+id/btnStartTimer" />
@@ -311,12 +307,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:layout_marginLeft="4dp"
+
 
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/content_description_clear_task"
             android:padding="8dp"
-            android:tint="@color/text_color_primary"
+
             app:layout_constraintBottom_toBottomOf="@+id/cardTask"
             app:layout_constraintStart_toEndOf="@+id/cardTask"
             app:layout_constraintTop_toTopOf="@+id/cardTask"

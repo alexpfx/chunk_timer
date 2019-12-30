@@ -4,12 +4,12 @@
     <color name="colorPrimaryDark">#040c0e</color>
     <color name="colorPrimary">#424242</color>
 
-    <color name="card_background">#424242</color>
+    <color name="background">#424242</color>
+    <color name="background0">#040c0e</color>
+
+
     <color name="card_background0">@color/grey_3a</color>
-
-
-    <color name="background0">@color/grey_3a</color>
-    <color name="background">#2d2d2d</color>
+    <color name="card_background">#2d2d2d</color>
     <color name="stroke_color">#99c3b7b7</color>
 
     <color name="action_color">#bbc2c2c2</color>
