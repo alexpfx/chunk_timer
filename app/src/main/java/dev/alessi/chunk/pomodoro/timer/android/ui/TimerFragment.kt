@@ -13,6 +13,7 @@ import android.text.format.DateUtils
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -23,6 +24,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
+import com.google.android.material.textview.MaterialTextView
 import com.google.gson.Gson
 import dev.alessi.chunk.pomodoro.timer.android.ClockView
 import dev.alessi.chunk.pomodoro.timer.android.R
@@ -227,7 +229,7 @@ class TimerFragment : Fragment() {
         btnStartTimer.setOnClickListener(::actionStartTimer)
         btnCancelTimer.setOnClickListener(::actionCancelTimer)
         btnStartBreak.setOnClickListener(::actionStartBreaktime)
-        btnClearTask.setOnClickListener(::actionClearTask)
+//        btnClearTask.setOnClickListener(::actionClearTask)
 
         txtTask.movementMethod = ScrollingMovementMethod()
 
@@ -235,7 +237,8 @@ class TimerFragment : Fragment() {
         btnIconSetBreak.setOnClickListener(::openBreaktimeSettingsDialog)
         btnIconSetTaskTimes.setOnClickListener(::openTimerSettingsDialog)
 
-        txtTask.setOnClickListener(::openLoadTaskScreen)
+        txtTask.setOnTouchListener(::onTxtTaskTouch)
+
         btnOpenSettings.setOnClickListener(::openSettingsScreen)
 
         sizeBtns =
@@ -411,7 +414,7 @@ class TimerFragment : Fragment() {
 
         btnOpenSettings.visibility = View.VISIBLE
         txtTask.isEnabled = true
-        btnClearTask.visibility = View.VISIBLE
+//        btnClearTask.visibility = View.VISIBLE
 
         forAllSizeButtons { btn: ClockView ->
             activeButton(btn)
@@ -436,11 +439,12 @@ class TimerFragment : Fragment() {
 
         btnOpenSettings.visibility = View.INVISIBLE
         txtTask.isEnabled = false
-        btnClearTask.visibility = View.INVISIBLE
+//        btnClearTask.visibility = View.INVISIBLE
 
         if (mTask.uid == -1) {
             txtTask.visibility = View.INVISIBLE
         }
+
 
 
         hideUnselectedSizeButtons()
@@ -523,21 +527,41 @@ class TimerFragment : Fragment() {
         findNavController().navigate(R.id.settingsFragment)
     }
 
-    private fun openLoadTaskScreen(view: View) {
+    private fun onTxtTaskTouch(v: View, event: MotionEvent): Boolean {
+        println(v.javaClass.name)
+        println(v.id)
+        val tv = v as MaterialTextView
+
+        if (event.action == MotionEvent.ACTION_UP) {
+            return if (event.rawX >= (tv.right - tv.compoundDrawables[2].getBounds().width())) {
+                actionClearTask()
+            } else {
+                actionOpenLoadTaskScreen()
+            }
+
+        }
+
+        return false
+
+    }
+
+    private fun actionOpenLoadTaskScreen(): Boolean {
         findNavController().navigate(R.id.selectTaskFragment)
+        return true
     }
 
     private fun openTimerSettingsDialog(view: View) {
         findNavController().navigate(R.id.timerSettingsDialogFragment)
     }
 
-    private fun actionClearTask(view: View) {
+    private fun actionClearTask(): Boolean {
         mSelectTaskSharedViewModel.selectTask(
             Task(
                 description = getString(R.string.message_hint_choose_task),
                 uid = -1
             )
         )
+        return true
     }
 
     private fun actionStartBreaktime(view: View) {

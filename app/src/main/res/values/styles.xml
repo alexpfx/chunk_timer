@@ -1,20 +1,5 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight">
-        <!-- Customize your theme here. -->
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <!--<item name="android:windowFullscreen">true</item>-->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorOnSecondary">@color/color_on_light</item>
-        <item name="android:textColor">@color/text_color_primary</item>
-        <item name="colorSurface">#414141</item>
-
-    </style>
 
     <!-- Text Views -->
 
@@ -91,19 +76,19 @@
 
     <style name="TimerActionButton" parent="Widget.MaterialComponents.Button">
 
-        <item name="backgroundTint">@color/colorAccent</item>
+        <!--<item name="backgroundTint">@color/colorAccent</item>-->
 
         <item name="android:minWidth">190dp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:minHeight">55dp</item>
 
-        <item name="shapeAppearance">@style/RoundedButtonShapeAppearance</item>
-        <item name="android:textSize">12sp</item>
-        <item name="iconSize">24dp</item>
-        <item name="iconTint">@color/color_on_light</item>
+        <!--<item name="shapeAppearance">@style/RoundedButtonShapeAppearance</item>-->
+<!--        <item name="android:textSize">12sp</item>-->
+<!--        <item name="iconSize">24dp</item>-->
+<!--        <item name="iconTint">@color/color_on_light</item>-->
         <item name="iconPadding">8dp</item>
-        <item name="android:textColor">@color/color_on_light</item>
+        <!--<item name="android:textColor">@color/color_on_light</item>-->
     </style>
 
 
