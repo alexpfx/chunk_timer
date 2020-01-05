@@ -1,6 +1,7 @@
 package dev.alessi.chunk.pomodoro.timer.android.ui.estimate
 
 import android.os.Handler
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.alessi.chunk.pomodoro.timer.android.ClockView
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.database.SizeTimeCountTO
+import dev.alessi.chunk.pomodoro.timer.android.domain.SizeIndex
 import dev.alessi.chunk.pomodoro.timer.android.domain.SizeValue
-import dev.alessi.chunk.pomodoro.timer.android.util.ViewUtils
 import dev.alessi.chunk.pomodoro.timer.android.util.toFormatedSummary
 import dev.alessi.chunk.pomodoro.timer.android.util.toFormatedTime
 
@@ -30,18 +31,40 @@ class EstimationAdapter(private val listeners: EstimationActionListeners) :
     private var editMode = false
     private var shouldAnimate = false
 
+    private val mapStyles = mapOf(
+        SizeIndex.PP to R.style.ButtonClockView_PP,
+        SizeIndex.P to R.style.ButtonClockView_P,
+        SizeIndex.M to R.style.ButtonClockView_M,
+        SizeIndex.G to R.style.ButtonClockView_G,
+        SizeIndex.GG to R.style.ButtonClockView_GG
+    )
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context)
-            .inflate(R.layout.layout_estimation_summary, parent, false)
+        val style = mapStyles[viewType] ?: error("Error")
+
+        val v = LayoutInflater.from(ContextThemeWrapper(parent.context, style))
+            .inflate(R.layout.item_estimation_summary, parent, false)
+
+
         return ViewHolder(v, this)
     }
 
     override fun getItemCount(): Int {
+
         return itemsSummarized.size
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return itemsSummarized[position].sizeId
+    }
+
+
+
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         val item = itemsSummarized[position]
 
         holder.bind(

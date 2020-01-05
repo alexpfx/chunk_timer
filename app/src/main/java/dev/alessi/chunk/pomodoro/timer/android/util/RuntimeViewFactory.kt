@@ -13,11 +13,14 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.setPadding
 import com.google.android.flexbox.FlexboxLayout
+import dev.alessi.chunk.pomodoro.timer.android.ClockView
 import dev.alessi.chunk.pomodoro.timer.android.R
+import dev.alessi.chunk.pomodoro.timer.android.domain.SizeIndex
 import dev.alessi.chunk.pomodoro.timer.android.domain.SizeValue
 import dev.alessi.chunk.pomodoro.timer.android.util.ViewUtils.Companion.getSizeDrawable
 
@@ -38,7 +41,7 @@ class RuntimeViewFactory {
 
 
             v = LayoutInflater.from(parent.context).inflate(
-                R.layout.layout_estimation_summary,
+                R.layout.item_estimation_summary,
                 null
             ) as LinearLayout
 
@@ -93,6 +96,13 @@ class RuntimeViewFactory {
 //            return v
 //        }
 
+        private val mapStyles = mapOf(
+            SizeIndex.PP to R.style.ButtonClockView_PP,
+            SizeIndex.P to R.style.ButtonClockView_P,
+            SizeIndex.M to R.style.ButtonClockView_M,
+            SizeIndex.G to R.style.ButtonClockView_G,
+            SizeIndex.GG to R.style.ButtonClockView_GG
+        )
 
         @SuppressLint("ClickableViewAccessibility")
         fun inflateEstimationButton(
@@ -101,35 +111,24 @@ class RuntimeViewFactory {
             topInfo: String? = null,
             onTouchListener: View.OnTouchListener,
             tag: Any? = null
-        ): FrameLayout {
-            val l = LayoutInflater.from(context).inflate(
-                R.layout.layout_estimation_button,
-                null
-            ) as FrameLayout
+        ): ClockView {
 
-            l.tag = tag ?: sizeValue
+            val style = mapStyles[sizeValue.index] ?: error("style cannot be null")
 
-            l.setOnTouchListener { v, event ->
+
+            val clockView = ClockView(ContextThemeWrapper(context, style))
+
+
+            clockView.tag = tag ?: sizeValue
+
+            clockView.setOnTouchListener { v, event ->
                 onTouchListener.onTouch(v, event)
             }
-            val img = l.findViewById<ImageView>(R.id.imgSize)
-            img.setImageDrawable(getSizeDrawable(sizeValue.index, context))
 
-            topInfo?.let {
-                val txtTopInfo = l.findViewById<TextView>(R.id.txtTopInfo)
-                txtTopInfo.text = it
-                txtTopInfo.visibility = View.VISIBLE
-            }
+            clockView.minutes = sizeValue.minutes
 
-            val txtBottomInfo = l.findViewById<TextView>(R.id.txtBottomInfo)
-            txtBottomInfo.text =
-                context.getString(R.string.label_format_abbrev_minutes, sizeValue.minutes)
-
-            return l
+            return clockView
         }
-
-
-
 
         private val emptyTouchListener = View.OnTouchListener { v, event -> true }
 
@@ -143,7 +142,7 @@ class RuntimeViewFactory {
 
             val frameLayout = FrameLayout(context)
             frameLayout.setPadding(0.toDip(context))
-            frameLayout.setBackgroundResource(R.drawable.background_border_1dp)
+
 
             val textViewTotalizer = createDefaultTextView(context, text)
 
@@ -198,8 +197,7 @@ class RuntimeViewFactory {
             val tvMinutes = createDefaultTextView(
                 context,
                 context.getString(R.string.label_format_abbrev_minutes, minutes),
-                Typeface.DEFAULT_BOLD,
-                R.drawable.background_border_1dp
+                Typeface.DEFAULT_BOLD
             )
 
 
@@ -219,8 +217,7 @@ class RuntimeViewFactory {
                 val tvInfo = createDefaultTextView(
                     context,
                     it,
-                    Typeface.DEFAULT_BOLD,
-                    R.drawable.background_border_1dp
+                    Typeface.DEFAULT_BOLD
                 )
                 addToFrameLayout(frameLayout, tvInfo, gravity = Gravity.TOP or Gravity.START)
 

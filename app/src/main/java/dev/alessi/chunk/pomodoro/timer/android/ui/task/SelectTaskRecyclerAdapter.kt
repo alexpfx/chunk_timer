@@ -164,7 +164,7 @@ class TaskViewHolder(
     private var expanded = false
 
     private val linearLayoutEstimation =
-        view.findViewById<LinearLayout>(R.id.linearLayoutEstimation)
+        view.findViewById<LinearLayout>(R.id.linearLayoutDone)
 
 
     init {
@@ -242,7 +242,6 @@ class TaskViewHolder(
         txtTaskDesc.tag = taskSummaryTO
         btnArchive.tag = taskSummaryTO
         btnEstimate.tag = taskSummaryTO
-
 
 
 

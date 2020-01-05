@@ -31,9 +31,6 @@ class EstimateViewModel(val app: Application) : AndroidViewModel(app) {
 
 
     fun storeEstimation(estimation: WorkUnit) {
-
-
-
         scope.launch {
             val id = withContext(Dispatchers.IO) {
                 getRepository().storeEstimation(estimation.copy(estimation = 1))
@@ -88,7 +85,7 @@ class EstimateViewModel(val app: Application) : AndroidViewModel(app) {
 
     fun loadAllEstimations(taskId: Int) {
         scope.launch {
-            val estimation = withContext(Dispatchers.IO) {
+            val estimation: List<SizeTimeCountTO> = withContext(Dispatchers.IO) {
                 getRepository().countAllEstimationsFromTask(taskId)
             }
 

@@ -9,7 +9,7 @@
         android:angle="90"
 
         android:endColor="@color/white"
-        android:startColor="@color/text_color_primary"
+        android:startColor="@color/color_on_primary"
 
         android:type="linear" />
 

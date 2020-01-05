@@ -208,11 +208,7 @@ class EstimationFragment : Fragment(), EstimationActionListeners {
     }
 
     private fun updateEditModeIcon(editMode: Boolean) {
-        if (!editMode) {
-            btn_edit_mode.setImageDrawable(editModeIcon)
-        } else {
-            btn_edit_mode.setImageDrawable(checkIcon)
-        }
+
     }
 
     private val onDrag = View.OnDragListener { targetView: View, dragEvent: DragEvent ->
@@ -289,7 +285,7 @@ class EstimationFragment : Fragment(), EstimationActionListeners {
             layout_estimation_menu.addView(inflated, p)
         }
 
-        btn_edit_mode.setOnClickListener(onEditModeClick)
+        btn_mode_edit.setOnClickListener(onEditModeClick)
 
 
         reycler_estimations.setOnDragListener(onDrag)

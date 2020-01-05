@@ -6,9 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="1dp"
-
-
-    android:background="@drawable/background_border_1dp">
+    style="@style/Widget.MaterialComponents.CardView"
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
 
@@ -98,9 +97,9 @@
 
             android:layout_marginTop="16dp"
             android:background="@drawable/drawable_divider_horizontal"
-            app:layout_constraintEnd_toEndOf="@+id/linearLayoutWorkDone"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayoutEstimation"
             app:layout_constraintStart_toStartOf="@+id/txt_task_desk"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayoutWorkDone" />
+            app:layout_constraintTop_toBottomOf="@+id/linearLayoutEstimation" />
 
 
         <View
@@ -146,42 +145,19 @@
 
 
         <TextView
-            android:id="@+id/txtLastSlice"
-            style="@style/LogicalDataTableTop"
-            android:layout_width="0dp"
-
-            android:layout_height="wrap_content"
-
-
-            android:layout_marginTop="20dp"
-
-            android:drawableStart="@drawable/ic_pie_hole_4slices_20dp"
-            android:drawableLeft="@drawable/ic_pie_hole_4slices_20dp"
-
-            android:drawablePadding="8dp"
-
-            android:text="Dom, 08/12/2019 - 18:00"
-
-            app:layout_constraintEnd_toEndOf="@+id/txt_task_desk"
-            app:layout_constraintStart_toStartOf="@+id/txtCreatedAt"
-            app:layout_constraintTop_toBottomOf="@+id/view4"
-            tools:text="Dom, 08/12/2019 - 18:00" />
-
-        <TextView
-            android:id="@+id/txtLabelEstimation"
+            android:id="@+id/txtLabelDone"
             style="@style/LogicalDataTableMiddle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
+            android:text="@string/label_done"
 
-            android:text="@string/label_estimation"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@id/linearLayoutEstimation"
+            app:layout_constraintEnd_toEndOf="@id/linearLayoutDone"
             app:layout_constraintStart_toStartOf="@id/txt_task_desk"
-            app:layout_constraintTop_toBottomOf="@+id/txtLastSlice" />
+            app:layout_constraintTop_toBottomOf="@+id/txtButtonExpand" />
 
         <LinearLayout
-            android:id="@+id/linearLayoutEstimation"
+            android:id="@+id/linearLayoutDone"
             style="@style/LogicalDataTableMiddle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -189,26 +165,26 @@
             app:layout_constraintEnd_toEndOf="@id/txt_task_desk"
             app:layout_constraintStart_toStartOf="@id/txt_task_desk"
 
-            app:layout_constraintTop_toBottomOf="@id/txtLabelEstimation"
+            app:layout_constraintTop_toBottomOf="@id/txtLabelDone"
             tools:layout_height="20dp" />
 
         <TextView
-            android:id="@+id/txtLabelWorkDone"
+            android:id="@+id/txtLabelEstimation"
             style="@style/LogicalDataTableMiddle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
 
             android:layout_marginTop="1dp"
 
+            android:text="@string/label_estimation"
 
-            android:text="@string/label_done"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/linearLayoutWorkDone"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayoutEstimation"
             app:layout_constraintStart_toStartOf="@id/txt_task_desk"
-            app:layout_constraintTop_toBottomOf="@id/linearLayoutEstimation" />
+            app:layout_constraintTop_toBottomOf="@id/linearLayoutDone" />
 
         <LinearLayout
-            android:id="@+id/linearLayoutWorkDone"
+            android:id="@+id/linearLayoutEstimation"
             style="@style/LogicalDataTableBottom"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -217,7 +193,7 @@
 
             app:layout_constraintEnd_toEndOf="@id/txt_task_desk"
             app:layout_constraintStart_toStartOf="@id/txt_task_desk"
-            app:layout_constraintTop_toBottomOf="@id/txtLabelWorkDone"
+            app:layout_constraintTop_toBottomOf="@id/txtLabelEstimation"
             tools:layout_height="20dp">
 
             <TextView
@@ -238,7 +214,7 @@
 
             android:padding="8dp"
             android:visibility="gone"
-            app:constraint_referenced_ids="txtLastSlice,txtLabelEstimation,linearLayoutEstimation,txtLabelWorkDone,linearLayoutWorkDone,view2"
+            app:constraint_referenced_ids="txtLabelDone,linearLayoutDone,txtLabelEstimation,linearLayoutEstimation,view2"
             tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

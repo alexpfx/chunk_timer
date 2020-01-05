@@ -1,5 +1,7 @@
 package dev.alessi.chunk.pomodoro.timer.android.ui
 
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -62,6 +64,8 @@ class TimerActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timer)
+
+
 
 //        window.setBackgroundDrawableResource(R.drawable.pizza_background)
         setSupportActionBar(toolbar)

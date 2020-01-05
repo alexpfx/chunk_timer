@@ -160,26 +160,25 @@
             app:layout_constraintStart_toStartOf="parent" />
 
 
-        <com.google.android.material.card.MaterialCardView
+        <FrameLayout
             android:id="@+id/frTxtMainTimer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
 
-            android:background="@android:color/transparent"
+
             android:minWidth="180dp"
             android:visibility="visible"
 
 
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardElevation="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/btnStartBreak"
+            app:layout_constraintBottom_toTopOf="@id/btnStartBreak"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
 
+
             tools:text="00:00:00">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txtMainTimer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -191,7 +190,7 @@
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display4" />
 
-        </com.google.android.material.card.MaterialCardView>
+        </FrameLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnStartBreak"
@@ -206,7 +205,7 @@
             app:layout_constraintStart_toStartOf="@+id/btnStartTimer" />
 
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
 
             android:id="@+id/btnIconSetTaskTimes"
             style="@style/ActionButtons"
@@ -224,7 +223,8 @@
             app:layout_constraintTop_toBottomOf="@id/separator_view"
             app:srcCompat="@drawable/ic_timer_black_24dp" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
+
 
             android:id="@+id/txtTimerDisplay"
             android:layout_width="wrap_content"
@@ -241,7 +241,7 @@
             app:layout_constraintTop_toTopOf="@id/btnIconSetTaskTimes"
             tools:text="00:35:45" />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btnIconSetBreak"
             style="@style/ActionButtons"
             android:layout_width="wrap_content"
@@ -258,9 +258,9 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/txtTimerDisplay"
             app:layout_constraintTop_toTopOf="@id/btnIconSetTaskTimes"
-            app:srcCompat="@drawable/ic_local_cafe_black_24dp" />
+            app:srcCompat="@drawable/ic_mode_edit_black_24dp" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txtBreakTimeDisplay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -277,7 +277,7 @@
             tools:text="10:00" />
 
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
 
             android:id="@+id/btnOpenSettings"
             style="@style/ActionButtons"
@@ -307,6 +307,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
 
+
+            app:contentPadding="8dp"
 
             app:layout_constraintBottom_toTopOf="@+id/frTxtMainTimer"
             app:layout_constraintEnd_toEndOf="@+id/btnOpenSettings"
@@ -343,7 +345,6 @@
             android:animateLayoutChanges="true"
 
 
-            android:background="@drawable/size_panel_bkg"
             android:contentDescription="@string/content_description_size_bar"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"

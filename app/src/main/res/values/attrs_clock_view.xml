@@ -3,8 +3,7 @@
         <attr name="borderWidth" format="dimension" />
         <attr name="minutesClockHandColor" format="color" />
         <attr name="hoursClockHandColor" format="color" />
-
-
+        <attr name="style" format="reference"/>
         <attr name="applyGradientToBorder" format="boolean" />
         <attr name="applyGradientToBackground" format="boolean" />
         <attr name="clockCircleColor" format="color" />

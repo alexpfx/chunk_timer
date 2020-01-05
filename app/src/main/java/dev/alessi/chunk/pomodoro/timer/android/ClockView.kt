@@ -23,8 +23,15 @@ const val textSizeProportion = 0.175f
  * TODO: document your custom view class.
  */
 
-class ClockView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet),
+class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : View(context, attributeSet, style),
     Checkable {
+
+    constructor(context: Context, attributeSet: AttributeSet?) : this (context, attributeSet, -1)
+
+    constructor(context: Context) : this (context, null, -1)
+
+
+
 
     private var clockActiveMinutesFontColor: Int
     private var clockMinutesFontColor: Int
@@ -86,6 +93,9 @@ class ClockView(context: Context, attributeSet: AttributeSet) : View(context, at
     private val mFillPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val mTextPaint = TextPaint(Paint.ANTI_ALIAS_FLAG)
 
+
+
+
 //    private val mClockHandPaint = Paint(mBasePaint)
 
 
@@ -101,6 +111,8 @@ class ClockView(context: Context, attributeSet: AttributeSet) : View(context, at
 
         ColorUtils.colorToHSL(color, outHsl)
         outHsl.andPrint()
+
+
 
 
         val index0 = 2
@@ -139,6 +151,10 @@ class ClockView(context: Context, attributeSet: AttributeSet) : View(context, at
     override fun setSelected(selected: Boolean) {
         println(selected)
         super.setSelected(selected)
+    }
+
+    fun setStyle(){
+
     }
 
 
@@ -208,8 +224,9 @@ class ClockView(context: Context, attributeSet: AttributeSet) : View(context, at
 
     init {
 
-        context.theme.obtainStyledAttributes(attributeSet, R.styleable.ClockView, 0, 0).apply {
+        context.theme.obtainStyledAttributes(attributeSet, R.styleable.ClockView, -1, style).apply {
             try {
+
                 mBorderWidth = getDimension(R.styleable.ClockView_borderWidth, 20f)
 
                 mMinutesClockHandColor =
@@ -264,6 +281,9 @@ class ClockView(context: Context, attributeSet: AttributeSet) : View(context, at
 
         postInvalidate()
     }
+
+
+
 
 
     override fun onDraw(canvas: Canvas?) {

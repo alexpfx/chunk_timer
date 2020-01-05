@@ -123,7 +123,7 @@
     <string name="label_message_noitems">Nenhuma</string>
     <string name="message_content_empty">Não há items</string>
     <string name="label_done">Realizado:</string>
-    <string name="label_estimation">Estimativa para esta tarefa:</string>
+    <string name="label_estimation">Estimativa:</string>
     <string name="symbol_no_data">-</string>
 
     <string name="nothing_yet">Nenhum Ainda</string>
@@ -142,8 +142,9 @@
     <string name="content_description_plan_task">Planejar Tarefa</string>
     <string name="content_description_expand_collapse">Expand / Collapse</string>
     <string name="label_total">Total:</string>
-    <string name="label_drag">Arraste</string>
+    <string name="label_drag">Arraste:</string>
     <string name="label_drag_to_here">Arraste aqui para adicionar tempo às estimativas</string>
+    <string name="label_edit_mode">Modo de edição</string>
 
     <plurals name="label_format_hours">
         <item quantity="one">%s hour</item>

@@ -1,6 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
@@ -15,75 +16,78 @@
         android:padding="@dimen/default_layout_margin"
         tools:context=".ui.estimate.EstimationFragment">
 
-
-        <TextView
-            android:id="@+id/label_task"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_task_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:labelFor="@id/txt_task_desk"
             android:text="@string/label_task"
-
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
 
-        <TextView
-            android:id="@+id/txt_task_desk"
+        </com.google.android.material.textview.MaterialTextView>
 
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_task_desk"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:padding="8dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/label_task"
-            tools:text="Descrição da tarefa" />
+            app:layout_constraintTop_toBottomOf="@id/txt_task_label">
 
-        <TextView
 
-            android:id="@+id/label_estimation"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/label_estimation"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_estimation_menu" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txt_task_desk"
+                android:layout_width="wrap_content"
+
+
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|fill_horizontal"
+                android:layout_marginTop="4dp"
+
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:padding="8dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+
+                tools:text="Descrição da tarefa" />
+
+
+        </androidx.cardview.widget.CardView>
 
 
         <LinearLayout
             android:id="@+id/layout_estimation_menu"
             android:layout_width="0dp"
             android:layout_height="72dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
+
             android:animateLayoutChanges="true"
-            android:background="@drawable/background_border_1dp"
             android:gravity="center"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/label_drag" />
+            app:layout_constraintTop_toBottomOf="@+id/card_task_desk" />
 
         <androidx.recyclerview.widget.RecyclerView
+
             android:id="@+id/reycler_estimations"
+            style="@style/RecyclerViews"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+
             android:layout_marginBottom="16dp"
-            android:background="@drawable/background_border_1dp"
             android:minHeight="200dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/label_estimation"
-            app:layout_constraintTop_toBottomOf="@+id/txt_estimation_total"
+            app:layout_constraintStart_toStartOf="@+id/btngroup_mode_edit"
+            app:layout_constraintTop_toBottomOf="@+id/btngroup_mode_edit"
             app:layout_constraintVertical_bias="0.0" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/label_message_drag_here"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -92,71 +96,59 @@
             android:maxWidth="200dp"
             android:text="@string/label_drag_to_here"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/text_color_secondary"
+            android:textColor="@color/color_on_secondary"
             app:layout_constraintBottom_toBottomOf="@+id/reycler_estimations"
             app:layout_constraintEnd_toEndOf="@+id/reycler_estimations"
             app:layout_constraintStart_toStartOf="@+id/reycler_estimations"
             app:layout_constraintTop_toTopOf="@+id/reycler_estimations" />
 
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/label_total"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="@string/label_total"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            app:layout_constraintEnd_toStartOf="@+id/txt_estimation_total"
-            app:layout_constraintTop_toTopOf="@+id/label_estimation" />
-
-        <TextView
-            android:id="@+id/txt_estimation_total"
+            style="@style/Widget.MaterialComponents.TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
+            android:text="@string/label_total"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/btngroup_mode_edit"
+            app:layout_constraintEnd_toStartOf="@+id/txt_estimation_total" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_estimation_total"
+            style="@style/Widget.MaterialComponents.TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+
             app:layout_constraintBottom_toBottomOf="@+id/label_total"
-            app:layout_constraintEnd_toEndOf="@+id/layout_estimation_menu"
+            app:layout_constraintEnd_toEndOf="@+id/reycler_estimations"
             app:layout_constraintTop_toTopOf="@+id/label_total"
             tools:text="23h36m" />
 
-        <TextView
-            android:id="@+id/label_drag"
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/btngroup_mode_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:drawableEnd="@drawable/ic_expand_more_black_24dp"
-            android:gravity="center_vertical"
-            android:text="@string/label_drag"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:layout_marginTop="8dp"
 
             app:layout_constraintStart_toStartOf="@+id/layout_estimation_menu"
-            app:layout_constraintTop_toBottomOf="@+id/txt_task_desk" />
+            app:layout_constraintTop_toBottomOf="@+id/layout_estimation_menu"
+            app:srcCompat="@drawable/ic_check_black_24dp">
 
-        <ImageButton
-            android:id="@+id/btn_edit_mode"
-            style="@style/ActionButtons"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_mode_edit"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_edit_mode"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="@+id/reycler_estimations"
-            app:layout_constraintTop_toBottomOf="@+id/reycler_estimations"
-            app:srcCompat="@drawable/ic_mode_edit_black_24dp" />
+                app:srcCompat="@drawable/ic_check_black_24dp" />
 
-
-        <ImageButton
-            android:id="@+id/btn_accept_changes"
-            style="@style/ActionButtons"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="@+id/reycler_estimations"
-            app:layout_constraintTop_toBottomOf="@+id/reycler_estimations"
-            app:srcCompat="@drawable/ic_check_black_24dp" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
