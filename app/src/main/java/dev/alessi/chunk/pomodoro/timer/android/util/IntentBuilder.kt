@@ -90,10 +90,7 @@ annotation class Command {
         const val ACTION_START_TIMER = 1
         const val ACTION_START_BREAK = 2
         const val ACTION_TICK = 3
-        const val ACTION_UPDATE_STATE = 4
-        const val ACTION_REQUEST_TICK = 5
-        const val ACTION_FINISH_TIMER = 6
-        const val ACTION_FINISH_BREAK = 7
+        const val ACTION_REQUEST_STATE_UPDATE = 4
     }
 }
 

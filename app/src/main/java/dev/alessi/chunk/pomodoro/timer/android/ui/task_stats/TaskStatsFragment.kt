@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
-import dev.alessi.chunk.pomodoro.timer.android.ui.MainSharedViewModel
+import dev.alessi.chunk.pomodoro.timer.android.ui.MainActivityControlViewModel
 import dev.alessi.chunk.pomodoro.timer.android.ui.task.SelectTaskFragment
 import kotlinx.android.synthetic.main.fragment_task_stats.*
 import kotlinx.android.synthetic.main.layout_content_empty.*
@@ -26,18 +26,18 @@ class TaskStatsFragment : Fragment() {
     private lateinit var mAdapter: TaskStatsRecyclerAdapter
 
     private lateinit var mSummariesViewModel: LoadPeriodSummariesViewModel
-    private lateinit var mainSharedViewModel: MainSharedViewModel
+    private lateinit var mainActivityControlViewModel: MainActivityControlViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         activity?.run {
-            mainSharedViewModel = ViewModelProviders.of(this).get(MainSharedViewModel::class.java)
+            mainActivityControlViewModel = ViewModelProviders.of(this).get(MainActivityControlViewModel::class.java)
         } ?: throw Throwable("invalid activity")
 
         mSummariesViewModel =
             ViewModelProviders.of(this).get(LoadPeriodSummariesViewModel::class.java)
 
-        mainSharedViewModel.updateTitle(getString(R.string.title_task_stats))
+        mainActivityControlViewModel.updateTitle(getString(R.string.title_task_stats))
 
         super.onCreate(savedInstanceState)
     }
@@ -54,7 +54,7 @@ class TaskStatsFragment : Fragment() {
     private fun initViewModelsListeners() {
         mSummariesViewModel.onPeriodsFromTaskLoadedObserver.observe(viewLifecycleOwner, Observer {
             setNoContent()
-            if (!it.isAllEmpty()) {
+            if (!it.isPeriodEmpty()) {
                 mAdapter = TaskStatsRecyclerAdapter(it.periods)
                 recycler_view_task_stats.swapAdapter(mAdapter, true)
                 setHasContent()

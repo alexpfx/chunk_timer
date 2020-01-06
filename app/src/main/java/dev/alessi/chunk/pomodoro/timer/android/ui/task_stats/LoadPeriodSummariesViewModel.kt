@@ -5,8 +5,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dev.alessi.chunk.pomodoro.timer.android.App
+import dev.alessi.chunk.pomodoro.timer.android.database.SizeTimeCountTO
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.database.WorkUnit
+import dev.alessi.chunk.pomodoro.timer.android.repository.EstimateRepositoryProvider
 import dev.alessi.chunk.pomodoro.timer.android.repository.SliceRepositoryProvider
 import dev.alessi.chunk.pomodoro.timer.android.repository.TaskRepositoryProvider
 import dev.alessi.chunk.pomodoro.timer.android.ui.task.SelectTaskTO
@@ -27,6 +29,7 @@ class LoadPeriodSummariesViewModel(app: Application) : AndroidViewModel(app) {
 
     private val _allTaskAndPeriods = MutableLiveData<List<SelectTaskTO>>()
 
+
     val onPeriodsLoadedObserver: LiveData<List<SelectTaskTO>>
         get() = _allTaskAndPeriods
 
@@ -39,9 +42,12 @@ class LoadPeriodSummariesViewModel(app: Application) : AndroidViewModel(app) {
     private val sliceRepository
         get() = (getApplication<App>() as SliceRepositoryProvider).sliceRepository
 
+    private val estimationRepository
+        get() = (getApplication<App>() as EstimateRepositoryProvider).estimationRepository
 
 
-    fun loadAllAndSummarize() {
+
+    fun loadAllAndSummarizeAndEstimations() {
         scope.launch {
             val allSummariesTO = mutableListOf<SelectTaskTO>()
 
@@ -50,20 +56,42 @@ class LoadPeriodSummariesViewModel(app: Application) : AndroidViewModel(app) {
             }
 
             tasks.filter { task -> task.uid!! > 0 }.forEach { task ->
+                val taskId = task.uid!!
 
-                val slices = withContext(Dispatchers.IO) {
+                val doneSlices = withContext(Dispatchers.IO) {
 
-                    return@withContext sliceRepository.loadAllSlicesFromTask(task.uid!!)
+                    return@withContext sliceRepository.loadAllSlicesFromTask(taskId)
                 }
 
-                val summary = summarize(slices, task)
+                val estimations = withContext(Dispatchers.IO){
+                    return@withContext estimationRepository.countAllEstimationsFromTask(taskId)
+                }
+
+
+
+                val countMinutes = countMinutes(estimations)
+                val summary = summarize(doneSlices, task).copy(estimationMinutes = countMinutes)
+
+
                 allSummariesTO.add(summary)
+
             }
+
+
+
 
             _allTaskAndPeriods.value = allSummariesTO
 
         }
 
+    }
+
+    private fun countMinutes(estimations: List<SizeTimeCountTO>): Int {
+        var minutes = 0
+        estimations.forEach {
+            minutes += it.timeMinutes
+        }
+        return minutes
     }
 
 

@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.os.Bundle
@@ -28,28 +29,30 @@ import com.google.android.material.textview.MaterialTextView
 import com.google.gson.Gson
 import dev.alessi.chunk.pomodoro.timer.android.ClockView
 import dev.alessi.chunk.pomodoro.timer.android.R
-
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.service.ChunkTimerService
+import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_REQUEST_STATE_UPDATE
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_START_BREAK
 import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_START_TIMER
-import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_STOP
-import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_TICK
-import dev.alessi.chunk.pomodoro.timer.android.util.Command.Companion.ACTION_UPDATE_STATE
 import dev.alessi.chunk.pomodoro.timer.android.util.IntentBuilder
+import dev.alessi.chunk.pomodoro.timer.android.util.toFormatedElapsedInMinutes
+import dev.alessi.chunk.pomodoro.timer.android.util.toFormatedMinutes
 import kotlinx.android.synthetic.main.fragment_timer.*
 
+
+private const val inactiveAlpha = 0.4f
 
 class TimerFragment : Fragment() {
 
 
+    private var mStatus: @ChunkTimerService.TimerState Int = ChunkTimerService.TimerState.status_ready
+
     private lateinit var sizeBtns: List<ClockView>
 
-
-    private var mTimerRunning = false
     private lateinit var mTimerSharedViewModel: TimerSharedViewModel
     private lateinit var mSelectTaskSharedViewModel: SelectTaskSharedViewModel
-    private lateinit var mainSharedViewModel: MainSharedViewModel
+    private lateinit var mMainActivityControlViewModel: MainActivityControlViewModel
+    private lateinit var mStatusChangedViewModel: StatusChangedViewModel
 
     private var mSelectedIndex = 2
 
@@ -88,19 +91,22 @@ class TimerFragment : Fragment() {
         } ?: throw IllegalStateException("Invalid activity")
 
         activity?.run {
-            mainSharedViewModel = ViewModelProviders.of(this).get(MainSharedViewModel::class.java)
+            mMainActivityControlViewModel = ViewModelProviders.of(this).get(MainActivityControlViewModel::class.java)
         } ?: throw Throwable("invalid activity")
+
+        mStatusChangedViewModel = ViewModelProviders.of(this).get(StatusChangedViewModel::class.java)
 
         loadPreferences()
 
-        mainSharedViewModel.updateTitle(getString(R.string.app_name))
+        mMainActivityControlViewModel.updateTitle(getString(R.string.app_name))
+
     }
 
     override fun onStop() {
-
         mTimerSharedViewModel.breaktime.removeObservers(viewLifecycleOwner)
         mTimerSharedViewModel.sizeIndex.removeObservers(viewLifecycleOwner)
         mTimerSharedViewModel.sizes.removeObservers(viewLifecycleOwner)
+        mStatusChangedViewModel.removeAllObservers(viewLifecycleOwner)
 
         super.onStop()
     }
@@ -122,12 +128,6 @@ class TimerFragment : Fragment() {
 
         })
 
-        mTimerSharedViewModel.sizeIndex.observe(viewLifecycleOwner, Observer {
-            mSelectedIndex = it
-            resetTimer()
-            storePreferences()
-        })
-
         mTimerSharedViewModel.sizes.observe(viewLifecycleOwner, Observer {
             mSizes = it
             updateSizeButtons()
@@ -135,6 +135,48 @@ class TimerFragment : Fragment() {
             storePreferences()
         })
 
+        mTimerSharedViewModel.sizeIndex.observe(viewLifecycleOwner, Observer {
+            mSelectedIndex = it
+            resetTimer()
+            storePreferences()
+        })
+
+        mStatusChangedViewModel.onTimerStopped.observe(viewLifecycleOwner, Observer {
+            showTimerCanceled(intent = it)
+        })
+
+        mStatusChangedViewModel.onTimeStarted.observe(viewLifecycleOwner, Observer {
+            readIntentAndUpdateTimer(it)
+            showTimerStarted()
+        })
+
+        mStatusChangedViewModel.onBreakStarted.observe(viewLifecycleOwner, Observer {
+            readIntentAndUpdateTimer(it)
+            showBreakTimerStarted()
+
+        })
+
+        mStatusChangedViewModel.onTick.observe(viewLifecycleOwner, Observer {
+            readIntentAndUpdateTimer(it)
+
+        })
+
+
+    }
+
+    private fun updateSubtitle(status: Int, strCurrentTimer: String, strtPercent: String) {
+
+        val ref = when(status){
+            ChunkTimerService.TimerState.status_ready -> -1
+            ChunkTimerService.TimerState.status_running_timer -> R.string.message_toolbar_subtitle_timer_running
+            ChunkTimerService.TimerState.status_running_break -> R.string.message_toolbar_subtitle_break_running
+            else -> -1
+        }
+
+
+        val str = if (ref == -1) "" else getString(ref, strCurrentTimer, strtPercent)
+
+        mMainActivityControlViewModel.updateSubtitle(str)
     }
 
     private fun storePreferences() {
@@ -193,8 +235,9 @@ class TimerFragment : Fragment() {
 
         val timeMillis = timeMinutes * 60 * 1000.toLong()
 
-        updateTimer(timeMillis, timeMillis)
+        updateTimer(timeMillis, timeMillis, ChunkTimerService.TimerState.status_ready)
         updateColor()
+        mMainActivityControlViewModel.updateSubtitle("")
 
     }
 
@@ -203,13 +246,24 @@ class TimerFragment : Fragment() {
         txtTask.text = mTask.description
     }
 
-    private fun updateTimer(timeLeft: Long, totalTime: Long) {
-        val formatedTime = DateUtils.formatElapsedTime(timeLeft / 1000)
+    private fun updateTimer(timeLeft: Long, totalTime: Long, status: Int) {
+//        val formatedTime = DateUtils.formatElapsedTime(timeLeft / 1000)
+        val formatedTime = timeLeft.toFormatedElapsedInMinutes()
+
         txtMainTimer.text = formatedTime
+
 
         val percFinish: Double = (100 - ((timeLeft.toDouble()) * 100 / totalTime))
 
+
+        /*if (mTimerRunning)
+            updateTimerTextAppereance(timeLeft.toMinutes().toInt())*/
+
+
         val xstr = "%.1f".format(percFinish)
+
+        updateSubtitle(status, strCurrentTimer = totalTime.toFormatedMinutes(), strtPercent = xstr)
+
 
 //        txtPercent.text = "$xstr %"
 //        separator_view.progress = percFinish.toInt()
@@ -279,25 +333,12 @@ class TimerFragment : Fragment() {
             IntentFilter(ChunkTimerService.message_broadcast_message)
         )
 
-        if (mTimerRunning) {
-            mServiceController?.requestStateUpdate()
-        }
+
+        mServiceController?.requestStateUpdate()
 
         super.onResume()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.putBoolean("isRunning", mTimerRunning)
-        super.onSaveInstanceState(outState)
-    }
-
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        if (savedInstanceState != null) {
-            mTimerRunning = savedInstanceState.getBoolean("isRunning")
-        }
-        super.onViewStateRestored(savedInstanceState)
-    }
 
     override fun onPause() {
         Log.d(tag, "onPause")
@@ -330,6 +371,7 @@ class TimerFragment : Fragment() {
             if (button.isChecked) {
                 selectedButtonColor = button.borderColor
             }
+            activateView(button, button.isChecked)
         }
 
         updateTimerTextStyle(selectedButtonColor)
@@ -340,13 +382,18 @@ class TimerFragment : Fragment() {
     private fun updateTimerTextStyle(selectedButtonColor: Int) {
 
         val timeMinutes = mSizes[mSelectedIndex]
-        if (timeMinutes >= 60) {
+        updateTimerTextAppereance(timeMinutes)
+
+        txtMainTimer.setTextColor(selectedButtonColor)
+    }
+
+    private fun updateTimerTextAppereance(timeMinutes: Int) {
+        if (timeMinutes >= 100) {
             setTextAppereance(txtMainTimer, R.style.TextAppearance_AppCompat_Display3)
         } else {
             setTextAppereance(txtMainTimer, R.style.TextAppearance_AppCompat_Display4)
         }
 
-        txtMainTimer.setTextColor(selectedButtonColor)
     }
 
     private fun setTextAppereance(view: TextView, style: Int) {
@@ -365,7 +412,9 @@ class TimerFragment : Fragment() {
             if (mTask.description.isEmpty()) getString(R.string.message_hint_no_task) else mTask.description
         txtTask.text = txtTaskText
 
-        disableViews()
+        onTimerStarted()
+
+
 
     }
 
@@ -375,11 +424,10 @@ class TimerFragment : Fragment() {
 
         txtTask.text = getString(R.string.label_breaktime)
 
-        disableViews()
+        onTimerStarted()
     }
 
     fun showTimerCanceled(intent: Intent) { //
-        btnCancelTimer.visibility = View.INVISIBLE
 
         if (mTask.description.isEmpty()) {
             mSelectTaskSharedViewModel.selectTask(
@@ -389,133 +437,108 @@ class TimerFragment : Fragment() {
                 )
             )
         }
-        enableViews()
-    }
+        onTimerStopped()
 
-
-    private fun showBreakTimerCanceled(intent: Intent) {
-        val timeLeft = intent.getLongExtra(ChunkTimerService.extra_param_current_time, 0)
-        val totalTime = intent.getLongExtra(ChunkTimerService.extra_param_total_time_millis, 5)
-
-        btnCancelTimer.visibility = View.INVISIBLE
-
-        enableViews()
-
-        updateTimer(timeLeft, totalTime)
+        loadPreferences()
 
     }
 
-    private fun enableViews() {
-        btnStartTimer.visibility = View.VISIBLE
-        btnStartBreak.visibility = View.VISIBLE
-        forAllSizeButtons { b -> b.isEnabled = true }
 
-        layoutTimerSettings.visibility = View.VISIBLE
+//    private fun showBreakTimerCanceled(intent: Intent) {
+//        val timeLeft = intent.getLongExtra(ChunkTimerService.extra_param_current_time, 0)
+//        val totalTime = intent.getLongExtra(ChunkTimerService.extra_param_total_time_millis, 5)
+//
+//        btnCancelTimer.visibility = View.INVISIBLE
+//
+//        onTimerStopped()
+//
+//        updateTimer(timeLeft, totalTime, status)
+//
+//    }
 
-        btnOpenSettings.visibility = View.VISIBLE
-        txtTask.isEnabled = true
-//        btnClearTask.visibility = View.VISIBLE
-
-        forAllSizeButtons { btn: ClockView ->
-            activeButton(btn)
+    private fun onTimerStopped() {
+        forAllSizeButtons { b ->
+            b.isEnabled = true
+            activateView(b, b.isEnabled)
         }
 
-        txtTask.visibility = View.VISIBLE
 
+        card_task.visibility = View.VISIBLE
+        setTaskEnabled(true)
 
+        groupHideOnStart.visibility = View.VISIBLE
+        groupShowOnStart.visibility = View.INVISIBLE
     }
 
+    private fun onTimerStarted() {
 
-    private fun activeButton(btn: ClockView) {
-        btn.alpha = 1f
-    }
-
-
-    private fun disableViews() {
-        btnStartTimer.visibility = View.INVISIBLE
-        btnStartBreak.visibility = View.INVISIBLE
         forAllSizeButtons { b -> b.isEnabled = false }
-        layoutTimerSettings.visibility = View.GONE
-
-        btnOpenSettings.visibility = View.INVISIBLE
-        txtTask.isEnabled = false
-//        btnClearTask.visibility = View.INVISIBLE
 
         if (mTask.uid == -1) {
-            txtTask.visibility = View.INVISIBLE
+            card_task.visibility = View.INVISIBLE
+        } else {
+            setTaskEnabled(false)
         }
 
 
+        groupHideOnStart.visibility = View.INVISIBLE
+        groupShowOnStart.visibility = View.VISIBLE
 
         hideUnselectedSizeButtons()
     }
 
-    private fun hideUnselectedSizeButtons() {
-        forAllSizeButtons { btn: ClockView ->
-            if (!btn.isChecked) {
-                inativeButton(btn)
+    private fun setTaskEnabled(enabled: Boolean) {
+        txtTask.isEnabled = enabled
+        activateView(txtTask, enabled)
+        txtTask.compoundDrawables.forEach {
+            it?.let {
+                activateDrawable(it, enabled)
             }
+        }
+
+
+    }
+
+    private fun activateDrawable(drawable: Drawable, activate: Boolean) {
+        if (activate) {
+            drawable.alpha = 255
+        } else {
+            drawable.alpha = (inactiveAlpha * 255).toInt()
         }
     }
 
-    private fun inativeButton(btn: ClockView) {
-        btn.alpha = 0.4f
+    private fun activateView(view: View, activate: Boolean) {
+        if (activate) {
+            view.alpha = 1f
+        } else {
+            view.alpha = inactiveAlpha
+        }
+
+    }
+
+
+    private fun hideUnselectedSizeButtons() {
+        forAllSizeButtons { btn: ClockView ->
+            if (!btn.isChecked) {
+                activateView(btn, false)
+            }
+        }
     }
 
 
     private val mTickReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-
-            when (@Command IntentBuilder.getCommand(
-                intent
-            )) {
-                ACTION_STOP -> {
-                    showTimerCanceled(intent)
-
-                    val index = intent.getIntExtra(ChunkTimerService.extra_param_last_index, 2)
-                    mTimerSharedViewModel.setSizeIndex(index)
-
-                }
-                ACTION_TICK -> showTick(intent)
-                ACTION_START_TIMER -> showTimerStarted()
-                ACTION_UPDATE_STATE -> updateState(intent)
-                ACTION_START_BREAK -> showBreakTimerStarted()
-            }
-
+            if (IntentBuilder.getCommand(intent) == ACTION_REQUEST_STATE_UPDATE) mStatusChangedViewModel.updateStatus(intent)
         }
     }
 
-    private fun updateState(intent: Intent) {
+
+    private fun readIntentAndUpdateTimer(intent: Intent) {
         val timeLeft = intent.getLongExtra(ChunkTimerService.extra_param_current_time, 0)
         val totalTime = intent.getLongExtra(ChunkTimerService.extra_param_total_time_millis, 25)
-
         val status = intent.getIntExtra(ChunkTimerService.extra_param_status, 0)
 
-        mTimerRunning = status != ChunkTimerService.TimerState.status_ready
-
-        updateTimer(timeLeft, totalTime)
-        showBreakTimerCanceled(intent)
-        showTimerCanceled(intent)
-
-        when (status) {
-            ChunkTimerService.TimerState.status_ready -> {
-            }
-            ChunkTimerService.TimerState.status_running_timer -> {
-                showTimerStarted()
-            }
-            ChunkTimerService.TimerState.status_running_break -> {
-                showBreakTimerStarted()
-            }
-
-        }
-
-    }
-
-    fun showTick(intent: Intent) {
-        val timeLeft = intent.getLongExtra(ChunkTimerService.extra_param_current_time, 0)
-        val totalTime = intent.getLongExtra(ChunkTimerService.extra_param_total_time_millis, 25)
-
-        updateTimer(timeLeft, totalTime)
+        updateTimer(timeLeft, totalTime, status)
     }
 
 
@@ -565,15 +588,14 @@ class TimerFragment : Fragment() {
     }
 
     private fun actionStartBreaktime(view: View) {
-        mTimerRunning = true
         mServiceController?.doStartService(
             mBreaktime * 60 * 1000.toLong(),
             mSelectedIndex, -1, ACTION_START_BREAK
         )
+
     }
 
     private fun actionStartTimer(view: View) {
-        mTimerRunning = true
         val timeMinutes = mSizes[mSelectedIndex]
 
         mServiceController?.doStartService(
@@ -581,11 +603,9 @@ class TimerFragment : Fragment() {
             mSelectedIndex, mTask.uid!!, ACTION_START_TIMER
         )
 
-
     }
 
     private fun actionCancelTimer(view: View) {
-        mTimerRunning = false
         mServiceController?.doStopService()
 
     }
@@ -597,6 +617,11 @@ class TimerFragment : Fragment() {
     private fun forAllSizeButtons(action: (ClockView) -> Unit) {
         sizeBtns.onEach(action)
     }
+
+    private fun forAllCheckedButtons(action: (ClockView) -> Unit) {
+        sizeBtns.filter { (mSelectedIndex == it.tag) }.onEach(action)
+    }
+
 
 }
 

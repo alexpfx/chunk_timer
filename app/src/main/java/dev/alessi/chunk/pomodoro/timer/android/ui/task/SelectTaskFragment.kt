@@ -17,7 +17,7 @@ import com.google.android.material.snackbar.Snackbar
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.task.addedit.AddEditTaskSharedViewModel
-import dev.alessi.chunk.pomodoro.timer.android.ui.MainSharedViewModel
+import dev.alessi.chunk.pomodoro.timer.android.ui.MainActivityControlViewModel
 import dev.alessi.chunk.pomodoro.timer.android.ui.SelectTaskSharedViewModel
 import dev.alessi.chunk.pomodoro.timer.android.ui.task_stats.LoadPeriodSummariesViewModel
 import dev.alessi.chunk.pomodoro.timer.android.util.bool
@@ -33,7 +33,7 @@ class SelectTaskFragment : Fragment() {
 
     private lateinit var mSelectTaskViewModel: SelectTaskSharedViewModel
 
-    private lateinit var mainSharedViewModel: MainSharedViewModel
+    private lateinit var mainActivityControlViewModel: MainActivityControlViewModel
 
     private lateinit var mTaskViewModel: TaskViewModel
 
@@ -55,6 +55,8 @@ class SelectTaskFragment : Fragment() {
         mSummariesViewModel =
             ViewModelProviders.of(this).get(LoadPeriodSummariesViewModel::class.java)
 
+
+
         mSelectTaskViewModel = activity?.run {
             ViewModelProviders.of(this)[SelectTaskSharedViewModel::class.java]
         } ?: throw IllegalStateException("Invalid activity")
@@ -62,10 +64,10 @@ class SelectTaskFragment : Fragment() {
         activity?.setTitle(R.string.title_select_task)
 
         activity?.run {
-            mainSharedViewModel = ViewModelProviders.of(this).get(MainSharedViewModel::class.java)
+            mainActivityControlViewModel = ViewModelProviders.of(this).get(MainActivityControlViewModel::class.java)
         } ?: throw Throwable("invalid activity")
 
-        mainSharedViewModel.updateTitle(getString(R.string.title_select_task))
+        mainActivityControlViewModel.updateTitle(getString(R.string.title_select_task))
 
     }
 
@@ -141,7 +143,7 @@ class SelectTaskFragment : Fragment() {
         } else {
             Snackbar.make(contextView, R.string.message_task_unarchived, Snackbar.LENGTH_SHORT)
                 .show()
-            mSummariesViewModel.loadAllAndSummarize()
+            mSummariesViewModel.loadAllAndSummarizeAndEstimations()
         }
     }
 
@@ -209,7 +211,7 @@ class SelectTaskFragment : Fragment() {
 
 //        recycler_view_select_task.addItemDecoration(dividerItemDecoration)
 
-        mSummariesViewModel.loadAllAndSummarize()
+        mSummariesViewModel.loadAllAndSummarizeAndEstimations()
 
 
         fabAddTask.setOnClickListener(::actionOpenAddTaskDialog)
@@ -219,7 +221,7 @@ class SelectTaskFragment : Fragment() {
 
     private fun initViewModelsListeners() {
         mAddEditTaskSharedViewModel.onNewTaskObserver.observe(viewLifecycleOwner, (Observer {
-            mSummariesViewModel.loadAllAndSummarize()
+            mSummariesViewModel.loadAllAndSummarizeAndEstimations()
         }))
 
         mTaskViewModel.taskArchivedObserver.observe(

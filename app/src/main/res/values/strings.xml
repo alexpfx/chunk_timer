@@ -48,7 +48,13 @@
 
 
 
-    <string name="message_title_timer_running">Pizza Timer em execução</string>
+    <string name="message_title_timer_running">Timer em execução</string>
+
+    <string name="message_toolbar_subtitle_timer_running">Timer de %s em execução: %s%%</string>
+
+    <string name="message_toolbar_subtitle_break_running">Intervalo de %s em execução: %s%%</string>
+
+
     <string name="message_title_timer_running_break">Em intervalo</string>
     <string name="message_content_title_timer_running">Matenha o foco!</string>
     <string name="message_content_timer_running_break">Descanse!</string>
@@ -127,6 +133,7 @@
     <string name="symbol_no_data">-</string>
 
     <string name="nothing_yet">Nenhum Ainda</string>
+    <string name="nothing_yet_fem">Nenhuma Ainda</string>
     <string name="content_description_size0">Timer tamanho PP</string>
     <string name="content_description_size1">Timer tamanho P</string>
     <string name="content_description_size2">Timer tamanho M</string>
@@ -154,4 +161,5 @@
 
 
 </resources>
+
 

@@ -8,11 +8,13 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.constraintlayout.widget.Group
 import androidx.core.content.ContextCompat
+import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.ui.task_stats.PeriodSummaryTO
 import dev.alessi.chunk.pomodoro.timer.android.util.RuntimeViewFactory
+import dev.alessi.chunk.pomodoro.timer.android.util.toFormatedTime
 
 
 class SelectTaskRecyclerAdapter(
@@ -164,7 +166,9 @@ class TaskViewHolder(
     private var expanded = false
 
     private val linearLayoutEstimation =
-        view.findViewById<LinearLayout>(R.id.linearLayoutDone)
+        view.findViewById<LinearLayout>(R.id.linearLayoutEstimation)
+
+    private val linearLayoutDone = view.findViewById<LinearLayout>(R.id.linearLayoutDone)
 
 
     init {
@@ -220,19 +224,13 @@ class TaskViewHolder(
     private fun addChild(index: Int, value: Int, drawableRes: Int) {
 
         linearLayoutEstimation.addView(
-            RuntimeViewFactory.createTextViewSliceSummary(
-                context,
-                value,
-                index
-            ), LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
+            RuntimeViewFactory.createChip(context, value.toFormatedTime())
         )
 
     }
 
     fun bind(taskSummaryTO: SelectTaskTO) {
+
         this.taskSummaryTO = taskSummaryTO
 
         txtTaskDesc.text = taskSummaryTO.task.description
@@ -243,18 +241,25 @@ class TaskViewHolder(
         btnArchive.tag = taskSummaryTO
         btnEstimate.tag = taskSummaryTO
 
-
+        if (taskSummaryTO.estimationMinutes > 0){
+            linearLayoutEstimation.removeAllViews()
+            addChild(0, taskSummaryTO.estimationMinutes, -1)
+        }
 
         val summary = taskSummaryTO.getPeriod()
 
         setChipSummary(summary)
-
 
         val dateTime = taskSummaryTO.task.dateCreated?.time!!
 
         val formatDate = DateUtils.formatDateTime(
             context, dateTime, DateUtils.FORMAT_SHOW_TIME or DateUtils.FORMAT_SHOW_DATE or
                     DateUtils.FORMAT_SHOW_YEAR or DateUtils.FORMAT_SHOW_WEEKDAY or DateUtils.FORMAT_ABBREV_ALL
+
+
+
+
+
         )
 
 //        txtTaskCreatedAt.text =

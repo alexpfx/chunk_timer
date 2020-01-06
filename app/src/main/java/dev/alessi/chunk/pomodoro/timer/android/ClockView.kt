@@ -100,7 +100,7 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
 
 
     private fun FloatArray.andPrint(): FloatArray {
-        println(this.contentToString())
+
         return this
     }
 
@@ -149,7 +149,7 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
     }
 
     override fun setSelected(selected: Boolean) {
-        println(selected)
+
         super.setSelected(selected)
     }
 
@@ -300,12 +300,6 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
 
             val cx = width / 2f
             val cy = height / 2f
-
-            println("width before $width")
-
-
-
-            println("width after $width")
 
 
 //            mFillPaint.set(mFillPaint.apply {

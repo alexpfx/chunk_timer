@@ -8,7 +8,7 @@ import dev.alessi.chunk.pomodoro.timer.android.util.debug
 data class SelectTaskTO(
     val task: Task,
     val periods: List<PeriodSummaryTO>,
-
+    val estimationMinutes: Int = 0,
     private var selected: Int = 0,
     var visible: Boolean = true
 ) {
@@ -31,7 +31,7 @@ data class SelectTaskTO(
         return periods.find { it.period == p }
     }
 
-    fun isAllEmpty(): Boolean {
+    fun isPeriodEmpty(): Boolean {
         for (period in periods) {
             if (!period.isEmpty()) {
                 return false
@@ -39,6 +39,8 @@ data class SelectTaskTO(
         }
         return true
     }
+
+
 
 
 }

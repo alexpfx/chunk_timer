@@ -7,7 +7,7 @@ interface ChunkTimerServiceControl {
 
     fun doStopService()
 
-    fun requestTick()
+
     fun requestStateUpdate()
     fun doStartService(
         totalTimeMillis: Long,

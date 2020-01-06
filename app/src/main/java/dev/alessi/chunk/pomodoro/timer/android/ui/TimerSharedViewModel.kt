@@ -1,5 +1,6 @@
 package dev.alessi.chunk.pomodoro.timer.android.ui
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
@@ -7,7 +8,9 @@ import dev.alessi.chunk.pomodoro.timer.android.database.Task
 class TimerSharedViewModel : ViewModel() {
 
     val breaktime = MutableLiveData<Int>()
-    val sizeIndex = MutableLiveData<Int>()
+    private val _sizeIndex = MutableLiveData<Int>()
+
+
     val sizes = MutableLiveData<List<Int>>()
 
     val task = MutableLiveData<Task>()
@@ -17,9 +20,12 @@ class TimerSharedViewModel : ViewModel() {
         this.breaktime.value = breaktimeMinutes
     }
 
+    val sizeIndex: LiveData<Int>
+        get() = _sizeIndex
+
 
     fun setSizeIndex(sizeIndex: Int) {
-        this.sizeIndex.value = sizeIndex
+        this._sizeIndex.value = sizeIndex
     }
 
 

@@ -15,21 +15,19 @@ import dev.alessi.chunk.pomodoro.timer.android.repository.SliceRepository
 import dev.alessi.chunk.pomodoro.timer.android.repository.SliceRepositoryProvider
 import dev.alessi.chunk.pomodoro.timer.android.settings.SettingsFragment
 import dev.alessi.chunk.pomodoro.timer.android.ui.TimerActivity
-import dev.alessi.chunk.pomodoro.timer.android.ui.TimerFragment
 import dev.alessi.chunk.pomodoro.timer.android.util.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import java.util.*
 
 
 class ChunkTimerService : Service() {
 
 
+    private var mOldStatus: Int = TimerState.status_ready
     private var mServiceStarted = false
     private var mStatus: @TimerState Int =
         TimerState.status_ready
+
     private var mCurrentTime: Long = 0
     private var mTotalTime: Long = 0
     private lateinit var mChunckTimer: ChunkCountDownTimer
@@ -64,9 +62,10 @@ class ChunkTimerService : Service() {
 
         const val extra_param_total_time_millis = "param_total_time"
         const val extra_param_status = "extra_param_status"
+        const val extra_param_old_status = "extra_param_old_status"
         const val extra_param_slice_id = "extra_param_slice_id"
         const val extra_param_current_time = "extra_param_current_time"
-        const val extra_param_last_index = "extra_param_last_index"
+
         const val extra_param_no_sound_on_tick = "extra_param_no_sound_on_tick"
         const val extra_param_a_timer_was_finish = "extra_param_a_timer_was_finish"
         const val extra_param_sizeIndex = "extra_param_sizeIndex"
@@ -94,7 +93,12 @@ class ChunkTimerService : Service() {
 
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        processIntent(intent)
+        val command = handleCommandIntent(intent)
+
+        if (Command.ACTION_REQUEST_STATE_UPDATE == command || Command.INVALID == command){
+            return START_NOT_STICKY
+        }
+
 
         mNotificationManagerCompat = NotificationManagerCompat.from(this)
 
@@ -112,32 +116,28 @@ class ChunkTimerService : Service() {
     }
 
 
-    private fun processIntent(intent: Intent) {
+    private fun handleCommandIntent(intent: Intent): Int {
+        val command = IntentBuilder.getCommand(intent)
 
-        when (IntentBuilder.getCommand(intent)) {
+        println("handleCommandIntent: $command")
+        when (command) {
             Command.ACTION_START_TIMER -> commandStart(intent)
             Command.ACTION_START_BREAK -> commandStartBreak(intent)
             Command.ACTION_STOP -> commandStop()
-            Command.ACTION_REQUEST_TICK -> requestTick()
-            Command.ACTION_UPDATE_STATE -> commandUpdateStatus()
+            Command.ACTION_REQUEST_STATE_UPDATE -> commandRequestStatusUpdate()
         }
 
+        return command
+
+
     }
 
 
-    private fun commandUpdateStatus() {
-        if (mStatus != TimerState.status_ready)
-            broadcastState()
+    private fun commandRequestStatusUpdate() {
+
+        broadcastState()
     }
 
-
-    private fun requestTick() {
-        if (mServiceStarted && (mStatus == TimerState.status_running_timer || mStatus == TimerState.status_running_break)) {
-            broadcastTick(silentTick = true)
-            mNotificationManagerCompat.notifyTick(mCurrentTime, applicationContext, mStatus)
-            debug("requestTick")
-        }
-    }
 
     private fun commandStartBreak(intent: Intent) {
         if (!mServiceStarted) {
@@ -145,18 +145,15 @@ class ChunkTimerService : Service() {
         } else {
             mTotalTime = intent.getLongExtra(extra_param_total_time_millis, 10 * 60 * 1000)
             mChunckTimer = createTimer(mTotalTime).also { it.start() }
-            mStatus =
-                TimerState.status_running_break
 //            startForeground(ongoing_notification_break_id, getNotification())
-            broadCastTimerStarted(Command.ACTION_START_BREAK)
+
+            setNewStatus(TimerState.status_running_break)
 
         }
 
     }
 
-    private fun getPreference(): SharedPreferences {
-        return PreferenceManager.getDefaultSharedPreferences(this)
-    }
+
 
     private fun commandStart(intent: Intent) {
         if (!mServiceStarted) {
@@ -172,11 +169,14 @@ class ChunkTimerService : Service() {
 
         mChunckTimer = createTimer(mTotalTime).also { it.start() }
 
-        mStatus =
-            TimerState.status_running_timer
+
+
+
 //        startForeground(ongoing_notification_id, getNotification())
 
-        broadCastTimerStarted(Command.ACTION_START_TIMER)
+//        broadCastTimerStarted(Command.ACTION_START_TIMER)
+        setNewStatus(TimerState.status_running_timer)
+
     }
 
     private fun runTheService(intent: Intent) {
@@ -192,53 +192,70 @@ class ChunkTimerService : Service() {
         stopForeground(true)
         stopSelf()
         mServiceStarted = false
-        mStatus =
-            TimerState.status_ready
 
-        broadcastTimerStopped()
+        setNewStatus(TimerState.status_ready)
 
-    }
 
-    private fun broadcastTimerStopped() {
-        val bundle = Bundle()
 
-        bundle.putInt(extra_param_status, mStatus)
-        bundle.putLong(extra_param_total_time_millis, mTotalTime)
-        bundle.putLong(extra_param_current_time, mTotalTime)
-
-        //TODO
-        val lastIndex = getPreference().getInt(TimerFragment.KEY_LAST_INDEX, 2)
-        bundle.putInt(extra_param_last_index, lastIndex)
-        val intent =
-            IntentBuilder.getIntentForAction(message_broadcast_message, Command.ACTION_STOP, bundle)
-
-        sendBroadcast(intent)
 
     }
 
-    private fun broadCastTimerStarted(@Command command: Int) {
-        val bundle = Bundle()
-        bundle.putInt(extra_param_status, mStatus)
+    private fun setNewStatus(newStatus: Int) {
 
-        val intent = IntentBuilder.getIntentForAction(
-            message_broadcast_message,
-            command,
-            bundle
-        )
 
-        sendBroadcast(intent)
+        mOldStatus = mStatus
+        mStatus = newStatus
+
+        println("setNewStatus $mOldStatus $mStatus")
+        broadcastState()
     }
+
+
+//    //TODO fazer este controle pelo update status
+//    private fun broadcastTimerStopped() {
+//        val bundle = Bundle()
+//
+//        bundle.putInt(extra_param_status, mStatus)
+//        bundle.putLong(extra_param_total_time_millis, mTotalTime)
+//        bundle.putLong(extra_param_current_time, mTotalTime)
+//
+//        //TODO last index deve ser setado quando troca o timer
+//        val lastIndex = getPreference().getInt(TimerFragment.KEY_LAST_INDEX, 2)
+//        bundle.putInt(extra_param_last_index, lastIndex)
+//        val intent =
+//            IntentBuilder.getIntentForAction(message_broadcast_message, Command.ACTION_STOP, bundle)
+//
+//        sendBroadcast(intent)
+//
+//    }
+
+//    //TODO fazer este controle pelo update status
+//    private fun broadCastTimerStarted(@Command command: Int) {
+//        val bundle = Bundle()
+//        bundle.putInt(extra_param_status, mStatus)
+//
+//        val intent = IntentBuilder.getIntentForAction(
+//            message_broadcast_message,
+//            command,
+//            bundle
+//        )
+//
+////        sendBroadcast(intent)
+//        broadcastState()
+//    }
 
     private fun broadcastState() {
         val extras = Bundle()
+        extras.putInt(extra_param_old_status, mOldStatus)
         extras.putInt(extra_param_status, mStatus)
+
         extras.putLong(extra_param_current_time, mCurrentTime)
         extras.putLong(extra_param_total_time_millis, mTotalTime)
 
         val intent =
             IntentBuilder.getIntentForAction(
                 message_broadcast_message,
-                Command.ACTION_UPDATE_STATE,
+                Command.ACTION_REQUEST_STATE_UPDATE,
                 extras
             )
 
@@ -286,7 +303,9 @@ class ChunkTimerService : Service() {
     private fun onTick(timeLeft: Long) {
         mCurrentTime = timeLeft
 
-        broadcastTick()
+//        broadcastTick()
+        setNewStatus(mStatus)
+        broadcastState()
         mNotificationManagerCompat.notifyTick(mCurrentTime, applicationContext, mStatus)
     }
 

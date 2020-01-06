@@ -51,6 +51,12 @@ fun Date.beginningOfMonth(): Date {
     return cal.time
 }
 
+
+fun Long.toMinutes(): Long{
+    return (this / 60000)
+
+}
+
 fun Int.toFormatedTime(): String {
     val seconds = this * 60
     val hours = seconds / PeriodSummaryTO.hours_const_div

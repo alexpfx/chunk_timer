@@ -1,7 +1,5 @@
 package dev.alessi.chunk.pomodoro.timer.android.ui
 
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -14,7 +12,6 @@ import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import dev.alessi.chunk.pomodoro.timer.android.R
-import dev.alessi.chunk.pomodoro.timer.android.database.WorkUnit
 import dev.alessi.chunk.pomodoro.timer.android.service.ChunkTimerService
 import dev.alessi.chunk.pomodoro.timer.android.ui.dialog.TimerFinishViewModel
 import dev.alessi.chunk.pomodoro.timer.android.util.Command
@@ -25,7 +22,7 @@ class TimerActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener, ChunkTimerServiceControl {
 
 
-    private lateinit var mSharedViewModel: MainSharedViewModel
+    private lateinit var mActivityControlViewModel: MainActivityControlViewModel
     private lateinit var mTimerFinishViewModel: TimerFinishViewModel
 
     override fun onDestinationChanged(
@@ -71,13 +68,18 @@ class TimerActivity : AppCompatActivity(),
         setSupportActionBar(toolbar)
 
 
-        mSharedViewModel = ViewModelProviders.of(this).get(MainSharedViewModel::class.java)
+        mActivityControlViewModel = ViewModelProviders.of(this).get(MainActivityControlViewModel::class.java)
 
         mTimerFinishViewModel = ViewModelProviders.of(this).get(TimerFinishViewModel::class.java)
 
-        mSharedViewModel.title.observe(this, Observer {
+        mActivityControlViewModel.title.observe(this, Observer {
             supportActionBar?.title = it
         })
+
+        mActivityControlViewModel.subtitle.observe(this, Observer {
+            supportActionBar?.subtitle = it
+        })
+
 
     }
 
@@ -153,22 +155,12 @@ class TimerActivity : AppCompatActivity(),
         startService(intent)
     }
 
-    override fun requestTick() {
-        val intent =
-            IntentBuilder.getIntentForService(
-                this,
-                Command.ACTION_REQUEST_TICK
-            )
-        startService(intent)
-    }
-
 
     override fun requestStateUpdate() {
-
         val intent =
             IntentBuilder.getIntentForService(
                 this,
-                Command.ACTION_UPDATE_STATE
+                Command.ACTION_REQUEST_STATE_UPDATE
             )
         startService(intent)
     }

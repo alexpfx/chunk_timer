@@ -8,6 +8,8 @@ import android.os.Build
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -18,6 +20,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.setPadding
 import com.google.android.flexbox.FlexboxLayout
+import com.google.android.material.chip.Chip
 import dev.alessi.chunk.pomodoro.timer.android.ClockView
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.domain.SizeIndex
@@ -269,6 +272,14 @@ class RuntimeViewFactory {
             } else {
                 textViewTotalizer.setTextAppearance(R.style.TextAppearance_AppCompat_Caption)
             }
+        }
+
+
+        fun createChip(context: Context, text: String): View{
+            val chip = Chip(context)
+            val lp = LinearLayout.LayoutParams(WRAP_CONTENT, MATCH_PARENT)
+            chip.text = text
+            return chip
         }
 
 

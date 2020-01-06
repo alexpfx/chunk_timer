@@ -149,12 +149,8 @@
             android:layout_marginBottom="32dp"
             android:text="@string/button_label_cancel"
 
-            android:visibility="invisible"
-
 
             app:icon="@drawable/ic_cancel_black_24dp"
-
-
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -300,8 +296,7 @@
 
 
         <com.google.android.material.card.MaterialCardView
-
-            android:id="@+id/cardTask"
+            android:id="@+id/card_task"
             style="@style/Widget.MaterialComponents.CardView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -404,10 +399,19 @@
         </LinearLayout>
 
         <androidx.constraintlayout.widget.Group
-            android:id="@+id/layoutTimerSettings"
+            android:id="@+id/groupHideOnStart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="btnIconSetBreak,txtTimerDisplay,btnIconSetTaskTimes,txtBreakTimeDisplay,btnOpenSettings" />
+            android:visibility="visible"
+            app:constraint_referenced_ids="btnStartTimer,btnStartBreak,btnOpenSettings,txtTimerDisplay,btnIconSetBreak,txtBreakTimeDisplay,btnIconSetTaskTimes" />
+
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/groupShowOnStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:constraint_referenced_ids=",btnCancelTimer" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

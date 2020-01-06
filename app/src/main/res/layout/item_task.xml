@@ -76,9 +76,9 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="16dp"
                 android:tint="@color/color_on_primary"
-                app:layout_constraintBottom_toBottomOf="@+id/layoutTimerSettings"
+                app:layout_constraintBottom_toBottomOf="@+id/groupHideOnStart"
 
-                app:layout_constraintTop_toTopOf="@+id/layoutTimerSettings"
+                app:layout_constraintTop_toTopOf="@+id/groupHideOnStart"
                 app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
 
 

@@ -166,7 +166,17 @@
             app:layout_constraintStart_toStartOf="@id/txt_task_desk"
 
             app:layout_constraintTop_toBottomOf="@id/txtLabelDone"
-            tools:layout_height="20dp" />
+            tools:layout_height="20dp" >
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="@string/nothing_yet"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/txtLabelEstimation"
@@ -201,7 +211,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:text="@string/nothing_yet"
+                android:text="@string/nothing_yet_fem"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
         </LinearLayout>
 
