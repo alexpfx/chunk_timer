@@ -16,7 +16,7 @@ fun Long.toFormatedMinutes(): String {
     return if (minutes < 100)
         "${rMinutes.toString().padStart(2, '0')} min"
     else
-        "${hours}h ${minutes.rem(60).toString().padStart(2, '0')} min"
+        "${hours}h${minutes.rem(60).toString().padStart(2, '0')} min"
 
 }
 
@@ -36,14 +36,3 @@ fun Long.toFormatedElapsedInMinutes(): String {
 
 
 }
-
-//fun Int.toFormatedTime(): String {
-//    val seconds = this * 60
-//
-//
-//    val hours = seconds / PeriodSummaryTO.hours_const_div
-//    val s = seconds.rem(PeriodSummaryTO.hours_const_div)
-//    val minutes = s / PeriodSummaryTO.min_const_div
-//
-//    return "${hours}h${minutes.toString().padStart(2, '0')}m"
-//}

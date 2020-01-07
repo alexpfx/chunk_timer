@@ -3,23 +3,24 @@ package dev.alessi.chunk.pomodoro.timer.android.util
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import dev.alessi.chunk.pomodoro.timer.android.service.ChunkCountDownTimer
 import dev.alessi.chunk.pomodoro.timer.android.service.ChunkTimerService
 import dev.alessi.chunk.pomodoro.timer.android.ui.TimerActivity
 
 
-const val KEY_COMMAND = "KEY_COMMAND"
+
 
 class IntentBuilder {
     companion object {
 
-        fun getIntentForAction(
+        fun getIntentForEvent(
             action: String,
-            @Command command: Int,
+            @ChunkTimerService.Event event: Int,
             extras: Bundle? = null
         ): Intent {
             val intent = Intent(action)
 
-            intent.putExtra(KEY_COMMAND, command)
+            intent.putExtra(ChunkTimerService.extra_param_event, event)
 
             if (extras != null) {
                 intent.putExtras(extras)
@@ -29,7 +30,7 @@ class IntentBuilder {
 
         fun getIntentForActivity(
             context: Context,
-            @Command command: Int,
+            @ChunkTimerService.Command command: Int,
             extras: Bundle? = null
         ): Intent {
             return getIntent(
@@ -42,7 +43,7 @@ class IntentBuilder {
 
         fun getIntentForService(
             context: Context,
-            @Command command: Int,
+            @ChunkTimerService.Command command: Int,
             extras: Bundle? = null
         ): Intent {
             return getIntent(
@@ -56,13 +57,13 @@ class IntentBuilder {
 
         private fun getIntent(
             context: Context,
-            @Command command: Int,
+            @ChunkTimerService.Command command: Int,
             extras: Bundle? = null,
             clazz: Class<*>
         ): Intent {
             val intent = Intent(context, clazz)
 
-            intent.putExtra(KEY_COMMAND, command)
+            intent.putExtra(ChunkTimerService.extra_param_command, command)
 
             if (extras != null) {
                 intent.putExtras(extras)
@@ -70,31 +71,20 @@ class IntentBuilder {
             return intent
         }
 
-        @Command
-        fun getCommand(intent: Intent): Int {
+        fun getEvent(intent: Intent): @ChunkTimerService.Event Int{
+            return intent.getIntExtra(ChunkTimerService.extra_param_event, -1)
+        }
+
+        fun getCommand(intent: Intent): @ChunkTimerService.Command Int {
             return intent.getIntExtra(
-                KEY_COMMAND,
-                Command.INVALID
+                ChunkTimerService.extra_param_event,
+                ChunkTimerService.Command.INVALID
             )
         }
     }
 
 
 }
-
-
-annotation class Command {
-    companion object {
-        const val INVALID = -1
-        const val ACTION_STOP = 0
-        const val ACTION_START_TIMER = 1
-        const val ACTION_START_BREAK = 2
-        const val ACTION_TICK = 3
-        const val ACTION_REQUEST_STATE_UPDATE = 4
-    }
-}
-
-
 
 
 

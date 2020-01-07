@@ -59,7 +59,7 @@ class TimerFinishDialogFragment : DialogFragment() {
             val builder = MaterialAlertDialogBuilder(it)
 
             @ChunkTimerService.TimerState val type =
-                arguments?.getInt(ChunkTimerService.extra_param_status)!!
+                arguments?.getInt(ChunkTimerService.extra_param_event)!!
 
 
             val layout = getViewLayout(type)

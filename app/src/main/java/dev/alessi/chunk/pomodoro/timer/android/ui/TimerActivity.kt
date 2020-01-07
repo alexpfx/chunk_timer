@@ -14,7 +14,7 @@ import androidx.navigation.findNavController
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.service.ChunkTimerService
 import dev.alessi.chunk.pomodoro.timer.android.ui.dialog.TimerFinishViewModel
-import dev.alessi.chunk.pomodoro.timer.android.util.Command
+
 import dev.alessi.chunk.pomodoro.timer.android.util.IntentBuilder
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -137,7 +137,7 @@ class TimerActivity : AppCompatActivity(),
     override fun doStartService(
         totalTimeMillis: Long,
         index: Int,
-        task: Int, @Command command: Int
+        task: Int, @ChunkTimerService.Command command: Int
     ) {
         val bundle = Bundle()
         bundle.putLong(ChunkTimerService.extra_param_total_time_millis, totalTimeMillis)
@@ -160,7 +160,7 @@ class TimerActivity : AppCompatActivity(),
         val intent =
             IntentBuilder.getIntentForService(
                 this,
-                Command.ACTION_REQUEST_STATE_UPDATE
+                ChunkTimerService.Command.ACTION_REPEAT_LAST_EVENT
             )
         startService(intent)
     }
@@ -169,7 +169,7 @@ class TimerActivity : AppCompatActivity(),
         startService(
             IntentBuilder.getIntentForService(
                 this,
-                Command.ACTION_STOP
+                ChunkTimerService.Command.ACTION_STOP_SERVICE
             )
         )
     }

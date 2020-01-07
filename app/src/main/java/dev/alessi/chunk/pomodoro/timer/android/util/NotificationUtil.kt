@@ -56,12 +56,12 @@ fun NotificationManagerCompat.notifyBreakFinish(context: Context) {
 
 fun NotificationManagerCompat.notifyTick(
     timeToFinish: Long,
-    context: Context, @ChunkTimerService.TimerState status: Int
+    context: Context, @ChunkTimerService.Event event: Int
 ) {
 
     val builder = getBaseNotificationBuilder(context)
 
-    setRunningContentMessages(builder, status, timeToFinish, context)
+    setRunningContentMessages(builder, event, timeToFinish, context)
     notify(App.NOTIFICATION_ID, builder.build()!!)
 
 }
@@ -78,17 +78,17 @@ private fun getCallActivityIntent(context: Context): PendingIntent? {
 
 fun setRunningContentMessages(
     builder: NotificationCompat.Builder,
-    status: Int,
+    event: Int,
     timeToFinish: Long,
     context: Context
 ) {
-    when (status) {
-        ChunkTimerService.TimerState.status_running_break -> {
+    when (event) {
+        ChunkTimerService.Event.ON_BREAKTIME_STARTED -> {
             builder.setContentTitle(context.getString(R.string.message_title_timer_running_break) + ": ${timeToFinish.toFormatedTime()}")
             builder.setContentText(context.getString(R.string.message_content_timer_running_break))
 
         }
-        ChunkTimerService.TimerState.status_running_timer -> {
+        ChunkTimerService.Event.ON_TIMER_STARTED -> {
             builder.setContentTitle(context.getString(R.string.message_title_timer_running) + ": ${timeToFinish.toFormatedTime()}")
             builder.setContentText(context.getString(R.string.message_content_title_timer_running))
         }

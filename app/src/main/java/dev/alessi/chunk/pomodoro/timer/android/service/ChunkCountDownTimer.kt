@@ -6,7 +6,8 @@ class ChunkCountDownTimer(
     totalInMillis: Long,
     ticketTimeMillis: Long,
     private val onTickCallback: (millisToFinish: Long) -> Unit,
-    val onFinishCallback: () -> Unit
+    val onFinishCallback: () -> Unit,
+    val type: @Type Int
 ) : CountDownTimer(totalInMillis, ticketTimeMillis) {
 
 
@@ -17,7 +18,16 @@ class ChunkCountDownTimer(
     override fun onTick(millisToFinish: Long) {
 
 
+
         this.onTickCallback(millisToFinish)
+    }
+
+    @Target(AnnotationTarget.TYPE)
+    annotation class Type{
+        companion object{
+            const val SLICE_TIMER = 0
+            const val BREAK_TIMER = 1
+        }
     }
 
 

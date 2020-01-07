@@ -55,8 +55,6 @@ class SelectTaskFragment : Fragment() {
         mSummariesViewModel =
             ViewModelProviders.of(this).get(LoadPeriodSummariesViewModel::class.java)
 
-
-
         mSelectTaskViewModel = activity?.run {
             ViewModelProviders.of(this)[SelectTaskSharedViewModel::class.java]
         } ?: throw IllegalStateException("Invalid activity")
