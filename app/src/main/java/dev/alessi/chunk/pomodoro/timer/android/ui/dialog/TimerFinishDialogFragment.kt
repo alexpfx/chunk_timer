@@ -46,8 +46,8 @@ class TimerFinishDialogFragment : DialogFragment() {
     }
 
 
-    fun getViewLayout(@ChunkTimerService.TimerState state: Int): Int {
-        return if (state == ChunkTimerService.TimerState.status_running_timer)
+    fun getViewLayout(@ChunkTimerService.Event state: Int): Int {
+        return if (state == ChunkTimerService.Event.ON_TIMER_STARTED)
             R.layout.dialog_timer_finish else R.layout.dialog_breaktime_finish
 
     }
@@ -58,7 +58,7 @@ class TimerFinishDialogFragment : DialogFragment() {
         return activity?.let {
             val builder = MaterialAlertDialogBuilder(it)
 
-            @ChunkTimerService.TimerState val type =
+            @ChunkTimerService.Event val type =
                 arguments?.getInt(ChunkTimerService.extra_param_event)!!
 
 

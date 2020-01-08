@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.os.Bundle
 import android.text.format.DateUtils
@@ -19,7 +18,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -30,9 +28,11 @@ import com.google.gson.Gson
 import dev.alessi.chunk.pomodoro.timer.android.ClockView
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
+import dev.alessi.chunk.pomodoro.timer.android.service.ChunkCountDownTimer
 import dev.alessi.chunk.pomodoro.timer.android.service.ChunkTimerService
 import dev.alessi.chunk.pomodoro.timer.android.service.ChunkTimerService.Command.Companion.ACTION_START_BREAKTIME
 import dev.alessi.chunk.pomodoro.timer.android.service.ChunkTimerService.Command.Companion.ACTION_START_TIME_SLICE
+import dev.alessi.chunk.pomodoro.timer.android.util.IntentBuilder
 import dev.alessi.chunk.pomodoro.timer.android.util.toFormatedElapsedInMinutes
 import dev.alessi.chunk.pomodoro.timer.android.util.toFormatedMinutes
 import kotlinx.android.synthetic.main.fragment_timer.*
@@ -61,23 +61,6 @@ class TimerFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         retainInstance = true
-
-//        mStatusChangedViewModel = ViewModelProviders.of(this).get(StatusChangedViewModel::class.java)
-
-//        mStatusChangedViewModel.onTimerStopped.observe(viewLifecycleOwner, Observer {
-//            showTimerCanceled(intent = it)
-//        })
-
-
-        /*mStatusChangedViewModel.onTimeStarted.observe(viewLifecycleOwner, Observer {
-            readIntentAndUpdateTimer(it)
-            showTimerStarted()
-        })*/
-
-        /*mStatusChangedViewModel.onBreakStarted.observe(viewLifecycleOwner, Observer {
-            readIntentAndUpdateTimer(it)
-            showBreakTimerStarted()
-        })*/
 
 
     }
@@ -168,12 +151,11 @@ class TimerFragment : Fragment() {
 //        })
     }
 
-    private fun updateSubtitle(status: Int, strCurrentTimer: String, strtPercent: String) {
+    private fun updateSubtitle(type: @ChunkCountDownTimer.Type Int, strCurrentTimer: String, strtPercent: String) {
 
-        val ref = when (status) {
-            ChunkTimerService.TimerState.status_ready -> -1
-            ChunkTimerService.TimerState.status_running_timer -> R.string.message_toolbar_subtitle_timer_running
-            ChunkTimerService.TimerState.status_running_break -> R.string.message_toolbar_subtitle_break_running
+        val ref = when (type) {
+            ChunkCountDownTimer.Type.SLICE_TIMER -> R.string.message_toolbar_subtitle_timer_running
+            ChunkCountDownTimer.Type.BREAK_TIMER -> R.string.message_toolbar_subtitle_break_running
             else -> -1
         }
 
@@ -239,18 +221,17 @@ class TimerFragment : Fragment() {
 
         val timeMillis = timeMinutes * 60 * 1000.toLong()
 
-        updateTimer(timeMillis, timeMillis, ChunkTimerService.TimerState.status_ready)
+        updateTimer(timeMillis, timeMillis, ChunkTimerService.Event.ON_TICK)
         updateColor()
         mMainActivityControlViewModel.updateSubtitle("")
 
     }
 
     private fun updateTask() {
-
         txtTask.text = mTask.description
     }
 
-    private fun updateTimer(timeLeft: Long, totalTime: Long, status: Int) {
+    private fun updateTimer(timeLeft: Long, totalTime: Long, @ChunkCountDownTimer.Type type: Int) {
 //        val formatedTime = DateUtils.formatElapsedTime(timeLeft / 1000)
         val formatedTime = timeLeft.toFormatedElapsedInMinutes()
 
@@ -266,7 +247,7 @@ class TimerFragment : Fragment() {
 
         val xstr = "%.1f".format(percFinish)
 
-        updateSubtitle(status, strCurrentTimer = totalTime.toFormatedMinutes(), strtPercent = xstr)
+        updateSubtitle(type, strCurrentTimer = totalTime.toFormatedMinutes(), strtPercent = xstr)
 
 
 //        txtPercent.text = "$xstr %"
@@ -359,16 +340,6 @@ class TimerFragment : Fragment() {
         updateColor(view)
     }
 
-    fun createGradientDrawable(colorRes: Int, strokeColorRes: Int): GradientDrawable {
-        val g = GradientDrawable()
-        val context = this.context!!
-        g.setColor(ContextCompat.getColor(context, colorRes))
-        g.cornerRadius = 16.0f
-        g.setStroke(1, ContextCompat.getColor(context, strokeColorRes))
-
-        return g
-    }
-
     private fun updateColor(view: View? = null) {
 
         var selectedButtonColor = Color.WHITE
@@ -414,27 +385,30 @@ class TimerFragment : Fragment() {
     private fun showTimerStarted() {
         btnCancelTimer.visibility = View.VISIBLE
         btnCancelTimer.text = getText(R.string.button_label_cancel)
-        val txtTaskText =
-            if (mTask.description.isEmpty()) getString(R.string.message_hint_no_task) else mTask.description
-        txtTask.text = txtTaskText
+
+        if (mTask.uid == -1){
+            setEmptyTask(R.string.message_hint_no_task)
+        }
 
         onTimerStarted()
 
 
     }
 
-    fun showBreakTimerStarted() {
+    private fun setEmptyTask(resId: Int){
+        mSelectTaskSharedViewModel.selectTask(Task(description = getString(resId), uid = -1))
+    }
+
+    private fun showBreakTimerStarted() {
         btnCancelTimer.visibility = View.VISIBLE
         btnCancelTimer.text = getText(R.string.button_label_cancel_break)
-
-        txtTask.text = getString(R.string.label_breaktime)
-
+        setEmptyTask(R.string.label_breaktime)
         onTimerStarted()
     }
 
-    fun showTimerCanceled(intent: Intent) { //
+    fun showTimerCanceled() { //
 
-        if (mTask.description.isEmpty()) {
+        if (mTask.uid == -1) {
             mSelectTaskSharedViewModel.selectTask(
                 Task(
                     description = getString(R.string.message_hint_choose_task),
@@ -448,18 +422,6 @@ class TimerFragment : Fragment() {
 
     }
 
-
-//    private fun showBreakTimerCanceled(intent: Intent) {
-//        val timeLeft = intent.getLongExtra(ChunkTimerService.extra_param_current_time, 0)
-//        val totalTime = intent.getLongExtra(ChunkTimerService.extra_param_total_time_millis, 5)
-//
-//        btnCancelTimer.visibility = View.INVISIBLE
-//
-//        onTimerStopped()
-//
-//        updateTimer(timeLeft, totalTime, status)
-//
-//    }
 
     private fun onTimerStopped() {
         forAllSizeButtons { b ->
@@ -479,12 +441,7 @@ class TimerFragment : Fragment() {
 
         forAllSizeButtons { b -> b.isEnabled = false }
 
-        if (mTask.uid == -1) {
-            card_task.visibility = View.INVISIBLE
-        } else {
-            setTaskEnabled(false)
-        }
-
+        setTaskEnabled(false)
 
         groupHideOnStart.visibility = View.INVISIBLE
         groupShowOnStart.visibility = View.VISIBLE
@@ -534,8 +491,44 @@ class TimerFragment : Fragment() {
     private val mTickReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
 
+            when (IntentBuilder.getEvent(intent)) {
+                ChunkTimerService.Event.ON_TICK -> onTick(intent)
+                ChunkTimerService.Event.ON_TIMER_STARTED -> onTimeSliceStarted()
+                ChunkTimerService.Event.ON_BREAKTIME_STARTED -> onBreaktimeStarted()
+                ChunkTimerService.Event.ON_SERVICE_STOPPED -> showTimerCanceled()
+                ChunkTimerService.Event.ON_BREAKTIME_FINISH -> showBreaktimeFinish(intent)
+                ChunkTimerService.Event.ON_TIME_SLICE_FINISH -> showTimeSliceFinish(intent)
+            }
+
 
         }
+    }
+
+    private fun showTimeSliceFinish(intent: Intent) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    private fun showBreaktimeFinish(intent: Intent) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+
+    private fun onBreaktimeStarted() {
+        showBreakTimerStarted()
+
+    }
+
+    private fun onTimeSliceStarted() {
+        showTimerStarted()
+    }
+
+
+    private fun onTick(intent: Intent) {
+        val (_, currentTime, totalTime, _, tickType) = IntentBuilder.getServiceExtras(intent)
+
+        updateTimer(currentTime, totalTime, tickType!!)
+
+
     }
 
 

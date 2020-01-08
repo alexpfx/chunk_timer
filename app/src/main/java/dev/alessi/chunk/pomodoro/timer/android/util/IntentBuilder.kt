@@ -8,8 +8,6 @@ import dev.alessi.chunk.pomodoro.timer.android.service.ChunkTimerService
 import dev.alessi.chunk.pomodoro.timer.android.ui.TimerActivity
 
 
-
-
 class IntentBuilder {
     companion object {
 
@@ -71,17 +69,37 @@ class IntentBuilder {
             return intent
         }
 
-        fun getEvent(intent: Intent): @ChunkTimerService.Event Int{
+        fun getEvent(intent: Intent): @ChunkTimerService.Event Int {
             return intent.getIntExtra(ChunkTimerService.extra_param_event, -1)
+        }
+
+
+        fun getServiceExtras(intent: Intent): IntentTimeExtras {
+            return IntentTimeExtras(
+                intent.getIntExtra(ChunkTimerService.extra_param_event, -1),
+                intent.getLongExtra(ChunkTimerService.extra_param_current_time, -1),
+                intent.getLongExtra(ChunkTimerService.extra_param_total_time_millis, -1),
+                intent.getIntExtra(ChunkTimerService.extra_param_slice_id, -1),
+                intent.getIntExtra(ChunkTimerService.extra_param_tick_type, -1)
+            )
+
         }
 
         fun getCommand(intent: Intent): @ChunkTimerService.Command Int {
             return intent.getIntExtra(
-                ChunkTimerService.extra_param_event,
+                ChunkTimerService.extra_param_command,
                 ChunkTimerService.Command.INVALID
             )
         }
     }
+
+    data class IntentTimeExtras(
+        val event: Int,
+        val currentTime: Long,
+        val totalTime: Long,
+        val sliceId: Int?,
+        val tickType: @ChunkCountDownTimer.Type Int?
+    )
 
 
 }

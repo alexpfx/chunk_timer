@@ -141,9 +141,9 @@ class TimerActivity : AppCompatActivity(),
     ) {
         val bundle = Bundle()
         bundle.putLong(ChunkTimerService.extra_param_total_time_millis, totalTimeMillis)
-//        bundle.putString(ChunkTimerService.extra_param_taskname, task)
         bundle.putInt(ChunkTimerService.extra_param_task_id, task)
         bundle.putInt(ChunkTimerService.extra_param_sizeIndex, index)
+        bundle.putInt(ChunkTimerService.extra_param_command, command)
 
 
         val intent =

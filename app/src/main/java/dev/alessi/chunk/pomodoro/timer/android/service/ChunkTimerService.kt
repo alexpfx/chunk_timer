@@ -46,7 +46,7 @@ class ChunkTimerService : Service() {
 
 
     companion object {
-
+        const val extra_param_tick_type = "extra_param_tick_type"
         const val extra_param_total_time_millis = "param_total_time"
         const val extra_param_event = "extra_param_event"
         const val extra_param_command = "extra_param_command"
@@ -83,9 +83,9 @@ class ChunkTimerService : Service() {
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         val command = handleCommandIntent(intent)
 
-        if (Command.ACTION_REPEAT_LAST_EVENT == command || Command.INVALID == command) {
-            return START_NOT_STICKY
-        }
+//        if (Command.ACTION_REPEAT_LAST_EVENT == command || Command.INVALID == command) {
+//            return START_NOT_STICKY
+//        }
 
 
         if (!mServiceRunning) {
@@ -152,6 +152,7 @@ class ChunkTimerService : Service() {
             this, intent
         )
 
+
     }
 
     private fun stopService(event: @Event Int) {
@@ -165,8 +166,6 @@ class ChunkTimerService : Service() {
         mServiceRunning = false
 
     }
-
-
 
 
 //    //TODO fazer este controle pelo update status
@@ -202,14 +201,17 @@ class ChunkTimerService : Service() {
 //        broadcastState()
 //    }
 
-    private fun broadcastEvent(event: @Event Int, sliceId: Int? = null) {
-
-
+    private fun broadcastEvent(event: @Event Int, sliceId: Int? = null, @ChunkCountDownTimer.Type tickType: Int? = null) {
         val extras = Bundle()
 
         extras.putInt(extra_param_event, event)
         extras.putLong(extra_param_current_time, mCurrentTime)
         extras.putLong(extra_param_total_time_millis, mTotalTime)
+
+        tickType?.let {
+            extras.putInt(extra_param_tick_type, tickType)
+        }
+
         sliceId?.let {
             extras.putInt(extra_param_slice_id, sliceId)
         }
@@ -269,10 +271,10 @@ class ChunkTimerService : Service() {
         )
     }
 
-    private fun onTick(timeLeft: Long) {
+    private fun onTick(timeLeft: Long, type: @ChunkCountDownTimer.Type Int) {
         mCurrentTime = timeLeft
 
-        broadcastEvent(Event.ON_TICK)
+        broadcastEvent(Event.ON_TICK, tickType = type)
 
         mChunckTimer?.let {
             mNotificationManagerCompat?.notifyTick(mCurrentTime, applicationContext, mapTypeToEvent(it.type))
@@ -280,8 +282,8 @@ class ChunkTimerService : Service() {
 
     }
 
-    private fun mapTypeToEvent(type: @ChunkCountDownTimer.Type Int): @Event Int{
-        return if (type == ChunkCountDownTimer.Type.SLICE_TIMER)  Event.ON_TIMER_STARTED else return Event.ON_BREAKTIME_STARTED
+    private fun mapTypeToEvent(type: @ChunkCountDownTimer.Type Int): @Event Int {
+        return if (type == ChunkCountDownTimer.Type.SLICE_TIMER) Event.ON_TIMER_STARTED else return Event.ON_BREAKTIME_STARTED
     }
 
     private fun onTimerFinish() {
@@ -294,7 +296,6 @@ class ChunkTimerService : Service() {
         id?.let {
             afterSliceSaved(id)
         }
-
 
 
     }
@@ -360,7 +361,7 @@ class ChunkTimerService : Service() {
     }
 
 
-    @Target(AnnotationTarget.TYPE, AnnotationTarget.VALUE_PARAMETER)
+    @Target(AnnotationTarget.TYPE, AnnotationTarget.VALUE_PARAMETER, AnnotationTarget.LOCAL_VARIABLE)
     annotation class Event {
         companion object {
             const val ON_TIMER_STARTED = 0
@@ -372,7 +373,7 @@ class ChunkTimerService : Service() {
         }
     }
 
-    @Target(AnnotationTarget.TYPE, AnnotationTarget.VALUE_PARAMETER, AnnotationTarget.FUNCTION)
+    @Target(AnnotationTarget.TYPE, AnnotationTarget.VALUE_PARAMETER, AnnotationTarget.FUNCTION, AnnotationTarget.LOCAL_VARIABLE)
     annotation class Command {
         companion object {
             const val INVALID = -1
@@ -384,7 +385,6 @@ class ChunkTimerService : Service() {
             const val ACTION_STOP_SERVICE = 5
         }
     }
-
 
 
 }
