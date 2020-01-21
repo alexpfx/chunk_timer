@@ -8,7 +8,7 @@ interface WorkUnitDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWorkUnit(workUnit: WorkUnit): Long
 
-    @Query("select * from WorkUnit where taskId = :taskId and estimation = :estimation order by sizeId ")
+    @Query("select * from WorkUnit where taskId = :taskId and estimation = :estimation order by finishDate desc ")
     suspend fun selectAllFromTask(taskId: Int, estimation: Int): Array<WorkUnit>
 
 
