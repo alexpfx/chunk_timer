@@ -8,12 +8,10 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.constraintlayout.widget.Group
 import androidx.core.content.ContextCompat
-import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.ui.task_stats.PeriodSummaryTO
-import dev.alessi.chunk.pomodoro.timer.android.util.RuntimeViewFactory
 import dev.alessi.chunk.pomodoro.timer.android.util.toFormatedTime
 
 
@@ -154,7 +152,11 @@ class TaskViewHolder(
 
     private val btnEstimate = view.findViewById<ImageButton>(R.id.btnEstimate)
 
-    private val txtButtonExpand = view.findViewById<TextView>(R.id.txtButtonExpand)
+    private val txtEstimation = view.findViewById<TextView>(R.id.txt_estimation)
+
+    private val txtDone = view.findViewById<TextView>(R.id.txt_done)
+
+    private val txtButtonExpand = view.findViewById<ImageButton>(R.id.txtButtonExpand)
     private val groupPanel = view.findViewById<Group>(R.id.group_panel)
     private val drawableExpand =
         ContextCompat.getDrawable(context, R.drawable.ic_expand_more_black_24dp)
@@ -165,10 +167,6 @@ class TaskViewHolder(
 
     private var expanded = false
 
-    private val linearLayoutEstimation =
-        view.findViewById<LinearLayout>(R.id.linearLayoutEstimation)
-
-    private val linearLayoutDone = view.findViewById<LinearLayout>(R.id.linearLayoutDone)
 
 
     init {
@@ -209,23 +207,24 @@ class TaskViewHolder(
         val drawable = if (visible) drawableCollapse else drawableExpand
         val visibility = if (visible) View.VISIBLE else View.GONE
 
-        txtButtonExpand.setCompoundDrawablesWithIntrinsicBounds(
-            null,
-            null,
-            drawable,
-            null
-        )
+        txtButtonExpand.setImageDrawable(drawable)
+
+//        txtButtonExpand.setCompoundDrawablesWithIntrinsicBounds(
+//            null,
+//            null,
+//            drawable,
+//            null
+//        )
 
         groupPanel.visibility = visibility
+        groupPanel.requestLayout()
 
     }
 
 
     private fun addChild(index: Int, value: Int, drawableRes: Int) {
 
-        linearLayoutEstimation.addView(
-            RuntimeViewFactory.createChip(context, value.toFormatedTime())
-        )
+
 
     }
 
@@ -242,7 +241,7 @@ class TaskViewHolder(
         btnEstimate.tag = taskSummaryTO
 
         if (taskSummaryTO.estimationMinutes > 0){
-            linearLayoutEstimation.removeAllViews()
+
             addChild(0, taskSummaryTO.estimationMinutes, -1)
         }
 
@@ -255,12 +254,12 @@ class TaskViewHolder(
         val formatDate = DateUtils.formatDateTime(
             context, dateTime, DateUtils.FORMAT_SHOW_TIME or DateUtils.FORMAT_SHOW_DATE or
                     DateUtils.FORMAT_SHOW_YEAR or DateUtils.FORMAT_SHOW_WEEKDAY or DateUtils.FORMAT_ABBREV_ALL
-
-
-
-
-
         )
+
+        txtEstimation.text = taskSummaryTO.estimationMinutes.toFormatedTime()
+        txtDone.text = taskSummaryTO.sliceMinutes.toFormatedTime()
+
+
 
 //        txtTaskCreatedAt.text =
 //            context.getString(R.string.label_format_created_at, formatDate)

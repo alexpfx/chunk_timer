@@ -165,6 +165,8 @@ class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener,
         spinner_ringing_breaktime.onItemSelectedListener = this
         spinner_ringing_timer.onItemSelectedListener = this
 
+
+
     }
 
 

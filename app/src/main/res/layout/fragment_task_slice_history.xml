@@ -3,16 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.task_stats.TaskStatsFragment">
+    android:padding="@dimen/padding_small"
+    >
 
-    <include layout="@layout/layout_content_empty" />
+
+    <include
+        layout="@layout/layout_content_empty"
+        tools:visibility="gone" />
+
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_task_stats"
+
+        android:id="@+id/recycler_slice_history"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        tools:listitem="@layout/item_task_stats"
-        />
+        tools:itemCount="5"
+        tools:listitem="@layout/item_slice_history" />
+
 
 </FrameLayout>

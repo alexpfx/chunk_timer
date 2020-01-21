@@ -12,6 +12,12 @@ import dev.alessi.chunk.pomodoro.timer.android.service.ChunkTimerService
 import dev.alessi.chunk.pomodoro.timer.android.ui.TimerActivity
 
 
+fun NotificationManagerCompat.getForegroundNotification(context: Context): Notification {
+    val builder = getBaseNotificationBuilder(context)
+    cancelAll()
+    return builder.build()
+}
+
 private fun getBaseNotificationBuilder(context: Context): NotificationCompat.Builder {
 
     return NotificationCompat.Builder(context, App.NOTIFICATION_CHANNEL_ID)
@@ -20,24 +26,23 @@ private fun getBaseNotificationBuilder(context: Context): NotificationCompat.Bui
         .setColorized(true)
         .setContentIntent(getCallActivityIntent(context))
         .setOnlyAlertOnce(true)
-        .setOngoing(true)
 
-}
 
-fun NotificationManagerCompat.getForegroundNotification(context: Context): Notification {
-    val builder = getBaseNotificationBuilder(context)
-    cancelAll()
-    return builder.build()
 }
 
 fun NotificationManagerCompat.notifyTimerFinish(context: Context) {
     val builder = getBaseNotificationBuilder(context)
+
     builder.setContentTitle(context.getString(R.string.message_title_timer_finish))
     builder.setContentText(context.getString(R.string.message_content_timer_finish))
     builder.setOngoing(false)
+
+
     cancelAll()
 
-    notify(App.NOTIFICATION_ID, builder.build())
+    var build = builder.build()
+
+    notify(App.NOTIFICATION_ID, build)
 }
 
 fun NotificationManagerCompat.notifyBreakFinish(context: Context) {
@@ -45,8 +50,7 @@ fun NotificationManagerCompat.notifyBreakFinish(context: Context) {
     builder.setContentTitle(context.getString(R.string.message_title_timer_break_finish))
     builder.setContentText(context.getString(R.string.message_content_timer_break_finish))
     builder.setOngoing(false)
-
-
+    builder.setDefaults(Notification.DEFAULT_SOUND)
 
     cancelAll()
 
@@ -61,18 +65,24 @@ fun NotificationManagerCompat.notifyTick(
 
     val builder = getBaseNotificationBuilder(context)
 
+    builder.setOngoing(true)
+
+
     setRunningContentMessages(builder, event, timeToFinish, context)
     notify(App.NOTIFICATION_ID, builder.build()!!)
+
 
 }
 
 private fun getCallActivityIntent(context: Context): PendingIntent? {
-    val contentIntent = Intent(context, TimerActivity::class.java)
+    val intent = Intent(context, TimerActivity::class.java)
+
     return PendingIntent.getActivity(
         context,
         App.NOTIFICATION_ID,
-        contentIntent,
+        intent,
         PendingIntent.FLAG_UPDATE_CURRENT
+
     )
 }
 

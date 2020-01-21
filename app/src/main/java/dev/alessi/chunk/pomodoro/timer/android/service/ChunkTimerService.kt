@@ -13,7 +13,6 @@ import dev.alessi.chunk.pomodoro.timer.android.database.WorkUnit
 import dev.alessi.chunk.pomodoro.timer.android.repository.SliceRepository
 import dev.alessi.chunk.pomodoro.timer.android.repository.SliceRepositoryProvider
 import dev.alessi.chunk.pomodoro.timer.android.settings.SettingsFragment
-import dev.alessi.chunk.pomodoro.timer.android.ui.TimerActivity
 import dev.alessi.chunk.pomodoro.timer.android.util.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -25,13 +24,12 @@ import java.util.*
 class ChunkTimerService : Service() {
 
 
-
     private var mServiceRunning = false
 
 
     private var mCurrentTime: Long = 0
     private var mTotalTime: Long = 0
-    private var mChunckTimer: ChunkCountDownTimer? = null
+    private lateinit var mChunckTimer: ChunkCountDownTimer
     private var mNotificationManagerCompat: NotificationManagerCompat? = null
     private var mTaskId: Int? = null
 
@@ -83,12 +81,7 @@ class ChunkTimerService : Service() {
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         val command = handleCommandIntent(intent)
 
-//        if (Command.ACTION_REPEAT_LAST_EVENT == command || Command.INVALID == command) {
-//            return START_NOT_STICKY
-//        }
-
-
-        if (!mServiceRunning) {
+        if (!mServiceRunning && (Command.ACTION_START_BREAKTIME == command || Command.ACTION_START_TIME_SLICE == command)) {
             mNotificationManagerCompat = NotificationManagerCompat.from(this)
             startForeground(
                 App.NOTIFICATION_ID,
@@ -97,7 +90,6 @@ class ChunkTimerService : Service() {
             mServiceRunning = true
         }
 
-
         return START_NOT_STICKY
     }
 
@@ -105,13 +97,12 @@ class ChunkTimerService : Service() {
     private fun handleCommandIntent(intent: Intent): Int {
         val command = IntentBuilder.getCommand(intent)
 
-
         when (command) {
             Command.ACTION_STOP_SERVICE -> stopService(Event.ON_SERVICE_STOPPED)
             Command.ACTION_START_TIME_SLICE -> startClockTimer(intent, Event.ON_TIMER_STARTED)
             Command.ACTION_START_BREAKTIME -> startClockTimer(intent, Event.ON_BREAKTIME_STARTED)
-            Command.ACTION_FINISH_TIME_SLICE -> onTimerFinish()
-            Command.ACTION_FINISH_BREAKTIME -> onBreaktimeFinish()
+            Command.ACTION_COMPLETE_TIME_SLICE -> onTimeSliceCompleted()
+            Command.ACTION_COMPLETE_BREAKTIME -> onBreaktimeCompleted()
             Command.ACTION_REPEAT_LAST_EVENT -> commandRequestStatusUpdate()
         }
 
@@ -122,8 +113,10 @@ class ChunkTimerService : Service() {
 
 
     private fun commandRequestStatusUpdate() {
-        mChunckTimer.let {
-
+        if (this::mChunckTimer.isInitialized && mChunckTimer.running) {
+            broadcastEvent(Event.ON_TICK, tickType = mChunckTimer.type)
+        } else {
+            broadcastEvent(Event.ON_SERVICE_STOPPED)
         }
 
 
@@ -141,7 +134,7 @@ class ChunkTimerService : Service() {
         mSizeIndex = intent.getIntExtra(extra_param_sizeIndex, -1)
 
 
-        mChunckTimer = createTimer(mTotalTime, event).also { it.start() }
+        mChunckTimer = createTimer(mTotalTime, event).also { it.startTimer() }
 
         broadcastEvent(event)
 
@@ -157,7 +150,8 @@ class ChunkTimerService : Service() {
 
     private fun stopService(event: @Event Int) {
         mNotificationManagerCompat?.cancelAll()
-        mChunckTimer?.cancel()
+        mChunckTimer.stopTimer()
+
         stopForeground(true)
         stopSelf()
 
@@ -166,6 +160,67 @@ class ChunkTimerService : Service() {
         mServiceRunning = false
 
     }
+
+
+    private fun onBreaktimeCompleted() {
+        mSoundEffectManager.play(mBreaktimeRingIndex)
+
+        mNotificationManagerCompat?.notifyBreakFinish(
+            applicationContext
+        )
+
+        val extras = Bundle().apply {
+            putInt(extra_param_event, Event.ON_BREAKTIME_COMPLETED)
+            putLong(extra_param_total_time_millis, mTotalTime)
+        }
+
+        val intent = IntentBuilder.getIntentForActivity(applicationContext, extras)
+        startActivity(intent)
+
+
+    }
+
+    private fun onTimeSliceCompleted() {
+        mSoundEffectManager.play(mTimerRingIndex)
+        saveAndNotify()
+
+    }
+
+
+    //    private fun onTimeSliceCompleted() {
+//        mNotificationManagerCompat?.notifyTimerFinish(
+//            applicationContext
+//        )
+//
+//        mSoundEffectManager.play(mTimerRingIndex)
+//
+//
+//        afterSliceSaved(27)
+//        broadcastEvent(Event.ON_TIME_SLICE_COMPLETED, 27)
+//
+////        val id = saveSlice()
+//
+//
+////        save().observeForever {
+////            it?.let {
+////                afterSliceSaved(it)
+////                broadcastEvent(Event.ON_TIME_SLICE_COMPLETED, it)
+////            }
+////
+////        }
+//
+//
+//
+//    }
+
+//    private fun onBreaktimeCompleted() {
+//        mSoundEffectManager.play(mBreaktimeRingIndex)
+//
+//        broadcastEvent(Event.ON_BREAKTIME_COMPLETED)
+//
+//        stopService(Event.ON_SERVICE_STOPPED)
+//
+//    }
 
 
 //    //TODO fazer este controle pelo update status
@@ -202,6 +257,21 @@ class ChunkTimerService : Service() {
 //    }
 
     private fun broadcastEvent(event: @Event Int, sliceId: Int? = null, @ChunkCountDownTimer.Type tickType: Int? = null) {
+        val intent =
+            createBundleForEvent(event, tickType, sliceId)
+
+        if (event != Event.ON_TICK) {
+            println("sendBroadcast $event")
+        }
+
+        sendBroadcast(intent)
+    }
+
+    private fun createBundleForEvent(
+        event: @Event Int,
+        tickType: Int?,
+        sliceId: Int?
+    ): Intent {
         val extras = Bundle()
 
         extras.putInt(extra_param_event, event)
@@ -222,8 +292,7 @@ class ChunkTimerService : Service() {
                 event,
                 extras
             )
-
-        sendBroadcast(intent)
+        return intent
     }
 
     private fun broadcastTick(silentTick: Boolean = false) {
@@ -286,60 +355,43 @@ class ChunkTimerService : Service() {
         return if (type == ChunkCountDownTimer.Type.SLICE_TIMER) Event.ON_TIMER_STARTED else return Event.ON_BREAKTIME_STARTED
     }
 
-    private fun onTimerFinish() {
+
+    private fun afterSliceSaved(id: Int?) {
         mNotificationManagerCompat?.notifyTimerFinish(
             applicationContext
         )
 
-        mSoundEffectManager.play(mTimerRingIndex)
-        val id = saveSlice()
-        id?.let {
-            afterSliceSaved(id)
+
+        val extras = Bundle().apply {
+            putInt(extra_param_event, Event.ON_TIME_SLICE_COMPLETED)
+            id?.let {
+                putInt(extra_param_slice_id, it)
+            }
         }
 
 
-    }
+        val intent = IntentBuilder.getIntentForActivity(applicationContext, extras)
+        startActivity(intent)
 
-    private fun afterSliceSaved(id: Int) {
-        val timerActivityIntent = Intent(this, TimerActivity::class.java)
-        timerActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        startActivity(timerActivityIntent)
-
-        broadcastEvent(Event.ON_TIME_SLICE_FINISH, id)
 
     }
 
-    private fun onBreaktimeFinish() {
-        mNotificationManagerCompat?.notifyBreakFinish(
-            applicationContext
-        )
-
-        val dialogIntent = Intent(this, TimerActivity::class.java)
-        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        startActivity(dialogIntent)
-
-        broadcastEvent(Event.ON_BREAKTIME_FINISH)
-
-    }
 
     private fun onClockFinish() {
-        val command = if (mChunckTimer?.type == ChunkCountDownTimer.Type.SLICE_TIMER)
-            Command.ACTION_FINISH_TIME_SLICE
-        else Command.ACTION_FINISH_BREAKTIME
+        val command = if (mChunckTimer.type == ChunkCountDownTimer.Type.SLICE_TIMER)
+            Command.ACTION_COMPLETE_TIME_SLICE
+        else Command.ACTION_COMPLETE_BREAKTIME
 
         val intent = IntentBuilder.getIntentForService(this, command)
         startService(intent)
 
-        stopService(Event.ON_SERVICE_STOPPED)
-
     }
 
 
-    private fun saveSlice(): Int? {
-        var id: Int? = null
+    private fun saveAndNotify() {
 
         mScope.launch {
-            id = withContext(Dispatchers.IO) {
+            val id = withContext(Dispatchers.IO) {
                 mSliceRepository?.storeSlice(
                     WorkUnit(
                         sizeId = mSizeIndex!!,
@@ -350,9 +402,11 @@ class ChunkTimerService : Service() {
                     )
                 )
             }
+            afterSliceSaved(id)
 
         }
-        return id
+
+
     }
 
 
@@ -365,9 +419,9 @@ class ChunkTimerService : Service() {
     annotation class Event {
         companion object {
             const val ON_TIMER_STARTED = 0
-            const val ON_TIME_SLICE_FINISH = 1
+            const val ON_TIME_SLICE_COMPLETED = 1
             const val ON_BREAKTIME_STARTED = 2
-            const val ON_BREAKTIME_FINISH = 3
+            const val ON_BREAKTIME_COMPLETED = 3
             const val ON_SERVICE_STOPPED = 4
             const val ON_TICK = 5
         }
@@ -378,9 +432,9 @@ class ChunkTimerService : Service() {
         companion object {
             const val INVALID = -1
             const val ACTION_START_TIME_SLICE = 0
-            const val ACTION_FINISH_TIME_SLICE = 1
+            const val ACTION_COMPLETE_TIME_SLICE = 1
             const val ACTION_START_BREAKTIME = 2
-            const val ACTION_FINISH_BREAKTIME = 3
+            const val ACTION_COMPLETE_BREAKTIME = 3
             const val ACTION_REPEAT_LAST_EVENT = 4
             const val ACTION_STOP_SERVICE = 5
         }

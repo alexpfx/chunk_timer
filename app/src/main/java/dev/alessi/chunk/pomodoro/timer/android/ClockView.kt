@@ -26,11 +26,9 @@ const val textSizeProportion = 0.175f
 class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : View(context, attributeSet, style),
     Checkable {
 
-    constructor(context: Context, attributeSet: AttributeSet?) : this (context, attributeSet, -1)
+    constructor(context: Context, attributeSet: AttributeSet?) : this(context, attributeSet, -1)
 
-    constructor(context: Context) : this (context, null, -1)
-
-
+    constructor(context: Context) : this(context, null, -1)
 
 
     private var clockActiveMinutesFontColor: Int
@@ -44,7 +42,7 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
 
 
     val borderColor
-        get() = clockBorderColor
+        get() = clockActiveBorderColor
 
     @Deprecated("")
     private var mCheckedColor: Int
@@ -65,8 +63,15 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
     private var mRatio = 0.0f
 
 
-    var hours: Int
-    var minutes: Int = 0
+    private var hours: Int = 0
+
+    private var _minutes: Int = 0
+    var minutes: Int
+        get() = _minutes
+        set(value) {
+            hours = value.div(60)
+            _minutes = value
+        }
 
     @Deprecated("")
     private var mCenterCircleColor: Int
@@ -94,8 +99,6 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
     private val mTextPaint = TextPaint(Paint.ANTI_ALIAS_FLAG)
 
 
-
-
 //    private val mClockHandPaint = Paint(mBasePaint)
 
 
@@ -111,8 +114,6 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
 
         ColorUtils.colorToHSL(color, outHsl)
         outHsl.andPrint()
-
-
 
 
         val index0 = 2
@@ -153,7 +154,7 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
         super.setSelected(selected)
     }
 
-    fun setStyle(){
+    fun setStyle() {
 
     }
 
@@ -196,6 +197,7 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
 
         mFillPaint.apply {
             style = Paint.Style.FILL
+            color = Color.WHITE
 
             /*if (mApplyGradientToBackground) {
                 shader = getLinearGradient(mBackgroundColor, mBorderColor)
@@ -243,7 +245,7 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
 
                 mCenterCircleColor = getColor(R.styleable.ClockView_clockCircleColor, Color.YELLOW)
                 minutes = getInt(R.styleable.ClockView_clockMinutes, 30)
-                hours = getInt(R.styleable.ClockView_clockHours, 0)
+
 
                 mMinutesHandWidth = getDimension(R.styleable.ClockView_minutesHandWidth, 5f)
                 mHoursHandWidth = getDimension(R.styleable.ClockView_hoursHandWidth, 7f)
@@ -283,9 +285,6 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
     }
 
 
-
-
-
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
@@ -308,21 +307,32 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
 //            })
 
 
-            drawClockBackground(this, cx, cy, mFillPaint.apply { color = clockBackgroundColor })
-            drawBorder(this, cx, cy, mStrokePaint.apply { color = clockBorderColor })
+            drawClockBackground(
+                this,
+                cx,
+                cy,
+                mFillPaint.apply { color = if (isChecked) clockActiveBackgroundColor else clockBackgroundColor })
+            drawBorder(this, cx, cy, mStrokePaint.apply {
+                color = if (isChecked) clockActiveBorderColor else clockBorderColor
+                strokeWidth = if (isChecked) mBorderWidth * 1.5f else mBorderWidth
+            })
             if (isChecked) {
                 canvas.save()
                 canvas.scale(0.92f, 0.92f, cx, cy)
-                drawBorder(this, cx, cy, mBlurPaint)
+//                drawBorder(this, cx, cy, mBlurPaint.apply { color=clockActiveBorderColor })
                 canvas.restore()
             }
 
             drawMinuteClockHands(this, cx, cy,
-                mFillHandsPaint.apply { color = clockClockHandsColor },
-                mTextPaint.apply { color = clockMinutesFontColor })
+                mFillHandsPaint.apply { color = if (isChecked) clockActiveClockHandsColor else clockClockHandsColor },
+                mTextPaint.apply { color = if (isChecked) clockActiveClockHandsColor else clockClockHandsColor })
 
-            drawHourClockHand(this, cx, cy, mFillHandsPaint.apply { color = clockClockHandsColor })
-            drawClockCenter(this, cx, cy, mFillPaint.apply { color = clockClockHandsColor })
+            drawHourClockHand(
+                this,
+                cx,
+                cy,
+                mFillHandsPaint.apply { color = if (isChecked) clockActiveClockHandsColor else clockClockHandsColor })
+            drawClockCenter(this, cx, cy, mFillPaint.apply { color = if (isChecked) clockActiveClockHandsColor else clockClockHandsColor })
 
 
         }
@@ -347,9 +357,6 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
     ) {
         canvas.save()
         canvas.rotate(hours.hoursToDegree(), cx, cy)
-
-
-
 
         canvas.drawLine(cx, cy, cx, cy - hoursHandTopProportion * height, paint.apply { strokeWidth = hoursHandLineProportion * width })
 

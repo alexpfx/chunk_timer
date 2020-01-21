@@ -10,7 +10,8 @@ data class SelectTaskTO(
     val periods: List<PeriodSummaryTO>,
     val estimationMinutes: Int = 0,
     private var selected: Int = 0,
-    var visible: Boolean = true
+    var visible: Boolean = true,
+    val sliceMinutes: Int = 0
 ) {
     companion object {
         var enumPeriods: Array<Period> = enumValues()

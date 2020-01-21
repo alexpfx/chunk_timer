@@ -3,17 +3,15 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="1dp"
-    style="@style/Widget.MaterialComponents.CardView"
-    >
+    android:layout_marginTop="1dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:animateLayoutChanges="true"
 
         android:minHeight="56dp">
 
@@ -27,7 +25,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textAppearance="?textAppearanceBody1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -37,195 +35,201 @@
         <ImageButton
             android:id="@+id/btnInfo"
 
-            style="@style/ActionButtons"
-
-            android:contentDescription="@string/content_description_more_info"
-
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="8dp"
 
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="8dp"
+            android:contentDescription="@string/content_description_more_info"
 
-            app:layout_constraintBottom_toBottomOf="parent"
+
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/txtLabelDone"
             app:layout_constraintStart_toStartOf="@+id/txt_task_desk"
-            app:layout_constraintTop_toBottomOf="@+id/view2"
+            app:layout_constraintTop_toTopOf="@+id/txtLabelDone"
             app:srcCompat="@drawable/ic_info_black_24dp" />
 
         <ImageButton
             android:id="@+id/btnArchive"
-            style="@style/ActionButtons"
 
-            android:contentDescription="@string/content_description_archive_task"
 
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
 
+            android:layout_marginBottom="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="8dp"
 
-            app:layout_constraintBottom_toBottomOf="@+id/btnInfo"
-            app:layout_constraintStart_toEndOf="@+id/btnInfo"
+            android:contentDescription="@string/content_description_archive_task"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+
+            app:layout_constraintStart_toStartOf="@+id/txt_task_desk"
+            app:layout_constraintTop_toBottomOf="@+id/div2"
             app:srcCompat="@drawable/ic_archive_black_24dp" />
+
 
         <ImageButton
             android:id="@+id/btnEstimate"
-            style="@style/ActionButtons"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/content_description_plan_task"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
 
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="8dp"
+            android:contentDescription="@string/content_description_plan_task"
 
-            app:layout_constraintBottom_toBottomOf="@+id/btnArchive"
-            app:layout_constraintStart_toEndOf="@+id/btnArchive"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/txtLabelEstimation"
+            app:layout_constraintStart_toStartOf="@+id/txt_task_desk"
+            app:layout_constraintTop_toTopOf="@+id/txtLabelEstimation"
             app:srcCompat="@drawable/ic_assignment_black_24dp" />
 
-
         <View
-            android:id="@+id/view2"
+            android:id="@+id/div2"
+            style="@style/divider"
             android:layout_width="0dp"
+
+
             android:layout_height="1dp"
 
-
-            android:layout_marginTop="16dp"
-            android:background="@drawable/drawable_divider_horizontal"
-            app:layout_constraintEnd_toEndOf="@+id/linearLayoutEstimation"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@id/txt_estimation"
             app:layout_constraintStart_toStartOf="@+id/txt_task_desk"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayoutEstimation" />
+            app:layout_constraintTop_toBottomOf="@+id/btnEstimate" />
 
 
         <View
-            android:id="@+id/view4"
+            android:id="@+id/div1"
+            style="@style/divider"
             android:layout_width="0dp"
             android:layout_height="1dp"
 
 
-            android:layout_marginTop="16dp"
-            android:background="@drawable/drawable_divider_horizontal"
+            android:layout_marginTop="8dp"
+
             app:layout_constraintEnd_toStartOf="@+id/txtButtonExpand"
             app:layout_constraintStart_toStartOf="@+id/txt_task_desk"
             app:layout_constraintTop_toBottomOf="@+id/txtCreatedAt" />
 
-        <TextView
-            android:contentDescription="@string/content_description_expand_collapse"
+        <ImageButton
             android:id="@+id/txtButtonExpand"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
-            android:drawableEnd="@drawable/ic_expand_more_black_24dp"
-            android:drawableRight="@drawable/ic_expand_more_black_24dp"
+
+            android:contentDescription="@string/content_description_expand_collapse"
             android:focusable="true"
-            android:padding="8dp"
 
-            app:layout_constraintBottom_toBottomOf="@+id/view4"
+            android:padding="@dimen/padding_small"
+
+
+            app:layout_constraintBottom_toBottomOf="@+id/div1"
+
+
             app:layout_constraintEnd_toEndOf="@+id/txt_task_desk"
-            app:layout_constraintTop_toTopOf="@+id/view4" />
+            app:layout_constraintTop_toTopOf="@+id/div1"
+            app:srcCompat="@drawable/ic_expand_more_black_24dp" />
 
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txtCreatedAt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
 
-
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:alpha="?alphaEmphasisDisabled"
             app:layout_constraintStart_toStartOf="@+id/txt_task_desk"
             app:layout_constraintTop_toBottomOf="@+id/txt_task_desk"
             tools:text="Dom, 08/12/2019 - 16:00" />
 
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txtLabelDone"
-            style="@style/LogicalDataTableMiddle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:alpha="?alphaEmphasisDisabled"
+            android:gravity="start|center_vertical"
+            android:padding="8dp"
             android:text="@string/label_done"
 
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@id/linearLayoutDone"
-            app:layout_constraintStart_toStartOf="@id/txt_task_desk"
+            app:layout_constraintStart_toEndOf="@+id/btnInfo"
             app:layout_constraintTop_toBottomOf="@+id/txtButtonExpand" />
 
-        <LinearLayout
-            android:id="@+id/linearLayoutDone"
-            style="@style/LogicalDataTableMiddle"
+        <com.google.android.material.textview.MaterialTextView
+
+            android:id="@+id/txt_done"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="@id/txt_task_desk"
-            app:layout_constraintStart_toStartOf="@id/txt_task_desk"
+            android:layout_marginStart="8dp"
+            android:gravity="start"
+            android:padding="8dp"
+            android:text="@string/nothing_yet"
+            app:layout_constraintBottom_toBottomOf="@+id/txtLabelDone"
+            app:layout_constraintStart_toEndOf="@id/barrier"
+            tools:text="02 h" />
 
-            app:layout_constraintTop_toBottomOf="@id/txtLabelDone"
-            tools:layout_height="20dp" >
 
-            <TextView
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="@string/nothing_yet"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-
-        </LinearLayout>
-
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txtLabelEstimation"
-            style="@style/LogicalDataTableMiddle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
 
-            android:layout_marginTop="1dp"
+            android:alpha="?alphaEmphasisDisabled"
 
+            android:gravity="start|center_vertical"
+
+            android:padding="8dp"
             android:text="@string/label_estimation"
 
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/linearLayoutEstimation"
-            app:layout_constraintStart_toStartOf="@id/txt_task_desk"
-            app:layout_constraintTop_toBottomOf="@id/linearLayoutDone" />
 
-        <LinearLayout
-            android:id="@+id/linearLayoutEstimation"
-            style="@style/LogicalDataTableBottom"
+            app:layout_constraintStart_toEndOf="@+id/btnEstimate"
+            app:layout_constraintTop_toBottomOf="@+id/txtLabelDone" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_estimation"
+
             android:layout_width="0dp"
             android:layout_height="wrap_content"
 
-            android:orientation="horizontal"
+            android:layout_marginStart="8dp"
 
-            app:layout_constraintEnd_toEndOf="@id/txt_task_desk"
-            app:layout_constraintStart_toStartOf="@id/txt_task_desk"
-            app:layout_constraintTop_toBottomOf="@id/txtLabelEstimation"
-            tools:layout_height="20dp">
+            android:gravity="start"
+            android:padding="8dp"
+            android:text="@string/nothing_yet_fem"
 
-            <TextView
 
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="@string/nothing_yet_fem"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-        </LinearLayout>
-
+            app:layout_constraintBottom_toBottomOf="@+id/txtLabelEstimation"
+            app:layout_constraintStart_toEndOf="@id/barrier" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/group_panel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-
             android:padding="8dp"
             android:visibility="gone"
-            app:constraint_referenced_ids="txtLabelDone,linearLayoutDone,txtLabelEstimation,linearLayoutEstimation,view2"
+            app:constraint_referenced_ids="txtLabelDone,txtLabelEstimation,div2,txt_estimation,txt_done,btnInfo,btnEstimate"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             tools:visibility="visible" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:barrierDirection="end"
+            app:constraint_referenced_ids="txtLabelEstimation,txtLabelDone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

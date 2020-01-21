@@ -5,7 +5,6 @@
     <integer name="min_m">2</integer>
     <integer name="min_g">3</integer>
     <integer name="min_gg">4</integer>
-
 </resources>
 
 

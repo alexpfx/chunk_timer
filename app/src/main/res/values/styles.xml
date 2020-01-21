@@ -3,40 +3,41 @@
     <!-- ImageButtons -->
 
 
-
-
-
-
     <!-- Text Views -->
 
 
+    <!-- Buttons -->
 
-
-    <style name="LogicalDataTableTop">
-        <item name="android:padding">8dp</item>
-        <item name="android:background">@drawable/drawable_top_corner</item>
-        <item name="android:gravity">start|center_vertical</item>
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Caption</item>
+    <style name="Widget.Timer.ImageButton" parent="@style/Widget.AppCompat.ImageButton">
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:alpha">?alphaEmphasisMedium</item>
+        <item name="android:tint">?attr/colorOnSurface</item>
     </style>
 
-    <style name="LogicalDataTableMiddle">
-        <item name="android:padding">8dp</item>
+    <style name="Widget.Timer.TextView" parent="Widget.AppCompat.TextView">
+        <item name="android:alpha">?attr/alphaEmphasisMedium</item>
+        <item name="android:textAppearance">?textAppearanceBody2</item>
+        <item name="drawableTint">?colorSurface</item>
 
-        <item name="android:gravity">start|center_vertical</item>
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Caption</item>
     </style>
 
-    <style name="LogicalDataTableBottom">
-        <item name="android:padding">8dp</item>
-        <item name="android:background">@drawable/drawable_bottom_corner</item>
-        <item name="android:gravity">start|center_vertical</item>
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Caption</item>
+    <style name="Widget.Timer.Button" parent="Widget.MaterialComponents.Button">
+        <item name="shapeAppearance">?attr/shapeAppearanceMediumComponent</item>
+        <item name="android:padding">@dimen/padding_medium</item>
+    </style>
+
+    <style name="Widget.Timer.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="shapeAppearance">?attr/shapeAppearanceMediumComponent</item>
+        <item name="android:padding">@dimen/padding_medium</item>
+        <item name="backgroundTint">?colorSurface</item>
     </style>
 
 
+    <style name="Widget.Timer.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+
+    </style>
 
 
-    <!-- Dialogs -->
 
 
     <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog">
@@ -44,6 +45,13 @@
         <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
         <!--<item name="android:background">@drawable/gradient_main_background</item>-->
     </style>
+
+
+    <style name="Widget.Timer.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="shapeAppearance">?attr/shapeAppearanceSmallComponent</item>
+
+    </style>
+
 
 
     <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
@@ -66,20 +74,9 @@
 
     </style>
 
-    <style name="ActionButtons" parent="@style/Widget.AppCompat.ImageButton">
 
 
-        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
-        <item name="android:padding">8dp</item>
-        <item name="android:tint">?attr/colorOnSurface</item>
 
-    </style>
-
-    <style name="ActionButtonsSmall" parent="@style/ActionButtons">
-        <item name="android:layout_width">48dp</item>
-        <item name="android:layout_height">48dp</item>
-        <item name="android:padding">4dp</item>
-    </style>
 
     <style name="TimerActionButton" parent="Widget.MaterialComponents.Button">
 
@@ -107,7 +104,6 @@
     </style>
 
 
-
     <!--android:gravity="center"
     android:padding="2dp"
     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -124,11 +120,19 @@
     </style>
 
 
-
-
     <style name="RecyclerViews" parent="Widget.AppCompat.ListView">
-        <item name="android:listDivider">@drawable/drawable_divider_horizontal</item>
 
+
+    </style>
+
+    <style name="divider">
+        <item name="android:background">?colorControlNormal</item>
+        <item name="android:alpha">0.18</item>
+    </style>
+
+    <style name="Widget.Timer.ExposedDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu">
+        <item name="boxBackgroundColor">?colorSurface</item>
+        <item name="boxStrokeWidthFocused">1dp</item>
     </style>
 
     <style name="ButtonClockView">
@@ -146,15 +150,17 @@
         <item name="android:layout_weight">1</item>
         <item name="android:foreground">?attr/selectableItemBackgroundBorderless</item>
         <item name="android:layout_margin">1dp</item>
-        <item name="clockActiveBackgroundColor">@color/clock_active_background_color</item>
-        <item name="clockBackgroundColor">@color/clock_background_color</item>
-        <item name="clockActiveBorderColor">@color/clock_active_border_color</item>
-        <item name="clockBorderColor">@color/clock_border_color</item>
-        <item name="clockActiveClockHandsColor">@color/clock_active_clock_hands_color</item>
-        <item name="clockClockHandsColor">@color/clock_hands_color</item>
 
-        <item name="clockMinutesFontColor">@color/clock_hands_color</item>
-        <item name="clockActiveMinutesFontColor">@color/clock_active_clock_hands_color</item>
+        <item name="clockActiveBorderColor">?colorPrimary</item>
+        <item name="clockActiveClockHandsColor">?colorPrimary</item>
+        <item name="clockActiveMinutesFontColor">?colorPrimary</item>
+        <item name="clockActiveBackgroundColor">#cfd8dc</item>
+
+        <item name="clockBorderColor">?colorControlNormal</item>
+        <item name="clockClockHandsColor">?colorControlNormal</item>
+        <item name="clockMinutesFontColor">?colorControlNormal</item>
+        <item name="clockBackgroundColor">?colorSurface</item>
+
 
 
         <!--<item name="android:background">@drawable/background_selected_button</item>-->
@@ -163,49 +169,28 @@
     </style>
 
 
-    <style name="ButtonClockView.PP" parent="ButtonClockView" >
+    <style name="ButtonClockView.PP" parent="ButtonClockView">
 
-        <item name="clockBorderColor">@color/clock_border_color_pp</item>
-        <item name="android:padding">4dp</item>
 
-        <item name="clockClockHandsColor">@color/clock_hands_color_pp</item>
-        <item name="clockActiveClockHandsColor">@color/clock_active_clock_hands_color</item>
-
-        <item name="clockMinutesFontColor">@color/clock_hands_color_pp</item>
-        <item name="clockActiveMinutesFontColor">@color/clock_active_clock_hands_color_pp</item>
     </style>
 
     <style name="ButtonClockView.P" parent="ButtonClockView">
-        <item name="android:padding">4dp</item>
-        <item name="clockBorderColor">@color/clock_border_color_p</item>
-        <item name="clockClockHandsColor">@color/clock_hands_color_p</item>
-        <item name="clockMinutesFontColor">@color/clock_hands_color_p</item>
-        <item name="clockActiveMinutesFontColor">@color/clock_active_clock_hands_color_p</item>
+
     </style>
 
     <style name="ButtonClockView.M" parent="ButtonClockView">
-        <item name="android:padding">4dp</item>
-        <item name="clockBorderColor">@color/clock_border_color_m</item>
-        <item name="clockClockHandsColor">@color/clock_hands_color_m</item>
-        <item name="clockMinutesFontColor">@color/clock_hands_color_m</item>
-        <item name="clockActiveMinutesFontColor">@color/clock_active_clock_hands_color_m</item>
+
     </style>
 
     <style name="ButtonClockView.G" parent="ButtonClockView">
-        <item name="android:padding">4dp</item>
-        <item name="clockBorderColor">@color/clock_border_color_g</item>
-        <item name="clockClockHandsColor">@color/clock_hands_color_g</item>
-        <item name="clockMinutesFontColor">@color/clock_hands_color_g</item>
-        <item name="clockActiveMinutesFontColor">@color/clock_active_clock_hands_color_g</item>
+
     </style>
 
     <style name="ButtonClockView.GG" parent="ButtonClockView">
-        <item name="android:padding">4dp</item>
-        <item name="clockBorderColor">@color/clock_border_color_gg</item>
-        <item name="clockClockHandsColor">@color/clock_hands_color_gg</item>
-        <item name="clockMinutesFontColor">@color/clock_hands_color_gg</item>
-        <item name="clockActiveMinutesFontColor">@color/clock_active_clock_hands_color_gg</item>
+
     </style>
+
+
 
 
 </resources>

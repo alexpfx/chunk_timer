@@ -14,16 +14,16 @@ import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.ui.MainActivityControlViewModel
 import dev.alessi.chunk.pomodoro.timer.android.ui.task.SelectTaskFragment
-import kotlinx.android.synthetic.main.fragment_task_stats.*
+import kotlinx.android.synthetic.main.fragment_task_slice_history.*
 import kotlinx.android.synthetic.main.layout_content_empty.*
 
 
 /**
  * TODO alterar nome para task info alguma coisa ou task summary alguma coisa
  */
-class TaskStatsFragment : Fragment() {
+class TaskSliceHistory : Fragment() {
 
-    private lateinit var mAdapter: TaskStatsRecyclerAdapter
+    private lateinit var mAdapter: TaskSliceHistoryAdapter
 
     private lateinit var mSummariesViewModel: LoadPeriodSummariesViewModel
     private lateinit var mainActivityControlViewModel: MainActivityControlViewModel
@@ -47,16 +47,16 @@ class TaskStatsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_task_stats, container, false)
+        return inflater.inflate(R.layout.fragment_task_slice_history, container, false)
     }
 
 
     private fun initViewModelsListeners() {
         mSummariesViewModel.onPeriodsFromTaskLoadedObserver.observe(viewLifecycleOwner, Observer {
             setNoContent()
-            if (!it.isPeriodEmpty()) {
-                mAdapter = TaskStatsRecyclerAdapter(it.periods)
-                recycler_view_task_stats.swapAdapter(mAdapter, true)
+            if (it.isNotEmpty()) {
+                mAdapter = TaskSliceHistoryAdapter(it)
+                recycler_slice_history.swapAdapter(mAdapter, true)
                 setHasContent()
             }
         })
@@ -64,21 +64,21 @@ class TaskStatsFragment : Fragment() {
     }
 
     private fun setNoContent() {
-        recycler_view_task_stats.visibility = View.INVISIBLE
+//        recycler_view_task_stats.visibility = View.INVISIBLE
         label_content_empty.visibility = View.VISIBLE
     }
 
     private fun setHasContent() {
-        recycler_view_task_stats.visibility = View.VISIBLE
+//        recycler_view_task_stats.visibility = View.VISIBLE
         label_content_empty.visibility = View.INVISIBLE
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        recycler_view_task_stats.layoutManager =
+        recycler_slice_history.layoutManager =
             LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
-        recycler_view_task_stats.adapter = TaskStatsRecyclerAdapter(arrayListOf())
+        recycler_slice_history.adapter = TaskSliceHistoryAdapter(arrayListOf())
 
 
         if (arguments != null) {

@@ -9,4 +9,4 @@
     android:visibility="invisible"
     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
     android:layout_height="match_parent"
-    tools:showIn="@layout/fragment_task_stats" />
+    tools:showIn="@layout/fragment_task_slice_history" />

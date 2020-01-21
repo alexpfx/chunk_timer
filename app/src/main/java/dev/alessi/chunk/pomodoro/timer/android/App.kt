@@ -7,6 +7,7 @@ import android.os.Build
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.jakewharton.threetenabp.AndroidThreeTen
 import dev.alessi.chunk.pomodoro.timer.android.database.AppDatabase
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.database.TaskSize
@@ -50,6 +51,7 @@ class App : Application(), EstimateRepositoryProvider, TaskRepositoryProvider,
 
     override fun onCreate() {
         super.onCreate()
+        AndroidThreeTen.init(this)
 
         createDb()
 

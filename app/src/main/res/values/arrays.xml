@@ -34,6 +34,16 @@
         <item>audio06</item>
     </string-array>
 
+    <string-array name="period_names">
+        <item>@string/label_period_today</item>
+        <item>@string/label_period_this_week</item>
+        <item>@string/label_period_last_7_days</item>
+        <item>@string/label_period_this_month</item>
+        <item>@string/label_period_last_30_days</item>
+        <item>@string/label_period_all</item>
+
+    </string-array>
+
 
 
 </resources>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <style name="TextAppearance.Timer.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
+
+    </style>
+
+    <style name="TextAppearance.Timer.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="android:alpha">?alphaEmphasisDisabled</item>
+
+    </style>
+
+
+
+    <style name="TextAppearance.Timer.Body2" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:alpha">?alphaEmphasisMedium</item>
+
+    </style>
+
+    <style name="TextAppearance.Timer.Body1" parent="TextAppearance.MaterialComponents.Body1">
+
+        <item name="android:alpha">?alphaEmphasisMedium</item>
+
+    </style>
+
+
+    <style name="TextAppearance.Timer.Caption" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:alpha">?alphaEmphasisDisabled</item>
+
+    </style>
+
+
+
+    <style name="TextAppearance.Timer.Overline" parent="TextAppearance.MaterialComponents.Overline">
+
+    </style>
+
+
+
+</resources>

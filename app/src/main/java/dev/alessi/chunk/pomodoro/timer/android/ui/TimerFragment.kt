@@ -5,18 +5,14 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.os.Bundle
 import android.text.format.DateUtils
 import android.text.method.ScrollingMovementMethod
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -38,7 +34,7 @@ import dev.alessi.chunk.pomodoro.timer.android.util.toFormatedMinutes
 import kotlinx.android.synthetic.main.fragment_timer.*
 
 
-private const val inactiveAlpha = 0.4f
+
 
 class TimerFragment : Fragment() {
     private lateinit var sizeBtns: List<ClockView>
@@ -222,7 +218,7 @@ class TimerFragment : Fragment() {
         val timeMillis = timeMinutes * 60 * 1000.toLong()
 
         updateTimer(timeMillis, timeMillis, ChunkTimerService.Event.ON_TICK)
-        updateColor()
+
         mMainActivityControlViewModel.updateSubtitle("")
 
     }
@@ -316,19 +312,22 @@ class TimerFragment : Fragment() {
 
 
     override fun onResume() {
+        println("onResume")
         activity?.registerReceiver(
             mTickReceiver,
             IntentFilter(ChunkTimerService.message_broadcast_message)
         )
 
-//        mServiceController?.requestStateUpdate()
+        mServiceController?.requestStateUpdate()
+
 
         super.onResume()
     }
 
 
     override fun onPause() {
-        Log.d(tag, "onPause")
+        println("onPause")
+
         activity?.unregisterReceiver(mTickReceiver)
         super.onPause()
     }
@@ -337,49 +336,10 @@ class TimerFragment : Fragment() {
     private fun onSizeSetupBtnClick(view: View) {
         val tag = (view.tag) as Int
         mTimerSharedViewModel.setSizeIndex(tag)
-        updateColor(view)
-    }
-
-    private fun updateColor(view: View? = null) {
-
-        var selectedButtonColor = Color.WHITE
-        forAllSizeButtons { button ->
-            button.isChecked = button.tag == mSelectedIndex
-            if (button.isChecked) {
-                selectedButtonColor = button.borderColor
-            }
-            activateView(button, button.isChecked)
-        }
-
-        updateTimerTextStyle(selectedButtonColor)
-
 
     }
 
-    private fun updateTimerTextStyle(selectedButtonColor: Int) {
 
-        val timeMinutes = mSizes[mSelectedIndex]
-        updateTimerTextAppereance(timeMinutes)
-
-        txtMainTimer.setTextColor(selectedButtonColor)
-    }
-
-    private fun updateTimerTextAppereance(timeMinutes: Int) {
-        if (timeMinutes >= 100) {
-            setTextAppereance(txtMainTimer, R.style.TextAppearance_AppCompat_Display3)
-        } else {
-            setTextAppereance(txtMainTimer, R.style.TextAppearance_AppCompat_Display4)
-        }
-
-    }
-
-    private fun setTextAppereance(view: TextView, style: Int) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            view.setTextAppearance(style)
-        } else {
-            view.setTextAppearance(this.context, style)
-        }
-    }
 
 
     private fun showTimerStarted() {
@@ -462,19 +422,11 @@ class TimerFragment : Fragment() {
     }
 
     private fun activateDrawable(drawable: Drawable, activate: Boolean) {
-        if (activate) {
-            drawable.alpha = 255
-        } else {
-            drawable.alpha = (inactiveAlpha * 255).toInt()
-        }
+
     }
 
     private fun activateView(view: View, activate: Boolean) {
-        if (activate) {
-            view.alpha = 1f
-        } else {
-            view.alpha = inactiveAlpha
-        }
+
 
     }
 
@@ -491,27 +443,17 @@ class TimerFragment : Fragment() {
     private val mTickReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
 
-            when (IntentBuilder.getEvent(intent)) {
+            val event = IntentBuilder.getEvent(intent)
+            when (event) {
                 ChunkTimerService.Event.ON_TICK -> onTick(intent)
                 ChunkTimerService.Event.ON_TIMER_STARTED -> onTimeSliceStarted()
                 ChunkTimerService.Event.ON_BREAKTIME_STARTED -> onBreaktimeStarted()
                 ChunkTimerService.Event.ON_SERVICE_STOPPED -> showTimerCanceled()
-                ChunkTimerService.Event.ON_BREAKTIME_FINISH -> showBreaktimeFinish(intent)
-                ChunkTimerService.Event.ON_TIME_SLICE_FINISH -> showTimeSliceFinish(intent)
             }
 
 
         }
     }
-
-    private fun showTimeSliceFinish(intent: Intent) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    private fun showBreaktimeFinish(intent: Intent) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
 
     private fun onBreaktimeStarted() {
         showBreakTimerStarted()
@@ -524,7 +466,7 @@ class TimerFragment : Fragment() {
 
 
     private fun onTick(intent: Intent) {
-        val (_, currentTime, totalTime, _, tickType) = IntentBuilder.getServiceExtras(intent)
+        val (_, currentTime, totalTime, _, tickType) = IntentBuilder.getServiceExtras(intent.extras!!)
 
         updateTimer(currentTime, totalTime, tickType!!)
 

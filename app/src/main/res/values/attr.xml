@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="alphaEmphasisHigh" format="float"/>
+    <attr name="alphaEmphasisMedium" format="float"/>
+    <attr name="alphaEmphasisDisabled" format="float"/>
+    <attr name="materialButtonToggle" format="reference"/>
+
+
     <declare-styleable name="BadgedButton">
         <attr name="buttonLabel" format="string" />
         <attr name="labelText" format="string"/>

@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="color_primary">#69c9d0</color>
-    <color name="color_primary_variant">#92ccd0</color>
+    <color name="color_primary">#607D8B</color>
+    <color name="color_primary_variant">#37474F</color>
 
 
-    <color name="color_secondary">#ee1d52</color>
-    <color name="color_secondary_variant">#ee4d76</color>
+    <color name="color_secondary">#F06292</color>
+    <color name="color_secondary_variant">#e91e62</color>
 
-    <color name="color_background">#010101</color>
-    <color name="color_surface">#1a1a1a</color>
+    <color name="color_background">#ebf0f0</color>
+    <color name="color_surface">#ffffff</color>
+
     <color name="color_error">#cf6679</color>
 
-    <color name="color_on_primary">#1a1a1a</color>
-    <color name="color_on_secondary">#fff</color>
-    <color name="color_on_background">#ffffff</color>
-    <color name="color_on_surface">#ffffff</color>
-    <color name="color_on_error">#000000</color>
+    <color name="color_on_primary">#fff</color>
+    <color name="color_on_secondary">@color/blackLight</color>
+    <color name="color_on_background">@color/blackLight</color>
+    <color name="color_on_surface">@color/blackLight</color>
 
+    <color name="color_control_normal">#000000</color>
 
+    <color name="color_secondary_on_surface">#fff</color>
+    <color name="color_on_error">@color/blackLight</color>
 
-
-    <color name="white">#fff</color>
     <color name="colorAccent">#fb8c48</color>
 
-    <color name="cor_chamativa">#f0f</color>
-    <color name="cor_chamativa2">#f00</color>
+
+    <color name="blackLight">#000000</color>
 
 
     <color name="clock_active_border_color">@color/colorAccent</color>
@@ -38,7 +39,7 @@
 
     <!-- specific -->
 
-    <color name="clock_base_color_pp">#18ffff</color>
+    <color name="clock_base_color_pp">@color/color_primary_variant</color>
     <color name="clock_active_border_color_pp">@color/color_primary</color>
     <color name="clock_border_color_pp">@color/clock_base_color_pp</color>
     <color name="clock_active_background_color_pp">@color/color_primary</color>

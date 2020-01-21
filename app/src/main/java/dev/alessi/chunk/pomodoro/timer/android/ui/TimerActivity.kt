@@ -1,5 +1,8 @@
 package dev.alessi.chunk.pomodoro.timer.android.ui
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -14,7 +17,6 @@ import androidx.navigation.findNavController
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.service.ChunkTimerService
 import dev.alessi.chunk.pomodoro.timer.android.ui.dialog.TimerFinishViewModel
-
 import dev.alessi.chunk.pomodoro.timer.android.util.IntentBuilder
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -34,22 +36,68 @@ class TimerActivity : AppCompatActivity(),
     }
 
 
-    override fun onResume() {
-        if (intent?.hasExtra(ChunkTimerService.extra_param_a_timer_was_finish) == true) {
-            val id = intent?.getIntExtra(ChunkTimerService.extra_param_slice_id, -1)!!
-            mTimerFinishViewModel.loadSlice(id)
-            findNavController(R.id.nav_host_fragment).navigate(R.id.timerFinishDialogFragment, intent.extras)
+    private val mTickReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
 
-            intent?.removeExtra(ChunkTimerService.extra_param_a_timer_was_finish)
+
+        }
+    }
+
+    private fun showTimeSliceFinish(intent: Intent) {
+
+        findNavController(R.id.nav_host_fragment).navigate(R.id.timerFinishDialogFragment, intent.extras)
+
+    }
+
+    private fun showBreaktimeFinish(intent: Intent) {
+
+
+        findNavController(R.id.nav_host_fragment).navigate(R.id.timerFinishDialogFragment, intent.extras)
+
+
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        println("onNewIntent")
+
+        if (intent?.hasExtra(ChunkTimerService.extra_param_event) == true) {
+
+            val event = IntentBuilder.getEvent(intent)
+
+            println("mTickReceiver $event")
+
+            when (event) {
+                ChunkTimerService.Event.ON_BREAKTIME_COMPLETED -> showBreaktimeFinish(intent)
+                ChunkTimerService.Event.ON_TIME_SLICE_COMPLETED -> {
+                    showTimeSliceFinish(intent)
+//                    doStopService()
+                }
+            }
+
+            intent.removeExtra(ChunkTimerService.extra_param_event)
+
         }
 
+    }
+
+
+    override fun onResume() {
         super.onResume()
+        println("onResume")
+
+
+    }
+
+    override fun onPause() {
+        super.onPause()
 
     }
 
 
     override fun onStart() {
         super.onStart()
+
         findNavController(R.id.nav_host_fragment).addOnDestinationChangedListener(this)
     }
 
@@ -61,7 +109,6 @@ class TimerActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timer)
-
 
 
 //        window.setBackgroundDrawableResource(R.drawable.pizza_background)
@@ -82,7 +129,6 @@ class TimerActivity : AppCompatActivity(),
 
 
     }
-
 
 
     override fun onSupportNavigateUp(): Boolean {
@@ -152,6 +198,7 @@ class TimerActivity : AppCompatActivity(),
                 command,
                 bundle
             )
+
         startService(intent)
     }
 

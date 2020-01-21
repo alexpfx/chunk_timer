@@ -12,6 +12,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.database.WorkUnit
 import dev.alessi.chunk.pomodoro.timer.android.service.ChunkTimerService
+import dev.alessi.chunk.pomodoro.timer.android.util.IntentBuilder
 
 class TimerFinishDialogFragment : DialogFragment() {
 
@@ -19,7 +20,6 @@ class TimerFinishDialogFragment : DialogFragment() {
     private var txtSize: TextView? = null
     private var txtTask: TextView? = null
     private lateinit var mTimerFinishViewModel: TimerFinishViewModel
-
 
     private var mSlice: WorkUnit? = null
 
@@ -37,17 +37,16 @@ class TimerFinishDialogFragment : DialogFragment() {
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        if (activity != null){
-            mTimerFinishViewModel = ViewModelProviders.of(activity!!)[TimerFinishViewModel::class.java]
-            mTimerFinishViewModel.onSliceLoaded.observe(activity!!, onSliceLoaded)
+        activity?.let {
+            mTimerFinishViewModel.onSliceLoaded.observe(it, onSliceLoaded)
         }
 
         super.onActivityCreated(savedInstanceState)
     }
 
 
-    fun getViewLayout(@ChunkTimerService.Event state: Int): Int {
-        return if (state == ChunkTimerService.Event.ON_TIMER_STARTED)
+    private fun getViewLayout(@ChunkTimerService.Event event: Int): Int {
+        return if (event == ChunkTimerService.Event.ON_TIME_SLICE_COMPLETED)
             R.layout.dialog_timer_finish else R.layout.dialog_breaktime_finish
 
     }
@@ -57,18 +56,22 @@ class TimerFinishDialogFragment : DialogFragment() {
 
         return activity?.let {
             val builder = MaterialAlertDialogBuilder(it)
+            val serviceExtras = IntentBuilder.getServiceExtras(arguments!!)
 
-            @ChunkTimerService.Event val type =
-                arguments?.getInt(ChunkTimerService.extra_param_event)!!
-
-
-            val layout = getViewLayout(type)
+            val event = serviceExtras.event
+            val layout = getViewLayout(event)
             val inflatedView =
                 LayoutInflater.from(context).inflate(layout, null)
+            builder.setView(inflatedView)
             extractViews(inflatedView)
 
-            fillBreak(builder, arguments!!)
-            fillTimerFinishBuilder(builder, arguments!!)
+
+            if (event == ChunkTimerService.Event.ON_BREAKTIME_COMPLETED) {
+                fillBreak(builder, extras = serviceExtras)
+            } else {
+                fillTimerFinishBuilder(builder, extras = serviceExtras)
+            }
+
 
             builder.setPositiveButton(
                 android.R.string.ok
@@ -108,30 +111,38 @@ class TimerFinishDialogFragment : DialogFragment() {
 
     private fun fillTimerFinishBuilder(
         builder: MaterialAlertDialogBuilder,
-        arg: Bundle
+        extras: IntentBuilder.IntentTimeExtras
     ) {
         builder.setTitle(R.string.message_title_timer_finish)
         builder.setMessage(R.string.message_content_timer_finish)
 
-        updateUi()
+        extras.sliceId?.let {
+            if (it != -1) {
+                mTimerFinishViewModel.loadSlice(it)
+            }
+
+        }
+
 
     }
 
     private fun fillBreak(
         builder: MaterialAlertDialogBuilder,
-        arg: Bundle
+        extras: IntentBuilder.IntentTimeExtras
     ) {
 
         builder.setTitle(R.string.message_title_timer_break_finish)
         builder.setMessage(R.string.message_content_timer_break_finish)
         val totalTimeMinutes =
-            arg.getLong(ChunkTimerService.extra_param_total_time_millis) / 60 / 1000
+            extras.totalTime / 60 / 1000
 
         txtTimer?.text = context?.resources?.getQuantityString(
             R.plurals.minutes,
             totalTimeMinutes.toInt(),
             totalTimeMinutes
         )
+
+//        updateUi()
     }
 
 

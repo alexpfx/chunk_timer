@@ -7,7 +7,7 @@
 
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/lblBreaktimeTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -24,8 +24,8 @@
 
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView4"
-        app:layout_constraintStart_toEndOf="@+id/textView4"
+        app:layout_constraintBottom_toBottomOf="@+id/lblBreaktimeTime"
+        app:layout_constraintStart_toEndOf="@+id/lblBreaktimeTime"
         tools:text="10 minutos" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

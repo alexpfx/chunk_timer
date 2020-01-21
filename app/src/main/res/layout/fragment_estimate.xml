@@ -20,6 +20,7 @@
             android:id="@+id/txt_task_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:alpha="?alphaEmphasisDisabled"
             android:text="@string/label_task"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -50,7 +51,8 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:padding="8dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+
+                android:textAppearance="?textAppearanceBody1"
 
                 tools:text="Descrição da tarefa" />
 
@@ -95,8 +97,8 @@
             android:lines="2"
             android:maxWidth="200dp"
             android:text="@string/label_drag_to_here"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/color_on_secondary"
+
+
             app:layout_constraintBottom_toBottomOf="@+id/reycler_estimations"
             app:layout_constraintEnd_toEndOf="@+id/reycler_estimations"
             app:layout_constraintStart_toStartOf="@+id/reycler_estimations"
@@ -134,17 +136,19 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
 
+
+
             app:layout_constraintStart_toStartOf="@+id/layout_estimation_menu"
             app:layout_constraintTop_toBottomOf="@+id/layout_estimation_menu"
             app:srcCompat="@drawable/ic_check_black_24dp">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_mode_edit"
-                style="?attr/materialButtonOutlinedStyle"
+                style="?materialButtonToggle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/label_edit_mode"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textAppearance="?textAppearanceBody2"
 
                 app:srcCompat="@drawable/ic_check_black_24dp" />
 

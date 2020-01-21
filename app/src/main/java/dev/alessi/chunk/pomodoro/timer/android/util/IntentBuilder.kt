@@ -23,20 +23,21 @@ class IntentBuilder {
             if (extras != null) {
                 intent.putExtras(extras)
             }
+
             return intent
         }
 
         fun getIntentForActivity(
             context: Context,
-            @ChunkTimerService.Command command: Int,
             extras: Bundle? = null
         ): Intent {
-            return getIntent(
+            var intent = getIntent(
                 context,
-                command,
                 extras,
                 TimerActivity::class.java
             )
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            return intent
         }
 
         fun getIntentForService(
@@ -44,24 +45,22 @@ class IntentBuilder {
             @ChunkTimerService.Command command: Int,
             extras: Bundle? = null
         ): Intent {
-            return getIntent(
+            val intent = getIntent(
                 context,
-                command,
                 extras,
                 ChunkTimerService::class.java
             )
+            intent.putExtra(ChunkTimerService.extra_param_command, command)
+            return intent
         }
 
 
         private fun getIntent(
             context: Context,
-            @ChunkTimerService.Command command: Int,
             extras: Bundle? = null,
             clazz: Class<*>
         ): Intent {
             val intent = Intent(context, clazz)
-
-            intent.putExtra(ChunkTimerService.extra_param_command, command)
 
             if (extras != null) {
                 intent.putExtras(extras)
@@ -73,14 +72,13 @@ class IntentBuilder {
             return intent.getIntExtra(ChunkTimerService.extra_param_event, -1)
         }
 
-
-        fun getServiceExtras(intent: Intent): IntentTimeExtras {
+        fun getServiceExtras(extras: Bundle): IntentTimeExtras {
             return IntentTimeExtras(
-                intent.getIntExtra(ChunkTimerService.extra_param_event, -1),
-                intent.getLongExtra(ChunkTimerService.extra_param_current_time, -1),
-                intent.getLongExtra(ChunkTimerService.extra_param_total_time_millis, -1),
-                intent.getIntExtra(ChunkTimerService.extra_param_slice_id, -1),
-                intent.getIntExtra(ChunkTimerService.extra_param_tick_type, -1)
+                extras.getInt(ChunkTimerService.extra_param_event, -1),
+                extras.getLong(ChunkTimerService.extra_param_current_time, -1),
+                extras.getLong(ChunkTimerService.extra_param_total_time_millis, -1),
+                extras.getInt(ChunkTimerService.extra_param_slice_id, -1),
+                extras.getInt(ChunkTimerService.extra_param_tick_type, -1)
             )
 
         }

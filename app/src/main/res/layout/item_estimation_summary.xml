@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_marginBottom="1dp"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="1dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -12,7 +12,6 @@
         android:layout_margin="0.5dp"
         android:orientation="horizontal"
         android:paddingStart="8dp"
-
 
 
         android:paddingTop="4dp"
@@ -73,7 +72,7 @@
 
         <ImageButton
             android:id="@+id/btnMinus"
-            style="@style/ActionButtonsSmall"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -84,7 +83,7 @@
 
         <ImageButton
             android:id="@+id/btnPlus"
-            style="@style/ActionButtonsSmall"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
@@ -97,7 +96,7 @@
         <ImageButton
 
             android:id="@+id/btnDelete"
-            style="@style/ActionButtonsSmall"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@+id/btnMinus"

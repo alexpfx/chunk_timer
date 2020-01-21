@@ -25,7 +25,7 @@ class LoadPeriodSummariesViewModel(app: Application) : AndroidViewModel(app) {
 
     private val scope = CoroutineScope(Dispatchers.Main)
 
-    private val _taskAndPeriods = MutableLiveData<SelectTaskTO>()
+    private val _taskAndPeriods = MutableLiveData<List<WorkUnit>>()
 
     private val _allTaskAndPeriods = MutableLiveData<List<SelectTaskTO>>()
 
@@ -33,7 +33,7 @@ class LoadPeriodSummariesViewModel(app: Application) : AndroidViewModel(app) {
     val onPeriodsLoadedObserver: LiveData<List<SelectTaskTO>>
         get() = _allTaskAndPeriods
 
-    val onPeriodsFromTaskLoadedObserver: LiveData<SelectTaskTO>
+    val onPeriodsFromTaskLoadedObserver: LiveData<List<WorkUnit>>
         get() = _taskAndPeriods
 
     private val taskRepository
@@ -44,7 +44,6 @@ class LoadPeriodSummariesViewModel(app: Application) : AndroidViewModel(app) {
 
     private val estimationRepository
         get() = (getApplication<App>() as EstimateRepositoryProvider).estimationRepository
-
 
 
     fun loadAllAndSummarizeAndEstimations() {
@@ -63,21 +62,17 @@ class LoadPeriodSummariesViewModel(app: Application) : AndroidViewModel(app) {
                     return@withContext sliceRepository.loadAllSlicesFromTask(taskId)
                 }
 
-                val estimations = withContext(Dispatchers.IO){
+                val estimations = withContext(Dispatchers.IO) {
                     return@withContext estimationRepository.countAllEstimationsFromTask(taskId)
                 }
 
 
-
-                val countMinutes = countMinutes(estimations)
-                val summary = summarize(doneSlices, task).copy(estimationMinutes = countMinutes)
+                val summary = summarize(doneSlices, task, estimations)
 
 
                 allSummariesTO.add(summary)
 
             }
-
-
 
 
             _allTaskAndPeriods.value = allSummariesTO
@@ -89,9 +84,18 @@ class LoadPeriodSummariesViewModel(app: Application) : AndroidViewModel(app) {
     private fun countMinutes(estimations: List<SizeTimeCountTO>): Int {
         var minutes = 0
         estimations.forEach {
+            minutes += it.timeMinutes * it.count
+        }
+        return minutes
+    }
+
+    private fun countSlicesMinutes(slices: List<WorkUnit>): Int {
+        var minutes = 0
+        slices.forEach {
             minutes += it.timeMinutes
         }
         return minutes
+
     }
 
 
@@ -104,7 +108,7 @@ class LoadPeriodSummariesViewModel(app: Application) : AndroidViewModel(app) {
 
             val summary = summarize(slices, task)
 
-            _taskAndPeriods.value = summary
+            _taskAndPeriods.value = slices
 
         }
 
@@ -112,7 +116,8 @@ class LoadPeriodSummariesViewModel(app: Application) : AndroidViewModel(app) {
 
     private fun summarize(
         slices: List<WorkUnit>,
-        task: Task
+        task: Task,
+        estimations: List<SizeTimeCountTO> = arrayListOf()
     ): SelectTaskTO {
         val now = Date()
         val day = now.beginningOfDay()
@@ -128,7 +133,8 @@ class LoadPeriodSummariesViewModel(app: Application) : AndroidViewModel(app) {
         val pMonth = PeriodSummaryTO.from(PeriodSummaryTO.Period.THIS_MONTH, slicesMonth)
         val pAll = PeriodSummaryTO.from(PeriodSummaryTO.Period.ALL, slices.toList())
 
+        val estimationsMinutes = countMinutes(estimations)
 
-        return SelectTaskTO(task, listOf(pToday, pWeek, pMonth, pAll))
+        return SelectTaskTO(task, listOf(pToday, pWeek, pMonth, pAll), sliceMinutes = pAll.minutes, estimationMinutes = estimationsMinutes)
     }
 }
