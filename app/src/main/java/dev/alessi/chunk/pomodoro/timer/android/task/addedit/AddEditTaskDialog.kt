@@ -9,7 +9,7 @@ import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -32,11 +32,11 @@ class AddEditTaskDialog : DialogFragment(), TextWatcher {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         mAddEditTaskviewModel = activity?.run {
-            ViewModelProviders.of(this)[AddEditTaskSharedViewModel::class.java]
+            ViewModelProvider(this)[AddEditTaskSharedViewModel::class.java]
         } ?: throw IllegalStateException("Invalid activity")
 
         mSharedViewModelSelect = activity?.run {
-            ViewModelProviders.of(this)[SelectTaskSharedViewModel::class.java]
+            ViewModelProvider(this)[SelectTaskSharedViewModel::class.java]
         } ?: throw IllegalStateException("Invalid activity")
 
         super.onCreate(savedInstanceState)

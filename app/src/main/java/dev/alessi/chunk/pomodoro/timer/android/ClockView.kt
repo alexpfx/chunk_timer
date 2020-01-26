@@ -39,7 +39,7 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
     private var clockActiveBorderColor: Int
     private var clockBackgroundColor: Int
     private var clockActiveBackgroundColor: Int
-
+    var clockSizeName: String = "XL"
 
     val borderColor
         get() = clockActiveBorderColor
@@ -66,12 +66,14 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
     private var hours: Int = 0
 
     private var _minutes: Int = 0
+
     var minutes: Int
         get() = _minutes
         set(value) {
             hours = value.div(60)
             _minutes = value
         }
+
 
     @Deprecated("")
     private var mCenterCircleColor: Int
@@ -97,6 +99,7 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
     private val mBlurPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val mFillPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val mTextPaint = TextPaint(Paint.ANTI_ALIAS_FLAG)
+    private val mAlphaPaint = TextPaint(Paint.ANTI_ALIAS_FLAG)
 
 
 //    private val mClockHandPaint = Paint(mBasePaint)
@@ -161,6 +164,7 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
 
     private fun initMembers() {
 
+
         mBlurPaint.apply {
             style = Paint.Style.STROKE
             color = Color.argb(
@@ -207,11 +211,21 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
 
         }
 
+
+        mAlphaPaint.apply {
+            style = Paint.Style.FILL
+            color = Color.argb(20, Color.red(mBorderColor), Color.green(mBorderColor), Color.blue(mBorderColor))
+            textAlign = Paint.Align.CENTER
+
+            typeface = Typeface.DEFAULT_BOLD
+
+        }
+
         mTextPaint.apply {
             style = Paint.Style.FILL
             textAlign = Paint.Align.CENTER
-            color = clockBorderColor
             typeface = Typeface.DEFAULT_BOLD
+            color = clockBorderColor
 
         }
 
@@ -245,6 +259,7 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
 
                 mCenterCircleColor = getColor(R.styleable.ClockView_clockCircleColor, Color.YELLOW)
                 minutes = getInt(R.styleable.ClockView_clockMinutes, 30)
+                clockSizeName = getString(R.styleable.ClockView_clockSizeName) ?: ""
 
 
                 mMinutesHandWidth = getDimension(R.styleable.ClockView_minutesHandWidth, 5f)
@@ -293,9 +308,12 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
             applyPadding(this)
 
 
+
+
             mTextPaint.apply {
                 textSize = (width * textSizeProportion)
             }
+
 
             val cx = width / 2f
             val cy = height / 2f
@@ -316,6 +334,14 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
                 color = if (isChecked) clockActiveBorderColor else clockBorderColor
                 strokeWidth = if (isChecked) mBorderWidth * 1.5f else mBorderWidth
             })
+
+
+
+            mAlphaPaint.apply {
+                textSize = (width * 0.7f)
+            }
+            drawSizeName(canvas, cx, cy, mAlphaPaint, sizeName = clockSizeName)
+
             if (isChecked) {
                 canvas.save()
                 canvas.scale(0.92f, 0.92f, cx, cy)
@@ -326,6 +352,9 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
             drawMinuteClockHands(this, cx, cy,
                 mFillHandsPaint.apply { color = if (isChecked) clockActiveClockHandsColor else clockClockHandsColor },
                 mTextPaint.apply { color = if (isChecked) clockActiveClockHandsColor else clockClockHandsColor })
+
+
+
 
             drawHourClockHand(
                 this,
@@ -396,6 +425,18 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
         return true
     }
 
+
+    private fun drawSizeName(canvas: Canvas, cx: Float, cy: Float, paint: Paint, sizeName: String) {
+
+
+        canvas.drawText(
+            sizeName,
+            cx,
+            cy - ((paint.descent() + paint.ascent()) / 2),
+            paint
+        )
+
+    }
 
     private fun drawMinuteClockHands(
         canvas: Canvas,

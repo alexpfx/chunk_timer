@@ -7,9 +7,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
@@ -24,8 +24,8 @@ class TimerActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener, ChunkTimerServiceControl {
 
 
-    private lateinit var mActivityControlViewModel: MainActivityControlViewModel
-    private lateinit var mTimerFinishViewModel: TimerFinishViewModel
+    private val mActivityControlViewModel: MainActivityControlViewModel by viewModels()
+    private val mTimerFinishViewModel: TimerFinishViewModel by viewModels()
 
     override fun onDestinationChanged(
         controller: NavController,
@@ -115,9 +115,9 @@ class TimerActivity : AppCompatActivity(),
         setSupportActionBar(toolbar)
 
 
-        mActivityControlViewModel = ViewModelProviders.of(this).get(MainActivityControlViewModel::class.java)
 
-        mTimerFinishViewModel = ViewModelProviders.of(this).get(TimerFinishViewModel::class.java)
+
+
 
         mActivityControlViewModel.title.observe(this, Observer {
             supportActionBar?.title = it

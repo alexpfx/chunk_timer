@@ -1,25 +1,42 @@
 package dev.alessi.chunk.pomodoro.timer.android.util
 
 import android.os.Build
-import org.threeten.bp.DateTimeUtils
-import java.time.temporal.ChronoUnit
+import dev.alessi.chunk.pomodoro.timer.android.ui.slice_history.adapter.DataItem
+import dev.alessi.chunk.pomodoro.timer.android.util.date.DateUtil
+import dev.alessi.chunk.pomodoro.timer.android.util.date.NewTimeApiDateUtil
+import dev.alessi.chunk.pomodoro.timer.android.util.date.ThreetenDateUtil
 import java.util.*
 
-class MyDateUtil {
+class MyDateUtil internal constructor(private val dateUtil: DateUtil) : DateUtil {
+
 
     companion object {
-
-        fun subDays(date: Date, days: Long): Date {
-
-            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                Date.from(date.toInstant().plus(days, ChronoUnit.DAYS))
+        fun getInstance(): MyDateUtil {
+            return if (Build.VERSION.SDK_INT < 26) {
+                MyDateUtil(ThreetenDateUtil())
             } else {
-                DateTimeUtils.toDate(DateTimeUtils.toInstant(date).plus(days, org.threeten.bp.temporal.ChronoUnit.DAYS))
+                MyDateUtil(NewTimeApiDateUtil())
             }
-
         }
-
-
     }
 
+
+    override fun startOfDay(baseDate: Date): Date {
+        return dateUtil.startOfDay(baseDate)
+    }
+
+    override fun startOfWeek(baseDate: Date): Date {
+        return dateUtil.startOfWeek(baseDate)
+    }
+
+    override fun startOfMonth(baseDate: Date): Date {
+        return dateUtil.startOfMonth(baseDate)
+    }
+
+    override fun addDaysTo(date: Date, days: Long): Date {
+        return dateUtil.addDaysTo(date, days)
+    }
+
+
 }
+

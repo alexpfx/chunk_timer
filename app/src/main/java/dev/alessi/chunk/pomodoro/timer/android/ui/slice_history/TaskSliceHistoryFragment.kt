@@ -1,19 +1,20 @@
-package dev.alessi.chunk.pomodoro.timer.android.ui.task_stats
+package dev.alessi.chunk.pomodoro.timer.android.ui.slice_history
 
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.ui.MainActivityControlViewModel
+import dev.alessi.chunk.pomodoro.timer.android.ui.slice_history.adapter.OnFilterChangedListener
+import dev.alessi.chunk.pomodoro.timer.android.ui.slice_history.adapter.SliceHistoryAdapter
 import dev.alessi.chunk.pomodoro.timer.android.ui.task.SelectTaskFragment
+import dev.alessi.chunk.pomodoro.timer.android.ui.task_stats.LoadPeriodSummariesViewModel
 import kotlinx.android.synthetic.main.fragment_task_slice_history.*
 import kotlinx.android.synthetic.main.layout_content_empty.*
 
@@ -21,46 +22,35 @@ import kotlinx.android.synthetic.main.layout_content_empty.*
 /**
  * TODO alterar nome para task info alguma coisa ou task summary alguma coisa
  */
-class TaskSliceHistory : Fragment() {
+class TaskSliceHistoryFragment : Fragment(R.layout.fragment_task_slice_history), OnFilterChangedListener {
 
-    private lateinit var mAdapter: TaskSliceHistoryAdapter
+    private val mSummariesViewModel: LoadPeriodSummariesViewModel by viewModels (::requireParentFragment)
+    private val mMainActivityControlViewModel: MainActivityControlViewModel by viewModels (::requireActivity)
 
-    private lateinit var mSummariesViewModel: LoadPeriodSummariesViewModel
-    private lateinit var mainActivityControlViewModel: MainActivityControlViewModel
+
+    private var mTaskId: Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        activity?.run {
-            mainActivityControlViewModel = ViewModelProviders.of(this).get(MainActivityControlViewModel::class.java)
-        } ?: throw Throwable("invalid activity")
 
-        mSummariesViewModel =
-            ViewModelProviders.of(this).get(LoadPeriodSummariesViewModel::class.java)
+        mMainActivityControlViewModel.updateTitle(getString(R.string.title_task_stats))
 
-        mainActivityControlViewModel.updateTitle(getString(R.string.title_task_stats))
 
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_task_slice_history, container, false)
-    }
-
 
     private fun initViewModelsListeners() {
+        val sliceHistoryAdapter = SliceHistoryAdapter(this)
+        recycler_slice_history.adapter = sliceHistoryAdapter
+
         mSummariesViewModel.onPeriodsFromTaskLoadedObserver.observe(viewLifecycleOwner, Observer {
             setNoContent()
             if (it.isNotEmpty()) {
-                mAdapter = TaskSliceHistoryAdapter(it)
-                recycler_slice_history.swapAdapter(mAdapter, true)
+                sliceHistoryAdapter.setItems(it)
                 setHasContent()
             }
         })
-
     }
 
     private fun setNoContent() {
@@ -75,20 +65,24 @@ class TaskSliceHistory : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         recycler_slice_history.layoutManager =
             LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
-        recycler_slice_history.adapter = TaskSliceHistoryAdapter(arrayListOf())
-
-
-        if (arguments != null) {
-            val taskId = arguments?.getInt(SelectTaskFragment.extra_param_task_id, -1)!!
-            mSummariesViewModel.loadAndSummarize(Task(taskId))
-        }
 
         initViewModelsListeners()
 
+
+        if (arguments != null) {
+            mTaskId = arguments?.getInt(SelectTaskFragment.extra_param_task_id, -1)!!
+
+
+            mSummariesViewModel.loadAndSummarize(Task(mTaskId))
+        }
+
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onFilterChanged() {
+        mSummariesViewModel.loadAndSummarize(Task(mTaskId))
     }
 
 

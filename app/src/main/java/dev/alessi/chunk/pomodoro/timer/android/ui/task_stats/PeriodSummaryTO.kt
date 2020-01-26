@@ -71,47 +71,17 @@ data class PeriodSummaryTO(
     }
 
 
-    data class Interval(val start: Date, val end: Date)
 
 
-    enum class Period(val labelKey: Int, val dateInterval: () -> Interval) {
 
-        TODAY(R.string.label_period_today, {
-            val now = Date()
-            Interval(
-                start = now,
-                end = dev.alessi.chunk.pomodoro.timer.android.util.MyDateUtil.subDays(now, 7)
-            )
-        }),
+    enum class Period(val labelKey: Int) {
 
-        THIS_WEEK(R.string.label_period_this_week, {
-            val now = Date()
-            Interval(
-                start = now,
-                end = dev.alessi.chunk.pomodoro.timer.android.util.MyDateUtil.subDays(now, 7)
-            )
-        }),
-        LAST_X_DAYS(R.string.label_period_last_7_days, {
-            val now = Date()
-            Interval(
-                start = now,
-                end = dev.alessi.chunk.pomodoro.timer.android.util.MyDateUtil.subDays(now, 7)
-            )
-        }),
-        THIS_MONTH(R.string.label_period_this_month, {
-            val now = Date()
-            Interval(
-                start = now,
-                end = dev.alessi.chunk.pomodoro.timer.android.util.MyDateUtil.subDays(now, 7)
-            )
-        }),
-        ALL(R.string.label_period_all, {
-            val now = Date()
-            Interval(
-                start = now,
-                end = dev.alessi.chunk.pomodoro.timer.android.util.MyDateUtil.subDays(now, 7)
-            )
-        });
+        TODAY(R.string.label_period_today),
+
+        THIS_WEEK(R.string.label_period_this_week),
+        LAST_X_DAYS(R.string.label_period_last_7_days),
+        THIS_MONTH(R.string.label_period_this_month),
+        ALL(R.string.label_period_all);
 
         override fun toString(): String {
             return "Period(labelKey=$labelKey)"

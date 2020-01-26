@@ -4,10 +4,9 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProviders
-import dev.alessi.chunk.pomodoro.timer.android.repository.EstimateRepositoryProvider
 import dev.alessi.chunk.pomodoro.timer.android.database.SizeTimeCountTO
 import dev.alessi.chunk.pomodoro.timer.android.database.WorkUnit
+import dev.alessi.chunk.pomodoro.timer.android.repository.EstimateRepositoryProvider
 import dev.alessi.chunk.pomodoro.timer.android.repository.EstimationRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

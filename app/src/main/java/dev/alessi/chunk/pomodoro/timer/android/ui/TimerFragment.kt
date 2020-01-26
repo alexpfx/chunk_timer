@@ -16,11 +16,12 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.google.android.material.textview.MaterialTextView
 import com.google.gson.Gson
+import dev.alessi.chunk.pomodoro.timer.android.AppUtilsProvider
 import dev.alessi.chunk.pomodoro.timer.android.ClockView
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
@@ -34,14 +35,13 @@ import dev.alessi.chunk.pomodoro.timer.android.util.toFormatedMinutes
 import kotlinx.android.synthetic.main.fragment_timer.*
 
 
-
-
 class TimerFragment : Fragment() {
     private lateinit var sizeBtns: List<ClockView>
 
     private lateinit var mTimerSharedViewModel: TimerSharedViewModel
     private lateinit var mSelectTaskSharedViewModel: SelectTaskSharedViewModel
     private lateinit var mMainActivityControlViewModel: MainActivityControlViewModel
+    private lateinit var mAppUtils: AppUtilsProvider
 //    private lateinit var mStatusChangedViewModel: StatusChangedViewModel
 
     private var mSelectedIndex = 2
@@ -51,6 +51,13 @@ class TimerFragment : Fragment() {
     private var mTask: Task = Task(description = "", uid = -1)
     private var mBreaktime = 0
     private var mServiceController: ChunkTimerServiceControl? = null
+
+
+    override fun onAttachFragment(childFragment: Fragment) {
+        super.onAttachFragment(childFragment)
+
+
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,44 +81,23 @@ class TimerFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-
-        mTimerSharedViewModel = activity?.run {
-            ViewModelProviders.of(this)[TimerSharedViewModel::class.java]
-        } ?: throw IllegalStateException("Invalid activity")
-
-        mSelectTaskSharedViewModel = activity?.run {
-            ViewModelProviders.of(this)[SelectTaskSharedViewModel::class.java]
-        } ?: throw IllegalStateException("Invalid activity")
-
         activity?.run {
-            mMainActivityControlViewModel = ViewModelProviders.of(this).get(MainActivityControlViewModel::class.java)
-        } ?: throw Throwable("invalid activity")
-
-
+            mTimerSharedViewModel = ViewModelProvider(this)[TimerSharedViewModel::class.java]
+            mSelectTaskSharedViewModel = ViewModelProvider(this)[SelectTaskSharedViewModel::class.java]
+            mMainActivityControlViewModel = ViewModelProvider(this)[MainActivityControlViewModel::class.java]
+            mAppUtils = activity?.application as AppUtilsProvider
+        }
 
         loadPreferences()
 
         mMainActivityControlViewModel.updateTitle(getString(R.string.app_name))
-
-
 
         initObservers()
 
     }
 
 
-    private fun removeObservers() {
-        mTimerSharedViewModel.breaktime.removeObservers(viewLifecycleOwner)
-        mTimerSharedViewModel.sizeIndex.removeObservers(viewLifecycleOwner)
-        mTimerSharedViewModel.sizes.removeObservers(viewLifecycleOwner)
-//        mStatusChangedViewModel.removeAllObservers(viewLifecycleOwner)
-    }
-
-
     private fun initObservers() {
-        println("initObservers")
-
-
 
         mSelectTaskSharedViewModel.getTaskObserver().observe(viewLifecycleOwner, Observer {
             mTask = it
@@ -194,6 +180,7 @@ class TimerFragment : Fragment() {
 
         forAllSizeButtons { it: ClockView ->
             it.minutes = mSizes[it.tag as Int]
+            it.clockSizeName = mAppUtils.getSizeName(it.tag as Int)
 
         }
     }

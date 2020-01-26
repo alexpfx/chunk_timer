@@ -11,26 +11,19 @@ class SliceRepositoryImpl(private val workUnitDao: WorkUnitDao, private val task
     private var taskSizeCache: MutableMap<Int, TaskSize>? = null
 
     override suspend fun loadAllSlicesFromTask(taskId: Int): List<WorkUnit> {
-        initCache()
 
         val wUnits = workUnitDao.selectAllFromTask(taskId, estimation = 0)
-        for (wu in wUnits) {
-            val size = taskSizeCache?.get(wu.sizeId)
-            wu.taskSize = size!!
-
-        }
 
         return wUnits.asList()
     }
 
     override suspend fun loadSlice(workUnitId: Int): WorkUnit {
-        initCache()
+
         val workUnit = workUnitDao.select(workUnitId)
-        val taskSize = taskSizeCache?.get(workUnit.sizeId)
 
         val task = workUnit.taskId.let { taskDao.load(it) }
 
-        workUnit.taskSize = taskSize
+
         workUnit.task = task
         return workUnit
     }
@@ -46,29 +39,6 @@ class SliceRepositoryImpl(private val workUnitDao: WorkUnitDao, private val task
     }
 
 
-    override suspend fun storeTaskSize(taskSize: TaskSize) {
-        val id = workUnitDao.insertTaskSize(taskSize)
-        if (id == -1L) {
-            workUnitDao.updateTaskSize(taskSize)
-        }
-    }
-
-    override suspend fun loadAllTaskSizes(): List<TaskSize> {
-        return workUnitDao.selectAllTaskSizes().asList()
-    }
-
-    private suspend fun initCache() {
-        if (taskSizeCache == null) {
-            val sizes = workUnitDao.selectAllTaskSizes()
-            taskSizeCache = mutableMapOf()
-            taskSizeCache?.let { map ->
-                sizes.forEach {
-                    map[it.id.toInt()] = it
-
-                }
-            }
-        }
-    }
 
 
 }

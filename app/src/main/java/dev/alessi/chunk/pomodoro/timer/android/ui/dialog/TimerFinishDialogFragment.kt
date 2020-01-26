@@ -7,8 +7,9 @@ import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dev.alessi.chunk.pomodoro.timer.android.AppUtilsProvider
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.database.WorkUnit
 import dev.alessi.chunk.pomodoro.timer.android.service.ChunkTimerService
@@ -22,15 +23,21 @@ class TimerFinishDialogFragment : DialogFragment() {
     private lateinit var mTimerFinishViewModel: TimerFinishViewModel
 
     private var mSlice: WorkUnit? = null
+    private lateinit var mAppUtils: AppUtilsProvider
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        mTimerFinishViewModel = ViewModelProviders.of(this).get(TimerFinishViewModel::class.java)
+
+
+
+        mTimerFinishViewModel = ViewModelProvider(this).get(TimerFinishViewModel::class.java)
         super.onCreate(savedInstanceState)
     }
 
 
     private val onSliceLoaded = Observer<WorkUnit> {
         mSlice = it
+
 
         updateUi()
     }
@@ -39,6 +46,7 @@ class TimerFinishDialogFragment : DialogFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         activity?.let {
             mTimerFinishViewModel.onSliceLoaded.observe(it, onSliceLoaded)
+            mAppUtils = it.application as AppUtilsProvider
         }
 
         super.onActivityCreated(savedInstanceState)
@@ -103,8 +111,7 @@ class TimerFinishDialogFragment : DialogFragment() {
 
         )
 
-        //TODO mostrar icone do size
-        txtSize?.text = mSlice?.taskSize?.name ?: ""
+        txtSize?.text = mAppUtils.getSizeName(mSlice?.sizeId ?: -1)
         txtTask?.text = mSlice?.task?.description ?: ""
 
     }

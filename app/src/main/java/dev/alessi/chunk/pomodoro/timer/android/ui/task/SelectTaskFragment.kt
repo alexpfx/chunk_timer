@@ -7,8 +7,9 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -45,24 +46,27 @@ class SelectTaskFragment : Fragment() {
 
         setHasOptionsMenu(true)
 
-        mTaskViewModel = ViewModelProviders.of(this).get(TaskViewModel::class.java)
+
+
+
+        mTaskViewModel = ViewModelProvider(this).get(TaskViewModel::class.java)
 
         mAddEditTaskSharedViewModel = activity?.run {
-            ViewModelProviders.of(this)[AddEditTaskSharedViewModel::class.java]
+            ViewModelProvider(this)[AddEditTaskSharedViewModel::class.java]
         } ?: throw IllegalStateException("Invalid activity")
 
 
         mSummariesViewModel =
-            ViewModelProviders.of(this).get(LoadPeriodSummariesViewModel::class.java)
+            ViewModelProvider(this)[LoadPeriodSummariesViewModel::class.java]
 
         mSelectTaskViewModel = activity?.run {
-            ViewModelProviders.of(this)[SelectTaskSharedViewModel::class.java]
+            ViewModelProvider(this)[SelectTaskSharedViewModel::class.java]
         } ?: throw IllegalStateException("Invalid activity")
 
         activity?.setTitle(R.string.title_select_task)
 
         activity?.run {
-            mainActivityControlViewModel = ViewModelProviders.of(this).get(MainActivityControlViewModel::class.java)
+            mainActivityControlViewModel = ViewModelProvider(this)[MainActivityControlViewModel::class.java]
         } ?: throw Throwable("invalid activity")
 
         mainActivityControlViewModel.updateTitle(getString(R.string.title_select_task))

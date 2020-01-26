@@ -74,7 +74,7 @@
         android:label="TimerSettingsDialogFragment" />
     <fragment
         android:id="@+id/taskStatsFragment"
-        android:name="dev.alessi.chunk.pomodoro.timer.android.ui.task_stats.TaskSliceHistory"
+        android:name="dev.alessi.chunk.pomodoro.timer.android.ui.slice_history.TaskSliceHistoryFragment"
         android:label="fragment_task_stats"
         tools:layout="@layout/fragment_task_slice_history" />
     <fragment

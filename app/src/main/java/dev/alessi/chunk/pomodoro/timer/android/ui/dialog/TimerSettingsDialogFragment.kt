@@ -6,8 +6,7 @@ import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
-import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import androidx.preference.PreferenceManager
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -20,25 +19,13 @@ import dev.alessi.chunk.pomodoro.timer.android.ui.TimerSharedViewModel
 
 class TimerSettingsDialogFragment : AppCompatDialogFragment() {
 
-    private lateinit var mTimerSharedModel: TimerSharedViewModel
+    private val mTimerSharedModel: TimerSharedViewModel by viewModels(::requireActivity)
     private lateinit var positiveButton: Button
     private lateinit var edts: Set<TextInputEditText>
     private lateinit var mBtnRestoreDefaults: MaterialButton
     private lateinit var neutralButton: Button
 
     private val gson: Gson = Gson()
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        mTimerSharedModel = activity?.run {
-            ViewModelProviders.of(this)[TimerSharedViewModel::class.java]
-        } ?: throw IllegalStateException("Invalid activity")
-
-        super.onCreate(savedInstanceState)
-
-
-
-    }
 
 
     private fun validateNotEmpty(): Boolean {

@@ -9,8 +9,8 @@ import android.view.*
 import android.widget.*
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -43,8 +43,8 @@ class EstimationFragment : Fragment(), EstimationActionListeners {
     lateinit var imageDragIconInfo: ImageView
     lateinit var textDragInfo: TextView
 
-    lateinit var mEstimationViewModel: EstimateViewModel
-    lateinit var mLoadTaskViewModel: TaskViewModel
+    private val mEstimationViewModel: EstimateViewModel by viewModels()
+    private val mLoadTaskViewModel: TaskViewModel by viewModels(::requireActivity)
     lateinit var mTask: Task
     lateinit var mEstimationAdapter: EstimationAdapter
 
@@ -64,11 +64,6 @@ class EstimationFragment : Fragment(), EstimationActionListeners {
         sizeMap =
             SizeValue.loadMapFromPreferences(PreferenceManager.getDefaultSharedPreferences(this.context))
 
-        mEstimationViewModel = ViewModelProviders.of(this)[EstimateViewModel::class.java]
-
-        mLoadTaskViewModel = activity?.run {
-            ViewModelProviders.of(this)[TaskViewModel::class.java]
-        } ?: throw IllegalArgumentException("activity nula")
 
         mEstimationAdapter =
             EstimationAdapter(this)
@@ -110,7 +105,6 @@ class EstimationFragment : Fragment(), EstimationActionListeners {
                 estimation = 1
             )
         )
-
 
 
     }
@@ -200,7 +194,7 @@ class EstimationFragment : Fragment(), EstimationActionListeners {
     private val onEditModeClick = View.OnClickListener {
         val isEditMode = mEstimationAdapter.toggleEditMode()
 
-        if (!isEditMode){
+        if (!isEditMode) {
             mEstimationViewModel.loadAllEstimations(mTask.uid!!)
         }
         updateEditModeIcon(isEditMode)

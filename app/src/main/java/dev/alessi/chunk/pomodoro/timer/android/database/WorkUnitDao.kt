@@ -41,17 +41,6 @@ interface WorkUnitDao {
     suspend fun select(id: Int): WorkUnit
 
 
-    @Query("select * from tasksize where id=:sizeIndex")
-    suspend fun loadTaskSize(sizeIndex: Int): TaskSize
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertTaskSize(taskSize: TaskSize): Long
-
-    @Update(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun updateTaskSize(taskSize: TaskSize)
-
-    @Query("select * from tasksize")
-    suspend fun selectAllTaskSizes(): Array<TaskSize>
 
 
 

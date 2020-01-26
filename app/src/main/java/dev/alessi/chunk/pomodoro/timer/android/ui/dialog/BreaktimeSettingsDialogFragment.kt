@@ -12,7 +12,7 @@ import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import androidx.preference.PreferenceManager
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -27,18 +27,8 @@ class BreaktimeSettingsDialogFragment : DialogFragment(),
     private lateinit var inputTextMinutes: AppCompatEditText
     private lateinit var inputLayoutTextMinutes: TextInputLayout
     private lateinit var positiveButton: Button
-    private lateinit var mTimerSharedModel: TimerSharedViewModel
+    private val mTimerSharedModel: TimerSharedViewModel by viewModels(::requireActivity)
     private lateinit var mRestoreDefaultButton: MaterialButton
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-
-        mTimerSharedModel = activity?.run {
-            ViewModelProviders.of(this)[TimerSharedViewModel::class.java]
-        } ?: throw IllegalStateException("Invalid activity")
-
-        super.onCreate(savedInstanceState)
-    }
 
 
     override fun afterTextChanged(s: Editable?) {

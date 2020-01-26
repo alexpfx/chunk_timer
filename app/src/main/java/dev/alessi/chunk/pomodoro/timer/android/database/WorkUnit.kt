@@ -11,7 +11,7 @@ import java.util.*
         entity = Task::class,
         parentColumns = arrayOf("uid"),
         childColumns = arrayOf("taskId")
-    ), ForeignKey(entity = TaskSize::class, parentColumns = ["id"], childColumns = ["sizeId"])]
+    )]
 )
 data class WorkUnit(
     @PrimaryKey(autoGenerate = true)
@@ -23,22 +23,17 @@ data class WorkUnit(
     var estimation: Int = 0,
 
     @Ignore
-    var task: Task? = null,
-
-    @Ignore
-    var taskSize: TaskSize? = null
+    var task: Task? = null
 
 
 ) {
 
 
-    constructor() : this(0, Date(), 0, 0, 0, 0, null, null)
+    constructor() : this(0, Date(), 0, 0, 0, 0, null)
 
     override fun toString(): String {
-        return "WorkUnit(uid=$uid, finishDate=$finishDate, timeMinutes=$timeMinutes, taskId=$taskId, sizeId=$sizeId, estimation=$estimation, task=$task, taskSize=$taskSize)"
+        return "WorkUnit(uid=$uid, finishDate=$finishDate, timeMinutes=$timeMinutes, taskId=$taskId, sizeId=$sizeId, estimation=$estimation, task=$task)"
     }
-
-
 
 
 }

@@ -10,7 +10,6 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.jakewharton.threetenabp.AndroidThreeTen
 import dev.alessi.chunk.pomodoro.timer.android.database.AppDatabase
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
-import dev.alessi.chunk.pomodoro.timer.android.database.TaskSize
 import dev.alessi.chunk.pomodoro.timer.android.repository.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +19,7 @@ import java.util.*
 
 
 class App : Application(), EstimateRepositoryProvider, TaskRepositoryProvider,
-    SliceRepositoryProvider {
+    SliceRepositoryProvider, AppUtilsProvider {
 
     private val db: AppDatabase by lazy {
         createDb()
@@ -55,39 +54,20 @@ class App : Application(), EstimateRepositoryProvider, TaskRepositoryProvider,
 
         createDb()
 
-        testDb()
-
         createNotificationChannel()
-    }
-
-    private fun testDb() {
-        scope.launch {
-
-            val ss = withContext(Dispatchers.IO) {
-                mSliceRepository.loadAllTaskSizes()
-            }
-
-            if (ss.isNullOrEmpty()) {
-                insertSizes()
-            }
-
-        }
     }
 
 
     private val onCreateDbCallback = object : RoomDatabase.Callback() {
 
         override fun onCreate(db: SupportSQLiteDatabase) {
-
-            //TODO ver como fazer migracao.
-            insertSizes()
-
-
+            prePopulate()
         }
 
     }
 
-    private fun insertSizes() {
+
+    private fun prePopulate() {
         scope.launch {
             withContext(Dispatchers.Default) {
 
@@ -99,41 +79,10 @@ class App : Application(), EstimateRepositoryProvider, TaskRepositoryProvider,
                     )
                 )
 
-                mSliceRepository.storeTaskSize(
-                    TaskSize(
-                        0,
-                        getString(R.string.label_sizes_pp)
-                    )
-                )
-                mSliceRepository.storeTaskSize(
-                    TaskSize(
-                        1,
-                        getString(R.string.label_sizes_p)
-                    )
-                )
-                mSliceRepository.storeTaskSize(
-                    TaskSize(
-                        2,
-                        getString(R.string.label_sizes_m)
-                    )
-                )
-                mSliceRepository.storeTaskSize(
-                    TaskSize(
-                        3,
-                        getString(R.string.label_sizes_g)
-                    )
-                )
-                mSliceRepository.storeTaskSize(
-                    TaskSize(
-                        4,
-                        getString(R.string.label_sizes_gg)
-                    )
-                )
-
-
             }
         }
     }
+
 
     private fun createDb(): AppDatabase {
         val db: AppDatabase =
@@ -141,9 +90,26 @@ class App : Application(), EstimateRepositoryProvider, TaskRepositoryProvider,
                 .addCallback(onCreateDbCallback)
                 .fallbackToDestructiveMigration().build()
 
-        db.query("select 1", null) //
+        db.query("select 1", null)
 
         return db
+    }
+
+
+    override fun getSizeName(index: Int): String {
+        val sizesNames = listOf(
+            R.string.label_sizes_pp,
+            R.string.label_sizes_p,
+            R.string.label_sizes_m,
+            R.string.label_sizes_g,
+            R.string.label_sizes_gg
+        )
+
+        if (index == -1) {
+            return ""
+        }
+
+        return getString(sizesNames[index])
 
 
     }
