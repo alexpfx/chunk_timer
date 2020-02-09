@@ -1,7 +1,9 @@
 package dev.alessi.chunk.pomodoro.timer.android.ui.dialog
 
 import android.app.Dialog
+import android.os.Build
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
@@ -11,26 +13,35 @@ import androidx.lifecycle.Observer
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.alessi.chunk.pomodoro.timer.android.AppUtilsProvider
 import dev.alessi.chunk.pomodoro.timer.android.R
+import dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView
 import dev.alessi.chunk.pomodoro.timer.android.database.WorkUnit
 import dev.alessi.chunk.pomodoro.timer.android.service.ChunkTimerService
 import dev.alessi.chunk.pomodoro.timer.android.util.IntentBuilder
 
 class TimerFinishDialogFragment : DialogFragment() {
 
-    private var txtTimer: TextView? = null
-    private var txtSize: TextView? = null
-    private var txtTask: TextView? = null
+    private var txtMessage: TextView? = null
+    private var clockviewTimerFinish: ClockView? = null
+
     private val mTimerFinishViewModel: TimerFinishViewModel by viewModels()
 
-    private var mSlice: WorkUnit? = null
+
+
     private lateinit var mAppUtils: AppUtilsProvider
 
 
-    private val onSliceLoaded = Observer<WorkUnit> {
-        mSlice = it
+    private val onSliceLoaded = Observer<WorkUnit> { wu ->
+
+        val sizeName = mAppUtils.getSizeName(wu.sizeId)
+        var taskName: String? = wu.task?.name
+        taskName = if (taskName?.isEmpty()!!) null else taskName
+
+        taskName?.let {
+            updateUi(wu.timeMinutes ?: 0, R.string.message_chunk_finish, sizeName, it)
+        } ?: updateUi(wu.timeMinutes ?: 0, R.string.message_chunk_finish_without_task, sizeName)
 
 
-        updateUi()
+
     }
 
 
@@ -88,22 +99,31 @@ class TimerFinishDialogFragment : DialogFragment() {
     }
 
     private fun extractViews(view: View?) {
-        txtTimer = view?.findViewById(R.id.txtTimer)
-        txtSize = view?.findViewById(R.id.txtSize)
-        txtTask = view?.findViewById(R.id.card_task)
+        txtMessage = view?.findViewById(R.id.txt_message)
+        clockviewTimerFinish = view?.findViewById(R.id.clockview_timerFinish)
     }
 
 
-    private fun updateUi() {
-
-        txtTimer?.text = context?.resources?.getQuantityString(
+    private fun updateUi(minutes: Int, message: Int, sizeName: String? = null, taskName: String? = null) {
+        val minuteStr = context?.resources?.getQuantityString(
             R.plurals.minutes,
-            mSlice?.timeMinutes ?: 0, mSlice?.timeMinutes ?: 0
-
+            minutes, minutes
         )
 
-        txtSize?.text = mAppUtils.getSizeName(mSlice?.sizeId ?: -1)
-        txtTask?.text = mSlice?.task?.description ?: ""
+        clockviewTimerFinish?.minutes = minutes
+
+        val html = if (sizeName != null) {
+            getString(message, sizeName, minuteStr, taskName)
+        } else {
+            getString(message, minuteStr)
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            txtMessage?.text = Html.fromHtml(html, Html.FROM_HTML_MODE_COMPACT)
+        } else {
+            txtMessage?.text = Html.fromHtml(html)
+        }
+
 
     }
 
@@ -111,9 +131,6 @@ class TimerFinishDialogFragment : DialogFragment() {
         builder: MaterialAlertDialogBuilder,
         extras: IntentBuilder.IntentTimeExtras
     ) {
-        builder.setTitle(R.string.message_title_timer_finish)
-        builder.setMessage(R.string.message_content_timer_finish)
-
         extras.sliceId?.let {
             if (it != -1) {
                 mTimerFinishViewModel.loadSlice(it)
@@ -128,19 +145,10 @@ class TimerFinishDialogFragment : DialogFragment() {
         builder: MaterialAlertDialogBuilder,
         extras: IntentBuilder.IntentTimeExtras
     ) {
-
-        builder.setTitle(R.string.message_title_timer_break_finish)
-        builder.setMessage(R.string.message_content_timer_break_finish)
         val totalTimeMinutes =
-            extras.totalTime / 60 / 1000
+            (extras.totalTime / 60 / 1000).toInt()
 
-        txtTimer?.text = context?.resources?.getQuantityString(
-            R.plurals.minutes,
-            totalTimeMinutes.toInt(),
-            totalTimeMinutes
-        )
-
-//        updateUi()
+        updateUi(minutes = totalTimeMinutes, message = R.string.message_breaktime_finish)
     }
 
 

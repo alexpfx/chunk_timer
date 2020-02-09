@@ -14,6 +14,7 @@ import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.ui.task_stats.PeriodSummaryTO
 import dev.alessi.chunk.pomodoro.timer.android.util.toFormatedTime
+import java.util.*
 
 
 class SelectTaskRecyclerAdapter(
@@ -113,7 +114,11 @@ class SelectTaskRecyclerAdapter(
                     filteredList = mutableListOf()
                     isFiltering = true
                     for (item in items) {
-                        if (item.task.description.toLowerCase().contains(constraint.toString().toLowerCase())) {
+                        val constraintLc = constraint.toString().toLowerCase(Locale.getDefault())
+
+                        if (item.task.description.toLowerCase(Locale.getDefault()).contains(constraintLc) ||
+                            (item.task.name.toLowerCase(Locale.getDefault()).contains(constraintLc))
+                        ) {
                             filteredList.add(item)
                         }
                     }

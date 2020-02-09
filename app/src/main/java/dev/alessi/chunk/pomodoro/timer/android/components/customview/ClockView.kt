@@ -75,6 +75,7 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
         set(value) {
             hours = value.div(60)
             _minutes = value
+            postInvalidate()
         }
 
 

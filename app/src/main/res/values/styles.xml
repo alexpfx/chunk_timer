@@ -22,7 +22,7 @@
     </style>
 
     <style name="Widget.Timer.Button" parent="Widget.MaterialComponents.Button">
-        <item name="shapeAppearance">?attr/shapeAppearanceMediumComponent</item>
+        <item name="shapeAppearance">?attr/shapeAppearanceSmallComponent</item>
         <item name="android:paddingTop">@dimen/keyline_3</item>
         <item name="android:paddingRight">@dimen/keyline_4</item>
         <item name="android:paddingLeft">@dimen/keyline_4</item>
@@ -35,7 +35,7 @@
     </style>
 
     <style name="Widget.Timer.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="shapeAppearance">?attr/shapeAppearanceMediumComponent</item>
+        <item name="shapeAppearance">?attr/shapeAppearanceSmallComponent</item>
         <item name="android:padding">@dimen/padding_medium</item>
         <item name="android:textColor">?colorOnSurface</item>
 
@@ -56,12 +56,12 @@
 
 
     <style name="Widget.Timer.CardView" parent="Widget.MaterialComponents.CardView">
-        <item name="shapeAppearance">?attr/shapeAppearanceSmallComponent</item>
+        <item name="shapeAppearance">?attr/shapeAppearanceMediumComponent</item>
+        <item name="cardBackgroundColor">?colorBackground</item>
 
-    </style>
+        <item name="strokeWidth">0.2dp</item>
+        <item name="strokeColor">@color/color_primary</item>
 
-    <style name="Widget.Timer.TextView." parent="Widget.MaterialComponents.CardView">
-        <item name="shapeAppearance">?attr/shapeAppearanceSmallComponent</item>
 
     </style>
 
@@ -128,15 +128,15 @@
 
     </style>
 
-
     <style name="RecyclerViews" parent="Widget.AppCompat.ListView">
 
 
     </style>
 
     <style name="divider">
-        <item name="android:background">?colorControlNormal</item>
-        <item name="android:alpha">0.18</item>
+        <item name="android:background">?colorPrimary</item>
+        <item name="android:alpha">0.25</item>
+        <item name="android:layout_height">0.2dp</item>
     </style>
 
     <style name="Widget.Timer.ExposedDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu">
@@ -163,12 +163,12 @@
         <item name="clockActiveBorderColor">?colorPrimary</item>
         <item name="clockActiveClockHandsColor">?colorPrimary</item>
         <item name="clockActiveMinutesFontColor">?colorPrimary</item>
-        <item name="clockActiveBackgroundColor">#cfd8dc</item>
+        <item name="clockActiveBackgroundColor">?colorSurface</item>
 
         <item name="clockBorderColor">?colorControlNormal</item>
         <item name="clockClockHandsColor">?colorControlNormal</item>
         <item name="clockMinutesFontColor">?colorControlNormal</item>
-        <item name="clockBackgroundColor">?colorSurface</item>
+        <item name="clockBackgroundColor">?colorBackground</item>
 
 
         <!--<item name="android:background">@drawable/background_selected_button</item>-->

@@ -74,6 +74,15 @@
     </string>
     <string name="message_click_select_task">Selecionar Tarefa</string>
 
+    <string name="message_chunk_finish"><![CDATA[
+        Parabéns! você finalizou um timer de tamanho <b> %s </b> de <b> %s</b> para a tarefa <b><i> %s <i></b>]]></string>
+
+    <string name="message_chunk_finish_without_task"><![CDATA[
+        Parabéns! você finalizou um timer de tamanho <b> %s </b> de <b> %s</b>]]></string>
+
+    <string name="message_breaktime_finish"><![CDATA[
+        Você finalizou um intervalo de <b>%s</b>.]]></string>
+
     <string name="message_title_timer_break_finish">Intervalo acabou</string>
     <string name="message_content_timer_break_finish">Hora de voltar ao trabalho!</string>
     <string name="message_task_archived">Task foi arquivada</string>

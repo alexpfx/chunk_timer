@@ -16,9 +16,9 @@
 
     <dimen name="default_border_radious">5dp</dimen>
 
-    <dimen name="corner_size_medium">8dp</dimen>
     <dimen name="corner_size_small">4dp</dimen>
-    <dimen name="corner_size_large">16dp</dimen>
+    <dimen name="corner_size_medium">6dp</dimen>
+    <dimen name="corner_size_large">10dp</dimen>
 
     <dimen name="padding_tiny">4dp</dimen>
     <dimen name="padding_small">8dp</dimen>

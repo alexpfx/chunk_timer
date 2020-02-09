@@ -24,9 +24,11 @@ class TimerLayoutEventViewModel : ViewModel() {
         val isTimer: Boolean = true,
         val txtTimerTitleRes: Int = 0,
         val readOnly: Boolean = false,
+        val chunkIndex: Int = 2,
+        val breaktimeIndex: Int = 0,
+        var chunkSizes: List<Int> = listOf(12, 24, 36, 48, 60),
+        var breaktimeSizes: List<Int> = listOf(5, 10, 20)
 
-        val sizeIndex: Int = 2,
-        val breakIndex: Int = 0
 
     ) {
         fun copyAndIncId(): TimerFragmentViewState {

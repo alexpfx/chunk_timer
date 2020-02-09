@@ -57,8 +57,6 @@ class TimerFragment : Fragment() {
 
     )
 
-    private var mChunkSizes: List<Int> = listOf(12, 24, 36, 48, 60)
-    private var mBreaktimes: List<Int> = listOf(5, 10, 20)
 
     private var mGson: Gson = Gson()
     private var mTask: Task = Task(name = "", description = "", uid = -1)
@@ -87,11 +85,8 @@ class TimerFragment : Fragment() {
 
         mAppUtils = activity?.application as AppUtilsProvider
 
-        loadPreferences()
         initViewModelsObservers()
-
-        mLayoutEventViewModel.fireEvent(CLOCK_TIMER_SETUP, mLayoutStatus.copyAndIncId())
-
+        loadPreferences()
 
     }
 
@@ -129,8 +124,6 @@ class TimerFragment : Fragment() {
             }
             INDEX_CHANGE -> {
                 storeLastIndexes()
-                clockviewgroup_chunk_timers.syncSelection(mLayoutStatus.sizeIndex)
-                clockviewgroup_breaktimes.syncSelection(mLayoutStatus.breakIndex)
                 setupClock()
             }
         }
@@ -142,6 +135,12 @@ class TimerFragment : Fragment() {
      * do tipo CLOCK_TIMER_SET acontece.
      */
     private fun setupClock() {
+        clockviewgroup_chunk_timers.updateSizes(mLayoutStatus.chunkSizes)
+        clockviewgroup_breaktimes.updateSizes(mLayoutStatus.breaktimeSizes)
+
+        clockviewgroup_chunk_timers.syncSelection(mLayoutStatus.chunkIndex)
+        clockviewgroup_breaktimes.syncSelection(mLayoutStatus.breaktimeIndex)
+
         val timeMinutes = getTimerMinutes()
 
         val formatedTime = DateUtils.formatElapsedTime(timeMinutes * 60.toLong())
@@ -150,7 +149,7 @@ class TimerFragment : Fragment() {
         val timeMillis = timeMinutes * 60 * 1000.toLong()
 
         updateClockTimer(timeMillis, timeMillis, -1)
-        mMainActivityControlSharedViewModel.updateSubtitle("")
+//        mMainActivityControlSharedViewModel.updateSubtitle("")
 
 
     }
@@ -203,15 +202,13 @@ class TimerFragment : Fragment() {
         mConfigTimersSharedViewModel.run {
 
             onChunkSizesChangedObserver.observe(viewLifecycleOwner, Observer {
-                mChunkSizes = it
-                updateChunkSizeClockviews()
+                mLayoutEventViewModel.fireEvent(CLOCK_TIMER_SETUP, mLayoutStatus.copy(chunkSizes = it))
+
+
             })
 
             onBreaktimesChangedObserver.observe(viewLifecycleOwner, Observer {
-                mBreaktimes = it
-                updateBreaktimesSizeClockViews()
-
-
+                mLayoutEventViewModel.fireEvent(CLOCK_TIMER_SETUP, mLayoutStatus.copy(breaktimeSizes = it))
             })
 
         }
@@ -234,28 +231,25 @@ class TimerFragment : Fragment() {
 
     private fun storeLastIndexes() {
         getSharedPreferences().edit()
-            .putInt(KEY_LAST_INDEX, mLayoutStatus.sizeIndex)
-            .putInt(KEY_LAST_BREAKTIME_INDEX, mLayoutStatus.breakIndex)
+            .putInt(KEY_LAST_INDEX, mLayoutStatus.chunkIndex)
+            .putInt(KEY_LAST_BREAKTIME_INDEX, mLayoutStatus.breaktimeIndex)
             .apply()
 
     }
 
     private fun loadPreferences() {
         val sharedPreferences = getSharedPreferences()
-        val sizesStr = sharedPreferences.getString(KEY_SIZE_JSON_ARRAY, DEFAULT_JSON_SIZES)
+        val chunktimesStr = sharedPreferences.getString(KEY_SIZE_JSON_ARRAY, DEFAULT_JSON_SIZES)
         val breaktimeStr = sharedPreferences.getString(KEY_BREAKTIME_JSON_ARRAY, DEFAULT_JSON_BREAKS)
 
-        val sizesArray = mGson.fromJson(sizesStr, Array<Int>::class.java)
-        mConfigTimersSharedViewModel.setSizes(sizesArray.toList())
+        val chunktimesList = mGson.fromJson(chunktimesStr, Array<Int>::class.java).toList()
+        val breaktimes = mGson.fromJson(breaktimeStr, Array<Int>::class.java).toList()
 
-        mBreaktimes = mGson.fromJson(breaktimeStr, Array<Int>::class.java).toList()
-        mConfigTimersSharedViewModel.setBreaktimes(mBreaktimes)
+        val breaktimeIndex = sharedPreferences.getInt(KEY_LAST_BREAKTIME_INDEX, 0)
+        val chunktimeIndex = sharedPreferences.getInt(KEY_LAST_INDEX, 2)
 
+        mLayoutEventViewModel.fireEvent(CLOCK_TIMER_SETUP, mLayoutStatus.copy(chunkSizes = chunktimesList, breaktimeSizes = breaktimes, chunkIndex = chunktimeIndex, breaktimeIndex = breaktimeIndex))
 
-        val mSelectedBrektimeIndex = sharedPreferences.getInt(KEY_LAST_BREAKTIME_INDEX, 0)
-        val mSelectedIndex = sharedPreferences.getInt(KEY_LAST_INDEX, 2)
-
-        mLayoutEventViewModel.fireEvent(INDEX_CHANGE, mLayoutStatus.copy(breakIndex = mSelectedBrektimeIndex, sizeIndex = mSelectedIndex))
 
     }
 
@@ -263,18 +257,18 @@ class TimerFragment : Fragment() {
         return PreferenceManager.getDefaultSharedPreferences(context)
     }
 
-    private fun updateChunkSizeClockviews() {
+    /*private fun updateChunkSizeClockviews() {
         clockviewgroup_chunk_timers.updateSizes(mChunkSizes)
         clockviewgroup_chunk_timers.syncSelection(mLayoutStatus.sizeIndex)
-        setupClock()
+
     }
 
     private fun updateBreaktimesSizeClockViews() {
         clockviewgroup_breaktimes.updateSizes(mBreaktimes)
         clockviewgroup_chunk_timers.syncSelection(mLayoutStatus.breakIndex)
-        setupClock()
-    }
 
+    }
+*/
 
     private fun updateTask() {
         txt_task_name.text = mTask.name
@@ -413,12 +407,12 @@ class TimerFragment : Fragment() {
     private val onClockViewSelected = { clockView: ClockView ->
         val tag = (clockView.tag).toString()
 
-        mLayoutEventViewModel.fireEvent(INDEX_CHANGE, mLayoutStatus.copy(sizeIndex = tag.toInt()))
+        mLayoutEventViewModel.fireEvent(INDEX_CHANGE, mLayoutStatus.copy(chunkIndex = tag.toInt()))
     }
 
     private val onClockViewBreakSelected = { clockView: ClockView ->
         val tag = (clockView.tag).toString()
-        mLayoutEventViewModel.fireEvent(INDEX_CHANGE, mLayoutStatus.copy(breakIndex = tag.toInt()))
+        mLayoutEventViewModel.fireEvent(INDEX_CHANGE, mLayoutStatus.copy(breaktimeIndex = tag.toInt()))
 
     }
 
@@ -510,7 +504,7 @@ class TimerFragment : Fragment() {
 
         mServiceController?.doStartService(
             timeMinutes * 60 * 1000.toLong(),
-            mLayoutStatus.sizeIndex, mTask.uid!!, getStartCommand()
+            mLayoutStatus.chunkIndex, mTask.uid!!, getStartCommand()
         )
     }
 
@@ -520,7 +514,7 @@ class TimerFragment : Fragment() {
 
 
     private fun getTimerMinutes(): Int {
-        return if (mLayoutStatus.isTimer) return mChunkSizes[mLayoutStatus.sizeIndex] else mBreaktimes[mLayoutStatus.breakIndex]
+        return if (mLayoutStatus.isTimer) return mLayoutStatus.chunkSizes[mLayoutStatus.chunkIndex] else mLayoutStatus.breaktimeSizes[mLayoutStatus.breaktimeIndex]
     }
 
     private fun actionCancelTimer(view: View) {

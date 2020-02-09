@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="color_primary">#607D8B</color>
-    <color name="color_primary_variant">#37474F</color>
+    <color name="color_primary">#0493a4</color>
+    <color name="color_primary_variant">#04343e</color>
 
 
-    <color name="color_secondary">#F06292</color>
-    <color name="color_secondary_variant">#e91e62</color>
+    <color name="color_secondary">#fe4a49</color>
 
-    <color name="color_background">#d0d0d0</color>
-    <color name="color_surface">#ffffff</color>
+    <color name="color_secondary_variant">#c13f3d</color>
+
+    <color name="color_background">#fff</color>
+    <color name="color_surface">#f6f8fa</color>
 
     <color name="color_error">#cf6679</color>
 
@@ -18,7 +19,7 @@
     <color name="color_on_background">@color/blackLight</color>
     <color name="color_on_surface">@color/blackLight</color>
 
-    <color name="color_control_normal">#000000</color>
+    <color name="color_control_normal">@color/blackLight</color>
 
     <color name="color_secondary_on_surface">#fff</color>
     <color name="color_on_error">@color/blackLight</color>
@@ -26,7 +27,7 @@
     <color name="colorAccent">#fb8c48</color>
 
 
-    <color name="blackLight">#000000</color>
+    <color name="blackLight">#1e383c</color>
 
 
     <color name="clock_active_border_color">@color/colorAccent</color>

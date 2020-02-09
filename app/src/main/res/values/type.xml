@@ -3,7 +3,7 @@
 
 
     <style name="TextAppearance.Timer.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
-        <item name="fontFamily">@font/roboto_thin</item>
+        <item name="fontFamily">@font/open_sans</item>
 
     </style>
 
@@ -15,26 +15,24 @@
 
     <style name="TextAppearance.Timer.Body2" parent="TextAppearance.MaterialComponents.Body2">
         <item name="android:alpha">?alphaEmphasisMedium</item>
-        <item name="fontFamily">@font/roboto</item>
+        <item name="fontFamily">@font/open_sans</item>
 
 
     </style>
 
     <style name="TextAppearance.Timer.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
-        <item name="fontFamily">@font/roboto_bold</item>
-
-
+        <item name="fontFamily">@font/open_sans_semibold</item>
     </style>
 
     <style name="TextAppearance.Timer.Body1" parent="TextAppearance.MaterialComponents.Body1">
         <item name="android:alpha">?alphaEmphasisMedium</item>
-        <item name="fontFamily">@font/roboto</item>
+        <item name="fontFamily">@font/open_sans</item>
     </style>
 
 
     <style name="TextAppearance.Timer.Caption" parent="TextAppearance.MaterialComponents.Caption">
         <item name="android:alpha">?alphaEmphasisDisabled</item>
-        <item name="fontFamily">@font/roboto</item>
+        <item name="fontFamily">@font/open_sans</item>
 
     </style>
 

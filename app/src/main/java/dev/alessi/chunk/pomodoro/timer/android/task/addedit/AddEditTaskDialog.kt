@@ -124,9 +124,9 @@ class AddEditTaskDialog : DialogFragment() {
 
 
     private fun onPositiveButtonClick(view: View) {
-        if (mTask.description.isEmpty()) {
-            mInputTaskDescription.isErrorEnabled = true
-            mInputTaskDescription.error = getString(R.string.message_error_input_break_time_empty)
+        if (mTask.name.isEmpty()) {
+            mInputTaskName.isErrorEnabled = true
+            mInputTaskName.error = getString(R.string.message_error_input_break_time_empty)
 
         } else {
             saveTask()

@@ -3,29 +3,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:padding="@dimen/keyline_4"
     android:layout_height="match_parent">
 
-
-    <TextView
-        android:id="@+id/lblBreaktimeTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView
+        android:id="@+id/clockview_timerFinish"
+        style="@style/ButtonClockView.PP"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        app:clockMinutes="36"
         android:layout_marginTop="16dp"
-        android:text="@string/label_time_break"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/txtTimer"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textview.MaterialTextView
+        android:textAppearance="?textAppearanceSubtitle1"
+        android:id="@+id/txtTitle"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-
         android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/lblBreaktimeTime"
-        app:layout_constraintStart_toEndOf="@+id/lblBreaktimeTime"
-        tools:text="10 minutos" />
+        android:layout_marginEnd="16dp"
+        tools:text="Timer Finalizado"
+        android:text="@string/message_title_timer_finish"
+        app:layout_constraintBottom_toBottomOf="@+id/clockview_timerFinish"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/clockview_timerFinish"
+        app:layout_constraintTop_toTopOf="@+id/clockview_timerFinish" />
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/txt_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clockview_timerFinish"
+        tools:text="Parabéns, você finalizou um chunk tamanho M de 26 minutos para a tarefa Criação de testes unitários" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
