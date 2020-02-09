@@ -9,38 +9,27 @@ import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
-import dev.alessi.chunk.pomodoro.timer.android.ui.SelectTaskSharedViewModel
+import dev.alessi.chunk.pomodoro.timer.android.util.TextWatcherAdapter
 import java.util.*
 
-class AddEditTaskDialog : DialogFragment(), TextWatcher {
+class AddEditTaskDialog : DialogFragment() {
 
-    private lateinit var mSharedViewModelSelect: SelectTaskSharedViewModel
-    private lateinit var mEdtTask: TextInputEditText
-    private lateinit var mInputTask: TextInputLayout
+    private lateinit var mEdtTaskName: TextInputEditText
+    private lateinit var mEdtTaskDescription: TextInputEditText
+
+
+    private lateinit var mInputTaskName: TextInputLayout
+    private lateinit var mInputTaskDescription: TextInputLayout
     private lateinit var mPositiveButton: Button
     private var mTask: Task = Task(description = "", uid = null)
 
-
-    lateinit var mAddEditTaskviewModel: AddEditTaskSharedViewModel
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        mAddEditTaskviewModel = activity?.run {
-            ViewModelProvider(this)[AddEditTaskSharedViewModel::class.java]
-        } ?: throw IllegalStateException("Invalid activity")
-
-        mSharedViewModelSelect = activity?.run {
-            ViewModelProvider(this)[SelectTaskSharedViewModel::class.java]
-        } ?: throw IllegalStateException("Invalid activity")
-
-        super.onCreate(savedInstanceState)
-    }
+    private val mAddEditTaskviewModel: AddEditTaskSharedViewModel by viewModels(::requireActivity)
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
@@ -72,10 +61,27 @@ class AddEditTaskDialog : DialogFragment(), TextWatcher {
         mPositiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
         mPositiveButton.setOnClickListener(::onPositiveButtonClick)
 
-        mEdtTask = dialog.findViewById(R.id.edtTaskName)!!
-        mInputTask = dialog.findViewById(R.id.inputLayoutTaskname)!!
 
-        mEdtTask.addTextChangedListener(this)
+        mEdtTaskDescription = dialog.findViewById(R.id.edt_task_description)!!
+        mInputTaskDescription = dialog.findViewById(R.id.input_layout_description)!!
+
+        mEdtTaskName = dialog.findViewById(R.id.edt_task_name)!!
+        mInputTaskName = dialog.findViewById(R.id.input_layout_task_name)!!
+
+        mEdtTaskName.addTextChangedListener(object : TextWatcherAdapter() {
+            override fun afterTextChanged(s: Editable?) {
+                mTask.name = s?.toString() ?: ""
+                if (mTask.name.isNotEmpty()) {
+                    mInputTaskDescription.isErrorEnabled = false
+                }
+            }
+        })
+
+        mEdtTaskDescription.addTextChangedListener(object : TextWatcherAdapter() {
+            override fun afterTextChanged(s: Editable?) {
+                mTask.description = s?.toString() ?: ""
+            }
+        })
 
 
         if (arguments != null) {
@@ -101,7 +107,7 @@ class AddEditTaskDialog : DialogFragment(), TextWatcher {
 
     private fun updateUi() {
 
-        mEdtTask.setText(mTask.description)
+        mEdtTaskDescription.setText(mTask.description)
     }
 
 
@@ -109,29 +115,18 @@ class AddEditTaskDialog : DialogFragment(), TextWatcher {
         mAddEditTaskviewModel.saveTask(
             Task(
                 uid = null,
+                name = mTask.name,
                 description = mTask.description,
                 dateCreated = Date()
             )
         )
     }
 
-    override fun afterTextChanged(s: Editable?) {
-        mTask.description = s?.toString() ?: ""
-        mInputTask.isErrorEnabled = false
-    }
-
-    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-    }
-
-    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-    }
 
     private fun onPositiveButtonClick(view: View) {
         if (mTask.description.isEmpty()) {
-            mInputTask.isErrorEnabled = true
-            mInputTask.error = getString(R.string.message_error_input_break_time_empty)
+            mInputTaskDescription.isErrorEnabled = true
+            mInputTaskDescription.error = getString(R.string.message_error_input_break_time_empty)
 
         } else {
             saveTask()

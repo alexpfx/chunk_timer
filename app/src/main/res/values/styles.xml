@@ -10,12 +10,12 @@
 
     <style name="Widget.Timer.ImageButton" parent="@style/Widget.AppCompat.ImageButton">
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
-        <item name="android:alpha">?alphaEmphasisMedium</item>
+        <!--<item name="android:alpha">?alphaEmphasisMedium</item>-->
         <item name="android:tint">?attr/colorOnSurface</item>
     </style>
 
-    <style name="Widget.Timer.TextView" parent="Widget.AppCompat.TextView">
-        <item name="android:alpha">?attr/alphaEmphasisMedium</item>
+    <style name="Widget.Timer.TextView" parent="Widget.MaterialComponents.TextView">
+
         <item name="android:textAppearance">?textAppearanceBody2</item>
         <item name="drawableTint">?colorSurface</item>
 
@@ -23,21 +23,29 @@
 
     <style name="Widget.Timer.Button" parent="Widget.MaterialComponents.Button">
         <item name="shapeAppearance">?attr/shapeAppearanceMediumComponent</item>
-        <item name="android:padding">@dimen/padding_medium</item>
+        <item name="android:paddingTop">@dimen/keyline_3</item>
+        <item name="android:paddingRight">@dimen/keyline_4</item>
+        <item name="android:paddingLeft">@dimen/keyline_4</item>
+
+
+        <item name="iconPadding">@dimen/keyline_2</item>
+
+
+        <item name="android:paddingBottom">@dimen/keyline_3</item>
     </style>
 
     <style name="Widget.Timer.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="shapeAppearance">?attr/shapeAppearanceMediumComponent</item>
         <item name="android:padding">@dimen/padding_medium</item>
-        <item name="backgroundTint">?colorSurface</item>
+        <item name="android:textColor">?colorOnSurface</item>
+
+
     </style>
 
 
     <style name="Widget.Timer.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
 
     </style>
-
-
 
 
     <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog">
@@ -52,6 +60,10 @@
 
     </style>
 
+    <style name="Widget.Timer.TextView." parent="Widget.MaterialComponents.CardView">
+        <item name="shapeAppearance">?attr/shapeAppearanceSmallComponent</item>
+
+    </style>
 
 
     <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
@@ -73,9 +85,6 @@
         <item name="colorControlActivated">@color/white</item>-->
 
     </style>
-
-
-
 
 
     <style name="TimerActionButton" parent="Widget.MaterialComponents.Button">
@@ -136,6 +145,7 @@
     </style>
 
     <style name="ButtonClockView">
+        <item name="android:padding">1dp</item>
 
         <item name="borderWidth">@dimen/stroke_width_medium</item>
         <item name="circleRadius">3dp</item>
@@ -143,11 +153,10 @@
         <item name="hoursHandWidth">3dp</item>
         <item name="minutesFontSize">10sp</item>
         <item name="minutesHandWidth">2.2dp</item>
-        <item name="android:padding">1dp</item>
+        <!--<item name="android:padding">0dp</item>-->
         <item name="minutesHandHeight">19dp</item>
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_weight">1</item>
+
+
         <item name="android:foreground">?attr/selectableItemBackgroundBorderless</item>
         <item name="android:layout_margin">1dp</item>
 
@@ -162,7 +171,6 @@
         <item name="clockBackgroundColor">?colorSurface</item>
 
 
-
         <!--<item name="android:background">@drawable/background_selected_button</item>-->
 
 
@@ -170,27 +178,30 @@
 
 
     <style name="ButtonClockView.PP" parent="ButtonClockView">
+        <item name="clockSizeName">@string/label_sizes_pp</item>
 
 
     </style>
 
     <style name="ButtonClockView.P" parent="ButtonClockView">
+        <item name="clockSizeName">@string/label_sizes_p</item>
 
     </style>
 
     <style name="ButtonClockView.M" parent="ButtonClockView">
+        <item name="clockSizeName">@string/label_sizes_m</item>
 
     </style>
 
     <style name="ButtonClockView.G" parent="ButtonClockView">
+        <item name="clockSizeName">@string/label_sizes_g</item>
 
     </style>
 
     <style name="ButtonClockView.GG" parent="ButtonClockView">
+        <item name="clockSizeName">@string/label_sizes_gg</item>
 
     </style>
-
-
 
 
 </resources>

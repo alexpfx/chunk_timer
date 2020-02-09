@@ -22,8 +22,6 @@ import java.util.*
 
 
 class ChunkTimerService : Service() {
-
-
     private var mServiceRunning = false
 
 
@@ -108,9 +106,7 @@ class ChunkTimerService : Service() {
 
         return command
 
-
     }
-
 
     private fun commandRequestStatusUpdate() {
         if (this::mChunckTimer.isInitialized && mChunckTimer.running) {
@@ -119,9 +115,7 @@ class ChunkTimerService : Service() {
             broadcastEvent(Event.ON_SERVICE_STOPPED)
         }
 
-
     }
-
 
     private fun startClockTimer(intent: Intent, event: @Event Int) {
         if (!mServiceRunning) {
@@ -145,12 +139,15 @@ class ChunkTimerService : Service() {
             this, intent
         )
 
-
     }
 
     private fun stopService(event: @Event Int) {
         mNotificationManagerCompat?.cancelAll()
-        mChunckTimer.stopTimer()
+
+        if (this::mChunckTimer.isInitialized){
+            mChunckTimer.stopTimer()
+        }
+
 
         stopForeground(true)
         stopSelf()
@@ -261,7 +258,7 @@ class ChunkTimerService : Service() {
             createBundleForEvent(event, tickType, sliceId)
 
         if (event != Event.ON_TICK) {
-            println("sendBroadcast $event")
+
         }
 
         sendBroadcast(intent)
@@ -348,7 +345,6 @@ class ChunkTimerService : Service() {
         mChunckTimer?.let {
             mNotificationManagerCompat?.notifyTick(mCurrentTime, applicationContext, mapTypeToEvent(it.type))
         }
-
     }
 
     private fun mapTypeToEvent(type: @ChunkCountDownTimer.Type Int): @Event Int {
@@ -361,7 +357,6 @@ class ChunkTimerService : Service() {
             applicationContext
         )
 
-
         val extras = Bundle().apply {
             putInt(extra_param_event, Event.ON_TIME_SLICE_COMPLETED)
             id?.let {
@@ -369,15 +364,17 @@ class ChunkTimerService : Service() {
             }
         }
 
-
         val intent = IntentBuilder.getIntentForActivity(applicationContext, extras)
         startActivity(intent)
-
 
     }
 
 
     private fun onClockFinish() {
+        if (!this::mChunckTimer.isInitialized){
+            return
+        }
+
         val command = if (mChunckTimer.type == ChunkCountDownTimer.Type.SLICE_TIMER)
             Command.ACTION_COMPLETE_TIME_SLICE
         else Command.ACTION_COMPLETE_BREAKTIME

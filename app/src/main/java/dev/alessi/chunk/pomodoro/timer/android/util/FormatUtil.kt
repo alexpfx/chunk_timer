@@ -28,7 +28,7 @@ fun Long.toFormatedElapsedInMinutes(): String {
 
     val hours = (this / (60000 * 60))
 
-    println("minutes: $minutes")
+
     return if (minutes < 100)
         "${rMinutes.toString().padStart(2, '0')}:${rSeconds.toString().padStart(2, '0')}"
     else

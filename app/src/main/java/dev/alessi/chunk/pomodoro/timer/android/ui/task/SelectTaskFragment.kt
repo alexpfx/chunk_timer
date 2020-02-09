@@ -9,11 +9,11 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.google.android.material.snackbar.Snackbar
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
@@ -30,15 +30,17 @@ class SelectTaskFragment : Fragment() {
 
     lateinit var mAdapter: SelectTaskRecyclerAdapter
 
-    private lateinit var mSummariesViewModel: LoadPeriodSummariesViewModel
+    private val mSummariesViewModel: LoadPeriodSummariesViewModel by viewModels()
 
-    private lateinit var mSelectTaskViewModel: SelectTaskSharedViewModel
+    private val mSelectTaskViewModel: SelectTaskSharedViewModel by viewModels(::requireActivity)
 
-    private lateinit var mainActivityControlViewModel: MainActivityControlViewModel
+    private val mainActivityControlViewModel: MainActivityControlViewModel by viewModels(::requireActivity)
 
-    private lateinit var mTaskViewModel: TaskViewModel
+    private val mTaskViewModel: TaskViewModel by viewModels()
 
-    private lateinit var mAddEditTaskSharedViewModel: AddEditTaskSharedViewModel
+//    private lateinit var mTaskViewModel: TaskViewModel
+
+    private val mAddEditTaskSharedViewModel: AddEditTaskSharedViewModel by viewModels(::requireActivity)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,30 +48,11 @@ class SelectTaskFragment : Fragment() {
 
         setHasOptionsMenu(true)
 
+    }
 
-
-
-        mTaskViewModel = ViewModelProvider(this).get(TaskViewModel::class.java)
-
-        mAddEditTaskSharedViewModel = activity?.run {
-            ViewModelProvider(this)[AddEditTaskSharedViewModel::class.java]
-        } ?: throw IllegalStateException("Invalid activity")
-
-
-        mSummariesViewModel =
-            ViewModelProvider(this)[LoadPeriodSummariesViewModel::class.java]
-
-        mSelectTaskViewModel = activity?.run {
-            ViewModelProvider(this)[SelectTaskSharedViewModel::class.java]
-        } ?: throw IllegalStateException("Invalid activity")
-
-        activity?.setTitle(R.string.title_select_task)
-
-        activity?.run {
-            mainActivityControlViewModel = ViewModelProvider(this)[MainActivityControlViewModel::class.java]
-        } ?: throw Throwable("invalid activity")
-
+    override fun onResume() {
         mainActivityControlViewModel.updateTitle(getString(R.string.title_select_task))
+        super.onResume()
 
     }
 
@@ -121,18 +104,11 @@ class SelectTaskFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
         return inflater.inflate(R.layout.fragment_select_task, container, false)
     }
 
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-
-
-        initViewModelsListeners()
-
-
-        super.onActivityCreated(savedInstanceState)
-    }
 
 
     private val onArchiveActionObserver = Observer<Task> { task ->
@@ -188,6 +164,8 @@ class SelectTaskFragment : Fragment() {
         super.onStop()
     }
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         mAdapter = SelectTaskRecyclerAdapter(
@@ -200,6 +178,20 @@ class SelectTaskFragment : Fragment() {
         )
 
         initViewModelsListeners()
+
+
+        recycler_view_select_task.addOnScrollListener(object : OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy > 0) {
+//                    fab.hide()
+                } else {
+//                    fab.show()
+                }
+                super.onScrolled(recyclerView, dx, dy)
+            }
+
+        })
+
 
         recycler_view_select_task.adapter = mAdapter
         val layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
@@ -216,9 +208,17 @@ class SelectTaskFragment : Fragment() {
         mSummariesViewModel.loadAllAndSummarizeAndEstimations()
 
 
-        fabAddTask.setOnClickListener(::actionOpenAddTaskDialog)
+        fab.setOnClickListener(::actionOpenAddTaskDialog)
+
+
 
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onDestroyView() {
+
+        mTaskViewModel.taskArchivedObserver.removeObservers(viewLifecycleOwner)
+        super.onDestroyView()
     }
 
     private fun initViewModelsListeners() {
@@ -226,10 +226,13 @@ class SelectTaskFragment : Fragment() {
             mSummariesViewModel.loadAllAndSummarizeAndEstimations()
         }))
 
-        mTaskViewModel.taskArchivedObserver.observe(
-            viewLifecycleOwner,
-            onArchiveActionObserver
-        )
+
+        mTaskViewModel.taskArchivedObserver.observeForever (onArchiveActionObserver)
+
+//        mTaskViewModel.taskArchivedObserver.observe(
+//            viewLifecycleOwner,
+//            onArchiveActionObserver
+//        )
 
         mSummariesViewModel.onPeriodsLoadedObserver.observe(
             viewLifecycleOwner,
@@ -239,6 +242,8 @@ class SelectTaskFragment : Fragment() {
         )
 
     }
+
+
 
     private fun setNoContent() {
         layout_content.visibility = View.INVISIBLE

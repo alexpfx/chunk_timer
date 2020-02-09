@@ -9,7 +9,7 @@
 //import android.widget.AutoCompleteTextView
 //import android.widget.TextView
 //import androidx.recyclerview.widget.RecyclerView
-//import dev.alessi.chunk.pomodoro.timer.android.ClockView
+//import dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView
 //import dev.alessi.chunk.pomodoro.timer.android.R
 //import dev.alessi.chunk.pomodoro.timer.android.database.WorkUnit
 //import kotlinx.coroutines.CoroutineScope

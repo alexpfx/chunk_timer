@@ -1,9 +1,6 @@
 package dev.alessi.chunk.pomodoro.timer.android.database
 
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.Ignore
-import androidx.room.PrimaryKey
+import androidx.room.*
 import java.util.*
 
 @Entity(
@@ -18,7 +15,7 @@ data class WorkUnit(
     var uid: Int? = null,
     var finishDate: Date = Date(),
     var timeMinutes: Int,
-    var taskId: Int,
+    var taskId: Int? = null,
     var sizeId: Int,
     var estimation: Int = 0,
 

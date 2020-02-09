@@ -68,6 +68,8 @@ class App : Application(), EstimateRepositoryProvider, TaskRepositoryProvider,
 
 
     private fun prePopulate() {
+
+
         scope.launch {
             withContext(Dispatchers.Default) {
 
@@ -86,9 +88,9 @@ class App : Application(), EstimateRepositoryProvider, TaskRepositoryProvider,
 
     private fun createDb(): AppDatabase {
         val db: AppDatabase =
-            Room.databaseBuilder(this, AppDatabase::class.java, "nbd.db")
+            Room.databaseBuilder(this, AppDatabase::class.java, "fafa.db")
                 .addCallback(onCreateDbCallback)
-                .fallbackToDestructiveMigration().build()
+                .build()
 
         db.query("select 1", null)
 

@@ -22,12 +22,14 @@ class EstimationRepositoryImpl(private val workUnitDao: WorkUnitDao) :
     override suspend fun removeEstimation(workUnit: WorkUnit) {
         try {
             println("removeWorkUnit $workUnit")
-            workUnitDao.deleteFirstSimilar(
-                workUnit.taskId,
-                workUnit.sizeId,
-                workUnit.timeMinutes,
-                1
-            )
+            workUnit.taskId?.let {
+                workUnitDao.deleteFirstSimilar(
+                    it,
+                    workUnit.sizeId,
+                    workUnit.timeMinutes,
+                    1
+                )
+            }
         } catch (e: Exception) {
             error(e, "erro ao remover work unit $workUnit")
             throw e
@@ -36,12 +38,14 @@ class EstimationRepositoryImpl(private val workUnitDao: WorkUnitDao) :
 
     override suspend fun removeAllSimilarEstimations(estimation: WorkUnit) {
         try {
-            workUnitDao.deleteAllSimilar(
-                estimation.taskId,
-                estimation.sizeId,
-                estimation.timeMinutes,
-                1
-            )
+            estimation.taskId?.let {
+                workUnitDao.deleteAllSimilar(
+                    it,
+                    estimation.sizeId,
+                    estimation.timeMinutes,
+                    1
+                )
+            }
         } catch (e: Exception) {
             error(e, "erro ao remover work unit $estimation")
             throw e

@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dev.alessi.chunk.pomodoro.timer.android.AppUtilsProvider
 import dev.alessi.chunk.pomodoro.timer.android.R
@@ -20,19 +20,10 @@ class TimerFinishDialogFragment : DialogFragment() {
     private var txtTimer: TextView? = null
     private var txtSize: TextView? = null
     private var txtTask: TextView? = null
-    private lateinit var mTimerFinishViewModel: TimerFinishViewModel
+    private val mTimerFinishViewModel: TimerFinishViewModel by viewModels()
 
     private var mSlice: WorkUnit? = null
     private lateinit var mAppUtils: AppUtilsProvider
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-
-
-
-        mTimerFinishViewModel = ViewModelProvider(this).get(TimerFinishViewModel::class.java)
-        super.onCreate(savedInstanceState)
-    }
 
 
     private val onSliceLoaded = Observer<WorkUnit> {

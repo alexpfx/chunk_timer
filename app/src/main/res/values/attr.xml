@@ -4,6 +4,7 @@
     <attr name="alphaEmphasisMedium" format="float"/>
     <attr name="alphaEmphasisDisabled" format="float"/>
     <attr name="materialButtonToggle" format="reference"/>
+    <attr name="colorBackground" format="color"/>
 
 
     <declare-styleable name="BadgedButton">
@@ -20,6 +21,11 @@
     <declare-styleable name="ViewStatsSizeItem">
         <attr name="text" format="string"/>
 
+    </declare-styleable>
+
+
+    <declare-styleable name="ClockViewGroup">
+        <attr name="message" format="string"/>
     </declare-styleable>
 
 

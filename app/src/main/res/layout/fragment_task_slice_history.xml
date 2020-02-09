@@ -3,13 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/padding_small"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:contentPadding="@dimen/padding_small"
+    android:layout_margin="@dimen/keyline_4"
     >
 
 
     <include
         layout="@layout/layout_content_empty"
         tools:visibility="gone" />
+
 
 
     <androidx.recyclerview.widget.RecyclerView

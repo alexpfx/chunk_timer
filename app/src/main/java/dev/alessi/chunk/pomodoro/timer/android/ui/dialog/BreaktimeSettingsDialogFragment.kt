@@ -17,9 +17,12 @@ import androidx.preference.PreferenceManager
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
+import com.google.gson.Gson
 import dev.alessi.chunk.pomodoro.timer.android.R
+import dev.alessi.chunk.pomodoro.timer.android.ui.ConfigTimersSharedViewModel
 import dev.alessi.chunk.pomodoro.timer.android.ui.TimerFragment
-import dev.alessi.chunk.pomodoro.timer.android.ui.TimerSharedViewModel
+
+const val DEFAULT_JSON_BREAKS = "[5,10,20]"
 
 class BreaktimeSettingsDialogFragment : DialogFragment(),
     TextWatcher {
@@ -27,9 +30,10 @@ class BreaktimeSettingsDialogFragment : DialogFragment(),
     private lateinit var inputTextMinutes: AppCompatEditText
     private lateinit var inputLayoutTextMinutes: TextInputLayout
     private lateinit var positiveButton: Button
-    private val mTimerSharedModel: TimerSharedViewModel by viewModels(::requireActivity)
+    private val mConfigTimersSharedModel: ConfigTimersSharedViewModel by viewModels(::requireActivity)
     private lateinit var mRestoreDefaultButton: MaterialButton
-
+    private var mGson: Gson = Gson()
+    private var mBreaktimes = listOf(10, 15, 20)
 
     override fun afterTextChanged(s: Editable?) {
         validateForm()
@@ -56,12 +60,25 @@ class BreaktimeSettingsDialogFragment : DialogFragment(),
     }
 
     private fun saveBreakTime() {
-        val minutes: Int = inputTextMinutes.text.toString().toInt()
-        mTimerSharedModel.setBreaktime(minutes)
+        val it: Int = inputTextMinutes.text.toString().toInt()
+
+
+        val i = mBreaktimes.indexOf(it)
+        mBreaktimes = if (i == -1)
+            arrayListOf(it) + mBreaktimes.dropLast(1)
+        else
+            arrayListOf(it) + mBreaktimes.minus(it)
+
+        val p = getPrefences()
+
+        p.edit().putString(TimerFragment.KEY_BREAKTIME_JSON_ARRAY, mGson.toJson(mBreaktimes)).apply()
+
+
 
     }
 
-    private fun getPreferenceManager(): SharedPreferences {
+
+    private fun getPrefences(): SharedPreferences {
         return PreferenceManager.getDefaultSharedPreferences(context)
     }
 
@@ -87,7 +104,6 @@ class BreaktimeSettingsDialogFragment : DialogFragment(),
         }
 
     }
-
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = activity?.let {
@@ -117,7 +133,7 @@ class BreaktimeSettingsDialogFragment : DialogFragment(),
                 android.R.string.ok
             ) { _, _ ->
                 saveBreakTime()
-
+                mConfigTimersSharedModel.setBreaktimes(mBreaktimes)
 
             }.setNegativeButton(android.R.string.no) { _, _ ->
                 run {
@@ -131,16 +147,24 @@ class BreaktimeSettingsDialogFragment : DialogFragment(),
         } ?: throw IllegalStateException("activity cannot be null")
         positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
 
-        val p = getPreferenceManager()
-        val minutes = p.getInt(TimerFragment.KEY_LAST_BREAKTIME, 10).toString()
+        loadBreaktimes()
+//        val lastIndex = p.getInt(TimerFragment.KEY_LAST_BREAKTIME_INDEX, 0)
 
-        inputTextMinutes.setText(minutes)
+        val minutes = mBreaktimes[0]
+
+        inputTextMinutes.setText(minutes.toString())
 
         validateForm()
         dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
 
         inputTextMinutes.clearFocus()
         return dialog
+    }
+
+    private fun loadBreaktimes() {
+        val p = getPrefences()
+        val json = p.getString(TimerFragment.KEY_BREAKTIME_JSON_ARRAY, DEFAULT_JSON_BREAKS)
+        mBreaktimes = mGson.fromJson(json, Array<Int>::class.java).toList()
     }
 
 }

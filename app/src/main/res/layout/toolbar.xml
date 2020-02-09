@@ -7,12 +7,20 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
 
 
+    android:fitsSystemWindows="true"
+
+
     >
+
+
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+
+        app:layout_scrollFlags="snap"
+
 
 
         android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"

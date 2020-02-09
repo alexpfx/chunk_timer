@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.layout_content_empty.*
  */
 class TaskSliceHistoryFragment : Fragment(R.layout.fragment_task_slice_history), OnFilterChangedListener {
 
-    private val mSummariesViewModel: LoadPeriodSummariesViewModel by viewModels (::requireParentFragment)
+    private val mSummariesViewModel: LoadPeriodSummariesViewModel by viewModels ()
     private val mMainActivityControlViewModel: MainActivityControlViewModel by viewModels (::requireActivity)
 
 
@@ -33,7 +33,7 @@ class TaskSliceHistoryFragment : Fragment(R.layout.fragment_task_slice_history),
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        mMainActivityControlViewModel.updateTitle(getString(R.string.title_task_stats))
+        mMainActivityControlViewModel.updateTitle(getString(R.string.title_task_infos))
 
 
         super.onCreate(savedInstanceState)

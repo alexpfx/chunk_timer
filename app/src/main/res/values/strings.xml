@@ -1,16 +1,18 @@
 <resources>
-    <string name="app_name">Pizza Slice Timer</string>
+    <string name="app_name">Time Chunk</string>
+    <string name="app_subtitle">Task and Time Manager App</string>
+
     <string name="label_sizes_pp">PP</string>
     <string name="label_sizes_p">P</string>
     <string name="label_sizes_m">M</string>
     <string name="label_sizes_g">G</string>
     <string name="label_sizes_gg">GG</string>
-    <string name="button_label_cancel">Cancelar Tarefa</string>
-    <string name="button_label_start">Iniciar Tarefa</string>
+    <string name="button_label_cancel">Cancelar</string>
+    <string name="button_label_start">Iniciar</string>
     <string name="button_label_sort_and_confirm">Ordenar e Aplicar</string>
 
     <string name="button_label_cancel_break">Cancelar Intervalo</string>
-    <string name="button_label_start_break">Iniciar Intervalo</string>
+    <string name="button_label_start_break">Intervalo</string>
     <string name="init_timer_time">00:00:00</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -23,7 +25,8 @@
     <string name="title_new_task">Nova Tarefa</string>
     <string name="title_edit_task">Editar Tarefa</string>
     <string name="title_select_task">Selecionar Tarefa</string>
-    <string name="title_task_stats">Estatísticas de tarefa</string>
+    <string name="title_task_infos">Histórico da Tarefa</string>
+    <string name="title_task_estimation">Estimativas</string>
 
 
     <string name="category_title_time_settings">Time Settings</string>
@@ -38,11 +41,13 @@
     <string name="tag_ringing_breaktime">1</string>
     <string name="tag_ringing_tick">2</string>
     <string name="label_task_time">Tarefa</string>
-    <string name="label_breaktime">Intervalo</string>
+
+
     <string name="label_task">Tarefa: </string>
     <string name="message_hint_workunit_without_task">(Sem tarefa) </string>
     <string name="message_hint_choose_task">Clique para escolher ou adicionar uma tarefa</string>
     <string name="message_hint_choose_period">Periodo</string>
+    <string name="label_hint_done_estimation">Realizado / Estimado</string>
     <string name="message_hint_no_task">Sem tarefa</string>
 
     <string name="message_exit_app">Tem certeza que deseja sair do App?</string>
@@ -63,7 +68,11 @@
     <string name="message_title_timer_finish">Timer finalizado</string>
     <string name="message_title_breaktimetime_finish">Intervalo finalizado</string>
     <string name="message_content_timer_finish">Hora de descansar!</string>
-    <string name="message_select_task">Clique sobre o nome da tarefa que deseja utilizar:</string>
+    <string name="message_select_timer_">Selecione o timer:</string>
+    <string name="message_select_breaktime_">
+        Selecione um dos últimos intervalos usados:
+    </string>
+    <string name="message_click_select_task">Selecionar Tarefa</string>
 
     <string name="message_title_timer_break_finish">Intervalo acabou</string>
     <string name="message_content_timer_break_finish">Hora de voltar ao trabalho!</string>
@@ -88,7 +97,8 @@
     <string name="dialog_message_sizes">Escolha o tempo em minutos para cada timer</string>
     <string name="dialog_button_label_restore_defaults">Restaurar padrão</string>
     <string name="dialog_textfield_hint_interval_time">Tempo de Intervalo</string>
-    <string name="dialog_textfield_hint_task_name">Nome da Tarefa</string>
+    <string name="dialog_textfield_hint_task_name">Nome</string>
+    <string name="dialog_textfield_hint_task_desc">Descrição</string>
     <string name="label_period_today">Hoje</string>
     <string name="label_period_this_week">Esta semana</string>
     <string name="label_period_last_7_days">Últimos 7 dias</string>
@@ -102,6 +112,12 @@
     <string name="label_sound_timer">Toque do timer:</string>
     <string name="label_sound_breaktime">Toque do intervalo:</string>
     <string name="label_size">Tamanho do timer: </string>
+    <string name="label_timer_">Timer:</string>
+    <string name="label_breaktime_">Intervalo:</string>
+    <string name="label_timer">Timer</string>
+    <string name="label_breaktime">Intervalo</string>
+
+
 
     <plurals name="minutes">
         <item quantity="one">%d minuto</item>
@@ -138,6 +154,7 @@
     <string name="symbol_no_data">-</string>
 
     <string name="nothing_yet">Nenhum Ainda</string>
+    <string name="label_done_estimation">* Realizado / Estimado</string>
     <string name="nothing_yet_fem">Nenhuma Ainda</string>
     <string name="content_description_size0">Timer tamanho PP</string>
     <string name="content_description_size1">Timer tamanho P</string>
@@ -157,6 +174,7 @@
     <string name="label_drag">Arraste:</string>
     <string name="label_drag_to_here">Arraste aqui para adicionar tempo às estimativas</string>
     <string name="label_edit_mode">Modo de edição</string>
+    <string name="loren">Lorem Ipsum is simply dummy text of the printing and typesetting industry.              Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s,              when an unknown printer took a galley of type and scrambled it to make a type specimen book.              It has survived not only five centuries, but also the leap into electronic typesetting,              remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset              sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Why do we use it?</string>
 
     <plurals name="label_format_hours">
         <item quantity="one">%s hour</item>

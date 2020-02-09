@@ -36,7 +36,7 @@ class EstimateViewModel(val app: Application) : AndroidViewModel(app) {
             }
 
             val sizeTimeCountTO = withContext(Dispatchers.IO) {
-                getRepository().countAllSimilarEstimations(estimation.taskId, estimation)
+                estimation.taskId?.let { getRepository().countAllSimilarEstimations(it, estimation) }
             }
 
             mAllEstimationsFor.value = sizeTimeCountTO
@@ -55,7 +55,7 @@ class EstimateViewModel(val app: Application) : AndroidViewModel(app) {
             }
 
             val sizeTimeCountTO: SizeTimeCountTO? = withContext(Dispatchers.IO) {
-                getRepository().countAllSimilarEstimations(estimation.taskId, estimation)
+                estimation.taskId?.let { getRepository().countAllSimilarEstimations(it, estimation) }
             }
 
             mAllEstimationsFor.value = sizeTimeCountTO?.run {
@@ -68,12 +68,12 @@ class EstimateViewModel(val app: Application) : AndroidViewModel(app) {
 
     fun removeAllEstimations(workUnit: WorkUnit) {
         scope.launch {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 getRepository().removeAllSimilarEstimations(workUnit)
             }
 
-            val estimations = withContext(Dispatchers.IO){
-                getRepository().countAllEstimationsFromTask(workUnit.taskId)
+            val estimations = withContext(Dispatchers.IO) {
+                workUnit.taskId?.let { getRepository().countAllEstimationsFromTask(it) }
             }
 
             mAllEstimations.value = estimations
@@ -92,7 +92,6 @@ class EstimateViewModel(val app: Application) : AndroidViewModel(app) {
         }
 
     }
-
 
 
     private fun getRepository(): EstimationRepository {

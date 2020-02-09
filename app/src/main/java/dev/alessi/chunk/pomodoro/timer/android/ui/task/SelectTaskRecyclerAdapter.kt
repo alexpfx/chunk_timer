@@ -5,9 +5,10 @@ import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import androidx.constraintlayout.widget.Group
-import androidx.core.content.ContextCompat
+import android.widget.Filter
+import android.widget.Filterable
+import android.widget.ImageButton
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
@@ -59,7 +60,6 @@ class SelectTaskRecyclerAdapter(
         val taskSummariesTO = (it.tag as SelectTaskTO)
         onEstimateTaskClick(taskSummariesTO.task)
     }
-
 
 
     private fun remove(list: List<SelectTaskTO>, position: Int) {
@@ -144,7 +144,8 @@ class TaskViewHolder(
     val context: Context
 ) :
     RecyclerView.ViewHolder(view) {
-    private var txtTaskDesc: TextView = view.findViewById(R.id.txt_task_desk)
+    private var txtTaskName: TextView = view.findViewById(R.id.txt_task_name)
+    private var txtTaskDesc: TextView = view.findViewById(R.id.txt_task_description)
     private var txtTaskCreatedAt: TextView = view.findViewById(R.id.txtCreatedAt)
     //    private val chipSummary = view.findViewById<Chip>(R.id.chipSummary)
     private val btnInfo = view.findViewById<ImageButton>(R.id.btnInfo)
@@ -152,26 +153,17 @@ class TaskViewHolder(
 
     private val btnEstimate = view.findViewById<ImageButton>(R.id.btnEstimate)
 
-    private val txtEstimation = view.findViewById<TextView>(R.id.txt_estimation)
 
-    private val txtDone = view.findViewById<TextView>(R.id.txt_done)
+    private val txtDone = view.findViewById<TextView>(R.id.txt_done_estimate)
 
-    private val txtButtonExpand = view.findViewById<ImageButton>(R.id.txtButtonExpand)
-    private val groupPanel = view.findViewById<Group>(R.id.group_panel)
-    private val drawableExpand =
-        ContextCompat.getDrawable(context, R.drawable.ic_expand_more_black_24dp)
-    private val drawableCollapse =
-        ContextCompat.getDrawable(context, R.drawable.ic_expand_less_black_24dp)
 
     private var taskSummaryTO: SelectTaskTO? = null
-
-    private var expanded = false
-
 
 
     init {
 //        view.setOnClickListener(selectTaskClick)
 
+        txtTaskName.setOnClickListener(selectTaskClick)
         txtTaskDesc.setOnClickListener(selectTaskClick)
         btnInfo.setOnClickListener(taskInfoClick)
         btnEstimate.setOnClickListener(estimateTaskClick)
@@ -189,60 +181,27 @@ class TaskViewHolder(
             archiveTaskClick.onClick(it)
         }
 
-        txtButtonExpand.setOnClickListener {
-            expanded = !expanded
-
-            updatePanel()
-        }
-
 
     }
 
-    private fun updatePanel() {
-        changeTxtButtonExpandCollapseStatus(expanded)
-
-    }
-
-    private fun changeTxtButtonExpandCollapseStatus(visible: Boolean) {
-        val drawable = if (visible) drawableCollapse else drawableExpand
-        val visibility = if (visible) View.VISIBLE else View.GONE
-
-        txtButtonExpand.setImageDrawable(drawable)
-
-//        txtButtonExpand.setCompoundDrawablesWithIntrinsicBounds(
-//            null,
-//            null,
-//            drawable,
-//            null
-//        )
-
-        groupPanel.visibility = visibility
-        groupPanel.requestLayout()
-
-    }
-
-
-    private fun addChild(index: Int, value: Int, drawableRes: Int) {
-
-
-
-    }
 
     fun bind(taskSummaryTO: SelectTaskTO) {
 
         this.taskSummaryTO = taskSummaryTO
 
         txtTaskDesc.text = taskSummaryTO.task.description
+        txtTaskName.text = taskSummaryTO.task.name
 
 //        chipSummary.tag = taskSummaryTO
         btnInfo.tag = taskSummaryTO
         txtTaskDesc.tag = taskSummaryTO
+        txtTaskName.tag = taskSummaryTO
         btnArchive.tag = taskSummaryTO
         btnEstimate.tag = taskSummaryTO
 
-        if (taskSummaryTO.estimationMinutes > 0){
+        if (taskSummaryTO.estimationMinutes > 0) {
 
-            addChild(0, taskSummaryTO.estimationMinutes, -1)
+
         }
 
         val summary = taskSummaryTO.getPeriod()
@@ -253,18 +212,15 @@ class TaskViewHolder(
 
         val formatDate = DateUtils.formatDateTime(
             context, dateTime, DateUtils.FORMAT_SHOW_TIME or DateUtils.FORMAT_SHOW_DATE or
-                    DateUtils.FORMAT_SHOW_YEAR or DateUtils.FORMAT_SHOW_WEEKDAY or DateUtils.FORMAT_ABBREV_ALL
+                    DateUtils.FORMAT_SHOW_YEAR or DateUtils.FORMAT_SHOW_WEEKDAY or DateUtils.FORMAT_NUMERIC_DATE or DateUtils.FORMAT_ABBREV_ALL
         )
-
-        txtEstimation.text = taskSummaryTO.estimationMinutes.toFormatedTime()
-        txtDone.text = taskSummaryTO.sliceMinutes.toFormatedTime()
-
 
 
 //        txtTaskCreatedAt.text =
 //            context.getString(R.string.label_format_created_at, formatDate)
 
         txtTaskCreatedAt.text = formatDate
+        txtDone.text = "${taskSummaryTO.sliceMinutes.toFormatedTime()} / ${taskSummaryTO.estimationMinutes.toFormatedTime()}"
     }
 
     private fun setChipSummary(summary: PeriodSummaryTO?) {

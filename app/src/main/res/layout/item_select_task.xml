@@ -6,7 +6,7 @@
 
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="1dp">
+    android:layout_marginTop="@dimen/keyline_1">
 
     <androidx.constraintlayout.widget.ConstraintLayout
 
@@ -15,21 +15,103 @@
 
         android:minHeight="56dp">
 
-
         <TextView
-            android:id="@+id/txt_task_desk"
+            android:id="@+id/txt_task_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:textAppearance="?textAppearanceBody1"
+
+            android:padding="@dimen/keyline_2"
+            android:textAppearance="?textAppearanceSubtitle1"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            tools:text="Implementar testes unitários" />
+
+
+        <TextView
+            android:id="@+id/txt_task_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+
+
+            android:padding="@dimen/keyline_2"
+            android:textAppearance="?textAppearanceBody1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/txt_task_name"
+            app:layout_constraintTop_toBottomOf="@+id/txt_task_name"
             tools:text="Implementar testes unitarios e validar execução de testes funcionais" />
+
+
+        <View
+            android:id="@+id/div1"
+            style="@style/divider"
+            android:layout_width="0dp"
+
+            android:layout_height="1dp"
+
+            android:layout_marginStart="4dp"
+
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/txt_task_description"
+            app:layout_constraintStart_toStartOf="@id/txt_task_description"
+            app:layout_constraintTop_toBottomOf="@id/txt_task_description" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_done_estimate"
+
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="8dp"
+            android:gravity="start"
+
+            android:hint="@string/label_hint_done_estimation"
+
+            android:padding="@dimen/keyline_1"
+
+            android:text="@string/nothing_yet"
+            android:textAppearance="?textAppearanceOverline"
+            app:layout_constraintStart_toStartOf="@+id/txt_task_description"
+            app:layout_constraintTop_toBottomOf="@id/div1"
+            tools:text="02 h" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txtCreatedAt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            android:padding="@dimen/keyline_1"
+
+            android:textAppearance="?textAppearanceOverline"
+            app:layout_constraintStart_toStartOf="@+id/txt_task_description"
+            app:layout_constraintTop_toBottomOf="@+id/txt_done_estimate"
+            tools:text="Dom, 08/12/2019 - 16:00" />
+
+        <View
+            android:id="@+id/div2"
+            style="@style/divider"
+            android:layout_width="0dp"
+
+            android:layout_height="1dp"
+
+            android:layout_marginTop="8dp"
+
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/txtCreatedAt"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/div1"
+            app:layout_constraintTop_toBottomOf="@+id/txtCreatedAt" />
 
 
         <ImageButton
@@ -39,14 +121,14 @@
 
             android:layout_height="wrap_content"
 
+            android:layout_marginStart="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"
+
             android:contentDescription="@string/content_description_more_info"
-
-
             android:padding="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/txtLabelDone"
-            app:layout_constraintStart_toStartOf="@+id/txt_task_desk"
-            app:layout_constraintTop_toTopOf="@+id/txtLabelDone"
+            app:layout_constraintBottom_toBottomOf="@+id/btnArchive"
+            app:layout_constraintStart_toEndOf="@+id/btnArchive"
+            app:layout_constraintTop_toTopOf="@+id/btnArchive"
             app:srcCompat="@drawable/ic_info_black_24dp" />
 
         <ImageButton
@@ -58,7 +140,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
 
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"
 
             android:contentDescription="@string/content_description_archive_task"
@@ -66,7 +148,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
 
 
-            app:layout_constraintStart_toStartOf="@+id/txt_task_desk"
+            app:layout_constraintStart_toStartOf="@+id/txt_task_description"
             app:layout_constraintTop_toBottomOf="@+id/div2"
             app:srcCompat="@drawable/ic_archive_black_24dp" />
 
@@ -77,159 +159,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
+            android:layout_marginStart="16dp"
+
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/content_description_plan_task"
-
             android:padding="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/txtLabelEstimation"
-            app:layout_constraintStart_toStartOf="@+id/txt_task_desk"
-            app:layout_constraintTop_toTopOf="@+id/txtLabelEstimation"
+            app:layout_constraintBottom_toBottomOf="@+id/btnInfo"
+            app:layout_constraintStart_toEndOf="@+id/btnInfo"
+            app:layout_constraintTop_toTopOf="@+id/btnInfo"
             app:srcCompat="@drawable/ic_assignment_black_24dp" />
 
-        <View
-            android:id="@+id/div2"
-            style="@style/divider"
-            android:layout_width="0dp"
-
-
-            android:layout_height="1dp"
-
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="@id/txt_estimation"
-            app:layout_constraintStart_toStartOf="@+id/txt_task_desk"
-            app:layout_constraintTop_toBottomOf="@+id/btnEstimate" />
-
-
-        <View
-            android:id="@+id/div1"
-            style="@style/divider"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-
-
-            android:layout_marginTop="8dp"
-
-            app:layout_constraintEnd_toStartOf="@+id/txtButtonExpand"
-            app:layout_constraintStart_toStartOf="@+id/txt_task_desk"
-            app:layout_constraintTop_toBottomOf="@+id/txtCreatedAt" />
-
-        <ImageButton
-            android:id="@+id/txtButtonExpand"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.75" />
 
-            android:contentDescription="@string/content_description_expand_collapse"
-            android:focusable="true"
-
-            android:padding="@dimen/padding_small"
-
-
-            app:layout_constraintBottom_toBottomOf="@+id/div1"
-
-
-            app:layout_constraintEnd_toEndOf="@+id/txt_task_desk"
-            app:layout_constraintTop_toTopOf="@+id/div1"
-            app:srcCompat="@drawable/ic_expand_more_black_24dp" />
-
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txtCreatedAt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-
-            android:alpha="?alphaEmphasisDisabled"
-            app:layout_constraintStart_toStartOf="@+id/txt_task_desk"
-            app:layout_constraintTop_toBottomOf="@+id/txt_task_desk"
-            tools:text="Dom, 08/12/2019 - 16:00" />
-
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txtLabelDone"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:alpha="?alphaEmphasisDisabled"
-            android:gravity="start|center_vertical"
-            android:padding="8dp"
-            android:text="@string/label_done"
-
-            app:layout_constraintStart_toEndOf="@+id/btnInfo"
-            app:layout_constraintTop_toBottomOf="@+id/txtButtonExpand" />
-
-        <com.google.android.material.textview.MaterialTextView
-
-            android:id="@+id/txt_done"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:gravity="start"
-            android:padding="8dp"
-            android:text="@string/nothing_yet"
-            app:layout_constraintBottom_toBottomOf="@+id/txtLabelDone"
-            app:layout_constraintStart_toEndOf="@id/barrier"
-            tools:text="02 h" />
-
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txtLabelEstimation"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-
-            android:alpha="?alphaEmphasisDisabled"
-
-            android:gravity="start|center_vertical"
-
-            android:padding="8dp"
-            android:text="@string/label_estimation"
-
-
-            app:layout_constraintStart_toEndOf="@+id/btnEstimate"
-            app:layout_constraintTop_toBottomOf="@+id/txtLabelDone" />
-
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txt_estimation"
-
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-
-            android:layout_marginStart="8dp"
-
-            android:gravity="start"
-            android:padding="8dp"
-            android:text="@string/nothing_yet_fem"
-
-
-            app:layout_constraintBottom_toBottomOf="@+id/txtLabelEstimation"
-            app:layout_constraintStart_toEndOf="@id/barrier" />
-
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/group_panel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:padding="8dp"
-            android:visibility="gone"
-            app:constraint_referenced_ids="txtLabelDone,txtLabelEstimation,div2,txt_estimation,txt_done,btnInfo,btnEstimate"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:visibility="visible" />
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrier"
-
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            app:barrierDirection="end"
-            app:constraint_referenced_ids="txtLabelEstimation,txtLabelDone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<dev.alessi.chunk.pomodoro.timer.android.ClockView xmlns:android="http://schemas.android.com/apk/res/android"
+<dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView xmlns:android="http://schemas.android.com/apk/res/android"
 
     android:id="@+id/frame_runtime_estimative"
     android:layout_width="wrap_content"
@@ -12,4 +12,4 @@
     android:padding="4dp">
 
 
-</dev.alessi.chunk.pomodoro.timer.android.ClockView>
+</dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView>

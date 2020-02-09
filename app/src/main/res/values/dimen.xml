@@ -24,6 +24,7 @@
     <dimen name="padding_small">8dp</dimen>
     <dimen name="padding_medium">12dp</dimen>
     <dimen name="padding_large">16dp</dimen>
+    <dimen name="padding_xl">24dp</dimen>
 
     <dimen name="stroke_width_small">0.4dp</dimen>
     <dimen name="stroke_width_medium">1.2dp</dimen>
@@ -42,6 +43,7 @@
     <dimen name="keyline_0">2dp</dimen>
     <dimen name="keyline_1">4dp</dimen>
     <dimen name="keyline_2">8dp</dimen>
+    <dimen name="keyline_3">10dp</dimen>
     <dimen name="keyline_4">16dp</dimen>
     <dimen name="keyline_5">24dp</dimen>
 

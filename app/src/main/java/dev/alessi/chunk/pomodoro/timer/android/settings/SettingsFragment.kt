@@ -44,11 +44,17 @@ class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener,
     }
 
 
+    override fun onResume() {
+        mainActivityControlViewModel.updateTitle(getString(R.string.settings))
+        super.onResume()
+    }
+
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mPreference = PreferenceManager.getDefaultSharedPreferences(this.context)
 
-        mainActivityControlViewModel.updateTitle(getString(R.string.settings))
+
 
     }
 

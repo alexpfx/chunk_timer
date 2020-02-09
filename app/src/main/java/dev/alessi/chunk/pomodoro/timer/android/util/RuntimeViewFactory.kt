@@ -8,7 +8,6 @@ import android.os.Build
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
@@ -21,7 +20,7 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.setPadding
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.chip.Chip
-import dev.alessi.chunk.pomodoro.timer.android.ClockView
+import dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.domain.SizeIndex
 import dev.alessi.chunk.pomodoro.timer.android.domain.SizeValue
@@ -119,7 +118,12 @@ class RuntimeViewFactory {
             val style = mapStyles[sizeValue.index] ?: error("style cannot be null")
 
 
-            val clockView = ClockView(ContextThemeWrapper(context, style))
+            val clockView = ClockView(
+                ContextThemeWrapper(
+                    context,
+                    style
+                )
+            )
 
 
             clockView.tag = tag ?: sizeValue

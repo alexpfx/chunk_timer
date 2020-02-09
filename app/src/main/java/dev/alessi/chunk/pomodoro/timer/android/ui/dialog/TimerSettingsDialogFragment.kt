@@ -13,18 +13,18 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
 import dev.alessi.chunk.pomodoro.timer.android.R
+import dev.alessi.chunk.pomodoro.timer.android.ui.ConfigTimersSharedViewModel
 import dev.alessi.chunk.pomodoro.timer.android.ui.TimerFragment.Companion.DEFAULT_JSON_SIZES
 import dev.alessi.chunk.pomodoro.timer.android.ui.TimerFragment.Companion.KEY_SIZE_JSON_ARRAY
-import dev.alessi.chunk.pomodoro.timer.android.ui.TimerSharedViewModel
 
 class TimerSettingsDialogFragment : AppCompatDialogFragment() {
 
-    private val mTimerSharedModel: TimerSharedViewModel by viewModels(::requireActivity)
+    private val mConfigTimersSharedModel: ConfigTimersSharedViewModel by viewModels(::requireActivity)
     private lateinit var positiveButton: Button
     private lateinit var edts: Set<TextInputEditText>
     private lateinit var mBtnRestoreDefaults: MaterialButton
     private lateinit var neutralButton: Button
-
+    private var mGson: Gson = Gson()
     private val gson: Gson = Gson()
 
 
@@ -72,7 +72,6 @@ class TimerSettingsDialogFragment : AppCompatDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val pm = PreferenceManager.getDefaultSharedPreferences(activity)
-
 
         val jsonSizes = pm.getString(KEY_SIZE_JSON_ARRAY, DEFAULT_JSON_SIZES)
         val sizesArray = gson.fromJson(jsonSizes, Array<Int>::class.java)
@@ -162,7 +161,20 @@ class TimerSettingsDialogFragment : AppCompatDialogFragment() {
 
     private fun saveSizes() {
         val values = extractValues(edts)
-        mTimerSharedModel.setSizes(values.toList())
+        storeSizes(values.toList())
+
+        mConfigTimersSharedModel.setSizes(values.toList())
+    }
+
+    private fun storeSizes(sizes: List<Int>) {
+        val pm = PreferenceManager.getDefaultSharedPreferences(activity)
+        val sizesJsonStr = mGson.toJson(sizes)
+
+        pm.edit()
+            .putString(
+                KEY_SIZE_JSON_ARRAY, sizesJsonStr
+            ).apply()
+
     }
 
 

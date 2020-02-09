@@ -8,13 +8,13 @@
     <color name="color_secondary">#F06292</color>
     <color name="color_secondary_variant">#e91e62</color>
 
-    <color name="color_background">#ebf0f0</color>
+    <color name="color_background">#d0d0d0</color>
     <color name="color_surface">#ffffff</color>
 
     <color name="color_error">#cf6679</color>
 
     <color name="color_on_primary">#fff</color>
-    <color name="color_on_secondary">@color/blackLight</color>
+    <color name="color_on_secondary">#fff</color>
     <color name="color_on_background">@color/blackLight</color>
     <color name="color_on_surface">@color/blackLight</color>
 

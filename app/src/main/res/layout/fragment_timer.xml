@@ -8,325 +8,364 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:scrollbars="none"
     android:paddingStart="@dimen/default_layout_margin"
     android:paddingLeft="@dimen/default_layout_margin"
+    android:paddingTop="@dimen/keyline_2"
     android:paddingEnd="@dimen/default_layout_margin"
     android:paddingRight="@dimen/default_layout_margin"
+    android:scrollbars="none">
 
-    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutFragmentMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:animateLayoutChanges="true"
         android:clickable="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
-
         tools:context=".ui.TimerActivity">
 
-        <View
-            android:id="@+id/separator_view"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linear_layout_buttons_base" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnStartBreak"
-            style="?attr/materialButtonOutlinedStyle"
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/toggle_group_timer_break"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:text="@string/button_label_start_break"
-            app:icon="@drawable/ic_local_cafe_black_24dp"
+            android:layout_marginTop="0dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:checkedButton="@id/toggle_button_timer"
 
-            app:layout_constraintBottom_toTopOf="@+id/btnStartTimer"
-            app:layout_constraintEnd_toEndOf="@+id/btnStartTimer"
-            app:layout_constraintStart_toStartOf="@+id/btnStartTimer" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnStartTimer"
-
-            style="?materialButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:layout_marginBottom="32dp"
-            android:text="@string/button_label_start"
-
-            app:icon="@drawable/ic_timer_black_24dp"
-
-
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnCancelTimer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:layout_marginBottom="32dp"
-            android:text="@string/button_label_cancel"
-
-
-            app:icon="@drawable/ic_cancel_black_24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-
-        <FrameLayout
-            android:id="@+id/frTxtMainTimer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-
-
-            android:minWidth="180dp"
-            android:visibility="visible"
-
-
-            app:layout_constraintBottom_toTopOf="@id/btnStartBreak"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-
-
-            tools:text="00:00:00">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txtMainTimer"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_margin="8dp"
-                android:gravity="center"
-                android:maxLines="1"
-                android:text="00:00"
-                android:textAlignment="center"
-                android:textAppearance="?textAppearanceHeadline1" />
-
-        </FrameLayout>
-
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/btnIconSetTaskTimes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-
-            android:contentDescription="@string/content_description_setup_timers_values"
-            android:padding="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/txtTimerDisplay"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/separator_view"
-            app:srcCompat="@drawable/ic_timer_black_24dp" />
-
-        <com.google.android.material.textview.MaterialTextView
-
-            android:id="@+id/txtTimerDisplay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:text="@string/init_timer_time"
-            android:textAppearance="?attr/textAppearanceBody1"
-
-            app:layout_constraintBottom_toBottomOf="@id/btnIconSetTaskTimes"
-            app:layout_constraintEnd_toStartOf="@+id/btnIconSetBreak"
-            app:layout_constraintHorizontal_bias="0.5"
-
-            app:layout_constraintStart_toEndOf="@+id/btnIconSetTaskTimes"
-            app:layout_constraintTop_toTopOf="@id/btnIconSetTaskTimes"
-            tools:text="00:35:45" />
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/btnIconSetBreak"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-
-            android:contentDescription="@string/content_description_setup_break_values"
-            android:padding="8dp"
-            app:layout_constraintBottom_toBottomOf="@id/btnIconSetTaskTimes"
-            app:layout_constraintEnd_toStartOf="@+id/txtBreakTimeDisplay"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/txtTimerDisplay"
-            app:layout_constraintTop_toTopOf="@id/btnIconSetTaskTimes"
-            app:srcCompat="@drawable/ic_mode_edit_black_24dp" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/txtBreakTimeDisplay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-
-            android:text="@string/init_timer_time"
-
-
-            android:textAppearance="?textAppearanceBody1"
-            app:layout_constraintBottom_toBottomOf="@id/btnIconSetTaskTimes"
-            app:layout_constraintEnd_toStartOf="@+id/btnOpenSettings"
-            app:layout_constraintHorizontal_bias="0.5"
-
-            app:layout_constraintStart_toEndOf="@+id/btnIconSetBreak"
-            app:layout_constraintTop_toTopOf="@id/btnIconSetTaskTimes"
-            tools:text="10:00" />
-
-
-        <androidx.appcompat.widget.AppCompatImageButton
-
-            android:id="@+id/btnOpenSettings"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:layout_marginStart="16dp"
-
-            android:background="?attr/selectableItemBackgroundBorderless"
-
-            android:contentDescription="@string/content_description_setup_app"
-            android:padding="8dp"
-            app:layout_constraintBottom_toBottomOf="@id/btnIconSetTaskTimes"
-
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/txtBreakTimeDisplay"
-            app:layout_constraintTop_toTopOf="@id/btnIconSetTaskTimes"
-            app:srcCompat="@drawable/ic_settings_black_24dp" />
-
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_task"
-
-
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:contentPadding="8dp"
-
-            app:layout_constraintBottom_toTopOf="@+id/frTxtMainTimer"
-            app:layout_constraintEnd_toEndOf="@+id/btnOpenSettings"
-            app:layout_constraintStart_toStartOf="@+id/btnIconSetTaskTimes"
-            app:layout_constraintTop_toBottomOf="@id/btnIconSetTaskTimes">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txtTask"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-
-                android:clickable="true"
-                android:drawableEnd="@drawable/ic_clear_24dp"
-                android:drawablePadding="8dp"
-                android:focusable="true"
-
-                android:text="@string/message_hint_choose_task"
-
-
-                 />
-
-
-        </com.google.android.material.card.MaterialCardView>
-
-
-        <LinearLayout
-
-
-            android:id="@+id/linear_layout_buttons_base"
-
-            android:layout_width="0dp"
-            android:layout_height="64dp"
-            android:layout_marginTop="16dp"
-            android:animateLayoutChanges="true"
-
-
-            android:contentDescription="@string/content_description_size_bar"
-            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:selectionRequired="true"
+            app:singleSelection="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/toggle_button_timer"
+                style="?materialButtonOutlinedStyle"
 
 
-            >
+                android:layout_width="wrap_content"
 
-            <dev.alessi.chunk.pomodoro.timer.android.ClockView
+                android:layout_height="wrap_content"
+                android:text="@string/label_timer"
+                tools:textColor="?colorOnBackground" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/toggle_button_break"
+                style="?materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_breaktime" />
+
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+
+        <dev.alessi.chunk.pomodoro.timer.android.components.compoundviews.ClockViewGroup
+            android:id="@+id/clockviewgroup_chunk_timers"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="start"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toggle_group_timer_break"
+            app:message="@string/message_select_timer_"
+            tools:background="#5abc"
+            tools:visibility="invisible">
+
+            <dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView
                 android:id="@+id/btnSizePP"
                 style="@style/ButtonClockView.PP"
+                android:layout_width="0dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="8dp"
 
+                android:layout_marginTop="@dimen/keyline_5"
+                android:layout_weight="1"
                 android:clickable="true"
                 android:contentDescription="@string/content_description_size0"
                 android:focusable="true"
-                android:tag="@string/tag_size_index_0">
+                android:tag="@string/tag_size_index_0"
+                app:clockSizeName="@string/label_sizes_pp">
 
-            </dev.alessi.chunk.pomodoro.timer.android.ClockView>
+            </dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView>
 
-
-            <dev.alessi.chunk.pomodoro.timer.android.ClockView
+            <dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView
                 android:id="@+id/btnSizeP"
                 style="@style/ButtonClockView.P"
+                android:layout_width="0dp"
+                android:layout_height="64dp"
+                android:layout_weight="1"
                 android:clickable="true"
                 android:contentDescription="@string/content_description_size1"
                 android:focusable="true"
                 android:tag="@string/tag_size_index_1" />
 
-            <dev.alessi.chunk.pomodoro.timer.android.ClockView
+            <dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView
                 android:id="@+id/btnSizeM"
                 style="@style/ButtonClockView.M"
-
+                android:layout_width="0dp"
+                android:layout_height="64dp"
+                android:layout_weight="1"
                 android:contentDescription="@string/content_description_size2"
-                android:tag="@string/tag_size_index_2"
+                android:tag="@string/tag_size_index_2" />
 
-
-                app:checked="true" />
-
-            <dev.alessi.chunk.pomodoro.timer.android.ClockView
+            <dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView
                 android:id="@+id/btnSizeG"
                 style="@style/ButtonClockView.G"
 
+                android:layout_width="0dp"
+                android:layout_height="64dp"
+                android:layout_weight="1"
 
                 android:contentDescription="@string/content_description_size3"
                 android:tag="@string/tag_size_index_3" />
 
-            <dev.alessi.chunk.pomodoro.timer.android.ClockView
+            <dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView
                 android:id="@+id/btnSizeGG"
                 style="@style/ButtonClockView.GG"
+                android:layout_width="0dp"
+                android:layout_height="64dp"
+                android:layout_weight="1"
+
 
                 android:contentDescription="@string/content_description_size4"
                 android:tag="@string/tag_size_index_4" />
 
 
-        </LinearLayout>
+        </dev.alessi.chunk.pomodoro.timer.android.components.compoundviews.ClockViewGroup>
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/groupHideOnStart"
+        <dev.alessi.chunk.pomodoro.timer.android.components.compoundviews.ClockViewGroup
+            android:id="@+id/clockviewgroup_breaktimes"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/keyline_2"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toggle_group_timer_break"
+            app:message="@string/message_select_breaktime_"
+            tools:visibility="invisible">
+
+            <dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView
+                android:id="@+id/btnLastBreak0"
+                style="@style/ButtonClockView"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:clickable="true"
+                android:contentDescription="@string/content_description_size0"
+                android:focusable="true"
+                android:tag="@string/tag_size_index_0"
+                app:clockMinutes="5"
+                app:clockSizeName="1°" />
+
+            <dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView
+                android:id="@+id/btnLastBreak1"
+                style="@style/ButtonClockView"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:clickable="true"
+                android:contentDescription="@string/content_description_size0"
+                android:focusable="true"
+                android:tag="@string/tag_size_index_1"
+                app:clockMinutes="10"
+                app:clockSizeName="2°" />
+
+            <dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView
+                android:id="@+id/btnLastBreak2"
+                style="@style/ButtonClockView"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:clickable="true"
+                android:contentDescription="@string/content_description_size0"
+                android:focusable="true"
+                android:tag="@string/tag_size_index_2"
+                app:clockMinutes="20"
+                app:clockSizeName="3°" />
+
+
+        </dev.alessi.chunk.pomodoro.timer.android.components.compoundviews.ClockViewGroup>
+
+
+        <com.google.android.material.textview.MaterialTextView
+
+            android:id="@+id/txtMainTimer"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
-            app:constraint_referenced_ids="btnStartTimer,btnStartBreak,btnOpenSettings,txtTimerDisplay,btnIconSetBreak,txtBreakTimeDisplay,btnIconSetTaskTimes" />
 
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/keyline_2"
+
+            android:background="?attr/selectableItemBackgroundBorderless"
+
+            android:gravity="center"
+            android:maxLines="1"
+
+            android:padding="4dp"
+            tools:text="00:00"
+            android:textAlignment="center"
+            android:textAppearance="?textAppearanceHeadline1"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clockviewgroup_chunk_timers"
+            />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txtTimerTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/label_timer_"
+            android:textAppearance="?textAppearanceOverline"
+            app:layout_constraintStart_toStartOf="@+id/txtMainTimer"
+            app:layout_constraintTop_toTopOf="@+id/txtMainTimer"
+            tools:text="Timer:" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+
+            android:id="@+id/txt_task_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="@dimen/keyline_2"
+
+            android:layout_marginEnd="48dp"
+
+            android:background="@drawable/drawable_task_name_background"
+
+            android:gravity="start|center_vertical"
+            android:lines="1"
+            android:paddingStart="@dimen/keyline_2"
+            android:paddingTop="@dimen/keyline_4"
+            android:paddingEnd="@dimen/keyline_2"
+
+
+            android:paddingBottom="@dimen/keyline_4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtMainTimer"
+            tools:visibility="visible" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_task_desc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/layer_list_task_desc_background"
+
+
+            android:clickable="false"
+            android:ellipsize="end"
+
+            android:lines="3"
+            android:padding="@dimen/keyline_2"
+
+            android:text="@string/loren"
+            app:layout_constraintEnd_toEndOf="@+id/txt_task_name"
+
+            app:layout_constraintStart_toStartOf="@+id/txt_task_name"
+            app:layout_constraintTop_toBottomOf="@+id/txt_task_name"
+            tools:visibility="visible" />
+
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_clear_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="8dp"
+            android:background="@drawable/background_circular_imagebutton"
+            android:padding="@dimen/keyline_2"
+
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_task_desc"
+            app:layout_constraintStart_toEndOf="@+id/txt_task_name"
+            app:layout_constraintTop_toTopOf="@+id/txt_task_name"
+            app:srcCompat="@drawable/ic_clear_24dp" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+
+            android:id="@+id/txt_task_empty"
+            android:layout_width="0dp"
+
+
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="@dimen/keyline_2"
+            android:layout_marginEnd="48dp"
+            android:background="@drawable/layer_list_only_corners"
+            android:clickable="false"
+            android:drawableStart="@drawable/ic_touch_app_black_24dp"
+
+            android:gravity="center"
+            android:lines="1"
+            android:paddingStart="@dimen/keyline_4"
+            android:paddingTop="@dimen/keyline_4"
+            android:paddingEnd="@dimen/keyline_4"
+
+            android:paddingBottom="@dimen/keyline_4"
+            android:text="@string/message_click_select_task"
+            app:drawableTint="@color/color_on_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtMainTimer"
+            tools:visibility="invisible" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_start_timer"
+
+            style="?materialButtonStyle"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginBottom="@dimen/keyline_4"
+
+            android:text="@string/button_label_start"
+            app:icon="@drawable/ic_timer_black_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_cancel_timer"
+
+            style="?materialButtonStyle"
+
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginBottom="@dimen/keyline_4"
+            android:text="@string/button_label_cancel"
+
+            android:visibility="invisible"
+            app:icon="@drawable/ic_stop_black_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.constraintlayout.widget.Group
-            android:id="@+id/groupShowOnStart"
+            android:id="@+id/group_task"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="invisible"
-            app:constraint_referenced_ids=",btnCancelTimer" />
+            app:constraint_referenced_ids="btn_clear_task,txt_task_name,txt_task_desc" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_empty_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

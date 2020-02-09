@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
+
     android:orientation="vertical"
-    android:paddingLeft="@dimen/default_layout_margin"
-    android:paddingRight="@dimen/default_layout_margin"
     android:paddingTop="0dp"
+
     android:paddingBottom="0dp"
 
     tools:context=".ui.task.SelectTaskFragment">
@@ -16,11 +17,15 @@
     <include layout="@layout/layout_content_empty" />
 
     <RelativeLayout
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/layout_content"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/keyline_4"
 
-        android:layout_height="match_parent">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context=".ui.task.SelectTaskFragment">
+
+        <include layout="@layout/layout_content_empty" />
 
         <!--<TextView
             android:background="@color/color_foreground_light"
@@ -42,10 +47,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginTop="-3dp"
+
             tools:itemCount="4"
-
-
 
 
             tools:listitem="@layout/item_select_task" />
@@ -53,21 +56,32 @@
 
     </RelativeLayout>
 
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddTask"
+        android:id="@+id/fab"
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-
-
-        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
-
-
         android:clickable="true"
         android:focusable="true"
-
+        android:visibility="visible"
+        app:layout_anchorGravity="end|bottom"
+        app:layout_anchor="@id/layout_content"
         app:srcCompat="@drawable/ic_add_black_24dp" />
+
+
+    <ImageView
+        android:id="@+id/img_donut"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="129dp"
+        android:layout_marginBottom="449dp"
+        tools:src="@tools:sample/avatars" />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

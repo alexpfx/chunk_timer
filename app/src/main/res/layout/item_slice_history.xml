@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
     app:contentPaddingLeft="@dimen/padding_small"
     app:contentPaddingRight="@dimen/padding_small"
-
 
     >
 
@@ -18,7 +16,7 @@
         android:minHeight="30dp">
 
 
-        <dev.alessi.chunk.pomodoro.timer.android.ClockView
+        <dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView
             android:padding="8dp"
 
             android:id="@+id/clockView"
@@ -31,7 +29,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-        </dev.alessi.chunk.pomodoro.timer.android.ClockView>
+        </dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView>
 
         <TextView
             android:id="@+id/txt_when"
@@ -60,4 +58,4 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</com.google.android.material.card.MaterialCardView>
+</FrameLayout>

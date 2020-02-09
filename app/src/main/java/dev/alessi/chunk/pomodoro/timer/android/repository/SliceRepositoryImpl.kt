@@ -21,7 +21,7 @@ class SliceRepositoryImpl(private val workUnitDao: WorkUnitDao, private val task
 
         val workUnit = workUnitDao.select(workUnitId)
 
-        val task = workUnit.taskId.let { taskDao.load(it) }
+        val task = workUnit.taskId?.let { taskDao.load(it) }
 
 
         workUnit.task = task

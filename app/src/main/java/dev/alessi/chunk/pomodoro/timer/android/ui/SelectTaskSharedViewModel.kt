@@ -10,7 +10,7 @@ class SelectTaskSharedViewModel : ViewModel() {
     private val task = MutableLiveData<Task>()
 
 
-    fun getTaskObserver() = task
+    fun onTaskSelectedObserver() = task
 
     fun selectTask(task: Task) {
         this.task.value = task

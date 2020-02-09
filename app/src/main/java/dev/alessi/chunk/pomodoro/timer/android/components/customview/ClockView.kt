@@ -1,13 +1,16 @@
-package dev.alessi.chunk.pomodoro.timer.android
+package dev.alessi.chunk.pomodoro.timer.android.components.customview
 
 import android.content.Context
 import android.graphics.*
 import android.text.TextPaint
 import android.util.AttributeSet
-import android.view.MotionEvent
+import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Checkable
 import androidx.core.graphics.ColorUtils
+import androidx.core.graphics.withRotation
+import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.util.hoursToDegree
 import dev.alessi.chunk.pomodoro.timer.android.util.minutesToDegree
 
@@ -152,6 +155,76 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
         )
     }
 
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        val desiredWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64f, resources.displayMetrics).toInt()
+        val desiredHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64f, resources.displayMetrics).toInt()
+
+        val widthMode = MeasureSpec.getMode(widthMeasureSpec)
+        val widthSize = MeasureSpec.getSize(widthMeasureSpec)
+
+        val heightMode = MeasureSpec.getMode(heightMeasureSpec)
+        val heightSize = MeasureSpec.getSize(heightMeasureSpec)
+
+        val cWidth: Int
+        val cHeight: Int
+
+        //Measure Width
+        //Measure Width
+        cWidth = when (widthMode) {
+            MeasureSpec.EXACTLY -> { //Must be this size
+                widthSize
+            }
+            MeasureSpec.AT_MOST -> { //Can't be bigger than...
+                desiredWidth.coerceAtMost(widthSize)
+            }
+            else -> { //Be whatever you want
+                desiredWidth
+            }
+        }
+
+        //Measure Height
+        //Measure Height
+        cHeight = if (heightMode == MeasureSpec.EXACTLY) { //Must be this size
+            heightSize
+        } else if (heightMode == MeasureSpec.AT_MOST) { //Can't be bigger than...
+            desiredHeight.coerceAtMost(heightSize)
+        } else { //Be whatever you want
+            desiredHeight
+        }
+
+        //MUST CALL THIS
+        //MUST CALL THIS
+
+        if (layoutParams is ViewGroup.MarginLayoutParams) {
+            val lp = layoutParams as ViewGroup.MarginLayoutParams
+
+
+            lp.setMargins(lp.leftMargin, lp.topMargin, lp.rightMargin, lp.bottomMargin)
+            requestLayout()
+
+        }
+
+        setMeasuredDimension(cWidth, cHeight)
+    }
+
+    private fun measureDimension(desiredSize: Int, measureSpec: Int): Int {
+        var result: Int
+        val specMode = MeasureSpec.getMode(measureSpec)
+        val specSize = MeasureSpec.getSize(measureSpec)
+        if (specMode == MeasureSpec.EXACTLY) {
+            result = specSize
+        } else {
+            result = desiredSize
+            if (specMode == MeasureSpec.AT_MOST) {
+                result = Math.min(result, specSize)
+            }
+        }
+        if (result < desiredSize) {
+
+        }
+        return result
+    }
+
     override fun setSelected(selected: Boolean) {
 
         super.setSelected(selected)
@@ -226,6 +299,8 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
             textAlign = Paint.Align.CENTER
             typeface = Typeface.DEFAULT_BOLD
             color = clockBorderColor
+            textSize = 0.1f
+
 
         }
 
@@ -240,7 +315,9 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
 
     init {
 
-        context.theme.obtainStyledAttributes(attributeSet, R.styleable.ClockView, -1, style).apply {
+
+        context.theme.obtainStyledAttributes(attributeSet,
+            R.styleable.ClockView, -1, style).apply {
             try {
 
                 mBorderWidth = getDimension(R.styleable.ClockView_borderWidth, 20f)
@@ -303,11 +380,10 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
+
         canvas?.apply {
 
             applyPadding(this)
-
-
 
 
             mTextPaint.apply {
@@ -315,8 +391,11 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
             }
 
 
-            val cx = width / 2f
-            val cy = height / 2f
+
+
+
+            val cx = measuredWidth / 2f
+            val cy = measuredHeight / 2f
 
 
 //            mFillPaint.set(mFillPaint.apply {
@@ -354,8 +433,6 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
                 mTextPaint.apply { color = if (isChecked) clockActiveClockHandsColor else clockClockHandsColor })
 
 
-
-
             drawHourClockHand(
                 this,
                 cx,
@@ -384,13 +461,10 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
         cy: Float,
         paint: Paint
     ) {
-        canvas.save()
-        canvas.rotate(hours.hoursToDegree(), cx, cy)
+        canvas.withRotation (hours.hoursToDegree(), cx, cy){
+            canvas.drawLine(cx, cy, cx, cy - hoursHandTopProportion * height, paint.apply { strokeWidth = hoursHandLineProportion * width })
+        }
 
-        canvas.drawLine(cx, cy, cx, cy - hoursHandTopProportion * height, paint.apply { strokeWidth = hoursHandLineProportion * width })
-
-//        canvas.drawRoundRect(mHandsRect, roundRadius, roundRadius, paint)
-        canvas.restore()
     }
 
     private fun drawClockBackground(canvas: Canvas, cx: Float, cy: Float, paint: Paint) {
@@ -413,21 +487,7 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
     }
 
 
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        super.onTouchEvent(event)
-        if (!isEnabled) return false
-
-        if (event?.action == MotionEvent.ACTION_UP) {
-            isChecked = true
-            return performClick()
-        }
-
-        return true
-    }
-
-
     private fun drawSizeName(canvas: Canvas, cx: Float, cy: Float, paint: Paint, sizeName: String) {
-
 
         canvas.drawText(
             sizeName,
@@ -438,29 +498,19 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
 
     }
 
-    private fun drawMinuteClockHands(
-        canvas: Canvas,
-        cx: Float,
-        cy: Float,
-        paint: Paint,
-        textPaint: Paint
-    ) {
+    private fun drawMinuteClockHands(canvas: Canvas, cx: Float, cy: Float, paint: Paint, textPaint: Paint) {
 
-        canvas.save()
+        canvas.withRotation(minutes.minutesToDegree(), cx, cy) {
+            drawLine(cx, cy, cx, cy - (minutesHandTopProportion * height),
+                paint.apply { strokeWidth = minutesHandLineProportion * width })
 
-        canvas.rotate(minutes.minutesToDegree(), cx, cy)
+            drawText(
+                minutes.toString(), cx, cy - (minutesHandTopProportion * height).times(1.1f),
+                textPaint
+            )
 
-        canvas.drawLine(cx, cy, cx, cy - (minutesHandTopProportion * height),
-            paint.apply { strokeWidth = minutesHandLineProportion * width })
+        }
 
-        canvas.drawText(
-            minutes.toString(),
-            cx,
-            cy - (minutesHandTopProportion * height).times(1.1f),
-            textPaint
-        )
-
-        canvas.restore()
     }
 
 

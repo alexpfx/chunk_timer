@@ -59,13 +59,13 @@ class TimerActivity : AppCompatActivity(),
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        println("onNewIntent")
+
 
         if (intent?.hasExtra(ChunkTimerService.extra_param_event) == true) {
 
             val event = IntentBuilder.getEvent(intent)
 
-            println("mTickReceiver $event")
+
 
             when (event) {
                 ChunkTimerService.Event.ON_BREAKTIME_COMPLETED -> showBreaktimeFinish(intent)
@@ -78,19 +78,6 @@ class TimerActivity : AppCompatActivity(),
             intent.removeExtra(ChunkTimerService.extra_param_event)
 
         }
-
-    }
-
-
-    override fun onResume() {
-        super.onResume()
-        println("onResume")
-
-
-    }
-
-    override fun onPause() {
-        super.onPause()
 
     }
 
@@ -113,10 +100,6 @@ class TimerActivity : AppCompatActivity(),
 
 //        window.setBackgroundDrawableResource(R.drawable.pizza_background)
         setSupportActionBar(toolbar)
-
-
-
-
 
 
         mActivityControlViewModel.title.observe(this, Observer {

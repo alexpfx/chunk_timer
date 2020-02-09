@@ -19,6 +19,7 @@ import dev.alessi.chunk.pomodoro.timer.android.database.SizeTimeCountTO
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.database.WorkUnit
 import dev.alessi.chunk.pomodoro.timer.android.domain.SizeValue
+import dev.alessi.chunk.pomodoro.timer.android.ui.MainActivityControlViewModel
 import dev.alessi.chunk.pomodoro.timer.android.ui.task.SelectTaskFragment
 import dev.alessi.chunk.pomodoro.timer.android.ui.task.TaskViewModel
 import dev.alessi.chunk.pomodoro.timer.android.util.RuntimeViewFactory
@@ -44,9 +45,10 @@ class EstimationFragment : Fragment(), EstimationActionListeners {
     lateinit var textDragInfo: TextView
 
     private val mEstimationViewModel: EstimateViewModel by viewModels()
-    private val mLoadTaskViewModel: TaskViewModel by viewModels(::requireActivity)
+    private val mLoadTaskViewModel: TaskViewModel by viewModels()
     lateinit var mTask: Task
     lateinit var mEstimationAdapter: EstimationAdapter
+    private val mMainActivityViewModel: MainActivityControlViewModel by viewModels(::requireActivity)
 
 
     private var mMinutesEditable = 0
@@ -68,6 +70,14 @@ class EstimationFragment : Fragment(), EstimationActionListeners {
         mEstimationAdapter =
             EstimationAdapter(this)
         super.onCreate(savedInstanceState)
+
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+
+        mMainActivityViewModel.updateTitle(getString(R.string.title_task_estimation))
 
     }
 
@@ -139,7 +149,7 @@ class EstimationFragment : Fragment(), EstimationActionListeners {
     }
 
     private fun updateUi() {
-        txt_task_desk.text = mTask.description
+        txt_task_description.text = mTask.description
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

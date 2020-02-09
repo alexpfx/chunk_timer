@@ -18,7 +18,7 @@
         android:paddingEnd="8dp"
         android:paddingBottom="4dp">
 
-        <dev.alessi.chunk.pomodoro.timer.android.ClockView
+        <dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView
 
 
             android:id="@+id/clockView"

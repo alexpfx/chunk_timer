@@ -16,6 +16,7 @@ class TaskRepositoryImpl(val taskDao: TaskDao) : TaskRepository {
 
         return Task(
             uid = id.toInt(),
+            name = task.name,
             description = task.description,
             dateCreated = task.dateCreated
         )

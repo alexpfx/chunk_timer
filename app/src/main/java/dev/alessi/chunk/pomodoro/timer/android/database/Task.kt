@@ -8,13 +8,14 @@ import java.util.*
 data class Task(
     @PrimaryKey(autoGenerate = true)
     var uid: Int?,
+    var name: String = "",
     var description: String = "",
     var dateCreated: Date? = null,
     var slices: List<WorkUnit> = listOf(),
     var archived: Int = 0
 
 ) {
-    constructor() : this(null, "", null, listOf())
+    constructor() : this(null, "", "",null, listOf())
 
 
 }
