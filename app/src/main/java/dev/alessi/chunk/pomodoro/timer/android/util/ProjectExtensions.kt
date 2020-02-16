@@ -18,6 +18,8 @@ fun Any.error(err: Throwable, message: String = "") {
 
 fun Number.bool() = this != 0
 
+fun Boolean.int() = if (this) 1 else 0
+
 fun Number.toDip(context: Context): Int {
     return TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP,
@@ -27,11 +29,11 @@ fun Number.toDip(context: Context): Int {
 }
 
 
-
-fun Int.minutesToDegree(): Float{
+fun Int.minutesToDegree(): Float {
     return this * 6f
 }
-fun Int.hoursToDegree(): Float{
+
+fun Int.hoursToDegree(): Float {
     return this * 30f
 }
 
@@ -51,11 +53,6 @@ fun Date.beginningOfMonth(): Date {
     return cal.time
 }
 
-
-fun Long.toMinutes(): Long{
-    return (this / 60000)
-
-}
 
 fun Int.toFormatedTime(): String {
     val seconds = this * 60

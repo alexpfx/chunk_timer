@@ -1,8 +1,6 @@
 package dev.alessi.chunk.pomodoro.timer.android.repository
 
 import dev.alessi.chunk.pomodoro.timer.android.database.SizeTimeCountTO
-import dev.alessi.chunk.pomodoro.timer.android.database.Task
-import dev.alessi.chunk.pomodoro.timer.android.database.TaskSize
 import dev.alessi.chunk.pomodoro.timer.android.database.WorkUnit
 
 interface EstimationRepository {

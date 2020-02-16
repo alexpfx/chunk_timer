@@ -3,7 +3,7 @@ package dev.alessi.chunk.pomodoro.timer.android.repository
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.database.TaskDao
 
-class TaskRepositoryImpl(val taskDao: TaskDao) : TaskRepository {
+class TaskRepositoryImpl(private val taskDao: TaskDao) : TaskRepository {
 
 
     override suspend fun loadAllActive(): List<Task> {

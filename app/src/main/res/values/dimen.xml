@@ -1,38 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="select_size_button_margin_start">4dp</dimen>
-    <dimen name="select_size_button_height">60dp</dimen>
-
-    <dimen name="select_size_icon_size">32dp</dimen>
-    <dimen name="select_size_icon_size_dialog">24dp</dimen>
-    <dimen name="stats_size_item">32dp</dimen>
-
     <dimen name="runtime_textview_slice_summary_icon_size">20dp</dimen>
     <dimen name="runtime_textview_slice_estimation_icon_size">52dp</dimen>
     <dimen name="runtime_textview_slice_summary_textview_padding">4dp</dimen>
     <dimen name="runtime_textview_slice_summary_textview_margin">4dp</dimen>
 
 
-    <dimen name="default_border_radious">5dp</dimen>
-
     <dimen name="corner_size_small">4dp</dimen>
     <dimen name="corner_size_medium">6dp</dimen>
     <dimen name="corner_size_large">10dp</dimen>
 
-    <dimen name="padding_tiny">4dp</dimen>
     <dimen name="padding_small">8dp</dimen>
     <dimen name="padding_medium">12dp</dimen>
-    <dimen name="padding_large">16dp</dimen>
-    <dimen name="padding_xl">24dp</dimen>
 
-    <dimen name="stroke_width_small">0.4dp</dimen>
     <dimen name="stroke_width_medium">1.2dp</dimen>
-    <dimen name="stroke_width_large">2.4dp</dimen>
 
     <dimen name="default_layout_margin">16dp</dimen>
-
-    <dimen name="elevation_default_top_app_bar">4dp</dimen>
 
 
     <!--Emphasis modifiers for "on" colors-->

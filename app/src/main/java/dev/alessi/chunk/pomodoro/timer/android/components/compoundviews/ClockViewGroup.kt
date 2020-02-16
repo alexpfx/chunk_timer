@@ -22,7 +22,7 @@ class ClockViewGroup(context: Context, attrs: AttributeSet?, defStyle: Int) : Li
 
     private var clockIndex = 0
 
-    var message: String = ""
+    private var message: String = ""
     private var llContentView: LinearLayout?
     private var txtMessage: TextView
     private var btnViewMore: AppCompatImageButton
@@ -107,7 +107,7 @@ class ClockViewGroup(context: Context, attrs: AttributeSet?, defStyle: Int) : Li
             recycle()
         }
 
-        LayoutInflater.from(context).inflate(R.layout.compound_clock_view_selection_layout, this, true).apply {
+        LayoutInflater.from(context).inflate(R.layout.compound_clock_viewgroup, this, true).apply {
             txtMessage = findViewById(R.id.txt_message)
             btnViewMore = findViewById(R.id.btn_view_more)
 

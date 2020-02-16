@@ -3,8 +3,14 @@
     <attr name="alphaEmphasisHigh" format="float"/>
     <attr name="alphaEmphasisMedium" format="float"/>
     <attr name="alphaEmphasisDisabled" format="float"/>
+    <attr name="textViewSpotlightStyle" format="reference"/>
     <attr name="materialButtonToggle" format="reference"/>
     <attr name="colorBackground" format="color"/>
+
+    <attr name="colorTaskCompleted" format="color"/>
+    <attr name="colorTaskNotCompleted" format="color"/>
+    <attr name="colorNewTask" format="color"/>
+
 
 
     <declare-styleable name="BadgedButton">

@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
-    android:id="@+id/scrollviewBase"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
@@ -17,7 +16,6 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layoutFragmentMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -77,7 +75,6 @@
             tools:visibility="invisible">
 
             <dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView
-                android:id="@+id/btnSizePP"
                 style="@style/ButtonClockView.PP"
                 android:layout_width="0dp"
                 android:layout_height="64dp"
@@ -94,7 +91,6 @@
             </dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView>
 
             <dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView
-                android:id="@+id/btnSizeP"
                 style="@style/ButtonClockView.P"
                 android:layout_width="0dp"
                 android:layout_height="64dp"
@@ -105,7 +101,6 @@
                 android:tag="@string/tag_size_index_1" />
 
             <dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView
-                android:id="@+id/btnSizeM"
                 style="@style/ButtonClockView.M"
                 android:layout_width="0dp"
                 android:layout_height="64dp"
@@ -114,7 +109,6 @@
                 android:tag="@string/tag_size_index_2" />
 
             <dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView
-                android:id="@+id/btnSizeG"
                 style="@style/ButtonClockView.G"
 
                 android:layout_width="0dp"
@@ -125,7 +119,6 @@
                 android:tag="@string/tag_size_index_3" />
 
             <dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView
-                android:id="@+id/btnSizeGG"
                 style="@style/ButtonClockView.GG"
                 android:layout_width="0dp"
                 android:layout_height="64dp"
@@ -151,7 +144,6 @@
             tools:visibility="invisible">
 
             <dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView
-                android:id="@+id/btnLastBreak0"
                 style="@style/ButtonClockView"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
@@ -163,7 +155,6 @@
                 app:clockSizeName="1°" />
 
             <dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView
-                android:id="@+id/btnLastBreak1"
                 style="@style/ButtonClockView"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
@@ -175,7 +166,6 @@
                 app:clockSizeName="2°" />
 
             <dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView
-                android:id="@+id/btnLastBreak2"
                 style="@style/ButtonClockView"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
@@ -206,14 +196,13 @@
             android:maxLines="1"
 
             android:padding="4dp"
-            tools:text="00:00"
             android:textAlignment="center"
             android:textAppearance="?textAppearanceHeadline1"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/clockviewgroup_chunk_timers"
-            />
+            tools:text="00:00" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txtTimerTitle"
@@ -237,17 +226,25 @@
             android:layout_marginTop="@dimen/keyline_2"
 
             android:layout_marginEnd="48dp"
+            style="?textViewSpotlightStyle"
 
             android:background="@drawable/drawable_task_name_background"
 
+            android:drawableStart="@drawable/ic_assignment_turned_in_black_24dp"
+
+            android:drawablePadding="16dp"
             android:gravity="start|center_vertical"
-            android:lines="1"
+            android:maxLines="2"
+            android:padding="@dimen/keyline_2"
             android:paddingStart="@dimen/keyline_2"
+
+
             android:paddingTop="@dimen/keyline_4"
             android:paddingEnd="@dimen/keyline_2"
-
-
             android:paddingBottom="@dimen/keyline_4"
+            android:textAppearance="?textAppearanceSubtitle1"
+            android:includeFontPadding="false"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -261,10 +258,12 @@
             android:background="@drawable/layer_list_task_desc_background"
 
 
+
             android:clickable="false"
             android:ellipsize="end"
 
             android:lines="3"
+
             android:padding="@dimen/keyline_2"
 
             android:text="@string/loren"
@@ -279,9 +278,9 @@
             android:id="@+id/btn_clear_task"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_marginStart="8dp"
-            android:background="@drawable/background_circular_imagebutton"
+            android:background="?selectableItemBackgroundBorderless"
+
             android:padding="@dimen/keyline_2"
 
             android:visibility="invisible"
@@ -363,7 +362,6 @@
             app:constraint_referenced_ids="btn_clear_task,txt_task_name,txt_task_desc" />
 
         <androidx.constraintlayout.widget.Group
-            android:id="@+id/group_empty_task"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

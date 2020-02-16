@@ -69,7 +69,6 @@ class LoadPeriodSummariesViewModel(app: Application) : AndroidViewModel(app) {
 
                 val summary = summarize(doneSlices, task, estimations)
 
-
                 allSummariesTO.add(summary)
 
             }
@@ -89,14 +88,6 @@ class LoadPeriodSummariesViewModel(app: Application) : AndroidViewModel(app) {
         return minutes
     }
 
-    private fun countSlicesMinutes(slices: List<WorkUnit>): Int {
-        var minutes = 0
-        slices.forEach {
-            minutes += it.timeMinutes
-        }
-        return minutes
-
-    }
 
 
     fun loadAndSummarize(task: Task) {

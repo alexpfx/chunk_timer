@@ -8,6 +8,8 @@ import dev.alessi.chunk.pomodoro.timer.android.App
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.repository.TaskRepository
 import dev.alessi.chunk.pomodoro.timer.android.repository.TaskRepositoryProvider
+import dev.alessi.chunk.pomodoro.timer.android.util.bool
+import dev.alessi.chunk.pomodoro.timer.android.util.int
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,6 +21,7 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
 
     private val archivedTask = MutableLiveData<Task>()
     private val loadedTask = MutableLiveData<Task>()
+    private val changeDoneStatus = MutableLiveData<Task>()
 
 
     val taskLoadedObserver
@@ -26,6 +29,9 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
 
     val taskArchivedObserver
         get() = archivedTask as LiveData<Task>
+
+    val taskDoneStatusChangedObserver
+        get() = changeDoneStatus as LiveData<Task>
 
 
     fun loadTask(taskId: Int) {
@@ -39,6 +45,16 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun markAsDone(task: Task) {
+        scope.launch {
+            val updatedTask = withContext(Dispatchers.IO) {
+                return@withContext getRepository().updateTask(task.copy(markedAsDone = (!task.markedAsDone.bool()).int()))
+            }
+
+            changeDoneStatus.value = updatedTask
+
+        }
+    }
 
     fun archiveTask(task: Task) {
         scope.launch {

@@ -8,7 +8,6 @@ import dev.alessi.chunk.pomodoro.timer.android.util.error
 
 class SliceRepositoryImpl(private val workUnitDao: WorkUnitDao, private val taskDao: TaskDao) :
     SliceRepository {
-    private var taskSizeCache: MutableMap<Int, TaskSize>? = null
 
     override suspend fun loadAllSlicesFromTask(taskId: Int): List<WorkUnit> {
 

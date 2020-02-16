@@ -5,12 +5,15 @@
     <color name="color_primary_variant">#04343e</color>
 
 
-    <color name="color_secondary">#fe4a49</color>
+    <color name="color_primary_surface">#e8eced</color>
+
+
+    <color name="color_secondary">#fb3640</color>
 
     <color name="color_secondary_variant">#c13f3d</color>
 
     <color name="color_background">#fff</color>
-    <color name="color_surface">#f6f8fa</color>
+    <color name="color_surface">#e8eced</color>
 
     <color name="color_error">#cf6679</color>
 
@@ -19,70 +22,21 @@
     <color name="color_on_background">@color/blackLight</color>
     <color name="color_on_surface">@color/blackLight</color>
 
-    <color name="color_control_normal">@color/blackLight</color>
+    <color name="color_control_normal">#aa1e383c</color>
 
-    <color name="color_secondary_on_surface">#fff</color>
     <color name="color_on_error">@color/blackLight</color>
 
-    <color name="colorAccent">#fb8c48</color>
+    <color name="color_task_completed">#0c9463</color>
+    <color name="color_task_not_completed">#81f5ff</color>
+    <color name="color_new_task">#ffd800</color>
 
 
     <color name="blackLight">#1e383c</color>
 
 
-    <color name="clock_active_border_color">@color/colorAccent</color>
-    <color name="clock_border_color">@color/colorAccent</color>
-    <color name="clock_active_background_color">#2fff</color>
-    <color name="clock_background_color">@android:color/transparent</color>
-    <color name="clock_active_clock_hands_color">@color/colorAccent</color>
-    <color name="clock_hands_color">#508ca4</color>
-
-
     <!-- specific -->
-
-    <color name="clock_base_color_pp">@color/color_primary_variant</color>
-    <color name="clock_active_border_color_pp">@color/color_primary</color>
-    <color name="clock_border_color_pp">@color/clock_base_color_pp</color>
-    <color name="clock_active_background_color_pp">@color/color_primary</color>
-    <color name="clock_background_color_pp">#fff</color>
-    <color name="clock_active_clock_hands_color_pp">@color/color_primary</color>
-    <color name="clock_hands_color_pp">@color/clock_base_color_pp</color>
-
-    <color name="clock_base_color_p">#40c4ff</color>
-    <color name="clock_active_border_color_p">@color/color_primary</color>
-    <color name="clock_border_color_p">@color/clock_base_color_p</color>
-    <color name="clock_active_background_color_p">@color/color_primary</color>
-    <color name="clock_background_color_p">#fff</color>
-    <color name="clock_active_clock_hands_color_p">@color/color_primary</color>
-    <color name="clock_hands_color_p">@color/clock_base_color_p</color>
-
-
-    <color name="clock_base_color_m">#536dfe</color>
-    <color name="clock_active_border_color_m">@color/color_primary</color>
-    <color name="clock_border_color_m">@color/clock_base_color_m</color>
-    <color name="clock_active_background_color_m">@color/color_primary</color>
-    <color name="clock_background_color_m">#fff</color>
-    <color name="clock_active_clock_hands_color_m">@color/color_primary</color>
-    <color name="clock_hands_color_m">@color/clock_base_color_m</color>
-
-
-    <color name="clock_base_color_g">#ff4081</color>
-    <color name="clock_active_border_color_g">@color/color_primary</color>
-    <color name="clock_border_color_g">@color/clock_base_color_g</color>
-    <color name="clock_active_background_color_g">@color/color_primary</color>
-    <color name="clock_background_color_g">#fff</color>
-    <color name="clock_active_clock_hands_color_g">@color/color_primary</color>
-    <color name="clock_hands_color_g">@color/clock_base_color_g</color>
-
-
-    <color name="clock_base_color_gg">#ff5252</color>
-    <color name="clock_active_border_color_gg">@color/color_primary</color>
-    <color name="clock_border_color_gg">@color/clock_base_color_gg</color>
-    <color name="clock_active_background_color_gg">#f2f2f2</color>
-    <color name="clock_background_color_gg">#fff</color>
-    <color name="clock_active_clock_hands_color_gg">@color/color_primary</color>
-    <color name="clock_hands_color_gg">@color/clock_base_color_gg</color>
 
 
 </resources>
+
 

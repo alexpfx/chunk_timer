@@ -1,7 +1,9 @@
 package dev.alessi.chunk.pomodoro.timer.android.ui.task
 
 import android.content.Context
+import android.graphics.Paint
 import android.text.format.DateUtils
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,20 +11,25 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatToggleButton
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.ui.task_stats.PeriodSummaryTO
+import dev.alessi.chunk.pomodoro.timer.android.util.bool
 import dev.alessi.chunk.pomodoro.timer.android.util.toFormatedTime
 import java.util.*
 
 
-class SelectTaskRecyclerAdapter(
+class SelectTaskAdapter(
     private var items: List<SelectTaskTO>,
     val onSelect: (task: SelectTaskTO) -> Unit,
     val onTaskInfoClick: (taskSummariesTO: SelectTaskTO) -> Unit,
     val onTaskArchiveClick: (taskId: Task) -> Unit,
-    val onEstimateTaskClick: (task: Task) -> Unit
+    val onEstimateTaskClick: (task: Task) -> Unit,
+    val onMarkAsDoneClick: (task: Task) -> Unit
+
 ) :
     RecyclerView.Adapter<TaskViewHolder>(), Filterable {
 
@@ -41,7 +48,7 @@ class SelectTaskRecyclerAdapter(
             LayoutInflater.from(parent.context).inflate(R.layout.item_select_task, parent, false)
 
         return TaskViewHolder(
-            view, taskSelectClick, taskInfoClick, archiveTaskClick, estimateTaskClick, view.context
+            view, taskSelectClick, taskInfoClick, archiveTaskClick, estimateTaskClick, markAsDoneClick, view.context
         )
     }
 
@@ -60,6 +67,11 @@ class SelectTaskRecyclerAdapter(
     private val estimateTaskClick = View.OnClickListener {
         val taskSummariesTO = (it.tag as SelectTaskTO)
         onEstimateTaskClick(taskSummariesTO.task)
+    }
+
+    private val markAsDoneClick = View.OnClickListener {
+        val taskSummariesTO = (it.tag as SelectTaskTO)
+        onMarkAsDoneClick(taskSummariesTO.task)
     }
 
 
@@ -146,6 +158,7 @@ class TaskViewHolder(
     taskInfoClick: View.OnClickListener,
     archiveTaskClick: View.OnClickListener,
     estimateTaskClick: View.OnClickListener,
+    markAsDoneClick: View.OnClickListener,
     val context: Context
 ) :
     RecyclerView.ViewHolder(view) {
@@ -154,9 +167,13 @@ class TaskViewHolder(
     private var txtTaskCreatedAt: TextView = view.findViewById(R.id.txtCreatedAt)
     //    private val chipSummary = view.findViewById<Chip>(R.id.chipSummary)
     private val btnInfo = view.findViewById<ImageButton>(R.id.btnInfo)
-    private val btnArchive = view.findViewById<ImageButton>(R.id.btnArchive)
+    private val txtTaskStatus = view.findViewById<TextView>(R.id.txt_status)
 
-    private val btnEstimate = view.findViewById<ImageButton>(R.id.btnEstimate)
+    /*private val btnArchive = view.findViewById<ImageButton>(R.id.btnArchive)
+    private val btnEstimate = view.findViewById<ImageButton>(R.id.btnEstimate)*/
+
+    private val btnMarkAsDone = view.findViewById<AppCompatToggleButton>(R.id.btn_mark_as_done)
+    private val cardStatus = view.findViewById<MaterialCardView>(R.id.card_view_status)
 
 
     private val txtDone = view.findViewById<TextView>(R.id.txt_done_estimate)
@@ -171,62 +188,103 @@ class TaskViewHolder(
         txtTaskName.setOnClickListener(selectTaskClick)
         txtTaskDesc.setOnClickListener(selectTaskClick)
         btnInfo.setOnClickListener(taskInfoClick)
-        btnEstimate.setOnClickListener(estimateTaskClick)
+        /*btnEstimate.setOnClickListener(estimateTaskClick)*/
 
-/*
-        chipSummary.setOnClickListener {
-            taskSummaryTO?.rotate()
-            setChipSummary(taskSummaryTO?.getPeriod())
 
+        btnMarkAsDone.setOnClickListener {
+            markAsDoneClick.onClick(it)
         }
-*/
 
-        btnArchive.setOnClickListener {
-
+        /*btnArchive.setOnClickListener {
             archiveTaskClick.onClick(it)
-        }
+        }*/
 
 
     }
 
+    fun bind(selectTaskTO: SelectTaskTO) {
+        this.taskSummaryTO = selectTaskTO
 
-    fun bind(taskSummaryTO: SelectTaskTO) {
+        var task = selectTaskTO.task
 
-        this.taskSummaryTO = taskSummaryTO
+        txtTaskDesc.text = task.description
+        txtTaskName.text = task.name
 
-        txtTaskDesc.text = taskSummaryTO.task.description
-        txtTaskName.text = taskSummaryTO.task.name
+        setPaintFlags(txtTaskName, task)
+        setPaintFlags(txtTaskDesc, task)
+
+
+        btnMarkAsDone.isChecked = task.markedAsDone.bool()
+
 
 //        chipSummary.tag = taskSummaryTO
-        btnInfo.tag = taskSummaryTO
-        txtTaskDesc.tag = taskSummaryTO
-        txtTaskName.tag = taskSummaryTO
-        btnArchive.tag = taskSummaryTO
-        btnEstimate.tag = taskSummaryTO
+        btnInfo.tag = selectTaskTO
+        txtTaskDesc.tag = selectTaskTO
+        txtTaskName.tag = selectTaskTO
+        btnMarkAsDone.tag = selectTaskTO
+        /*btnArchive.tag = selectTaskTO
+        btnEstimate.tag = selectTaskTO*/
 
-        if (taskSummaryTO.estimationMinutes > 0) {
+        val summary = selectTaskTO.getPeriod()
+
+        val themeRes = view.context.theme
+        var tdStatusColor = TypedValue()
+
+        val (colorRes, textStatus) = getColorByTask(selectTaskTO)
+
+        themeRes.resolveAttribute(colorRes, tdStatusColor, true)
+
+        val statusColor = tdStatusColor.data
+
+        cardStatus.setCardBackgroundColor(statusColor)
+        cardStatus.strokeColor = statusColor
+
+        txtTaskStatus.setTextColor(statusColor)
+        txtTaskStatus.setText(textStatus)
 
 
-        }
-
-        val summary = taskSummaryTO.getPeriod()
 
         setChipSummary(summary)
 
-        val dateTime = taskSummaryTO.task.dateCreated?.time!!
+        val dateTime = task.dateCreated?.time!!
 
         val formatDate = DateUtils.formatDateTime(
             context, dateTime, DateUtils.FORMAT_SHOW_TIME or DateUtils.FORMAT_SHOW_DATE or
                     DateUtils.FORMAT_SHOW_YEAR or DateUtils.FORMAT_SHOW_WEEKDAY or DateUtils.FORMAT_NUMERIC_DATE or DateUtils.FORMAT_ABBREV_ALL
         )
 
-
 //        txtTaskCreatedAt.text =
 //            context.getString(R.string.label_format_created_at, formatDate)
 
         txtTaskCreatedAt.text = formatDate
-        txtDone.text = "${taskSummaryTO.sliceMinutes.toFormatedTime()} / ${taskSummaryTO.estimationMinutes.toFormatedTime()}"
+        txtDone.text = "${selectTaskTO.sliceMinutes.toFormatedTime()} / ${selectTaskTO.estimationMinutes.toFormatedTime()}"
     }
+
+    private fun setPaintFlags(txtTaskName: TextView, task: Task) {
+        if (task.markedAsDone.bool()) {
+            txtTaskName.paintFlags = txtTaskName.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+        } else {
+            txtTaskName.paintFlags = txtTaskName.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+        }
+
+    }
+
+    private fun getColorByTask(selectTaskTO: SelectTaskTO): TaskStatusViewProp {
+        val task = selectTaskTO.task
+        println("getColorByTask ${selectTaskTO.sliceMinutes}")
+
+        if (task.markedAsDone.bool()) {
+            return TaskStatusViewProp(R.attr.colorTaskCompleted, R.string.label_task_status_done)
+        } else {
+            return if (selectTaskTO.sliceMinutes > 0) TaskStatusViewProp(
+                R.attr.colorTaskNotCompleted,
+                R.string.label_task_status_started
+            ) else TaskStatusViewProp(R.attr.colorNewTask, R.string.label_task_status_new)
+        }
+    }
+
+    data class TaskStatusViewProp(val colorRes: Int, val textRes: Int)
+
 
     private fun setChipSummary(summary: PeriodSummaryTO?) {
         /*chipSummary.text =

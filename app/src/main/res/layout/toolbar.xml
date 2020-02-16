@@ -4,14 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-
-
     android:fitsSystemWindows="true"
 
 
-    >
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
 
+
+    >
 
 
     <androidx.appcompat.widget.Toolbar
@@ -19,11 +18,10 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
 
-        app:layout_scrollFlags="snap"
-
-
-
         android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+
+
+        app:layout_scrollFlags="snap"
         app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
 
         >

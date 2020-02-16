@@ -10,8 +10,10 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:hint="@string/dialog_textfield_hint_task_name"
+        app:counterEnabled="true"
+
+        app:counterMaxLength="60"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
 
@@ -19,7 +21,6 @@
         >
 
         <com.google.android.material.textfield.TextInputEditText
-
             android:id="@+id/edt_task_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -38,7 +39,6 @@
         android:hint="@string/dialog_textfield_hint_task_desc"
         app:layout_constraintStart_toStartOf="@id/input_layout_task_name"
         app:layout_constraintTop_toBottomOf="@id/input_layout_task_name"
-
 
 
         >

@@ -2,7 +2,6 @@ package dev.alessi.chunk.pomodoro.timer.android.ui.estimate
 
 
 import android.content.ClipData
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.view.*
@@ -14,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dev.alessi.chunk.pomodoro.timer.android.AppUtilsProvider
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.database.SizeTimeCountTO
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
@@ -26,46 +26,35 @@ import dev.alessi.chunk.pomodoro.timer.android.util.RuntimeViewFactory
 import dev.alessi.chunk.pomodoro.timer.android.util.ViewUtils
 import dev.alessi.chunk.pomodoro.timer.android.util.ViewUtils.Companion.getSizeTimeCountTOFromTag
 import dev.alessi.chunk.pomodoro.timer.android.util.toFormatedTime
-import kotlinx.android.synthetic.main.fragment_estimate.*
-
-
-/**
- * A simple [Fragment] subclass.
- */
+import kotlinx.android.synthetic.main.fragment_estimation.*
+import kotlinx.android.synthetic.main.inc_layout_task_name_and_description.*
 
 
 class EstimationFragment : Fragment(), EstimationActionListeners {
-    companion object {
-        const val tagSummary = "summaryButtons"
-    }
+    private lateinit var mAppUtils: AppUtilsProvider
 
     private lateinit var sizeMap: Map<Int, SizeValue>
-    lateinit var rlInfoContent: FrameLayout
-    lateinit var imageDragIconInfo: ImageView
-    lateinit var textDragInfo: TextView
+    private lateinit var rlInfoContent: FrameLayout
+    private lateinit var imageDragIconInfo: ImageView
+    private lateinit var textDragInfo: TextView
+
 
     private val mEstimationViewModel: EstimateViewModel by viewModels()
     private val mLoadTaskViewModel: TaskViewModel by viewModels()
-    lateinit var mTask: Task
-    lateinit var mEstimationAdapter: EstimationAdapter
+    private lateinit var mTask: Task
+    private lateinit var mEstimationAdapter: EstimationAdapter
     private val mMainActivityViewModel: MainActivityControlViewModel by viewModels(::requireActivity)
 
 
+
     private var mMinutesEditable = 0
-
-    private val editModeIcon: Drawable by lazy {
-        ViewUtils.getDrawable(context!!, R.drawable.ic_mode_edit_black_24dp)
-    }
-
-    private val checkIcon: Drawable by lazy {
-        ViewUtils.getDrawable(context!!, R.drawable.ic_check_black_24dp)
-    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         sizeMap =
             SizeValue.loadMapFromPreferences(PreferenceManager.getDefaultSharedPreferences(this.context))
 
+        mAppUtils = (activity?.application as AppUtilsProvider)
 
         mEstimationAdapter =
             EstimationAdapter(this)
@@ -149,20 +138,18 @@ class EstimationFragment : Fragment(), EstimationActionListeners {
     }
 
     private fun updateUi() {
-        txt_task_description.text = mTask.description
+        txt_task_name.text = if (mTask.name.isBlank()) " - " else mTask.name
+        txt_task_description.text = if (mTask.description.isBlank()) " - " else mTask.description
+
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
 
-        setupObservers()
 
-        super.onActivityCreated(savedInstanceState)
-    }
-
-    private fun setupObservers() {
+    private fun initObservers() {
         mLoadTaskViewModel.taskLoadedObserver.observe(viewLifecycleOwner, onTaskLoaded)
         mEstimationViewModel.onAllEstimationsLoaded.observe(viewLifecycleOwner, onAllEstimations)
         mEstimationViewModel.onAllEstimationsFor.observe(viewLifecycleOwner, onAllEstimationsFor)
+
 
     }
 
@@ -171,7 +158,7 @@ class EstimationFragment : Fragment(), EstimationActionListeners {
         savedInstanceState: Bundle?
     ): View? {
 
-        return inflater.inflate(R.layout.fragment_estimate, container, false)
+        return inflater.inflate(R.layout.fragment_estimation, container, false)
     }
 
 
@@ -273,6 +260,11 @@ class EstimationFragment : Fragment(), EstimationActionListeners {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+
+
+        initObservers()
+
         val taskId = arguments?.getInt(SelectTaskFragment.extra_param_task_id, -1)
             ?: throw IllegalArgumentException("Não passou a task")
 
@@ -281,9 +273,11 @@ class EstimationFragment : Fragment(), EstimationActionListeners {
         p.gravity = Gravity.CENTER
 
         for (value in sizeMap.values) {
+
             val inflated = RuntimeViewFactory.inflateEstimationButton(
                 context!!,
                 value,
+                name = mAppUtils.getSizeName(value.index),
                 onTouchListener = onSizeButtonTouch
             )
             layout_estimation_menu.addView(inflated, p)
@@ -299,7 +293,6 @@ class EstimationFragment : Fragment(), EstimationActionListeners {
 
 
         mEstimationViewModel.loadAllEstimations(taskId)
-
 
         updateDragHereMessage()
 

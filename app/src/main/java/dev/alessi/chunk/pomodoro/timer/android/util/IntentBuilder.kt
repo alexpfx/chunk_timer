@@ -31,7 +31,7 @@ class IntentBuilder {
             context: Context,
             extras: Bundle? = null
         ): Intent {
-            var intent = getIntent(
+            val intent = getIntent(
                 context,
                 extras,
                 TimerActivity::class.java

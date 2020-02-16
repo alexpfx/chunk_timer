@@ -1,7 +1,6 @@
 package dev.alessi.chunk.pomodoro.timer.android.util
 
 import android.os.Build
-import dev.alessi.chunk.pomodoro.timer.android.ui.slice_history.adapter.DataItem
 import dev.alessi.chunk.pomodoro.timer.android.util.date.DateUtil
 import dev.alessi.chunk.pomodoro.timer.android.util.date.NewTimeApiDateUtil
 import dev.alessi.chunk.pomodoro.timer.android.util.date.ThreetenDateUtil

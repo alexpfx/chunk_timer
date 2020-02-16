@@ -20,8 +20,8 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.setPadding
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.chip.Chip
-import dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView
 import dev.alessi.chunk.pomodoro.timer.android.R
+import dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView
 import dev.alessi.chunk.pomodoro.timer.android.domain.SizeIndex
 import dev.alessi.chunk.pomodoro.timer.android.domain.SizeValue
 import dev.alessi.chunk.pomodoro.timer.android.util.ViewUtils.Companion.getSizeDrawable
@@ -31,13 +31,11 @@ class RuntimeViewFactory {
 
     companion object {
 
-
-
-        fun getViewContainer(parent: ConstraintLayout, uuidTag: String, lastId: Int): LinearLayout{
+        fun getViewContainer(parent: ConstraintLayout, uuidTag: String, lastId: Int): LinearLayout {
             println(uuidTag)
 
-            var v = parent?.findViewWithTag<LinearLayout>(uuidTag)
-            if (v != null){
+            var v = parent.findViewWithTag<LinearLayout>(uuidTag)
+            if (v != null) {
                 return v
             }
 
@@ -50,7 +48,7 @@ class RuntimeViewFactory {
             val cs = ConstraintSet()
             cs.clone(parent)
 
-            if (lastId == null){
+            if (lastId == null) {
                 v.id = View.generateViewId()
             }
 
@@ -110,11 +108,10 @@ class RuntimeViewFactory {
         fun inflateEstimationButton(
             context: Context,
             sizeValue: SizeValue,
-            topInfo: String? = null,
+            name: String? = null,
             onTouchListener: View.OnTouchListener,
             tag: Any? = null
         ): ClockView {
-
             val style = mapStyles[sizeValue.index] ?: error("style cannot be null")
 
 
@@ -127,6 +124,8 @@ class RuntimeViewFactory {
 
 
             clockView.tag = tag ?: sizeValue
+            clockView.clockSizeName = name ?: ""
+
 
             clockView.setOnTouchListener { v, event ->
                 onTouchListener.onTouch(v, event)
@@ -279,7 +278,7 @@ class RuntimeViewFactory {
         }
 
 
-        fun createChip(context: Context, text: String): View{
+        fun createChip(context: Context, text: String): View {
             val chip = Chip(context)
             val lp = LinearLayout.LayoutParams(WRAP_CONTENT, MATCH_PARENT)
             chip.text = text

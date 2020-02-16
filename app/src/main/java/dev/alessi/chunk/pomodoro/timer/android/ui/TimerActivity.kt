@@ -14,6 +14,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.service.ChunkTimerService
 import dev.alessi.chunk.pomodoro.timer.android.ui.dialog.TimerFinishViewModel
@@ -50,12 +51,15 @@ class TimerActivity : AppCompatActivity(),
     }
 
     private fun showBreaktimeFinish(intent: Intent) {
-
-
-        findNavController(R.id.nav_host_fragment).navigate(R.id.timerFinishDialogFragment, intent.extras)
-
-
+        getNavController().navigate(R.id.timerFinishDialogFragment, intent.extras)
     }
+
+    fun getNavController(intent: Intent): NavController{
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        return navHostFragment.navController
+    }
+
+
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
@@ -63,11 +67,8 @@ class TimerActivity : AppCompatActivity(),
 
         if (intent?.hasExtra(ChunkTimerService.extra_param_event) == true) {
 
-            val event = IntentBuilder.getEvent(intent)
 
-
-
-            when (event) {
+            when (IntentBuilder.getEvent(intent)) {
                 ChunkTimerService.Event.ON_BREAKTIME_COMPLETED -> showBreaktimeFinish(intent)
                 ChunkTimerService.Event.ON_TIME_SLICE_COMPLETED -> {
                     showTimeSliceFinish(intent)
@@ -85,12 +86,12 @@ class TimerActivity : AppCompatActivity(),
     override fun onStart() {
         super.onStart()
 
-        findNavController(R.id.nav_host_fragment).addOnDestinationChangedListener(this)
+        getNavController().addOnDestinationChangedListener(this)
     }
 
     override fun onStop() {
         super.onStop()
-        findNavController(R.id.nav_host_fragment).removeOnDestinationChangedListener(this)
+        getNavController().removeOnDestinationChangedListener(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

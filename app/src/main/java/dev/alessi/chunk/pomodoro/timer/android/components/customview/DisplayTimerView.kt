@@ -8,13 +8,8 @@ import android.graphics.Typeface
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
-import kotlin.math.roundToInt
 
 class DisplayTimerView(context: Context, attributeSet: AttributeSet, defStyle: Int) : View(context, attributeSet, defStyle) {
-
-    private val basePaint = Paint().apply {
-        color = 0xFFC6853B.toInt()
-    }
 
     private val textPaint = TextPaint().apply {
         style = Paint.Style.FILL

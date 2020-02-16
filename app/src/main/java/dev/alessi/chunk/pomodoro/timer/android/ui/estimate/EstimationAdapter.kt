@@ -10,8 +10,8 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.constraintlayout.widget.Group
 import androidx.recyclerview.widget.RecyclerView
-import dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView
 import dev.alessi.chunk.pomodoro.timer.android.R
+import dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView
 import dev.alessi.chunk.pomodoro.timer.android.database.SizeTimeCountTO
 import dev.alessi.chunk.pomodoro.timer.android.domain.SizeIndex
 import dev.alessi.chunk.pomodoro.timer.android.domain.SizeValue
@@ -22,9 +22,7 @@ class EstimationAdapter(private val listeners: EstimationActionListeners) :
 
     RecyclerView.Adapter<ViewHolder>(), EstimationActionListeners {
 
-
     private var itemsSummarized = mutableListOf<SizeTimeCountTO>()
-
 
     private var countMaxDigits = 1
     private var minutesMaxDigits = 1
@@ -38,8 +36,6 @@ class EstimationAdapter(private val listeners: EstimationActionListeners) :
         SizeIndex.G to R.style.ButtonClockView_G,
         SizeIndex.GG to R.style.ButtonClockView_GG
     )
-
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val style = mapStyles[viewType] ?: error("Error")
@@ -60,11 +56,7 @@ class EstimationAdapter(private val listeners: EstimationActionListeners) :
         return itemsSummarized[position].sizeId
     }
 
-
-
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
         val item = itemsSummarized[position]
 
         holder.bind(
@@ -111,10 +103,9 @@ class EstimationAdapter(private val listeners: EstimationActionListeners) :
 
     fun setItem(entry: SizeTimeCountTO) {
         val index =
-            itemsSummarized.indexOfFirst { it.sizeId == entry?.sizeId && it.timeMinutes == entry.timeMinutes }
+            itemsSummarized.indexOfFirst { it.sizeId == entry.sizeId && it.timeMinutes == entry.timeMinutes }
 
         println("setItem $index $entry")
-
 
         if (index != -1 && entry != null) {
             itemsSummarized[index] = entry
@@ -128,11 +119,9 @@ class EstimationAdapter(private val listeners: EstimationActionListeners) :
             setItems(itemsSummarized)
         }
 
-
     }
 
     override val onBtnPlus = View.OnClickListener {
-
 
         listeners.onBtnPlus.onClick(it)
 
@@ -177,6 +166,8 @@ class ViewHolder(
     ) {
         clockView.minutes = item.timeMinutes
 
+
+
         updateSizes(item, countPad, minutesPad)
 
         groupEditModel.visibility = if (editMode) View.VISIBLE else View.GONE
@@ -189,14 +180,12 @@ class ViewHolder(
         btnPlus.setOnClickListener(onBtnPlus)
         btnMinus.setOnClickListener(onBtnMinus)
 
-
         if (animate) {
             val fadeIn = AnimationUtils.loadAnimation(context, android.R.anim.fade_in)
             val fadeOut = AnimationUtils.loadAnimation(context, android.R.anim.fade_out)
             itemView.startAnimation(fadeIn)
             itemView.startAnimation(fadeOut)
         }
-
 
     }
 
@@ -210,23 +199,15 @@ class ViewHolder(
         txtEstimationSummary.text = item.toFormatedSummary(item.count, countPad, minutesPad)
     }
 
-
     override val onBtnPlus = View.OnClickListener {
-
-
         estimationActionListeners.onBtnPlus.onClick(it)
     }
     override val onBtnMinus = View.OnClickListener {
-
         estimationActionListeners.onBtnMinus.onClick(it)
-
     }
     override val onBtnDelete = View.OnClickListener {
-
-
         estimationActionListeners.onBtnDelete.onClick(it)
     }
-
 
 }
 

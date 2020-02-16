@@ -3,48 +3,33 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
+    android:id="@+id/card_view_status"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/keyline_1">
+    android:layout_marginTop="@dimen/keyline_0"
+    android:alpha="0.6"
+
+    app:cardBackgroundColor="?colorNewTask"
+    app:cardCornerRadius="@dimen/corner_size_small"
+    app:cardPreventCornerOverlap="true"
+    app:contentPaddingLeft="@dimen/keyline_1"
+    app:strokeColor="?colorNewTask"
+    app:strokeWidth="1dp">
+
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:background="@drawable/background_curve_small"
+        android:paddingStart="@dimen/keyline_2"
+        android:paddingBottom="@dimen/keyline_2"
+        android:paddingEnd="@dimen/keyline_2"
+        android:paddingTop="@dimen/keyline_4"
         android:minHeight="56dp">
 
-        <TextView
-            android:id="@+id/txt_task_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
 
-            android:padding="@dimen/keyline_2"
-            android:textAppearance="?textAppearanceSubtitle1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Implementar testes unitários" />
-
-
-        <TextView
-            android:id="@+id/txt_task_description"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-
-
-            android:padding="@dimen/keyline_2"
-            android:textAppearance="?textAppearanceBody2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/txt_task_name"
-            app:layout_constraintTop_toBottomOf="@+id/txt_task_name"
-            tools:text="Implementar testes unitarios e validar execução de testes funcionais" />
+        <include layout="@layout/inc_layout_task_name_and_description" />
 
 
         <View
@@ -52,32 +37,26 @@
             style="@style/divider"
             android:layout_width="0dp"
 
-
-            android:layout_marginStart="4dp"
-
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-
-            android:padding="8dp"
-            app:layout_constraintEnd_toEndOf="@+id/txt_task_description"
-            app:layout_constraintStart_toStartOf="@id/txt_task_description"
-            app:layout_constraintTop_toBottomOf="@id/txt_task_description" />
-
+            android:layout_marginTop="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_task_description" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_done_estimate"
 
 
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
+
             android:gravity="start"
 
             android:hint="@string/label_hint_done_estimation"
-
             android:padding="@dimen/keyline_1"
-
+            android:paddingStart="@dimen/keyline_2"
+            android:paddingEnd="@dimen/keyline_2"
             android:text="@string/nothing_yet"
             android:textAppearance="?textAppearanceOverline"
             app:layout_constraintStart_toStartOf="@+id/txt_task_description"
@@ -88,29 +67,15 @@
             android:id="@+id/txtCreatedAt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-
             android:padding="@dimen/keyline_1"
-
+            android:paddingStart="@dimen/keyline_2"
+            android:paddingEnd="@dimen/keyline_2"
             android:textAppearance="?textAppearanceOverline"
-            app:layout_constraintStart_toStartOf="@+id/txt_task_description"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/txt_done_estimate"
             app:layout_constraintTop_toBottomOf="@+id/txt_done_estimate"
+            app:layout_constraintVertical_bias="0.0"
             tools:text="Dom, 08/12/2019 - 16:00" />
-
-        <View
-            android:id="@+id/div2"
-            style="@style/divider"
-            android:layout_width="0dp"
-
-
-
-            android:layout_marginTop="8dp"
-
-            android:padding="8dp"
-            app:layout_constraintEnd_toEndOf="@+id/txtCreatedAt"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/div1"
-            app:layout_constraintTop_toBottomOf="@+id/txtCreatedAt" />
 
 
         <ImageButton
@@ -120,54 +85,32 @@
 
             android:layout_height="wrap_content"
 
-            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-
             android:contentDescription="@string/content_description_more_info"
             android:padding="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/btnArchive"
-            app:layout_constraintStart_toEndOf="@+id/btnArchive"
-            app:layout_constraintTop_toTopOf="@+id/btnArchive"
+            app:layout_constraintBottom_toBottomOf="@+id/txtCreatedAt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/txt_done_estimate"
             app:srcCompat="@drawable/ic_info_black_24dp" />
-
-        <ImageButton
-            android:id="@+id/btnArchive"
-
-
-            android:layout_width="wrap_content"
-
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-
-            android:layout_marginBottom="16dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-
-            android:contentDescription="@string/content_description_archive_task"
-            android:padding="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-
-
-            app:layout_constraintStart_toStartOf="@+id/txt_task_description"
-            app:layout_constraintTop_toBottomOf="@+id/div2"
-            app:srcCompat="@drawable/ic_archive_black_24dp" />
-
-
-        <ImageButton
-            android:id="@+id/btnEstimate"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:layout_marginStart="16dp"
-
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/content_description_plan_task"
-            android:padding="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/btnInfo"
-            app:layout_constraintStart_toEndOf="@+id/btnInfo"
-            app:layout_constraintTop_toTopOf="@+id/btnInfo"
-            app:srcCompat="@drawable/ic_assignment_black_24dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/txt_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="new"
+        android:paddingEnd="@dimen/keyline_2"
+        android:paddingStart="@dimen/keyline_2"
+        android:paddingTop="@dimen/keyline_0"
+        android:paddingBottom="@dimen/keyline_0"
+        android:textSize="8sp"
+        android:textAppearance="?attr/textAppearanceOverline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
 </com.google.android.material.card.MaterialCardView>

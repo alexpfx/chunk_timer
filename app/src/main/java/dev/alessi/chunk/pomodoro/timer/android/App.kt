@@ -66,7 +66,6 @@ class App : Application(), EstimateRepositoryProvider, TaskRepositoryProvider,
 
     }
 
-
     private fun prePopulate() {
 
 
@@ -85,14 +84,16 @@ class App : Application(), EstimateRepositoryProvider, TaskRepositoryProvider,
         }
     }
 
-
     private fun createDb(): AppDatabase {
         val db: AppDatabase =
-            Room.databaseBuilder(this, AppDatabase::class.java, "fafa.db")
+            Room.databaseBuilder(this, AppDatabase::class.java, "fafax.db")
                 .addCallback(onCreateDbCallback)
+                .fallbackToDestructiveMigration() //TODO remover e criar migrations
+                .addMigrations()
                 .build()
 
         db.query("select 1", null)
+
 
         return db
     }
@@ -112,7 +113,6 @@ class App : Application(), EstimateRepositoryProvider, TaskRepositoryProvider,
         }
 
         return getString(sizesNames[index])
-
 
     }
 

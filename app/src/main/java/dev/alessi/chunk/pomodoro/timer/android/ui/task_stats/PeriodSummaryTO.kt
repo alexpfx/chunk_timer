@@ -5,7 +5,6 @@ import dev.alessi.chunk.pomodoro.timer.android.database.WorkUnit
 import dev.alessi.chunk.pomodoro.timer.android.domain.SizeIndex
 import dev.alessi.chunk.pomodoro.timer.android.util.toFormatedTime
 import java.text.DecimalFormat
-import java.util.*
 
 
 data class PeriodSummaryTO(
@@ -55,26 +54,8 @@ data class PeriodSummaryTO(
     }
 
 
-    fun toFormatedHours(): String {
-        val seconds = minutes * 60
-        val hours: Double = seconds / hours_const_div.toDouble()
-        return DecimalFormat("#.#").format(hours)
-    }
 
-
-    data class TimePeriod(val name: String, val filter: (WorkUnit) -> Boolean) {
-        override fun toString(): String {
-            return name
-        }
-
-
-    }
-
-
-
-
-
-    enum class Period(val labelKey: Int) {
+    enum class Period(private val labelKey: Int) {
 
         TODAY(R.string.label_period_today),
 

@@ -12,7 +12,7 @@ import dev.alessi.chunk.pomodoro.timer.android.util.toFormatedTime
 import java.util.*
 
 
-class SliceHistoryAdapter(val onFilterChangedListener: OnFilterChangedListener) : ListAdapter<DataItem, RecyclerView.ViewHolder>(
+class SliceHistoryAdapter(private val onFilterChangedListener: OnFilterChangedListener) : ListAdapter<DataItem, RecyclerView.ViewHolder>(
     DataItem.DiffCallback()
 ), HeaderViewHolder.Companion.OnClickListener {
 

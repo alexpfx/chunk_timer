@@ -1,6 +1,5 @@
 package dev.alessi.chunk.pomodoro.timer.android.repository
 
-import dev.alessi.chunk.pomodoro.timer.android.database.TaskSize
 import dev.alessi.chunk.pomodoro.timer.android.database.WorkUnit
 
 interface SliceRepository {

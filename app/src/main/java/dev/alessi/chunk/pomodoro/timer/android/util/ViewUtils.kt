@@ -18,19 +18,6 @@ class ViewUtils {
             return (it.tag as SizeTimeCountTO).toSizeValue()
         }
 
-
-        fun getEntryFromTag(it: View): Entry<*, *> {
-            return it.tag as Entry<*, *>
-        }
-
-        fun getDrawable(context: Context, resDrawable: Int): Drawable {
-            val drawable =
-                ContextCompat.getDrawable(context, resDrawable)?.constantState?.newDrawable()
-                    ?.mutate()
-
-            return drawable!!
-        }
-
         fun getSizeDrawable(key: Int, context: Context): Drawable {
             val drawable =
                 ContextCompat.getDrawable(context, sizeDrawables[key])?.constantState?.newDrawable()

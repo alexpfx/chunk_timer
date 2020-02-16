@@ -13,6 +13,7 @@ import androidx.core.graphics.withRotation
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.util.hoursToDegree
 import dev.alessi.chunk.pomodoro.timer.android.util.minutesToDegree
+import kotlin.math.min
 
 
 const val minutesHandLineProportion = 0.017f
@@ -185,12 +186,16 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
 
         //Measure Height
         //Measure Height
-        cHeight = if (heightMode == MeasureSpec.EXACTLY) { //Must be this size
-            heightSize
-        } else if (heightMode == MeasureSpec.AT_MOST) { //Can't be bigger than...
-            desiredHeight.coerceAtMost(heightSize)
-        } else { //Be whatever you want
-            desiredHeight
+        cHeight = when (heightMode) {
+            MeasureSpec.EXACTLY -> { //Must be this size
+                heightSize
+            }
+            MeasureSpec.AT_MOST -> { //Can't be bigger than...
+                desiredHeight.coerceAtMost(heightSize)
+            }
+            else -> { //Be whatever you want
+                desiredHeight
+            }
         }
 
         //MUST CALL THIS
@@ -217,22 +222,11 @@ class ClockView(context: Context, attributeSet: AttributeSet?, style: Int) : Vie
         } else {
             result = desiredSize
             if (specMode == MeasureSpec.AT_MOST) {
-                result = Math.min(result, specSize)
+                result = min(result, specSize)
             }
         }
-        if (result < desiredSize) {
 
-        }
         return result
-    }
-
-    override fun setSelected(selected: Boolean) {
-
-        super.setSelected(selected)
-    }
-
-    fun setStyle() {
-
     }
 
 

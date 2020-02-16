@@ -28,7 +28,7 @@ import kotlinx.android.synthetic.main.layout_content_empty.*
 
 class SelectTaskFragment : Fragment() {
 
-    lateinit var mAdapter: SelectTaskRecyclerAdapter
+    lateinit var mAdapter: SelectTaskAdapter
 
     private val mSummariesViewModel: LoadPeriodSummariesViewModel by viewModels()
 
@@ -86,8 +86,7 @@ class SelectTaskFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-        when (id) {
+        when (item.itemId) {
             R.id.action_filter_task -> return true
         }
 
@@ -109,7 +108,10 @@ class SelectTaskFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_select_task, container, false)
     }
 
+    private val onTaskDoneStatusChanged = Observer<Task> {
 
+        mSummariesViewModel.loadAllAndSummarizeAndEstimations()
+    }
 
     private val onArchiveActionObserver = Observer<Task> { task ->
         val contextView = view?.findViewById<View>(R.id.recycler_view_select_task)!!
@@ -165,28 +167,24 @@ class SelectTaskFragment : Fragment() {
     }
 
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        mAdapter = SelectTaskRecyclerAdapter(
+        mAdapter = SelectTaskAdapter(
             arrayListOf(),
             ::onItemSelect,
             ::onOpenTaskInfoClick,
             ::onArchiveClick,
-            ::onEstimateClick
+            ::onEstimateClick,
+            ::onMarkAsDoneClick
 
         )
 
-        initViewModelsListeners()
+        initObservers()
 
 
         recycler_view_select_task.addOnScrollListener(object : OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if (dy > 0) {
-//                    fab.hide()
-                } else {
-//                    fab.show()
-                }
+
                 super.onScrolled(recyclerView, dx, dy)
             }
 
@@ -221,13 +219,15 @@ class SelectTaskFragment : Fragment() {
         super.onDestroyView()
     }
 
-    private fun initViewModelsListeners() {
+    private fun initObservers() {
         mAddEditTaskSharedViewModel.onNewTaskObserver.observe(viewLifecycleOwner, (Observer {
             mSummariesViewModel.loadAllAndSummarizeAndEstimations()
         }))
 
 
-        mTaskViewModel.taskArchivedObserver.observeForever (onArchiveActionObserver)
+        mTaskViewModel.taskArchivedObserver.observeForever(onArchiveActionObserver)
+
+        mTaskViewModel.taskDoneStatusChangedObserver.observeForever(onTaskDoneStatusChanged)
 
 //        mTaskViewModel.taskArchivedObserver.observe(
 //            viewLifecycleOwner,
@@ -242,7 +242,6 @@ class SelectTaskFragment : Fragment() {
         )
 
     }
-
 
 
     private fun setNoContent() {
@@ -266,6 +265,11 @@ class SelectTaskFragment : Fragment() {
         val args = Bundle()
         args.putInt(extra_param_task_id, task.uid!!)
         findNavController().navigate(R.id.estimateFragment, args)
+    }
+
+    private fun onMarkAsDoneClick(task: Task) {
+        println("onMarkAsDoneClick $task")
+        mTaskViewModel.markAsDone(task)
     }
 
     private fun onOpenTaskInfoClick(taskSummaries: SelectTaskTO) {

@@ -8,12 +8,15 @@
 
     <style name="Base.MyTheme" parent="Base.Timer">
 
-        <item name="android:imageButtonStyle">@style/Widget.AppCompat.ImageButton</item>
+        <item name="android:imageButtonStyle">@style/Widget.Timer.ImageButton</item>
 
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryVariant">@color/color_primary_variant</item>
         <item name="colorSecondary">@color/color_secondary</item>
         <item name="colorSecondaryVariant">@color/color_secondary_variant</item>
+        <item name="colorPrimarySurface">@color/color_primary_surface</item>
+
+
 
         <item name="android:colorBackground">@color/color_background</item>
         <item name="colorBackground">@color/color_background</item>
@@ -28,13 +31,14 @@
         <item name="colorOnSurface">@color/color_on_surface</item>
         <item name="colorOnError">@color/color_on_error</item>
 
-
+        <item name="colorTaskCompleted">@color/color_task_completed</item>
+        <item name="colorTaskNotCompleted">@color/color_task_not_completed</item>
+        <item name="colorNewTask">@color/color_new_task</item>
 
 
         <item name="android:textColorPrimary">@color/color_on_surface</item>
         <item name="android:textColorSecondary">@color/color_on_surface</item>
         <item name="android:textColorTertiary">@color/color_on_surface</item>
-
 
 
         <item name="textAppearanceHeadline1">@style/TextAppearance.Timer.Headline1</item>
@@ -49,8 +53,13 @@
 
         <item name="colorControlNormal">@color/color_control_normal</item>
 
+
         <item name="imageButtonStyle">@style/Widget.Timer.ImageButton</item>
         <item name="android:textViewStyle">@style/Widget.Timer.TextView</item>
+
+        <item name="textViewSpotlightStyle">@style/Widget.Timer.TextViewSpotlight</item>
+
+
         <item name="materialButtonStyle">@style/Widget.Timer.Button</item>
         <item name="materialButtonOutlinedStyle">@style/Widget.Timer.OutlinedButton</item>
 
@@ -58,11 +67,8 @@
         <item name="materialButtonToggle">@style/Widget.Timer.TextButton</item>
 
         <item name="materialCardViewStyle">@style/Widget.Timer.CardView</item>
-
-
-
-
-
+        <item name="materialButtonToggleGroupStyle">@style/Widget.Timer.MaterialButtonToggle</item>
+        <item name="textInputStyle">@style/Widget.Timer.MaterialButtonToggle</item>
 
 
         <!-- Customize your theme here. -->
@@ -76,7 +82,6 @@
         <!--<item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.PrimarySurface</item>-->
 
 
-
     </style>
 
     <style name="Base.Timer" parent="Theme.MaterialComponents.DayNight.NoActionBar">
@@ -84,22 +89,22 @@
         <item name="alphaEmphasisMedium">@dimen/alpha_emphasis_medium</item>
         <item name="alphaEmphasisDisabled">@dimen/alpha_emphasis_disabled</item>
 
-        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.AppTheme.SmallComponent</item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.AppTheme.SmallComponent
+        </item>
 
-        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.AppTheme.MediumComponent</item>
+        <item name="shapeAppearanceMediumComponent">
+            @style/ShapeAppearance.AppTheme.MediumComponent
+        </item>
 
-        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.AppTheme.LargeComponent</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.AppTheme.LargeComponent
+        </item>
 
 
         <item name="colorPrimaryDark">?colorPrimaryVariant</item>
         <item name="colorAccent">?colorSecondary</item>
 
 
-
-
-
     </style>
-
 
 
 </resources>

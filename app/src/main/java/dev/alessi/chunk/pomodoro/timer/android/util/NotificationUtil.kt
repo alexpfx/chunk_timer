@@ -40,7 +40,7 @@ fun NotificationManagerCompat.notifyTimerFinish(context: Context) {
 
     cancelAll()
 
-    var build = builder.build()
+    val build = builder.build()
 
     notify(App.NOTIFICATION_ID, build)
 }

@@ -257,9 +257,7 @@ class ChunkTimerService : Service() {
         val intent =
             createBundleForEvent(event, tickType, sliceId)
 
-        if (event != Event.ON_TICK) {
 
-        }
 
         sendBroadcast(intent)
     }
@@ -283,13 +281,11 @@ class ChunkTimerService : Service() {
             extras.putInt(extra_param_slice_id, sliceId)
         }
 
-        val intent =
-            IntentBuilder.getIntentForEvent(
-                message_broadcast_message,
-                event,
-                extras
-            )
-        return intent
+        return IntentBuilder.getIntentForEvent(
+            message_broadcast_message,
+            event,
+            extras
+        )
     }
 
     private fun broadcastTick(silentTick: Boolean = false) {
@@ -342,7 +338,7 @@ class ChunkTimerService : Service() {
 
         broadcastEvent(Event.ON_TICK, tickType = type)
 
-        mChunckTimer?.let {
+        mChunckTimer.let {
             mNotificationManagerCompat?.notifyTick(mCurrentTime, applicationContext, mapTypeToEvent(it.type))
         }
     }

@@ -55,10 +55,7 @@ class TimerSettingsDialogFragment : AppCompatDialogFragment() {
                 it.requestFocus()
                 it.error = getString(R.string.message_error_required_sorted_sizes)
 
-                if (index == edts.size - 1) {
-//                    mSpace.visibility = View.VISIBLE
 
-                }
 
                 return false
             }

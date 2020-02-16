@@ -3,7 +3,6 @@ package dev.alessi.chunk.pomodoro.timer.android.task.addedit
 import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -84,30 +83,7 @@ class AddEditTaskDialog : DialogFragment() {
         })
 
 
-        if (arguments != null) {
-            /*     isEditMode = true
-                 dialog.setTitle(R.string.title_edit_task)
-                 loadTask(arguments!!.getInt(SelectTaskFragment.extra_param_task_id))*/
-
-        }
-
         return dialog
-    }
-
-
-    /*private fun loadTask(tid: Int) {
-        scope.launch {
-            mTask = withContext(Dispatchers.IO) {
-                mTaskRepository.loadTask(tid)
-            }
-            updateUi()
-        }
-
-    }*/
-
-    private fun updateUi() {
-
-        mEdtTaskDescription.setText(mTask.description)
     }
 
 

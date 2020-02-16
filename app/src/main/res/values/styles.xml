@@ -11,13 +11,20 @@
     <style name="Widget.Timer.ImageButton" parent="@style/Widget.AppCompat.ImageButton">
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
         <!--<item name="android:alpha">?alphaEmphasisMedium</item>-->
-        <item name="android:tint">?attr/colorOnSurface</item>
+        <item name="android:tint">?attr/colorControlNormal</item>
     </style>
 
-    <style name="Widget.Timer.TextView" parent="Widget.MaterialComponents.TextView">
 
+
+    <style name="Widget.Timer.TextView" parent="Widget.MaterialComponents.TextView">
         <item name="android:textAppearance">?textAppearanceBody2</item>
-        <item name="drawableTint">?colorSurface</item>
+        <item name="drawableTint">?colorControlNormal</item>
+
+    </style>
+    
+    <style name="Widget.Timer.TextViewSpotlight" parent="Widget.Timer.TextView">
+        <item name="android:gravity">center_vertical</item>
+
 
     </style>
 
@@ -45,6 +52,8 @@
 
     <style name="Widget.Timer.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
 
+
+
     </style>
 
 
@@ -55,9 +64,20 @@
     </style>
 
 
+    <style name="Widget.Timer.MaterialButtonToggle" parent="@style/Widget.MaterialComponents.MaterialButtonToggleGroup">
+
+    </style>
+
+    <style name="Widget.Timer.TextInputStyle" parent="@style/Widget.Design.TextInputLayout">
+
+
+
+    </style>
+
     <style name="Widget.Timer.CardView" parent="Widget.MaterialComponents.CardView">
         <item name="shapeAppearance">?attr/shapeAppearanceMediumComponent</item>
         <item name="cardBackgroundColor">?colorBackground</item>
+        <item name="cardElevation">0dp</item>
 
         <item name="strokeWidth">0.2dp</item>
         <item name="strokeColor">@color/color_primary</item>
@@ -84,33 +104,10 @@
         <!--<item name="boxBackgroundColor">@color/white</item>
         <item name="colorControlActivated">@color/white</item>-->
 
-    </style>
-
-
-    <style name="TimerActionButton" parent="Widget.MaterialComponents.Button">
-
-        <item name="android:minWidth">190dp</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:minHeight">55dp</item>
-
-        <item name="iconPadding">8dp</item>
 
     </style>
 
 
-    <style name="TimerBreakButton" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="android:minWidth">190dp</item>
-        <item name="android:minHeight">55dp</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-
-        <item name="iconPadding">8dp</item>
-
-
-        <item name="android:textSize">12sp</item>
-        <item name="iconSize">22dp</item>
-    </style>
 
 
     <!--android:gravity="center"
@@ -128,10 +125,7 @@
 
     </style>
 
-    <style name="RecyclerViews" parent="Widget.AppCompat.ListView">
 
-
-    </style>
 
     <style name="divider">
         <item name="android:background">?colorPrimary</item>

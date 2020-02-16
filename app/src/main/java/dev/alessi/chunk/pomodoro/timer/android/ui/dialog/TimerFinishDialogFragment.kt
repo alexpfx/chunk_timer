@@ -37,8 +37,8 @@ class TimerFinishDialogFragment : DialogFragment() {
         taskName = if (taskName?.isEmpty()!!) null else taskName
 
         taskName?.let {
-            updateUi(wu.timeMinutes ?: 0, R.string.message_chunk_finish, sizeName, it)
-        } ?: updateUi(wu.timeMinutes ?: 0, R.string.message_chunk_finish_without_task, sizeName)
+            updateUi(wu.timeMinutes, R.string.message_chunk_finish, sizeName, it)
+        } ?: updateUi(wu.timeMinutes, R.string.message_chunk_finish_without_task, sizeName)
 
 
 
@@ -112,7 +112,9 @@ class TimerFinishDialogFragment : DialogFragment() {
 
         clockviewTimerFinish?.minutes = minutes
 
+
         val html = if (sizeName != null) {
+            clockviewTimerFinish?.clockSizeName = sizeName
             getString(message, sizeName, minuteStr, taskName)
         } else {
             getString(message, minuteStr)
