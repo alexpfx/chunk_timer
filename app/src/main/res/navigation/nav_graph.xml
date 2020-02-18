@@ -78,7 +78,7 @@
         android:id="@+id/taskStatsFragment"
         android:name="dev.alessi.chunk.pomodoro.timer.android.ui.slice_history.TaskSliceHistoryFragment"
         android:label="fragment_task_stats"
-        tools:layout="@layout/fragment_task_slice_history" />
+        tools:layout="@layout/fragment_task_info" />
     <fragment
         android:id="@+id/estimateFragment"
         android:name="dev.alessi.chunk.pomodoro.timer.android.ui.estimate.EstimationFragment"

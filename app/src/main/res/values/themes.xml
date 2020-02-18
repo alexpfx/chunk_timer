@@ -34,6 +34,7 @@
         <item name="colorTaskCompleted">@color/color_task_completed</item>
         <item name="colorTaskNotCompleted">@color/color_task_not_completed</item>
         <item name="colorNewTask">@color/color_new_task</item>
+        <item name="colorArchived">@color/color_new_archived</item>
 
 
         <item name="android:textColorPrimary">@color/color_on_surface</item>
@@ -49,13 +50,13 @@
         <item name="textAppearanceOverline">@style/TextAppearance.Timer.Overline</item>
         <item name="textAppearanceSubtitle1">@style/TextAppearance.Timer.Subtitle1</item>
 
-
-
         <item name="colorControlNormal">@color/color_control_normal</item>
 
 
         <item name="imageButtonStyle">@style/Widget.Timer.ImageButton</item>
         <item name="android:textViewStyle">@style/Widget.Timer.TextView</item>
+        <item name="chipStyle">@style/Widget.Timer.ChipStyle</item>
+        <item name="chipGroupStyle">@style/Widget.Timer.ChipGroupStyle</item>
 
         <item name="textViewSpotlightStyle">@style/Widget.Timer.TextViewSpotlight</item>
 

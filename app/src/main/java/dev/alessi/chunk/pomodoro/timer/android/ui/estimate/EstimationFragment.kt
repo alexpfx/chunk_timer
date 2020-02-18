@@ -18,6 +18,7 @@ import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.database.SizeTimeCountTO
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
 import dev.alessi.chunk.pomodoro.timer.android.database.WorkUnit
+import dev.alessi.chunk.pomodoro.timer.android.databinding.FragmentEstimationBinding
 import dev.alessi.chunk.pomodoro.timer.android.domain.SizeValue
 import dev.alessi.chunk.pomodoro.timer.android.ui.MainActivityControlViewModel
 import dev.alessi.chunk.pomodoro.timer.android.ui.task.SelectTaskFragment
@@ -26,8 +27,6 @@ import dev.alessi.chunk.pomodoro.timer.android.util.RuntimeViewFactory
 import dev.alessi.chunk.pomodoro.timer.android.util.ViewUtils
 import dev.alessi.chunk.pomodoro.timer.android.util.ViewUtils.Companion.getSizeTimeCountTOFromTag
 import dev.alessi.chunk.pomodoro.timer.android.util.toFormatedTime
-import kotlinx.android.synthetic.main.fragment_estimation.*
-import kotlinx.android.synthetic.main.inc_layout_task_name_and_description.*
 
 
 class EstimationFragment : Fragment(), EstimationActionListeners {
@@ -44,7 +43,8 @@ class EstimationFragment : Fragment(), EstimationActionListeners {
     private lateinit var mTask: Task
     private lateinit var mEstimationAdapter: EstimationAdapter
     private val mMainActivityViewModel: MainActivityControlViewModel by viewModels(::requireActivity)
-
+    private var _binding: FragmentEstimationBinding? = null
+    private val binding get() = _binding!!
 
 
     private var mMinutesEditable = 0
@@ -129,7 +129,8 @@ class EstimationFragment : Fragment(), EstimationActionListeners {
     }
 
     private fun updateTotalTime() {
-        txt_estimation_total.text = mMinutesEditable.toFormatedTime()
+
+        binding.txtEstimationTotal.text = mMinutesEditable.toFormatedTime()
     }
 
     private val onTaskLoaded = Observer<Task> {
@@ -138,11 +139,10 @@ class EstimationFragment : Fragment(), EstimationActionListeners {
     }
 
     private fun updateUi() {
-        txt_task_name.text = if (mTask.name.isBlank()) " - " else mTask.name
-        txt_task_description.text = if (mTask.description.isBlank()) " - " else mTask.description
+        binding.txtTaskName.text = if (mTask.name.isBlank()) " - " else mTask.name
+        binding.txtTaskDescription.text = if (mTask.description.isBlank()) " - " else mTask.description
 
     }
-
 
 
     private fun initObservers() {
@@ -157,8 +157,8 @@ class EstimationFragment : Fragment(), EstimationActionListeners {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        return inflater.inflate(R.layout.fragment_estimation, container, false)
+        _binding = FragmentEstimationBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
 
 
@@ -262,7 +262,6 @@ class EstimationFragment : Fragment(), EstimationActionListeners {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
 
-
         initObservers()
 
         val taskId = arguments?.getInt(SelectTaskFragment.extra_param_task_id, -1)
@@ -280,17 +279,17 @@ class EstimationFragment : Fragment(), EstimationActionListeners {
                 name = mAppUtils.getSizeName(value.index),
                 onTouchListener = onSizeButtonTouch
             )
-            layout_estimation_menu.addView(inflated, p)
+            binding.layoutEstimationMenu.addView(inflated, p)
         }
 
-        btn_mode_edit.setOnClickListener(onEditModeClick)
+        binding.btnModeEdit.setOnClickListener(onEditModeClick)
 
-
-        reycler_estimations.setOnDragListener(onDrag)
-        reycler_estimations.adapter = mEstimationAdapter
-        reycler_estimations.layoutManager =
-            LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-
+        binding.reyclerEstimations.apply {
+            setOnDragListener(onDrag)
+            adapter = mEstimationAdapter
+            layoutManager =
+                LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        }
 
         mEstimationViewModel.loadAllEstimations(taskId)
 
@@ -323,7 +322,7 @@ class EstimationFragment : Fragment(), EstimationActionListeners {
     }
 
     private fun updateDragHereMessage() {
-        label_message_drag_here.visibility =
+        binding.labelMessageDragHere.visibility =
             if (mEstimationAdapter.itemCount > 0) View.INVISIBLE else View.VISIBLE
 
 

@@ -5,31 +5,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import dev.alessi.chunk.pomodoro.timer.android.R
+import dev.alessi.chunk.pomodoro.timer.android.databinding.ItemSliceHistoryHeaderBinding
 
 class HeaderViewHolder(
-    val view: View,
+    private val binding: ItemSliceHistoryHeaderBinding,
     private val periods: List<PeriodSelectVo>,
     private val onClickListener: OnClickListener
-) : RecyclerView.ViewHolder(view),
+) : RecyclerView.ViewHolder(binding.root),
     ViewHolderBinder<DataItem.HeaderDataItem>,
     AdapterView.OnItemClickListener {
 
-    private val txtTimeSummary: TextView? = view.findViewById(R.id.txt_time_summary)
-    private val spinnerPeriod: AutoCompleteTextView? = view.findViewById(R.id.dropdown_menu)
 
     init {
-        spinnerPeriod?.setText(periods[0].name)
-
-        ArrayAdapter<PeriodSelectVo>(view.context, R.layout.item_dropdown, periods).also {
-            spinnerPeriod?.setAdapter(it)
+        binding.dropdownMenu.apply {
+            setText(periods[0].name)
+            ArrayAdapter<PeriodSelectVo>(binding.root.context, R.layout.item_dropdown, periods).also {
+                setAdapter(it)
+            }
+            onItemClickListener = this@HeaderViewHolder
         }
 
-        spinnerPeriod?.onItemClickListener = this
-        txtTimeSummary?.text = "00:00"
+        binding.txtTimeSummary.text = "00:00"
     }
 
 
@@ -39,10 +37,13 @@ class HeaderViewHolder(
             periods: List<PeriodSelectVo>,
             onClickListener: OnClickListener
         ): HeaderViewHolder {
+
             return HeaderViewHolder(
-                LayoutInflater.from(
-                    viewGroup.context
-                ).inflate(R.layout.item_slice_history_header, viewGroup, false),
+                ItemSliceHistoryHeaderBinding.inflate(
+                    LayoutInflater.from(
+                        viewGroup.context
+                    ), viewGroup, false
+                ),
                 periods, onClickListener
             )
         }
@@ -55,7 +56,7 @@ class HeaderViewHolder(
 
 
     override fun bind(item: DataItem.HeaderDataItem) {
-        txtTimeSummary?.text = item.summary
+        binding.txtTimeSummary.text = item.summary
     }
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

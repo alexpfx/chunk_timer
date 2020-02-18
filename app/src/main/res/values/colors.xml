@@ -29,6 +29,7 @@
     <color name="color_task_completed">#0c9463</color>
     <color name="color_task_not_completed">#81f5ff</color>
     <color name="color_new_task">#ffd800</color>
+    <color name="color_new_archived">#ff6666</color>
 
 
     <color name="blackLight">#1e383c</color>
@@ -38,5 +39,6 @@
 
 
 </resources>
+
 
 

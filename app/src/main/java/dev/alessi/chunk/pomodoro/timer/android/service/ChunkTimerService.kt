@@ -20,10 +20,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
 
-
 class ChunkTimerService : Service() {
     private var mServiceRunning = false
-
 
     private var mCurrentTime: Long = 0
     private var mTotalTime: Long = 0
@@ -173,7 +171,6 @@ class ChunkTimerService : Service() {
 
         val intent = IntentBuilder.getIntentForActivity(applicationContext, extras)
         startActivity(intent)
-
 
     }
 

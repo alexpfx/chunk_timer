@@ -31,5 +31,7 @@
     <dimen name="keyline_4">16dp</dimen>
     <dimen name="keyline_5">24dp</dimen>
 
+    <dimen name="margin_border_background_as_status">@dimen/keyline_0</dimen>
+
 
 </resources>

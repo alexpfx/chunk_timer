@@ -1,5 +1,6 @@
 package dev.alessi.chunk.pomodoro.timer.android.database
 
+import androidx.annotation.Nullable
 import androidx.room.*
 import java.util.*
 
@@ -15,6 +16,7 @@ data class WorkUnit(
     var uid: Int? = null,
     var finishDate: Date = Date(),
     var timeMinutes: Int,
+
     var taskId: Int? = null,
     var sizeId: Int,
     var estimation: Int = 0,
@@ -24,7 +26,6 @@ data class WorkUnit(
 
 
 ) {
-
 
     constructor() : this(0, Date(), 0, 0, 0, 0, null)
 

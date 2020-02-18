@@ -52,6 +52,8 @@
     </string>
     <string name="message_click_select_task">Selecionar Tarefa</string>
 
+    <string name="message_show_archived_tasks">Mostrar tarefas arquivadas</string>
+
     <string name="message_chunk_finish"><![CDATA[
         Parabéns! você finalizou um timer de tamanho <b> %s </b> de <b> %s</b> para a tarefa <b><i> %s <i></b>]]></string>
 
@@ -63,9 +65,12 @@
 
     <string name="message_title_timer_break_finish">Intervalo acabou</string>
     <string name="message_content_timer_break_finish">Hora de voltar ao trabalho!</string>
-    <string name="message_task_archived">Task foi arquivada</string>
     <string name="message_action_undo">Desfazer</string>
-    <string name="message_task_unarchived">Task foi desarquivada</string>
+    <string name="message_task_archived">Tarefa foi arquivada</string>
+    <string name="message_task_unarchived">Tarefa foi desarquivada</string>
+
+    <string name="message_task_marked_as_done">Tarefa foi marcada como concluída</string>
+    <string name="message_task_marked_as_not_done">Task foi marcada como não concluída</string>
     <string name="message_content_slice_of_size_time">Timer de tamanho <b>%s</b> de <b>%s</b></string>
 
     <string name="message_error_input_break_time_empty">Informe o número de minutos</string>
@@ -100,6 +105,7 @@
     <string name="label_task_status_done">completa</string>
     <string name="label_task_status_new">nova</string>
     <string name="label_task_status_started">iniciada</string>
+    <string name="label_task_status_archived">arquivada</string>
 
 
 
@@ -137,6 +143,14 @@
     <string name="label_drag_to_here">Arraste aqui para adicionar tempo às estimativas</string>
     <string name="label_edit_mode">Editar</string>
     <string name="loren">Lorem Ipsum is simply dummy text of the printing and typesetting industry.              Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s,              when an unknown printer took a galley of type and scrambled it to make a type specimen book.              It has survived not only five centuries, but also the leap into electronic typesetting,              remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset              sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Why do we use it?</string>
+    <string name="label_task_name">Name:</string>
+    <string name="label_task_desc">Descrição</string>
+    <string name="label_created_at">Criada em:</string>
+    <string name="label_started_at">Iniciada em:</string>
+    <string name="label_last_work">Último:</string>
+    <string name="label_status">Status:</string>
+    <string name="label_total_time">Tempo total</string>
+    <string name="label_estimation_time">Tempo estimado:</string>
 
 
 </resources>

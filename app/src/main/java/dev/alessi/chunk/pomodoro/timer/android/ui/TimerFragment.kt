@@ -22,6 +22,7 @@ import dev.alessi.chunk.pomodoro.timer.android.AppUtilsProvider
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.components.customview.ClockView
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
+import dev.alessi.chunk.pomodoro.timer.android.databinding.FragmentTimerBinding
 import dev.alessi.chunk.pomodoro.timer.android.service.ChunkCountDownTimer
 import dev.alessi.chunk.pomodoro.timer.android.service.ChunkTimerService
 import dev.alessi.chunk.pomodoro.timer.android.service.ChunkTimerService.Command.Companion.ACTION_START_BREAKTIME
@@ -37,48 +38,83 @@ import dev.alessi.chunk.pomodoro.timer.android.ui.TimerLayoutEventViewModel.Time
 import dev.alessi.chunk.pomodoro.timer.android.util.IntentBuilder
 import dev.alessi.chunk.pomodoro.timer.android.util.toFormatedElapsedInMinutes
 import dev.alessi.chunk.pomodoro.timer.android.util.toFormatedMinutes
-import kotlinx.android.synthetic.main.fragment_timer.*
-
 
 class TimerFragment : Fragment() {
+
     private val mConfigTimersSharedViewModel: ConfigTimersSharedViewModel by viewModels(::requireActivity)
     private val mSelectTaskSharedViewModel: SelectTaskSharedViewModel by viewModels(::requireActivity)
     private val mMainActivityControlSharedViewModel: MainActivityControlViewModel by viewModels(::requireActivity)
-
     private val mLayoutEventViewModel: TimerLayoutEventViewModel by viewModels()
-
     private lateinit var mAppUtils: AppUtilsProvider
-//    private lateinit var mStatusChangedViewModel: StatusChangedViewModel
-
-//    private var mSelectedIndex = 2
-//    private var mSelectedBrektimeIndex = 0
-
-    private var mLayoutStatus = TimerLayoutEventViewModel.TimerFragmentViewState(
-
-    )
-
-
+    private var mLayoutStatus = TimerLayoutEventViewModel.TimerFragmentViewState()
     private var mGson: Gson = Gson()
     private var mTask: Task = Task(name = "", description = "", uid = -1)
-
     private var mServiceController: ChunkTimerServiceControl? = null
+    private var _binding: FragmentTimerBinding? = null
+    private val binding get() = _binding!!
+    private val onTimerModeCheckedListener = MaterialButtonToggleGroup.OnButtonCheckedListener { group, checkedId, isChecked ->
+        if (!isChecked) {
+            return@OnButtonCheckedListener
+        }
+
+        when (checkedId) {
+            R.id.toggle_button_timer -> {
+                mLayoutEventViewModel.fireEvent(
+                    TIMER_PAGE_SELECTED,
+                    mLayoutStatus.copy(
+                        isTimer = true,
+                        showGroupTask = showGroupTask(),
+                        showTxtTaskEmpty = !showGroupTask(),
+                        txtTimerTitleRes = R.string.label_timer_
+                    )
+                )
+
+                mLayoutEventViewModel.fireEvent(CLOCK_TIMER_SETUP, mLayoutStatus.copyAndIncId())
+
+            }
+
+            R.id.toggle_button_break -> {
+                mLayoutEventViewModel.fireEvent(
+                    BREAKTIME_PAGE_SELECTED,
+                    mLayoutStatus.copy(
+                        isTimer = false,
+                        showGroupTask = false, showTxtTaskEmpty = false, txtTimerTitleRes = R.string.label_breaktime_
+                    )
+
+                )
+                mLayoutEventViewModel.fireEvent(CLOCK_TIMER_SETUP, mLayoutStatus.copyAndIncId())
+            }
+        }
+
+    }
+    private val onViewMoreButtonClick = { view: View ->
+        openTimerSettingsDialog(view)
+    }
+    private val onClockViewSelected = { clockView: ClockView ->
+        val tag = (clockView.tag).toString()
+
+        mLayoutEventViewModel.fireEvent(INDEX_CHANGE, mLayoutStatus.copy(chunkIndex = tag.toInt()))
+    }
+    private val onClockViewBreakSelected = { clockView: ClockView ->
+        val tag = (clockView.tag).toString()
+        mLayoutEventViewModel.fireEvent(INDEX_CHANGE, mLayoutStatus.copy(breaktimeIndex = tag.toInt()))
+
+    }
+    private val onViewMoreBreakButtonClick = { view: View ->
+        openBreaktimeSettingsDialog(view)
+    }
+    private val mServiceEventBroadcastReciver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            handleServiceEvent(intent)
+
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         retainInstance = true
     }
-
-    companion object {
-        const val DEFAULT_TIME_BREAK = 10
-        const val DEFAULT_JSON_SIZES = "[18,24,36,48,60]"
-        const val DEFAULT_JSON_BREAKS = "[5,10,20]"
-        const val KEY_SIZE_JSON_ARRAY = "KEY_SIZE_JSON_ARRAY"
-        const val KEY_BREAKTIME_JSON_ARRAY = "KEY_BREAKTIME_JSON_ARRAY"
-        const val KEY_LAST_INDEX = "key_last_index"
-        const val KEY_LAST_BREAKTIME_INDEX = "KEY_LAST_BREAKTIME_INDEX"
-    }
-
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -135,11 +171,15 @@ class TimerFragment : Fragment() {
      * do tipo CLOCK_TIMER_SET acontece.
      */
     private fun setupClock() {
-        clockviewgroup_chunk_timers.updateSizes(mLayoutStatus.chunkSizes)
-        clockviewgroup_breaktimes.updateSizes(mLayoutStatus.breaktimeSizes)
 
-        clockviewgroup_chunk_timers.syncSelection(mLayoutStatus.chunkIndex)
-        clockviewgroup_breaktimes.syncSelection(mLayoutStatus.breaktimeIndex)
+        binding.clockviewgroupChunkTimers.apply {
+            updateSizes(mLayoutStatus.chunkSizes)
+            syncSelection(mLayoutStatus.breaktimeIndex)
+        }
+        binding.clockviewgroupBreaktimes.apply {
+            updateSizes(mLayoutStatus.breaktimeSizes)
+            syncSelection(mLayoutStatus.chunkIndex)
+        }
 
         val timeMinutes = getTimerMinutes()
 
@@ -154,22 +194,20 @@ class TimerFragment : Fragment() {
 
     }
 
-
     private fun updateTaskRelatedViews() {
-        setViewVisibility(group_task, mLayoutStatus.showGroupTask)
-        setViewVisibility(txt_task_empty, mLayoutStatus.showTxtTaskEmpty)
+        setViewVisibility(binding.groupTask, mLayoutStatus.showGroupTask)
+        setViewVisibility(binding.txtTaskEmpty, mLayoutStatus.showTxtTaskEmpty)
     }
 
     private fun updateTimerTypeRelatedViews() {
-        setViewVisibility(clockviewgroup_chunk_timers, mLayoutStatus.isTimer, clockviewgroup_breaktimes)
-        txtTimerTitle.setText(mLayoutStatus.txtTimerTitleRes)
+        setViewVisibility(binding.clockviewgroupChunkTimers, mLayoutStatus.isTimer, binding.clockviewgroupBreaktimes)
+        binding.txtTimerTitle.setText(mLayoutStatus.txtTimerTitleRes)
     }
 
     private fun updateTimerRelatedViews() {
-        setViewVisibility(btn_start_timer, mLayoutStatus.showStartTimerButton, btn_cancel_timer)
+        setViewVisibility(binding.btnStartTimer, mLayoutStatus.showStartTimerButton, binding.btnCancelTimer)
         enableAll(!mLayoutStatus.readOnly)
     }
-
 
     private fun setViewVisibility(view: View, visible: Boolean, opositeView: View? = null) {
         view.visibility = if (visible) View.VISIBLE else View.INVISIBLE
@@ -178,9 +216,7 @@ class TimerFragment : Fragment() {
         view.requestLayout()
     }
 
-
     private fun showGroupTask() = mTask.uid != -1
-
     private fun initViewModelsObservers() {
 
         mLayoutEventViewModel.onEventFiredObserver.observe(viewLifecycleOwner, Observer {
@@ -228,7 +264,6 @@ class TimerFragment : Fragment() {
         mMainActivityControlSharedViewModel.updateSubtitle(str)
     }
 
-
     private fun storeLastIndexes() {
         getSharedPreferences().edit()
             .putInt(KEY_LAST_INDEX, mLayoutStatus.chunkIndex)
@@ -248,7 +283,15 @@ class TimerFragment : Fragment() {
         val breaktimeIndex = sharedPreferences.getInt(KEY_LAST_BREAKTIME_INDEX, 0)
         val chunktimeIndex = sharedPreferences.getInt(KEY_LAST_INDEX, 2)
 
-        mLayoutEventViewModel.fireEvent(CLOCK_TIMER_SETUP, mLayoutStatus.copy(chunkSizes = chunktimesList, breaktimeSizes = breaktimes, chunkIndex = chunktimeIndex, breaktimeIndex = breaktimeIndex))
+        mLayoutEventViewModel.fireEvent(
+            CLOCK_TIMER_SETUP,
+            mLayoutStatus.copy(
+                chunkSizes = chunktimesList,
+                breaktimeSizes = breaktimes,
+                chunkIndex = chunktimeIndex,
+                breaktimeIndex = breaktimeIndex
+            )
+        )
 
 
     }
@@ -257,29 +300,16 @@ class TimerFragment : Fragment() {
         return PreferenceManager.getDefaultSharedPreferences(context)
     }
 
-    /*private fun updateChunkSizeClockviews() {
-        clockviewgroup_chunk_timers.updateSizes(mChunkSizes)
-        clockviewgroup_chunk_timers.syncSelection(mLayoutStatus.sizeIndex)
-
-    }
-
-    private fun updateBreaktimesSizeClockViews() {
-        clockviewgroup_breaktimes.updateSizes(mBreaktimes)
-        clockviewgroup_chunk_timers.syncSelection(mLayoutStatus.breakIndex)
-
-    }
-*/
-
     private fun updateTask() {
-        txt_task_name.text = mTask.name
-        txt_task_desc.text = mTask.description
+        binding.txtTaskName.text = mTask.name
+        binding.txtTaskDesc.text = mTask.description
     }
 
     private fun updateClockTimer(timeLeft: Long, totalTime: Long, @ChunkCountDownTimer.Type type: Int) {
 //        val formatedTime = DateUtils.formatElapsedTime(timeLeft / 1000)
         val formatedTime = timeLeft.toFormatedElapsedInMinutes()
 
-        txtMainTimer.text = formatedTime
+        binding.txtMainTimer.text = formatedTime
 
         val percFinish: Double = (100 - ((timeLeft.toDouble()) * 100 / totalTime))
         /*if (mTimerRunning)
@@ -293,75 +323,51 @@ class TimerFragment : Fragment() {
 
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_timer, container, false)
+        _binding = FragmentTimerBinding.inflate(inflater, container, false)
+
+        return _binding?.root
     }
 
-
-    private val onTimerModeCheckedListener = MaterialButtonToggleGroup.OnButtonCheckedListener { group, checkedId, isChecked ->
-        if (!isChecked) {
-            return@OnButtonCheckedListener
-        }
-
-        when (checkedId) {
-            R.id.toggle_button_timer -> {
-                mLayoutEventViewModel.fireEvent(
-                    TIMER_PAGE_SELECTED,
-                    mLayoutStatus.copy(
-                        isTimer = true,
-                        showGroupTask = showGroupTask(),
-                        showTxtTaskEmpty = !showGroupTask(),
-                        txtTimerTitleRes = R.string.label_timer_
-                    )
-                )
-
-                mLayoutEventViewModel.fireEvent(CLOCK_TIMER_SETUP, mLayoutStatus.copyAndIncId())
-
-            }
-
-            R.id.toggle_button_break -> {
-                mLayoutEventViewModel.fireEvent(
-                    BREAKTIME_PAGE_SELECTED,
-                    mLayoutStatus.copy(
-                        isTimer = false,
-                        showGroupTask = false, showTxtTaskEmpty = false, txtTimerTitleRes = R.string.label_breaktime_
-                    )
-
-                )
-                mLayoutEventViewModel.fireEvent(CLOCK_TIMER_SETUP, mLayoutStatus.copyAndIncId())
-            }
-        }
-
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initEventListeners()
 
+
+
+
+
         super.onViewCreated(view, savedInstanceState)
     }
 
     private fun initEventListeners() {
-        btn_start_timer.setOnClickListener(::onClickStartTimer)
+        binding.btnStartTimer.setOnClickListener(::onClickStartTimer)
+        binding.toggleGroupTimerBreak.addOnButtonCheckedListener(onTimerModeCheckedListener)
 
-        toggle_group_timer_break.addOnButtonCheckedListener(onTimerModeCheckedListener)
+        binding.clockviewgroupChunkTimers.apply {
+            this.onClockViewSelected = this@TimerFragment.onClockViewSelected
+            this.onViewMoreButtonClick = this@TimerFragment.onViewMoreButtonClick
+        }
 
-        clockviewgroup_chunk_timers.onClockViewSelected = onClockViewSelected
-        clockviewgroup_chunk_timers.onViewMoreButtonClick = onViewMoreButtonClick
+        binding.clockviewgroupBreaktimes.apply {
+            this.onClockViewSelected = this@TimerFragment.onClockViewBreakSelected
+            this.onViewMoreButtonClick = this@TimerFragment.onViewMoreBreakButtonClick
+        }
 
-        clockviewgroup_breaktimes.onClockViewSelected = onClockViewBreakSelected
-        clockviewgroup_breaktimes.onViewMoreButtonClick = onViewMoreBreakButtonClick
+        binding.btnCancelTimer.setOnClickListener(::actionCancelTimer)
+        binding.btnClearTask.setOnClickListener(::onClickClearTask)
 
-        btn_cancel_timer.setOnClickListener(::actionCancelTimer)
+        val txtTaskName = binding.txtTaskName
+        txtTaskName.movementMethod = ScrollingMovementMethod()
 
-        btn_clear_task.setOnClickListener(::onClickClearTask)
-
-        txt_task_name.movementMethod = ScrollingMovementMethod()
-
-        arraySetOf<TextView>(txt_task_empty, txt_task_desc, txt_task_name).forEach {
+        arraySetOf<TextView>(binding.txtTaskEmpty, binding.txtTaskDesc, txtTaskName).forEach {
             it.setOnClickListener(::onClickLoadTask)
         }
 
@@ -400,26 +406,6 @@ class TimerFragment : Fragment() {
         super.onPause()
     }
 
-    private val onViewMoreButtonClick = { view: View ->
-        openTimerSettingsDialog(view)
-    }
-
-    private val onClockViewSelected = { clockView: ClockView ->
-        val tag = (clockView.tag).toString()
-
-        mLayoutEventViewModel.fireEvent(INDEX_CHANGE, mLayoutStatus.copy(chunkIndex = tag.toInt()))
-    }
-
-    private val onClockViewBreakSelected = { clockView: ClockView ->
-        val tag = (clockView.tag).toString()
-        mLayoutEventViewModel.fireEvent(INDEX_CHANGE, mLayoutStatus.copy(breaktimeIndex = tag.toInt()))
-
-    }
-
-    private val onViewMoreBreakButtonClick = { view: View ->
-        openBreaktimeSettingsDialog(view)
-    }
-
     private fun onTimerCanceled() { //
         mLayoutEventViewModel.fireEvent(
             TIMER_STOPPED,
@@ -442,21 +428,15 @@ class TimerFragment : Fragment() {
     }
 
     private fun enableAll(enabled: Boolean) {
-        txt_task_name.isEnabled = enabled
-        txt_task_desc.isEnabled = enabled
-        txt_task_empty.isEnabled = enabled
-        clockviewgroup_breaktimes.isEnabled = enabled
-        clockviewgroup_chunk_timers.isEnabled = enabled
-        toggle_button_timer.isEnabled = enabled
-        toggle_button_break.isEnabled = enabled
+        binding.txtTaskName.isEnabled = enabled
+        binding.txtTaskDesc.isEnabled = enabled
+        binding.txtTaskEmpty.isEnabled = enabled
+        binding.clockviewgroupChunkTimers.isEnabled = enabled
+        binding.clockviewgroupBreaktimes.isEnabled = enabled
 
-    }
+        binding.toggleButtonTimer.isEnabled = enabled
+        binding.toggleButtonBreak.isEnabled = enabled
 
-    private val mServiceEventBroadcastReciver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            handleServiceEvent(intent)
-
-        }
     }
 
     private fun onTick(intent: Intent) {
@@ -469,7 +449,6 @@ class TimerFragment : Fragment() {
         findNavController().navigate(R.id.inputBreakTimeDialogFragment)
     }
 
-
     private fun onClickClearTask(v: View) {
         actionClearTask()
     }
@@ -477,7 +456,6 @@ class TimerFragment : Fragment() {
     private fun onClickLoadTask(v: View) {
         actionOpenLoadTaskScreen()
     }
-
 
     private fun actionOpenLoadTaskScreen() {
         findNavController().navigate(R.id.selectTaskFragment)
@@ -512,7 +490,6 @@ class TimerFragment : Fragment() {
         return if (mLayoutStatus.isTimer) return ACTION_START_TIME_SLICE else ACTION_START_BREAKTIME
     }
 
-
     private fun getTimerMinutes(): Int {
         return if (mLayoutStatus.isTimer) return mLayoutStatus.chunkSizes[mLayoutStatus.chunkIndex] else mLayoutStatus.breaktimeSizes[mLayoutStatus.breaktimeIndex]
     }
@@ -521,7 +498,17 @@ class TimerFragment : Fragment() {
         mServiceController?.doStopService()
     }
 
-}
+    companion object {
+        const val DEFAULT_TIME_BREAK = 10
+        const val DEFAULT_JSON_SIZES = "[18,24,36,48,60]"
+        const val DEFAULT_JSON_BREAKS = "[5,10,20]"
+        const val KEY_SIZE_JSON_ARRAY = "KEY_SIZE_JSON_ARRAY"
+        const val KEY_BREAKTIME_JSON_ARRAY = "KEY_BREAKTIME_JSON_ARRAY"
+        const val KEY_LAST_INDEX = "key_last_index"
+        const val KEY_LAST_BREAKTIME_INDEX = "KEY_LAST_BREAKTIME_INDEX"
+    }
+
+} //524
 
 
 

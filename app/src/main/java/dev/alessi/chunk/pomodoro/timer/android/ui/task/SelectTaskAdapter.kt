@@ -107,9 +107,9 @@ class SelectTaskAdapter(
     }
 
 
-    fun setItems(items: List<SelectTaskTO>) {
+    fun setItems(items: List<SelectTaskTO>, filterByStatus: List<Int> = listOf()) {
         this.items = items
-        this.itemsFiltered = items
+        this.itemsFiltered = items.filter { !filterByStatus.contains(it.task.status()) }
         notifyDataSetChanged()
     }
 
@@ -164,13 +164,14 @@ class TaskViewHolder(
     RecyclerView.ViewHolder(view) {
     private var txtTaskName: TextView = view.findViewById(R.id.txt_task_name)
     private var txtTaskDesc: TextView = view.findViewById(R.id.txt_task_description)
-    private var txtTaskCreatedAt: TextView = view.findViewById(R.id.txtCreatedAt)
+    //    private var txtTaskCreatedAt: TextView = view.findViewById(R.id.txtCreatedAt)
     //    private val chipSummary = view.findViewById<Chip>(R.id.chipSummary)
     private val btnInfo = view.findViewById<ImageButton>(R.id.btnInfo)
     private val txtTaskStatus = view.findViewById<TextView>(R.id.txt_status)
 
     /*private val btnArchive = view.findViewById<ImageButton>(R.id.btnArchive)
     private val btnEstimate = view.findViewById<ImageButton>(R.id.btnEstimate)*/
+    private val btnEstimate = view.findViewById<ImageButton>(R.id.btn_estimate_task)
 
     private val btnMarkAsDone = view.findViewById<AppCompatToggleButton>(R.id.btn_mark_as_done)
     private val cardStatus = view.findViewById<MaterialCardView>(R.id.card_view_status)
@@ -188,7 +189,7 @@ class TaskViewHolder(
         txtTaskName.setOnClickListener(selectTaskClick)
         txtTaskDesc.setOnClickListener(selectTaskClick)
         btnInfo.setOnClickListener(taskInfoClick)
-        /*btnEstimate.setOnClickListener(estimateTaskClick)*/
+        btnEstimate.setOnClickListener(estimateTaskClick)
 
 
         btnMarkAsDone.setOnClickListener {
@@ -213,9 +214,7 @@ class TaskViewHolder(
         setPaintFlags(txtTaskName, task)
         setPaintFlags(txtTaskDesc, task)
 
-
         btnMarkAsDone.isChecked = task.markedAsDone.bool()
-
 
 //        chipSummary.tag = taskSummaryTO
         btnInfo.tag = selectTaskTO
@@ -223,7 +222,8 @@ class TaskViewHolder(
         txtTaskName.tag = selectTaskTO
         btnMarkAsDone.tag = selectTaskTO
         /*btnArchive.tag = selectTaskTO
-        btnEstimate.tag = selectTaskTO*/
+        */
+        btnEstimate.tag = selectTaskTO
 
         val summary = selectTaskTO.getPeriod()
 
@@ -242,8 +242,6 @@ class TaskViewHolder(
         txtTaskStatus.setTextColor(statusColor)
         txtTaskStatus.setText(textStatus)
 
-
-
         setChipSummary(summary)
 
         val dateTime = task.dateCreated?.time!!
@@ -256,7 +254,9 @@ class TaskViewHolder(
 //        txtTaskCreatedAt.text =
 //            context.getString(R.string.label_format_created_at, formatDate)
 
-        txtTaskCreatedAt.text = formatDate
+        /*txtTaskCreatedAt.text = formatDate*/
+
+
         txtDone.text = "${selectTaskTO.sliceMinutes.toFormatedTime()} / ${selectTaskTO.estimationMinutes.toFormatedTime()}"
     }
 
@@ -271,15 +271,14 @@ class TaskViewHolder(
 
     private fun getColorByTask(selectTaskTO: SelectTaskTO): TaskStatusViewProp {
         val task = selectTaskTO.task
-        println("getColorByTask ${selectTaskTO.sliceMinutes}")
-
-        if (task.markedAsDone.bool()) {
-            return TaskStatusViewProp(R.attr.colorTaskCompleted, R.string.label_task_status_done)
-        } else {
-            return if (selectTaskTO.sliceMinutes > 0) TaskStatusViewProp(
-                R.attr.colorTaskNotCompleted,
-                R.string.label_task_status_started
-            ) else TaskStatusViewProp(R.attr.colorNewTask, R.string.label_task_status_new)
+        return when (task.status()) {
+            Task.Status.IS_COMPLETED -> TaskStatusViewProp(R.attr.colorTaskCompleted, R.string.label_task_status_done)
+            Task.Status.IS_STARTED ->
+                TaskStatusViewProp(
+                    R.attr.colorTaskNotCompleted,
+                    R.string.label_task_status_started
+                )
+            else -> TaskStatusViewProp(R.attr.colorNewTask, R.string.label_task_status_new)
         }
     }
 

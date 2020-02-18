@@ -17,102 +17,36 @@ import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.google.android.material.snackbar.Snackbar
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
+import dev.alessi.chunk.pomodoro.timer.android.databinding.FragmentSelectTaskBinding
 import dev.alessi.chunk.pomodoro.timer.android.task.addedit.AddEditTaskSharedViewModel
 import dev.alessi.chunk.pomodoro.timer.android.ui.MainActivityControlViewModel
 import dev.alessi.chunk.pomodoro.timer.android.ui.SelectTaskSharedViewModel
 import dev.alessi.chunk.pomodoro.timer.android.ui.task_stats.LoadPeriodSummariesViewModel
 import dev.alessi.chunk.pomodoro.timer.android.util.bool
-import kotlinx.android.synthetic.main.fragment_select_task.*
-import kotlinx.android.synthetic.main.layout_content_empty.*
 
 
 class SelectTaskFragment : Fragment() {
 
+    private var _binding: FragmentSelectTaskBinding? = null
+    private val binding get() = _binding!!
     lateinit var mAdapter: SelectTaskAdapter
-
     private val mSummariesViewModel: LoadPeriodSummariesViewModel by viewModels()
-
     private val mSelectTaskViewModel: SelectTaskSharedViewModel by viewModels(::requireActivity)
-
     private val mainActivityControlViewModel: MainActivityControlViewModel by viewModels(::requireActivity)
-
     private val mTaskViewModel: TaskViewModel by viewModels()
-
-//    private lateinit var mTaskViewModel: TaskViewModel
-
     private val mAddEditTaskSharedViewModel: AddEditTaskSharedViewModel by viewModels(::requireActivity)
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        setHasOptionsMenu(true)
-
-    }
-
-    override fun onResume() {
-        mainActivityControlViewModel.updateTitle(getString(R.string.title_select_task))
-        super.onResume()
-
-    }
-
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.select_task_menu, menu)
-
-        val searchManager = context?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        val searchView = menu.findItem(R.id.action_filter_task).actionView as SearchView
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(activity?.componentName))
-        searchView.maxWidth = Integer.MAX_VALUE
-
-        searchView.setOnClickListener { view -> }
-
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                searchView.clearFocus()
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                mAdapter.filter.filter(newText)
-                return false
-            }
-
-        })
-
-
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_filter_task -> return true
+    private val onTaskDoneStatusChanged = Observer<Task> { task ->
+        val contextView = view?.findViewById<View>(R.id.recycler_view_select_task)!!
+        if (task.markedAsDone.bool()) {
+            Snackbar.make(contextView, R.string.message_task_marked_as_done, Snackbar.LENGTH_LONG).show()
+        } else {
+            Snackbar.make(contextView, R.string.message_task_marked_as_not_done, Snackbar.LENGTH_SHORT)
+                .show()
         }
 
-        return super.onOptionsItemSelected(item)
-    }
-
-    companion object {
-        const val extra_param_task_id = "extra_param_task_id"
-
-    }
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-
-        return inflater.inflate(R.layout.fragment_select_task, container, false)
-    }
-
-    private val onTaskDoneStatusChanged = Observer<Task> {
 
         mSummariesViewModel.loadAllAndSummarizeAndEstimations()
     }
-
     private val onArchiveActionObserver = Observer<Task> { task ->
         val contextView = view?.findViewById<View>(R.id.recycler_view_select_task)!!
         if (task.archived.bool()) {
@@ -126,15 +60,6 @@ class SelectTaskFragment : Fragment() {
             mSummariesViewModel.loadAllAndSummarizeAndEstimations()
         }
     }
-
-
-    private fun onItemSelect(task: SelectTaskTO) {
-        mSelectTaskViewModel.selectTask(task.task)
-        navigateBack()
-
-    }
-
-
     private val adapterDataObserver = object : RecyclerView.AdapterDataObserver() {
 
         override fun onChanged() {
@@ -154,6 +79,69 @@ class SelectTaskFragment : Fragment() {
 
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setHasOptionsMenu(true)
+
+    }
+
+    override fun onResume() {
+        mainActivityControlViewModel.updateTitle(getString(R.string.title_select_task))
+        super.onResume()
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.select_task_menu, menu)
+
+        val searchManager = context?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        val searchView = menu.findItem(R.id.action_filter_task).actionView as SearchView
+        searchView.maxWidth = Integer.MAX_VALUE
+
+        searchView.setOnClickListener { view -> }
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                searchView.clearFocus()
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                mAdapter.filter.filter(newText)
+                return false
+            }
+
+        })
+
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_filter_task -> return true
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        _binding = FragmentSelectTaskBinding.inflate(inflater, container, false)
+
+        return _binding?.root
+    }
+
+    private fun onItemSelect(task: SelectTaskTO) {
+        mSelectTaskViewModel.selectTask(task.task)
+        navigateBack()
+
+    }
+
     override fun onStart() {
         mAdapter.registerAdapterDataObserver(adapterDataObserver)
         super.onStart()
@@ -165,7 +153,6 @@ class SelectTaskFragment : Fragment() {
 
         super.onStop()
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -182,39 +169,38 @@ class SelectTaskFragment : Fragment() {
         initObservers()
 
 
-        recycler_view_select_task.addOnScrollListener(object : OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
+        binding.recyclerViewSelectTask.addOnScrollListener(object : OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
             }
 
         })
 
 
-        recycler_view_select_task.adapter = mAdapter
+        binding.recyclerViewSelectTask.adapter = mAdapter
         val layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
-        recycler_view_select_task.layoutManager =
+        binding.recyclerViewSelectTask.layoutManager =
             layoutManager
 
 
         val dividerItemDecoration =
-            DividerItemDecoration(recycler_view_select_task.context, layoutManager.orientation)
+            DividerItemDecoration(binding.recyclerViewSelectTask.context, layoutManager.orientation)
 
 
-//        recycler_view_select_task.addItemDecoration(dividerItemDecoration)
+//        binding.recyclerViewSelectTask.addItemDecoration(dividerItemDecoration)
 
         mSummariesViewModel.loadAllAndSummarizeAndEstimations()
 
 
-        fab.setOnClickListener(::actionOpenAddTaskDialog)
-
-
+        binding.fab.setOnClickListener(::actionOpenAddTaskDialog)
 
         super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onDestroyView() {
 
+        _binding = null
         mTaskViewModel.taskArchivedObserver.removeObservers(viewLifecycleOwner)
         super.onDestroyView()
     }
@@ -229,32 +215,30 @@ class SelectTaskFragment : Fragment() {
 
         mTaskViewModel.taskDoneStatusChangedObserver.observeForever(onTaskDoneStatusChanged)
 
-//        mTaskViewModel.taskArchivedObserver.observe(
-//            viewLifecycleOwner,
-//            onArchiveActionObserver
-//        )
 
         mSummariesViewModel.onPeriodsLoadedObserver.observe(
             viewLifecycleOwner,
             Observer {
-                mAdapter.setItems(it)
+                mAdapter.setItems(it, getFilter())
             }
         )
 
     }
 
+    private fun getFilter(): List<Int> {
+        return listOf()
+    }
 
     private fun setNoContent() {
-        layout_content.visibility = View.INVISIBLE
-        label_content_empty.visibility = View.VISIBLE
+        binding.labelContentEmpty.visibility = View.INVISIBLE
+        binding.labelContentEmpty.visibility = View.VISIBLE
     }
 
     private fun setHasContent() {
-        layout_content.visibility = View.VISIBLE
-        label_content_empty.visibility = View.INVISIBLE
+        binding.layoutContent.visibility = View.VISIBLE
+        binding.labelContentEmpty.visibility = View.INVISIBLE
 
     }
-
 
     private fun onArchiveClick(task: Task) {
         mTaskViewModel.archiveTask(task)
@@ -282,9 +266,13 @@ class SelectTaskFragment : Fragment() {
         findNavController().navigate(R.id.timerFragment)
     }
 
-
     private fun actionOpenAddTaskDialog(view: View) =
         findNavController().navigate(R.id.addTaskDialog)
+
+    companion object {
+        const val extra_param_task_id = "extra_param_task_id"
+
+    }
 
 
 }

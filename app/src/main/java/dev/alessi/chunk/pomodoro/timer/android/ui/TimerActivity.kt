@@ -16,17 +16,28 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import dev.alessi.chunk.pomodoro.timer.android.R
+import dev.alessi.chunk.pomodoro.timer.android.databinding.ActivityTimerBinding
 import dev.alessi.chunk.pomodoro.timer.android.service.ChunkTimerService
 import dev.alessi.chunk.pomodoro.timer.android.ui.dialog.TimerFinishViewModel
 import dev.alessi.chunk.pomodoro.timer.android.util.IntentBuilder
-import kotlinx.android.synthetic.main.toolbar.*
+
 
 class TimerActivity : AppCompatActivity(),
     NavController.OnDestinationChangedListener, ChunkTimerServiceControl {
 
 
+    private var _binding: ActivityTimerBinding? = null
+
+    private val binding get () = _binding!!
     private val mActivityControlViewModel: MainActivityControlViewModel by viewModels()
+
     private val mTimerFinishViewModel: TimerFinishViewModel by viewModels()
+    private val mTickReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+
+
+        }
+    }
 
     override fun onDestinationChanged(
         controller: NavController,
@@ -34,14 +45,6 @@ class TimerActivity : AppCompatActivity(),
         arguments: Bundle?
     ) {
         supportActionBar?.setDisplayHomeAsUpEnabled(controller.currentDestination?.id != controller.graph.startDestination)
-    }
-
-
-    private val mTickReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-
-
-        }
     }
 
     private fun showTimeSliceFinish(intent: Intent) {
@@ -59,14 +62,11 @@ class TimerActivity : AppCompatActivity(),
         return navHostFragment.navController
     }
 
-
-
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
 
 
         if (intent?.hasExtra(ChunkTimerService.extra_param_event) == true) {
-
 
             when (IntentBuilder.getEvent(intent)) {
                 ChunkTimerService.Event.ON_BREAKTIME_COMPLETED -> showBreaktimeFinish(intent)
@@ -82,7 +82,6 @@ class TimerActivity : AppCompatActivity(),
 
     }
 
-
     override fun onStart() {
         super.onStart()
 
@@ -96,16 +95,15 @@ class TimerActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_timer)
-
-
-//        window.setBackgroundDrawableResource(R.drawable.pizza_background)
-        setSupportActionBar(toolbar)
-
+        _binding = ActivityTimerBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
 
         mActivityControlViewModel.title.observe(this, Observer {
             supportActionBar?.title = it
         })
+
+
 
         mActivityControlViewModel.subtitle.observe(this, Observer {
             supportActionBar?.subtitle = it
@@ -114,12 +112,10 @@ class TimerActivity : AppCompatActivity(),
 
     }
 
-
     override fun onSupportNavigateUp(): Boolean {
         return getNavController().navigateUp() || super.onSupportNavigateUp()
 
     }
-
 
     private fun getNavController(): NavController {
         return Navigation.findNavController(
@@ -127,7 +123,6 @@ class TimerActivity : AppCompatActivity(),
             R.id.nav_host_fragment
         )
     }
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -157,12 +152,10 @@ class TimerActivity : AppCompatActivity(),
         return super.onOptionsItemSelected(item)
     }
 
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         MenuInflater(this).inflate(R.menu.main_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
-
 
     override fun doStartService(
         totalTimeMillis: Long,
@@ -185,7 +178,6 @@ class TimerActivity : AppCompatActivity(),
 
         startService(intent)
     }
-
 
     override fun requestStateUpdate() {
         val intent =

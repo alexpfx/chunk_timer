@@ -2,7 +2,9 @@ package dev.alessi.chunk.pomodoro.timer.android.ui.slice_history
 
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -10,26 +12,32 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.alessi.chunk.pomodoro.timer.android.R
 import dev.alessi.chunk.pomodoro.timer.android.database.Task
+import dev.alessi.chunk.pomodoro.timer.android.databinding.FragmentTaskInfoBinding
+
 import dev.alessi.chunk.pomodoro.timer.android.ui.MainActivityControlViewModel
 import dev.alessi.chunk.pomodoro.timer.android.ui.slice_history.adapter.OnFilterChangedListener
 import dev.alessi.chunk.pomodoro.timer.android.ui.slice_history.adapter.SliceHistoryAdapter
 import dev.alessi.chunk.pomodoro.timer.android.ui.task.SelectTaskFragment
 import dev.alessi.chunk.pomodoro.timer.android.ui.task_stats.LoadPeriodSummariesViewModel
-import kotlinx.android.synthetic.main.fragment_task_slice_history.*
-import kotlinx.android.synthetic.main.layout_content_empty.*
 
+class TaskSliceHistoryFragment : Fragment(R.layout.fragment_task_info), OnFilterChangedListener {
 
-/**
- * TODO alterar nome para task info alguma coisa ou task summary alguma coisa
- */
-class TaskSliceHistoryFragment : Fragment(R.layout.fragment_task_slice_history), OnFilterChangedListener {
-
+    private var _binding: FragmentTaskInfoBinding? = null
+    private val binding get() = _binding!!
     private val mSummariesViewModel: LoadPeriodSummariesViewModel by viewModels ()
     private val mMainActivityControlViewModel: MainActivityControlViewModel by viewModels (::requireActivity)
 
 
     private var mTaskId: Int = 0
 
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = super.onCreateView(inflater, container, savedInstanceState)
+        _binding = FragmentTaskInfoBinding.bind(view!!)
+
+        return view
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -42,7 +50,7 @@ class TaskSliceHistoryFragment : Fragment(R.layout.fragment_task_slice_history),
 
     private fun initViewModelsListeners() {
         val sliceHistoryAdapter = SliceHistoryAdapter(this)
-        recycler_slice_history.adapter = sliceHistoryAdapter
+        binding.recyclerSliceHistory.adapter = sliceHistoryAdapter
 
         mSummariesViewModel.onPeriodsFromTaskLoadedObserver.observe(viewLifecycleOwner, Observer {
             setNoContent()
@@ -54,18 +62,18 @@ class TaskSliceHistoryFragment : Fragment(R.layout.fragment_task_slice_history),
     }
 
     private fun setNoContent() {
-//        recycler_view_task_stats.visibility = View.INVISIBLE
-        label_content_empty.visibility = View.VISIBLE
+
+        /*binding.labelContentEmpty.visibility = View.VISIBLE*/
     }
 
     private fun setHasContent() {
-//        recycler_view_task_stats.visibility = View.VISIBLE
-        label_content_empty.visibility = View.INVISIBLE
+
+        /*binding.labelContentEmpty.visibility = View.INVISIBLE*/
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        recycler_slice_history.layoutManager =
+        binding.recyclerSliceHistory.layoutManager =
             LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
 
         initViewModelsListeners()

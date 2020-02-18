@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/keyline_4"
+    app:contentPadding="@dimen/padding_small">
+
+
+    <!--<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/label_content_empty"
+        android:text="@string/message_content_empty"
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:visibility="invisible"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_height="match_parent"
+        tools:showIn="@layout/fragment_task_info" />-->
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/lbl_estimation_time"
+        style="@style/Widget.InfoFragment.Label"
+
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_estimation_time"
+        app:layout_constraintBottom_toTopOf="@+id/txt_estimation_time"
+        app:layout_constraintStart_toStartOf="@+id/txt_estimation_time" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txt_total_time"
+        style="@style/Widget.InfoFragment.Field"
+        android:layout_width="wrap_content"
+
+        app:layout_constraintStart_toStartOf="@id/barrier"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="24dp"
+        android:text="02h:16m"
+        app:layout_constraintTop_toBottomOf="@+id/txt_started_at"
+        tools:layout_editor_absoluteX="148dp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txt_estimation_time"
+        style="@style/Widget.InfoFragment.Field"
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:text="02h:16m"
+        app:layout_constraintStart_toEndOf="@+id/txt_total_time"
+        app:layout_constraintTop_toBottomOf="@+id/txt_last_work" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/lbl_total_time"
+        style="@style/Widget.InfoFragment.Label"
+
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_total_time"
+        app:layout_constraintBottom_toTopOf="@+id/txt_total_time"
+        app:layout_constraintStart_toStartOf="@+id/txt_total_time" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txt_task_name7"
+        style="@style/Widget.InfoFragment.Field"
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:text="02/02/1980"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/txt_task_desc"
+        tools:text="02/02/1980" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/lbl_status"
+        style="@style/Widget.InfoFragment.Label"
+
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_status"
+        app:layout_constraintBottom_toTopOf="@+id/txt_status"
+        app:layout_constraintStart_toStartOf="@+id/txt_status" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txt_status"
+        style="@style/Widget.InfoFragment.Field"
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:text="Completa"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/txt_task_name7" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/lbl_task_name6"
+        style="@style/Widget.InfoFragment.Label"
+
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_created_at"
+        app:layout_constraintBottom_toTopOf="@+id/txt_task_name7"
+        app:layout_constraintStart_toStartOf="@+id/txt_task_name7" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/lbl_last_work"
+        style="@style/Widget.InfoFragment.Label"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_last_work"
+        app:layout_constraintBottom_toTopOf="@+id/txt_last_work"
+        app:layout_constraintStart_toStartOf="@+id/txt_last_work" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txt_started_at"
+        style="@style/Widget.InfoFragment.Field"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="02/02/1980"
+
+        app:layout_constraintStart_toStartOf="@id/barrier"
+        app:layout_constraintTop_toBottomOf="@+id/txt_task_desc"
+        tools:text="02/02/1980" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txt_last_work"
+        style="@style/Widget.InfoFragment.Field"
+
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:minWidth="60dp"
+        app:layout_constraintStart_toEndOf="@+id/txt_started_at"
+        app:layout_constraintTop_toBottomOf="@+id/txt_task_desc" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txt_task_desc"
+        style="@style/Widget.InfoFragment.Field"
+
+
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/txt_task_name" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txt_created_at"
+        style="@style/Widget.InfoFragment.Field"
+        android:layout_width="wrap_content"
+
+
+        android:layout_height="wrap_content"
+
+        android:text="02/02/1980"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/txt_task_desc"
+        tools:text="02/02/1980" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/lbl_task_desk"
+        style="@style/Widget.InfoFragment.Label"
+
+        android:text="@string/label_task_desc"
+        app:layout_constraintBottom_toTopOf="@+id/txt_task_desc"
+        app:layout_constraintStart_toStartOf="@+id/txt_task_desc" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/lbl_started_at"
+        style="@style/Widget.InfoFragment.Label"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_started_at"
+        app:layout_constraintBottom_toTopOf="@+id/txt_started_at"
+        app:layout_constraintStart_toStartOf="@+id/txt_started_at" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/lbl_task_name"
+        style="@style/Widget.InfoFragment.Label"
+        android:text="@string/label_task_name"
+        app:layout_constraintBottom_toTopOf="@+id/txt_task_name"
+        app:layout_constraintStart_toStartOf="@+id/txt_task_name" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txt_task_name"
+        style="@style/Widget.InfoFragment.Field"
+
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+
+        android:id="@+id/recycler_slice_history"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:itemCount="5"
+        tools:listitem="@layout/item_slice_history" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/keyline_2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/keyline_2" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="end"
+        android:layout_marginStart="@dimen/keyline_2"
+        android:layout_marginEnd="@dimen/keyline_2"
+
+        app:constraint_referenced_ids="lbl_task_name6,txt_created_at,lbl_status,txt_status"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

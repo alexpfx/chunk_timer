@@ -10,19 +10,8 @@
     <attr name="colorTaskCompleted" format="color"/>
     <attr name="colorTaskNotCompleted" format="color"/>
     <attr name="colorNewTask" format="color"/>
+    <attr name="colorArchived" format="color"/>
 
-
-
-    <declare-styleable name="BadgedButton">
-        <attr name="buttonLabel" format="string" />
-        <attr name="labelText" format="string"/>
-        <attr name="imageResource" format="integer"/>
-        <attr name="isChecked" format="boolean"/>
-        <attr name="backgroundChecked" format="integer"/>
-        <attr name="backgroundUnchecked" format="integer"/>
-        <attr name="buttonWidth" format="dimension"/>
-        <attr name="buttonHeight" format="dimension"/>
-    </declare-styleable>
 
     <declare-styleable name="ViewStatsSizeItem">
         <attr name="text" format="string"/>
@@ -35,6 +24,14 @@
     </declare-styleable>
 
 
-
+    <declare-styleable name="TaskInfo">
+        <attr name="name" format="string"/>
+        <attr name="description" format="string"/>
+        <attr name="createdDate" format="string"/>
+        <attr name="lastChunkDate" format="string"/>
+        <attr name="startedDate" format="string"/>
+        <attr name="status" format="string"/>
+        <attr name="statusColor" format="color"/>
+    </declare-styleable>
 
 </resources>

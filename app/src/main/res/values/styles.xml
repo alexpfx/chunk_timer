@@ -15,15 +15,27 @@
     </style>
 
 
-
     <style name="Widget.Timer.TextView" parent="Widget.MaterialComponents.TextView">
         <item name="android:textAppearance">?textAppearanceBody2</item>
         <item name="drawableTint">?colorControlNormal</item>
 
     </style>
-    
+
+    <style name="Widget.Timer.ChipStyle" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/chip_background</item>
+        <item name="chipStrokeColor">?colorPrimary</item>
+        <item name="chipStrokeWidth">1dp</item>
+
+    </style>
+
+    <style name="Widget.Timer.ChipGroupStyle" parent="Widget.MaterialComponents.ChipGroup">
+
+
+    </style>
+
     <style name="Widget.Timer.TextViewSpotlight" parent="Widget.Timer.TextView">
         <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@drawable/background_spotlight_title</item>
 
 
     </style>
@@ -53,7 +65,6 @@
     <style name="Widget.Timer.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
 
 
-
     </style>
 
 
@@ -69,7 +80,6 @@
     </style>
 
     <style name="Widget.Timer.TextInputStyle" parent="@style/Widget.Design.TextInputLayout">
-
 
 
     </style>
@@ -108,8 +118,6 @@
     </style>
 
 
-
-
     <!--android:gravity="center"
     android:padding="2dp"
     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -124,7 +132,6 @@
         <item name="android:layout_height">wrap_content</item>
 
     </style>
-
 
 
     <style name="divider">
@@ -194,6 +201,27 @@
 
     <style name="ButtonClockView.GG" parent="ButtonClockView">
         <item name="clockSizeName">@string/label_sizes_gg</item>
+
+    </style>
+
+    <style name="Widget.InfoFragment.Label" parent="Widget.MaterialComponents.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">?textAppearanceOverline</item>
+
+        <item name="android:padding">@dimen/keyline_0</item>
+
+    </style>
+
+    <style name="Widget.InfoFragment.Field" parent="Widget.MaterialComponents.TextView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">?textAppearanceBody1</item>
+        <item name="android:layout_marginTop">@dimen/keyline_5</item>
+        <item name="android:background">@color/color_surface</item>
+        <item name="android:paddingTop">@dimen/keyline_2</item>
+        <item name="android:padding">@dimen/keyline_2</item>
+
 
     </style>
 

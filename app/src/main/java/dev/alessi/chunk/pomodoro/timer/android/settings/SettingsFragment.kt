@@ -1,6 +1,5 @@
 package dev.alessi.chunk.pomodoro.timer.android.settings
 
-
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,49 +11,35 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.preference.PreferenceManager
 import dev.alessi.chunk.pomodoro.timer.android.R
+import dev.alessi.chunk.pomodoro.timer.android.databinding.FragmentSettingsBinding
 import dev.alessi.chunk.pomodoro.timer.android.service.SoundEffectManager
 import dev.alessi.chunk.pomodoro.timer.android.ui.MainActivityControlViewModel
-import kotlinx.android.synthetic.main.fragment_settings.*
 
-/**
- * A simple [Fragment] subclass.
- */
 class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener,
     SharedPreferences.OnSharedPreferenceChangeListener {
 
 
     private lateinit var sfm: SoundEffectManager
-
-
-    companion object {
-        const val pref_ring_timer = "pref_ring_timer"
-        const val pref_ring_breaktime = "pref_ring_breaktime"
-
-    }
-
     private var mTimerRingIndex = -1
     private var mBreaktimeRingIndex = -1
     private val mainActivityControlViewModel: MainActivityControlViewModel by viewModels(::requireActivity)
     private var mSound: Int = -1
     private lateinit var mPreference: SharedPreferences
+    private var _binding: FragmentSettingsBinding? = null
+
+    private val binding get() = _binding!!
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
-
-
     }
-
 
     override fun onResume() {
         mainActivityControlViewModel.updateTitle(getString(R.string.settings))
         super.onResume()
     }
 
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mPreference = PreferenceManager.getDefaultSharedPreferences(this.context)
-
-
 
     }
 
@@ -79,7 +64,6 @@ class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener,
         super.onStop()
     }
 
-
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
         mSound = position - 1
@@ -97,13 +81,14 @@ class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener,
 
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+        _binding = FragmentSettingsBinding.inflate(inflater, container, false)
+
+        return _binding?.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -144,7 +129,7 @@ class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener,
             android.R.layout.simple_spinner_item
         ).also {
             it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner_ringing_timer.adapter = it
+            binding.spinnerRingingTimer.adapter = it
         }
 
         ArrayAdapter.createFromResource(
@@ -153,22 +138,27 @@ class SettingsFragment : Fragment(), AdapterView.OnItemSelectedListener,
             android.R.layout.simple_spinner_item
         ).also {
             it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner_ringing_breaktime.adapter = it
+            binding.spinnerRingingTimer.adapter = it
         }
 
-
-        spinner_ringing_timer.isSelected = false
-        spinner_ringing_breaktime.isSelected = false
-
-        spinner_ringing_breaktime.setSelection(mBreaktimeRingIndex, true)
-        spinner_ringing_timer.setSelection(mTimerRingIndex, true)
-
-        spinner_ringing_breaktime.onItemSelectedListener = this
-        spinner_ringing_timer.onItemSelectedListener = this
-
-
+        binding.spinnerRingingTimer.apply {
+            isSelected = false
+            setSelection(mTimerRingIndex, true)
+            onItemSelectedListener = this@SettingsFragment
+        }
+        binding.spinnerRingingBreaktime.apply {
+            isSelected = false
+            setSelection(mBreaktimeRingIndex, true)
+            onItemSelectedListener = this@SettingsFragment
+        }
 
     }
+
+    companion object {
+        const val pref_ring_timer = "pref_ring_timer"
+        const val pref_ring_breaktime = "pref_ring_breaktime"
+
+    } // 178
 
 
 }

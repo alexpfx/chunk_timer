@@ -16,7 +16,84 @@
         tools:context=".ui.estimate.EstimationFragment">
 
 
-        <include layout="@layout/inc_layout_task_name_and_description" />
+        <View
+            android:id="@+id/card_task_name"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:alpha="0.5"
+            android:background="@drawable/background_spotlight_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </View>
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_task_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+
+            android:padding="@dimen/keyline_2"
+
+
+            android:textAppearance="?textAppearanceBody2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card_task_name"
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="Implementar testes unitarios e validar execução de testes funcionais" />
+
+
+        <androidx.appcompat.widget.AppCompatToggleButton
+            android:id="@+id/btn_mark_as_done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_toggle"
+            android:backgroundTint="?attr/colorTaskCompleted"
+            android:checked="true"
+            android:clickable="true"
+
+            android:focusable="true"
+
+            android:minWidth="24dp"
+            android:minHeight="24dp"
+
+            android:textOff=""
+            android:textOn=""
+            app:layout_constraintBottom_toBottomOf="@+id/card_task_name"
+
+            app:layout_constraintEnd_toEndOf="@+id/card_task_name"
+            app:layout_constraintTop_toTopOf="@+id/card_task_name"
+
+            >
+
+
+        </androidx.appcompat.widget.AppCompatToggleButton>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txt_task_name"
+            style="?textViewSpotlightStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:drawableLeft="@drawable/ic_info_black_24dp"
+            android:drawablePadding="@dimen/keyline_2"
+            android:paddingStart="@dimen/keyline_2"
+
+            android:maxLines="2"
+            android:ellipsize="marquee"
+
+
+            android:textAppearance="?textAppearanceSubtitle1"
+            app:layout_constraintBottom_toBottomOf="@+id/card_task_name"
+            app:layout_constraintEnd_toStartOf="@+id/btn_mark_as_done"
+            app:layout_constraintStart_toStartOf="@+id/card_task_name"
+            app:layout_constraintTop_toTopOf="@+id/card_task_name"
+            tools:text="Implementar testes unitários" />
 
         <LinearLayout
             android:id="@+id/layout_estimation_menu"
@@ -116,7 +193,9 @@
 
             app:layout_constraintStart_toStartOf="@+id/layout_estimation_menu"
             app:layout_constraintTop_toBottomOf="@+id/layout_estimation_menu"
-            app:srcCompat="@drawable/ic_check_black_24dp_alpha86">
+            app:srcCompat="@drawable/ic_touch_app_black_24dp"
+
+            >
 
             <com.google.android.material.button.MaterialButton
 

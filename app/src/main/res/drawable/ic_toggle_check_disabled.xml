@@ -8,11 +8,11 @@
 
     <item>
         <inset
-            android:drawable="@drawable/ic_check_black_24dp_alpha20"
-            android:insetLeft="@dimen/keyline_4"
-            android:insetTop="@dimen/keyline_4"
-            android:insetRight="@dimen/keyline_4"
-            android:insetBottom="@dimen/keyline_4" />
+            android:drawable="@drawable/ic_check_box_outline_blank_black_24dp"
+            android:insetLeft="@dimen/keyline_2"
+            android:insetTop="@dimen/keyline_2"
+            android:insetRight="@dimen/keyline_2"
+            android:insetBottom="@dimen/keyline_2" />
 
     </item>
 

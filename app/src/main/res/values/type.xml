@@ -24,6 +24,10 @@
         <item name="fontFamily">@font/open_sans_semibold</item>
     </style>
 
+    <style name="TextAppearance.Timer.Subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="fontFamily">@font/open_sans_semibold</item>
+    </style>
+
     <style name="TextAppearance.Timer.Body1" parent="TextAppearance.MaterialComponents.Body1">
         <item name="android:alpha">?alphaEmphasisMedium</item>
         <item name="fontFamily">@font/open_sans</item>
